@@ -7,8 +7,8 @@
   - [ ] SEQUENCE DIAGRAM
 
 - Andrei:
-  - [ ] SRS Document
-
+  - [x] SRS Document
+  - [x] RESTful Scheme
 - Catalin:
   - [ ] App Help
   - 
