@@ -1,10 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PetShop_BackEnd.Persistence.Model;
+namespace Persistence.Entity;
 
-[Table("BillDetails")]
-public class BillDetails
+internal class Bill
 {
     [Key] 
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)] 
