@@ -130,7 +130,7 @@ PS: Input si Output sunt JSON
 		- agentul nu are permisiuni
 
 ##### POST /:
-- Input: JWT, product_id, quantity
+- Input: JWT, product_id, quantity, billing_details: adress, telephone, country, city, postal_code
 - Output:
 	- 200 OK:
 		- output: blank
