@@ -1,11 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using PetShop_BackEnd.Persistence.Entities;
 
-namespace PetShop_BackEnd.Persistence.Model;
+namespace Persistence.Entity;
 
-[Table("Order")]
-public class Order
+internal class Order
 {
     [Key] 
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)] 
