@@ -1,5 +1,4 @@
 using Persistence.DTO;
-using Persistence.Entity;
 
 namespace Persistence.DAO.Interfaces;
 

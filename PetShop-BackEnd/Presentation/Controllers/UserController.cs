@@ -1,4 +1,6 @@
+using Business;
 using Microsoft.AspNetCore.Mvc;
+using Persistence.DTO;
 
 namespace PetShop_BackEnd.Controllers;
 
@@ -7,8 +9,9 @@ namespace PetShop_BackEnd.Controllers;
 public class UserController: ControllerBase
 {
     [HttpGet]
-    public string Test()
+    [Produces("application/json")]
+    public BillUserDto? Test()
     {
-        return "test";
+        return new Service1().Test();
     }
 }

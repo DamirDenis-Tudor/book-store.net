@@ -1,39 +1,44 @@
+using Logger;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Persistence.DAL;
 using Persistence.DAO.Interfaces;
 using Persistence.DTO;
-using Persistence.Entity;
+
 
 namespace Persistence.DAO.Repositories;
 
 internal class UserRepository(PersistenceAccess.DatabaseContext dbContext) : IUserRepository
 {
-    public bool RegisterUser(UserDto user)
+    private readonly ILogger _logger = Logging.Instance.GetLogger<UserRepository>();
+    public bool RegisterUser(UserInfoDto infoDtoUserInfo)
     {
-        /*try
+        try
         {
-            dbContext.Users.Add(user);
+            dbContext.Users.Add(MapperDto.MapToUser(infoDtoUserInfo));
             dbContext.SaveChanges();
         }
         catch (DbUpdateException e)
         {
-            Console.WriteLine(e.Message);
+            _logger.LogWarning("Could not register user: {} ",infoDtoUserInfo);
             return false;
-        }*/
+        }
 
         return true;
     }
 
-    public List<UserDto> GetAllUsers()
+    public List<BillUserDto?> GetAllUsers()
     {
-        var users= dbContext.Users.ToList();
-        return new List<UserDto>();
+        var users = new List<BillUserDto?>();
+        dbContext.Users.ToList().ForEach(u => users.Add(MapperDto.MapToBillUserDto(u)));
+        return users;
     }
 
-    public UserDto? GetUser(string username)
+    public BillUserDto? GetUser(string username)
     {
-        var user = dbContext.Users.FirstOrDefault(u => u.Username == username);
-        return new UserDto();
+        var user = dbContext.Users.Include(user => user.BillDetails)
+            .FirstOrDefault(u => u.Username == username);
+        return MapperDto.MapToBillUserDto(user);
     }
 
     public string? GetUserPassword(string username) =>
@@ -47,7 +52,6 @@ internal class UserRepository(PersistenceAccess.DatabaseContext dbContext) : IUs
     {
         var billDetails = dbContext.Users.Include(user => user.BillDetails)
             .FirstOrDefault(u => u.Username == username)?.BillDetails;
-        return new BillDto();
+        return MapperDto.MapToBillDto(billDetails);
     }
-
 }

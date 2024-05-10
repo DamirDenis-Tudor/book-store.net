@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Persistence.Entity;
 
-internal class Bill
+internal class BillDetails
 {
     [Key] 
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)] 

@@ -1,16 +1,24 @@
 using Microsoft.EntityFrameworkCore;
+using Persistence.DAL;
 using Persistence.DAO.Interfaces;
 using Persistence.DTO;
-using Persistence.Entity;
 
 namespace Persistence.DAO.Repositories;
 
-internal class OrderRepository(DbContext dbContext) : IOrderRepository
+internal class OrderRepository(PersistenceAccess.DatabaseContext dbContext) : IOrderRepository
 {
-    private DbContext _dbContext = dbContext;
 
     public List<OrderDto> GetOrdersByUsername(string username)
     {
+        /*var orders = dbContext.Orders
+            .Include(o => o.User)
+            .Where(o => o.User.Username == username)
+            .Select(o => MapperDto.)
+                    
+            
+
+
+        return orders;*/
         throw new NotImplementedException();
     }
 
@@ -22,5 +30,5 @@ internal class OrderRepository(DbContext dbContext) : IOrderRepository
     public List<OrderDto> GetAllOrders()
     {
         throw new NotImplementedException();
-    }
+    } 
 }
