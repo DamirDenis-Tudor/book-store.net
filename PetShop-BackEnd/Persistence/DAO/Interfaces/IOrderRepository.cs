@@ -4,9 +4,9 @@ namespace Persistence.DAO.Interfaces;
 
 public interface IOrderRepository
 {
-    List<OrderDto> GetOrdersByUsername(string username);
+    List<OrderSessionDto> GetOrdersByUsername(string username);
 
-    List<OrderDto> GetOrdersByProductName(string productName);
+    List<OrderSessionDto> GetOrdersByProductName(string productName);
 
-    List<OrderDto> GetAllOrders();
+    List<OrderSessionDto> GetAllOrders();
 }

@@ -40,11 +40,7 @@ internal class MapperDto
             LastName = user.LastName,
             Username = user.Username,
             Email = user.Email,
-            Address = user.BillDetails?.Address,
-            Telephone = user.BillDetails?.Telephone,
-            Country = user.BillDetails?.Country,
-            City = user.BillDetails?.City,
-            PostalCode = user.BillDetails?.PostalCode
+            BillDto = MapToBillDto(user?.BillDetails)
         };
     }
 
@@ -73,15 +69,5 @@ internal class MapperDto
             PostalCode = bill.PostalCode
         };
     }
-
-    internal static OrderDto MapToOrderDto(OrderProduct orderProduct)
-    {
-        return new OrderDto
-        {
-            Quantity = orderProduct.Quantity,
-            UserName = orderProduct.User.Username,
-            ProductName = orderProduct.Product.Name,
-            TotalPrice = orderProduct.Product.Price
-        };
-    }
+    
 }

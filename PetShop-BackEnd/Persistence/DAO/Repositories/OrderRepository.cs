@@ -8,27 +8,27 @@ namespace Persistence.DAO.Repositories;
 internal class OrderRepository(PersistenceAccess.DatabaseContext dbContext) : IOrderRepository
 {
 
-    public List<OrderDto> GetOrdersByUsername(string username)
+    public List<OrderSessionDto> GetOrdersByUsername(string username)
     {
         /*var orders = dbContext.Orders
             .Include(o => o.User)
             .Where(o => o.User.Username == username)
             .Select(o => MapperDto.)
                     
-            
-
-
+    
         return orders;*/
         throw new NotImplementedException();
     }
 
-    public List<OrderDto> GetOrdersByProductName(string productName)
+    public List<OrderSessionDto> GetOrdersByProductName(string productName)
     {
         throw new NotImplementedException();
     }
 
-    public List<OrderDto> GetAllOrders()
+    public List<OrderSessionDto> GetAllOrders()
     {
         throw new NotImplementedException();
-    } 
+    }
+    
+    
 }
