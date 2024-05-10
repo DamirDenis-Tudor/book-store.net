@@ -35,6 +35,7 @@ public class Service1
             PostalCode = "707071"
         };
         Console.WriteLine(deliveryRepository.DeleteBillByUsername("damir_12345"));
+        deliveryRepository.AttachBillToUsername("damir_12345", billDto);
         return userRepo.GetUser("damir_12345");
     }
 }

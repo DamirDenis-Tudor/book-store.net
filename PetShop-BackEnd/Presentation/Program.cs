@@ -1,3 +1,4 @@
+using Persistence.DAL;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();

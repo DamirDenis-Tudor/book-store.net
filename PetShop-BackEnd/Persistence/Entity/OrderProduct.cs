@@ -8,10 +8,6 @@ internal class OrderProduct
     [Key] 
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)] 
     public int Id { get; init; }
-
-    [Required] 
-    [Column]
-    public int Quantity { get; init; }
     
     [Column]
     public int ProductId;
@@ -21,9 +17,13 @@ internal class OrderProduct
     public required Product Product { get; init; }
     
     [Column]
-    public int UserId;
+    public int? OrderSessionId { get; init; }
 
-    [ForeignKey("UserId")] 
+    [ForeignKey("OrderSessionId")] 
     [Required] 
-    public required User User { get; init; }
+    public required OrderSession OrderSession { get; init; }
+    
+    [Required] 
+    [Column]
+    public int Quantity { get; init; }
 }
