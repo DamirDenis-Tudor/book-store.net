@@ -1,9 +1,8 @@
 using Persistence.DTO;
-using Persistence.Entity;
 
 namespace Persistence.DAO.Interfaces;
 
-public interface IDeliveryRepository
+public interface IBillRepository
 {
     bool AttachBillToUsername(string username, BillDto bill);
     bool DeleteBillByUsername(string username);

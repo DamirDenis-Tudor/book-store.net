@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Persistence.DAO.Interfaces;
 using Persistence.DTO;
-using Persistence.Entity;
 
 namespace Persistence.DAO.Repositories;
 

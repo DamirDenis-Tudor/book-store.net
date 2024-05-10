@@ -39,12 +39,9 @@ internal class User
     [StringLength(100)]
     public required string UserType { get; init; }
 
-    [ForeignKey("BillDetailsId")] public required Bill? BillDetails { get; set; }
+    [ForeignKey("BillDetailsId")] 
+    public BillDetails? BillDetails { get; set; }
 
-    [Column] public int? BillDetailsId { get; init; }
-
-    public override string ToString()
-    {
-        return $"User: Id={Id}, FirstName={FirstName}, LastName={LastName}, Username={Username}, Email={Email}, UserType={UserType}";
-    }
+    [Column] 
+    public int? BillDetailsId { get; init; }
 }

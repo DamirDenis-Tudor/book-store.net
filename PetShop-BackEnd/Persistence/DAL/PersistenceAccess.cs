@@ -1,5 +1,7 @@
 using System.Runtime.CompilerServices;
+using Logger;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Persistence.DAO.Interfaces;
 using Persistence.DAO.Repositories;
 using Persistence.Entity;
@@ -8,11 +10,13 @@ using Persistence.Entity;
 namespace Persistence.DAL;
 internal class PersistenceAccess
 {
+   
     internal sealed class DatabaseContext : DbContext
     {
+        private readonly ILogger _logger = Logging.Instance.GetLogger<DatabaseContext>();
         private DatabaseContext()
         {
-            Console.WriteLine("DatabaseContext instantiated.");
+            _logger.LogInformation("DatabaseContext instantiated.");
             if (Database.EnsureCreated())
             {
                 Console.WriteLine("Successfully created.");
@@ -22,9 +26,9 @@ internal class PersistenceAccess
         public static DatabaseContext Instance { get; } = new();
 
         public DbSet<User> Users { get; init; }
-        public DbSet<Order> Orders { get; init; }
+        public DbSet<OrderProduct> Orders { get; init; }
         public DbSet<Product> Products { get; init; }
-        public DbSet<Bill> Bills { get; init; }
+        public DbSet<BillDetails> Bills { get; init; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -38,19 +42,19 @@ internal class PersistenceAccess
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<User>().ToTable("Users");
-            modelBuilder.Entity<Order>().ToTable("Orders");
+            modelBuilder.Entity<OrderProduct>().ToTable("Orders");
             modelBuilder.Entity<Product>().ToTable("Products");
-            modelBuilder.Entity<Bill>().ToTable("BillDetails");
+            modelBuilder.Entity<BillDetails>().ToTable("BillDetails");
         }
     }
 
     private static readonly IUserRepository UserRepo = new UserRepository(DatabaseContext.Instance);
     private static readonly IProductRepository ProductRepo = new ProductRepository(DatabaseContext.Instance);
     private static readonly IOrderRepository OrderRepo = new OrderRepository(DatabaseContext.Instance);
-    private static readonly IDeliveryRepository DeliveryRepo = new DeliveryRepository(DatabaseContext.Instance);
+    private static readonly IBillRepository BillRepo = new BillRepository(DatabaseContext.Instance);
     
     public IUserRepository UserRepository => UserRepo;
     public IProductRepository ProductRepository { get; } = ProductRepo;
     public IOrderRepository OrderRepository { get; } = OrderRepo;
-    public IDeliveryRepository DeliveryRepository { get; } = DeliveryRepo;
+    public IBillRepository BillRepository { get; } = BillRepo;
 }

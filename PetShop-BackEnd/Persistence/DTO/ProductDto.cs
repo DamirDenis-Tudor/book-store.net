@@ -1,6 +1,3 @@
 namespace Persistence.DTO;
 
-public class ProductDto
-{
-    
-}
+public record ProductDto();
