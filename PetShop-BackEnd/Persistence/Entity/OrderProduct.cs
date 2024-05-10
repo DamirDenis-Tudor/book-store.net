@@ -1,31 +1,29 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using PetShop_BackEnd.Persistence.Entities;
 
-namespace PetShop_BackEnd.Persistence.Model;
+namespace Persistence.Entity;
 
-[Table("Order")]
-public class Order
+internal class OrderProduct
 {
     [Key] 
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)] 
     public int Id { get; init; }
-
-    [Required] 
-    [Column]
-    public int Quantity { get; init; }
     
     [Column]
     public int ProductId;
 
     [ForeignKey("ProductId")] 
     [Required]
-    public Product? Product { get; init; }
+    public required Product Product { get; init; }
     
     [Column]
-    public int UserId;
+    public int? OrderSessionId { get; init; }
 
-    [ForeignKey("UserId")] 
+    [ForeignKey("OrderSessionId")] 
     [Required] 
-    public User? User { get; init; }
+    public required OrderSession OrderSession { get; init; }
+    
+    [Required] 
+    [Column]
+    public int Quantity { get; init; }
 }
