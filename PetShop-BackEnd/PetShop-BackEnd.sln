@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business", "Business\Busine
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logger", "Logger\Logger.csproj", "{37AE0CCE-CB9C-48E6-B967-67FABF3CF736}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTesting", "UnitTesting\UnitTesting.csproj", "{53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{37AE0CCE-CB9C-48E6-B967-67FABF3CF736}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37AE0CCE-CB9C-48E6-B967-67FABF3CF736}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37AE0CCE-CB9C-48E6-B967-67FABF3CF736}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

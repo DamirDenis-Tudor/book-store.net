@@ -18,24 +18,28 @@ internal class BillRepository(PersistenceAccess.DatabaseContext dbContext) : IBi
     {
         try
         {
-            var existingUser = dbContext.Users.Include(u => u.BillDetails)
-                .FirstOrDefault(u => u.Username == username);
+            var billDetails = dbContext.Bills.Include(u => u.User)
+                .FirstOrDefault(b => b.User != null && b.User.Username== username);
 
-            if (existingUser == null) return false;
-            if (existingUser.BillDetails.Address != "") existingUser.BillDetails.Address = billDto.Address;
-            if (existingUser.BillDetails.Country != "") existingUser.BillDetails.Country = billDto.Country;
-            if (existingUser.BillDetails.PostalCode != "") existingUser.BillDetails.PostalCode = billDto.PostalCode;
-            if (existingUser.BillDetails.Telephone != "") existingUser.BillDetails.Telephone = billDto.Telephone;
-            if (existingUser.BillDetails.City != "") existingUser.BillDetails.City = billDto.City;
+            if (billDetails == null)
+            {
+                _logger.LogWarning("Bill not found.");
+                return false;
+            }
+            if (billDto.Address != "") billDetails.Address = billDto.Address;
+            if (billDto.Country != "") billDetails.Country = billDto.Country;
+            if (billDto.PostalCode != "") billDetails.PostalCode = billDto.PostalCode;
+            if (billDto.Telephone != "") billDetails.Telephone = billDto.Telephone;
+            if (billDto.City != "") billDetails.City = billDto.City;
 
-            dbContext.Users.Update(existingUser);
+            dbContext.Update(billDetails);
             dbContext.SaveChanges();
 
             return true;
         }
         catch (DbUpdateException e)
         {
-            _logger.LogError("Could not add bill to user: {ErrorMessage}", e.Message);
+            _logger.LogError("Could not add bill to user: {ErrorMessage}", e);
             return false;
         }
     }

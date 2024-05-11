@@ -18,7 +18,9 @@ internal class UserRepository(PersistenceAccess.DatabaseContext dbContext) : IUs
     {
         try
         {
-            dbContext.Users.Add(MapperDto.MapToUser(infoDtoUserInfo));
+            var user = MapperDto.MapToUser(infoDtoUserInfo);
+            dbContext.Users.Add(user);
+            dbContext.Bills.Add(user.BillDetails);
             dbContext.SaveChanges();
         }
         catch (DbUpdateException e)
@@ -74,7 +76,7 @@ internal class UserRepository(PersistenceAccess.DatabaseContext dbContext) : IUs
                 return false;
             }
 
-            dbContext.Remove(existingUser);
+            dbContext.Users.Remove(existingUser);
             dbContext.SaveChanges();
         }
         catch (DbUpdateException e)
@@ -104,7 +106,13 @@ internal class UserRepository(PersistenceAccess.DatabaseContext dbContext) : IUs
     public string? GetUserType(string username) =>
         dbContext.Users.FirstOrDefault(u => u.Username == username)?.UserType;
 
-    public BillDto? GetBillingDetails(string username) =>
-        MapperDto.MapToBillDto(dbContext.Users.Include(user => user.BillDetails)
+    public BillDto? GetBillingDetails(string username)
+    {
+        var test = MapperDto.MapToBillDto(dbContext.Users.Include(user => user.BillDetails)
             .FirstOrDefault(u => u.Username == username)?.BillDetails);
+        
+        _logger.LogInformation(test.ToString());
+        return test;
+    }
+
 }
