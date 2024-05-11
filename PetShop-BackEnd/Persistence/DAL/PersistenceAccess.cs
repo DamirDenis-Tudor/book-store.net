@@ -47,14 +47,9 @@ public class PersistenceAccess
             modelBuilder.Entity<BillDetails>().ToTable("BillDetails");
         }
     }
-    
-    private readonly IUserRepository _userRepository=  new UserRepository(DatabaseContext.Instance);
-    private readonly IProductRepository _productRepository = new ProductRepository(DatabaseContext.Instance);
-    private readonly IOrderRepository _orderRepository =new OrderRepository(DatabaseContext.Instance);
-    private readonly IBillRepository _billRepository = new BillRepository(DatabaseContext.Instance);
 
-    public IUserRepository UserRepository => _userRepository;
-    public IProductRepository ProductRepository => _productRepository;
-    public IOrderRepository OrderRepository => _orderRepository;
-    public IBillRepository BillRepository => _billRepository;
+    public IUserRepository UserRepository { get; } = new UserRepository(DatabaseContext.Instance);
+    public IProductRepository ProductRepository { get; } = new ProductRepository(DatabaseContext.Instance);
+    public IOrderRepository OrderRepository { get; } = new OrderRepository(DatabaseContext.Instance);
+    public IBillRepository BillRepository { get; } = new BillRepository(DatabaseContext.Instance);
 }

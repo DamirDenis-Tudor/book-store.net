@@ -1,4 +1,5 @@
 using Persistence.DTO.Bill;
+using Persistence.DTO.Product;
 using Persistence.DTO.User;
 using Persistence.Entity;
 
@@ -60,15 +61,26 @@ internal class MapperDto
         };
     }
 
-    internal static BillDetails MapToBill(BillDto bill)
+    internal static Entity.Product MapToProduct(ProductDto productDto)
     {
-        return new BillDetails
+        return new Entity.Product
         {
-            Address = bill.Address,
-            Telephone = bill.Telephone,
-            Country = bill.Country,
-            City = bill.City,
-            PostalCode = bill.PostalCode
+            Name = productDto.Name,
+            Price = productDto.Price,
+            Quantity = productDto.Quantity
         };
     }
+    
+    internal static ProductDto? MapToProductDto(Entity.Product? product)
+    {
+        if (product == null) return null;
+        return new ProductDto
+        {
+            Name = product.Name,
+            Price = product.Price,
+            Quantity = product.Quantity,
+            Photo = product.Photo
+        };
+    }
+    
 }

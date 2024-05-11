@@ -1,4 +1,4 @@
-namespace Persistence.DTO;
+namespace Persistence.DTO.Order;
 
 public class OrderSessionDto
 {

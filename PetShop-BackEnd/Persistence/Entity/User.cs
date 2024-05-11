@@ -41,7 +41,7 @@ internal class User
 
     [DeleteBehavior(DeleteBehavior.Cascade)]
     public required BillDetails BillDetails { get; init; }
-    
+
     [DeleteBehavior(DeleteBehavior.Cascade)]
-    public IList<OrderSession>? OrderSessions { get; init; }
+    public IList<OrderSession>? OrderSessions { get; init; } = new List<OrderSession>();
 }

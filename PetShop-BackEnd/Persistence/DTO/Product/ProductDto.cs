@@ -1,3 +1,9 @@
-namespace Persistence.DTO;
+namespace Persistence.DTO.Product;
 
-public record ProductDto();
+public class ProductDto
+{
+    public required string Name { get; init; }
+    public required decimal Price { get; init; }
+    public required int Quantity { get; init; }
+    public byte[]? Photo { get; set; }
+}
