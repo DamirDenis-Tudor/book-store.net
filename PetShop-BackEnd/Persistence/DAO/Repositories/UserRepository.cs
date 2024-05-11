@@ -93,12 +93,9 @@ internal class UserRepository(PersistenceAccess.DatabaseContext dbContext) : IUs
         return users;
     }
 
-    public BillUserDto? GetUser(string username)
-    {
-        var user = dbContext.Users.Include(user => user.BillDetails)
-            .FirstOrDefault(u => u.Username == username);
-        return MapperDto.MapToBillUserDto(user);
-    }
+    public BillUserDto? GetUser(string username) =>
+        MapperDto.MapToBillUserDto(dbContext.Users.Include(user => user.BillDetails)
+            .FirstOrDefault(u => u.Username == username));
 
     public string? GetUserPassword(string username) =>
         dbContext.Users.FirstOrDefault(u => u.Username == username)?.Password;
@@ -107,10 +104,7 @@ internal class UserRepository(PersistenceAccess.DatabaseContext dbContext) : IUs
     public string? GetUserType(string username) =>
         dbContext.Users.FirstOrDefault(u => u.Username == username)?.UserType;
 
-    public BillDto? GetBillingDetails(string username)
-    {
-        var billDetails = dbContext.Users.Include(user => user.BillDetails)
-            .FirstOrDefault(u => u.Username == username)?.BillDetails;
-        return MapperDto.MapToBillDto(billDetails);
-    }
+    public BillDto? GetBillingDetails(string username) =>
+        MapperDto.MapToBillDto(dbContext.Users.Include(user => user.BillDetails)
+            .FirstOrDefault(u => u.Username == username)?.BillDetails);
 }

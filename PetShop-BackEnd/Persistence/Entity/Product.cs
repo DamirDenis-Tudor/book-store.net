@@ -16,14 +16,14 @@ internal class Product
 
     [Column(TypeName = "DECIMAL(18, 2)")]
     [Required]
-    public decimal Price { get; init; }
+    public required decimal Price { get; set; }
 
     [Column(TypeName = "INT")] 
     [Required] 
-    public int Quantity { get; init; }
+    public required int Quantity { get; set; }
 
     [Column(TypeName = "VARBINARY")]
     public byte[]? Photo { get; init; }
-    
+
     public IList<OrderProduct>? OrderProducts { get; init; }
 }
