@@ -1,5 +1,8 @@
 ﻿using Persistence.DAL;
 using Persistence.DTO;
+using Persistence.DTO.Bill;
+using Persistence.DTO.User;
+using Persistence.Entity;
 
 namespace Business;
 
@@ -22,20 +25,20 @@ public class Service1
         {
             Console.WriteLine("User registered succesfully");
         }
-        Console.WriteLine(userRepo.GetUserPassword("damir_12345"));
-        Console.WriteLine(userRepo.GetUserType("damir_12345"));
-        
+
         var deliveryRepository = new PersistenceAccess().BillRepository;
         var billDto = new BillDto
         {
             Address = "Stefan cel mare",
             Telephone = "0759123443",
-            Country = "Romania",
+            Country = "Franta",
             City = "Iasi",
             PostalCode = "707071"
         };
-        Console.WriteLine(deliveryRepository.DeleteBillByUsername("damir_12345"));
-        deliveryRepository.AttachBillToUsername("damir_12345", billDto);
+        //userRepo.DeleteUser("damir_12345");
+        //deliveryRepository.UpdateBillToUsername("damir_12345", billDto);
+        deliveryRepository.UpdateBillToUsername("damir_12345", new BillDto{});
+
         return userRepo.GetUser("damir_12345");
     }
 }

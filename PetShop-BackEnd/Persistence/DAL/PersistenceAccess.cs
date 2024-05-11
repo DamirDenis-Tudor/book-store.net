@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using Logger;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -6,14 +5,15 @@ using Persistence.DAO.Interfaces;
 using Persistence.DAO.Repositories;
 using Persistence.Entity;
 
-[assembly: InternalsVisibleTo("Business")]
+
 namespace Persistence.DAL;
-internal class PersistenceAccess
+
+public class PersistenceAccess
 {
-   
     internal sealed class DatabaseContext : DbContext
     {
         private readonly ILogger _logger = Logging.Instance.GetLogger<DatabaseContext>();
+
         private DatabaseContext()
         {
             _logger.LogInformation("DatabaseContext instantiated.");
@@ -33,9 +33,9 @@ internal class PersistenceAccess
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite($"Data Source={Directory.GetCurrentDirectory()
-                .Replace("Presentation","Persistence")}/Database/PetShop.db");
+                .Replace("Presentation", "Persistence")}/Database/PetShop.db");
         }
-            
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -47,14 +47,14 @@ internal class PersistenceAccess
             modelBuilder.Entity<BillDetails>().ToTable("BillDetails");
         }
     }
-
-    private static readonly IUserRepository UserRepo = new UserRepository(DatabaseContext.Instance);
-    private static readonly IProductRepository ProductRepo = new ProductRepository(DatabaseContext.Instance);
-    private static readonly IOrderRepository OrderRepo = new OrderRepository(DatabaseContext.Instance);
-    private static readonly IBillRepository BillRepo = new BillRepository(DatabaseContext.Instance);
     
-    public IUserRepository UserRepository => UserRepo;
-    public IProductRepository ProductRepository { get; } = ProductRepo;
-    public IOrderRepository OrderRepository { get; } = OrderRepo;
-    public IBillRepository BillRepository { get; } = BillRepo;
+    private readonly IUserRepository _userRepository=  new UserRepository(DatabaseContext.Instance);
+    private readonly IProductRepository _productRepository = new ProductRepository(DatabaseContext.Instance);
+    private readonly IOrderRepository _orderRepository =new OrderRepository(DatabaseContext.Instance);
+    private readonly IBillRepository _billRepository = new BillRepository(DatabaseContext.Instance);
+
+    public IUserRepository UserRepository => _userRepository;
+    public IProductRepository ProductRepository => _productRepository;
+    public IOrderRepository OrderRepository => _orderRepository;
+    public IBillRepository BillRepository => _billRepository;
 }
