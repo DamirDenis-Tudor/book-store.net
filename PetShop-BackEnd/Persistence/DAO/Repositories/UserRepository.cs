@@ -1,16 +1,19 @@
+using System.Runtime.CompilerServices;
 using Logger;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Persistence.DAL;
 using Persistence.DAO.Interfaces;
 using Persistence.DTO;
-
+using Persistence.DTO.Bill;
+using Persistence.DTO.User;
 
 namespace Persistence.DAO.Repositories;
 
 internal class UserRepository(PersistenceAccess.DatabaseContext dbContext) : IUserRepository
 {
     private readonly ILogger _logger = Logging.Instance.GetLogger<UserRepository>();
+
     public bool RegisterUser(UserInfoDto infoDtoUserInfo)
     {
         try
@@ -20,7 +23,63 @@ internal class UserRepository(PersistenceAccess.DatabaseContext dbContext) : IUs
         }
         catch (DbUpdateException e)
         {
-            _logger.LogWarning("Could not register user: {} ",infoDtoUserInfo);
+            _logger.LogWarning("Could not register user: {} ", e);
+            return false;
+        }
+
+        return true;
+    }
+
+    public bool UpdateUser(string username, UserInfoDto userDtoInfoDto)
+    {
+        try
+        {
+            var existingUser = dbContext.Users.Include(user => user.BillDetails)
+                .FirstOrDefault(user => user.Username == username);
+
+            if (existingUser == null)
+            {
+                _logger.LogWarning("Could not delete user: {}", username);
+                return false;
+            }
+
+            if (userDtoInfoDto.Username != "") existingUser.Username = userDtoInfoDto.Username;
+            if (userDtoInfoDto.Password != "") existingUser.Password = userDtoInfoDto.Password;
+            if (userDtoInfoDto.Email != "") existingUser.Email = userDtoInfoDto.Email;
+            if (userDtoInfoDto.FirstName != "") existingUser.FirstName = userDtoInfoDto.FirstName;
+            if (userDtoInfoDto.LastName != "") existingUser.LastName = userDtoInfoDto.LastName;
+
+            dbContext.Update(existingUser);
+            dbContext.SaveChanges();
+        }
+        catch (DbUpdateException e)
+        {
+            _logger.LogWarning("Could not register user: {} ", e);
+            return false;
+        }
+
+        return true;
+    }
+
+    public bool DeleteUser(string username)
+    {
+        try
+        {
+            var existingUser = dbContext.Users.Include(user => user.BillDetails)
+                .FirstOrDefault(user => user.Username == username);
+
+            if (existingUser == null)
+            {
+                _logger.LogWarning("Could not delete user: {}", username);
+                return false;
+            }
+
+            dbContext.Remove(existingUser);
+            dbContext.SaveChanges();
+        }
+        catch (DbUpdateException e)
+        {
+            _logger.LogWarning("Could not delete user: {} ", e);
             return false;
         }
 

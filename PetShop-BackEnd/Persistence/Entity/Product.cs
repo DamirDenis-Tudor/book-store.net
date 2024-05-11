@@ -24,4 +24,6 @@ internal class Product
 
     [Column(TypeName = "VARBINARY")]
     public byte[]? Photo { get; init; }
+    
+    public IList<OrderProduct>? OrderProducts { get; init; }
 }

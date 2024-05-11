@@ -1,10 +1,12 @@
+using Persistence.DTO.Bill;
+using Persistence.DTO.User;
 using Persistence.Entity;
 
 namespace Persistence.DTO;
 
 internal class MapperDto
 {
-    internal static User MapToUser(UserInfoDto userInfoDto) =>
+    internal static Entity.User MapToUser(UserInfoDto userInfoDto) =>
         new()
         {
             FirstName = userInfoDto.FirstName,
@@ -12,10 +14,11 @@ internal class MapperDto
             Username = userInfoDto.Username,
             Password = userInfoDto.Password,
             Email = userInfoDto.Email,
-            UserType = userInfoDto.UserType
+            UserType = userInfoDto.UserType,
+            BillDetails = new BillDetails { }
         };
 
-    internal static UserInfoDto? MapToUserDto(User? user)
+    internal static UserInfoDto? MapToUserDto(Entity.User? user)
     {
         return user != null
             ? new UserInfoDto()
@@ -30,7 +33,7 @@ internal class MapperDto
             : null;
     }
 
-    internal static BillUserDto? MapToBillUserDto(User? user)
+    internal static BillUserDto? MapToBillUserDto(Entity.User? user)
     {
         if (user == null) return null;
 
@@ -40,14 +43,13 @@ internal class MapperDto
             LastName = user.LastName,
             Username = user.Username,
             Email = user.Email,
-            BillDto = MapToBillDto(user?.BillDetails)
+            BillDto = MapToBillDto(user.BillDetails)
         };
     }
 
     internal static BillDto? MapToBillDto(BillDetails? bill)
     {
         if (bill == null) return null;
-
         return new BillDto
         {
             Address = bill.Address,
@@ -69,5 +71,4 @@ internal class MapperDto
             PostalCode = bill.PostalCode
         };
     }
-    
 }

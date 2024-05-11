@@ -14,34 +14,34 @@ internal class User
 
     [Column(TypeName = "VARCHAR(20)")]
     [Required]
-    public required string FirstName { get; init; }
+    public required string FirstName { get; set; }
 
     [Column(TypeName = "VARCHAR(20)")]
     [Required]
-    public required string LastName { get; init; }
+    public required string LastName { get; set; }
 
     [Column(TypeName = "VARCHAR(20)")]
     [Required]
-    public required string Username { get; init; }
+    public required string Username { get; set; }
 
     [Column(TypeName = "VARCHAR(20)")]
     [Required]
-    public required string Password { get; init; }
+    public required string Password { get; set; }
 
     [Column]
     [Required]
     [EmailAddress]
     [StringLength(30)]
-    public required string Email { get; init; }
+    public required string Email { get; set; }
 
     [Column]
     [Required]
     [StringLength(100)]
     public required string UserType { get; init; }
 
-    [ForeignKey("BillDetailsId")] 
-    public BillDetails? BillDetails { get; set; }
-
-    [Column] 
-    public int? BillDetailsId { get; init; }
+    [DeleteBehavior(DeleteBehavior.Cascade)]
+    public required BillDetails BillDetails { get; init; }
+    
+    [DeleteBehavior(DeleteBehavior.Cascade)]
+    public IList<OrderSession>? OrderSessions { get; init; }
 }

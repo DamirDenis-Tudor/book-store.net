@@ -1,13 +1,15 @@
+using System.Runtime.CompilerServices;
 using Microsoft.EntityFrameworkCore;
 using Persistence.DAO.Interfaces;
 using Persistence.DTO;
+
 
 namespace Persistence.DAO.Repositories;
 
 internal class ProductRepository(DbContext dbContext) : IProductRepository
 {
     private DbContext _dbContext = dbContext;
-    
+
     public ProductDto? GetProduct(string name)
     {
         throw new NotImplementedException();

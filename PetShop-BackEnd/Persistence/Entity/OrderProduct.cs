@@ -12,14 +12,14 @@ internal class OrderProduct
     [Column]
     public int ProductId;
 
-    [ForeignKey("ProductId")] 
+    [ForeignKey(nameof(ProductId))] 
     [Required]
     public required Product Product { get; init; }
     
     [Column]
     public int? OrderSessionId { get; init; }
 
-    [ForeignKey("OrderSessionId")] 
+    [ForeignKey(nameof(OrderSessionId))] 
     [Required] 
     public required OrderSession OrderSession { get; init; }
     

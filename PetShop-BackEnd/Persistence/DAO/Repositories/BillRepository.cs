@@ -1,65 +1,41 @@
+using System.Runtime.CompilerServices;
 using Logger;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Persistence.DAL;
 using Persistence.DAO.Interfaces;
 using Persistence.DTO;
+using Persistence.DTO.Bill;
+using Persistence.Entity;
 
 namespace Persistence.DAO.Repositories;
 
 internal class BillRepository(PersistenceAccess.DatabaseContext dbContext) : IBillRepository
 {
     private readonly ILogger _logger = Logging.Instance.GetLogger<BillRepository>();
-    public bool AttachBillToUsername(string username, BillDto billDto)
+
+    public bool UpdateBillToUsername(string username, BillDto billDto)
     {
         try
         {
-            var bill = MapperDto.MapToBill(billDto);
-            dbContext.Bills.Add(bill);
-            dbContext.SaveChanges();
-
-            var user = dbContext.Users
-                .Include(user => user.BillDetails)
+            var existingUser = dbContext.Users.Include(u => u.BillDetails)
                 .FirstOrDefault(u => u.Username == username);
-            if (user == null)
-            {
-                _logger.LogWarning("User not found: {Username}", username);
-                return false;
-            }
 
-            user.BillDetails = bill;
+            if (existingUser == null) return false;
+            if (existingUser.BillDetails.Address != "") existingUser.BillDetails.Address = billDto.Address;
+            if (existingUser.BillDetails.Country != "") existingUser.BillDetails.Country = billDto.Country;
+            if (existingUser.BillDetails.PostalCode != "") existingUser.BillDetails.PostalCode = billDto.PostalCode;
+            if (existingUser.BillDetails.Telephone != "") existingUser.BillDetails.Telephone = billDto.Telephone;
+            if (existingUser.BillDetails.City != "") existingUser.BillDetails.City = billDto.City;
+
+            dbContext.Users.Update(existingUser);
             dbContext.SaveChanges();
+
             return true;
         }
         catch (DbUpdateException e)
         {
-            _logger.LogError("Could not add bill to: {Username}", username);
-            return false;
-        }
-    }
-
-    public bool DeleteBillByUsername(string username)
-    {
-        try
-        {
-            var bill = dbContext.Users.Include(user => user.BillDetails)
-                .FirstOrDefault(u => u.Username == username)?.BillDetails;
-
-            if (bill == null)
-            {
-                _logger.LogWarning("Bill not found for: {Username}", username);
-                return false;
-            }
-
-            dbContext.Bills.Remove(bill);
-        
-            dbContext.SaveChanges();
-        
-            return true;
-        }
-        catch (Exception e)
-        {
-            _logger.LogWarning("Error when deleting bill for: {Username}", username);
+            _logger.LogError("Could not add bill to user: {ErrorMessage}", e.Message);
             return false;
         }
     }

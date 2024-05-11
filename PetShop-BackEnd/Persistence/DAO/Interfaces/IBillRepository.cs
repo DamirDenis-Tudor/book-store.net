@@ -1,9 +1,9 @@
 using Persistence.DTO;
+using Persistence.DTO.Bill;
 
 namespace Persistence.DAO.Interfaces;
 
 public interface IBillRepository
 {
-    bool AttachBillToUsername(string username, BillDto bill);
-    bool DeleteBillByUsername(string username);
+    bool UpdateBillToUsername(string username, BillDto bill);
 }
