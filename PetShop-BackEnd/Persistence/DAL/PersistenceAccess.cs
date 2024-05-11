@@ -32,8 +32,7 @@ public class PersistenceAccess
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite($"Data Source={Directory.GetCurrentDirectory()
-                .Replace("Presentation", "Persistence")}/Database/PetShop.db");
+            optionsBuilder.UseSqlite($"Data Source={Directory.GetCurrentDirectory()}/PetShop.db");
         }
 
 
@@ -48,8 +47,8 @@ public class PersistenceAccess
         }
     }
 
-    public IUserRepository UserRepository { get; } = new UserRepository(DatabaseContext.Instance);
-    public IProductRepository ProductRepository { get; } = new ProductRepository(DatabaseContext.Instance);
-    public IOrderRepository OrderRepository { get; } = new OrderRepository(DatabaseContext.Instance);
-    public IBillRepository BillRepository { get; } = new BillRepository(DatabaseContext.Instance);
+    public static IUserRepository UserRepository { get; } = new UserRepository(DatabaseContext.Instance);
+    public static IProductRepository ProductRepository { get; } = new ProductRepository(DatabaseContext.Instance);
+    public static IOrderRepository OrderRepository { get; } = new OrderRepository(DatabaseContext.Instance);
+    public static IBillRepository BillRepository { get; } = new BillRepository(DatabaseContext.Instance);
 }
