@@ -17,7 +17,7 @@ internal class BillRepository(PersistenceAccess.DatabaseContext dbContext) : IBi
                 .FirstOrDefault(b => b.User != null && b.User.Username == username);
 
             if (billDetails == null)
-                return Result<string, DaoErrorType>.Fail(DaoErrorType.CouldNotUpdate, "Bill not found.");
+                return Result<string, DaoErrorType>.Fail(DaoErrorType.DatabaseError, "Bill not found.");
 
             if (!string.IsNullOrEmpty(billDto.Address)) billDetails.Address = billDto.Address;
             if (!string.IsNullOrEmpty(billDto.Country)) billDetails.Country = billDto.Country;
@@ -33,7 +33,7 @@ internal class BillRepository(PersistenceAccess.DatabaseContext dbContext) : IBi
         }
         catch (DbUpdateException e)
         {
-            return Result<string, DaoErrorType>.Fail(DaoErrorType.CouldNotUpdate,
+            return Result<string, DaoErrorType>.Fail(DaoErrorType.DatabaseError,
                 "Database error occurred while updating bill.");
         }
     }

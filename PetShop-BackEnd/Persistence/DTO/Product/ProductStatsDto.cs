@@ -1,6 +1,6 @@
 namespace Persistence.DTO.Product;
 
-public class ProductStatsDto
+public record ProductStatsDto
 {
     public required string Name { get; init; }
     public required decimal TotalRevenue { get; init; }

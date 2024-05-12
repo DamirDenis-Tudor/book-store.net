@@ -27,7 +27,7 @@ internal class UserRepository(PersistenceAccess.DatabaseContext dbContext) : IUs
         catch (DbUpdateException e)
         {
             return Result<bool, DaoErrorType>.Fail(
-                DaoErrorType.UserAlreadyRegistered,
+                DaoErrorType.AlreadyRegistered,
                 $"User {userDtoInfoDto.Username} already exist. Caused by {nameof(DbUpdateException)}."
             );
         }
@@ -45,7 +45,7 @@ internal class UserRepository(PersistenceAccess.DatabaseContext dbContext) : IUs
             if (existingUser == null)
             {
                 return Result<bool, DaoErrorType>.Fail(
-                    DaoErrorType.UserNotFound,
+                    DaoErrorType.NotFound,
                     $"User {userDtoInfoDto.Username} not found. Caused by existingUser={existingUser}."
                 );
             }
@@ -62,7 +62,7 @@ internal class UserRepository(PersistenceAccess.DatabaseContext dbContext) : IUs
         catch (DbUpdateException e)
         {
             return Result<bool, DaoErrorType>.Fail(
-                DaoErrorType.UserAlreadyRegistered,
+                DaoErrorType.AlreadyRegistered,
                 $"User {userDtoInfoDto.Username} cannot be updated. Caused by {nameof(DbUpdateException)}."
             );
         }
@@ -80,7 +80,7 @@ internal class UserRepository(PersistenceAccess.DatabaseContext dbContext) : IUs
             if (existingUser == null)
             {
                 return Result<bool, DaoErrorType>.Fail(
-                    DaoErrorType.UserNotFound,
+                    DaoErrorType.NotFound,
                     $"User {username} could not be deleted. Caused by existingUser={existingUser}."
                 );
             }
@@ -93,7 +93,7 @@ internal class UserRepository(PersistenceAccess.DatabaseContext dbContext) : IUs
         catch (DbUpdateException e)
         {
             return Result<bool, DaoErrorType>.Fail(
-                DaoErrorType.UserAlreadyRegistered,
+                DaoErrorType.DatabaseError,
                 $"User {username} cannot be updated. Caused by {nameof(DbUpdateException)}."
             );
         }
@@ -105,7 +105,10 @@ internal class UserRepository(PersistenceAccess.DatabaseContext dbContext) : IUs
     {
         var users = new List<BillUserDto>();
         dbContext.Users.ToList().ForEach(u => users.Add(MapperDto.MapToBillUserDto(u)!));
-        return Result<List<BillUserDto>, DaoErrorType>.Success(users, "Users list returned.");
+
+        return users.Count != 0
+            ? Result<List<BillUserDto>, DaoErrorType>.Success(users, "Users list returned.")
+            : Result<List<BillUserDto>, DaoErrorType>.Fail(DaoErrorType.ListIsEmpty, "No user found.");
     }
 
     public Result<BillUserDto, DaoErrorType> GetUser(string username)
@@ -117,7 +120,7 @@ internal class UserRepository(PersistenceAccess.DatabaseContext dbContext) : IUs
         );
 
         return billUserDto == null
-            ? Result<BillUserDto, DaoErrorType>.Fail(DaoErrorType.UserNotFound, $"User {username} not found")
+            ? Result<BillUserDto, DaoErrorType>.Fail(DaoErrorType.NotFound, $"User {username} not found")
             : Result<BillUserDto, DaoErrorType>.Success(billUserDto,$"User {username} found");
     }
 
@@ -126,7 +129,7 @@ internal class UserRepository(PersistenceAccess.DatabaseContext dbContext) : IUs
     {
         var password = dbContext.Users.FirstOrDefault(u => u.Username == username)?.Password;
         return password == null
-            ? Result<string, DaoErrorType>.Fail(DaoErrorType.UserNotFound,
+            ? Result<string, DaoErrorType>.Fail(DaoErrorType.NotFound,
                 $"Password for user {username} not found")
             : Result<string, DaoErrorType>.Success(password, $"User {username} password found");
     }
@@ -135,7 +138,7 @@ internal class UserRepository(PersistenceAccess.DatabaseContext dbContext) : IUs
     {
         var userType = dbContext.Users.FirstOrDefault(u => u.Username == username)?.UserType;
         return userType == null
-            ? Result<string, DaoErrorType>.Fail(DaoErrorType.UserNotFound,
+            ? Result<string, DaoErrorType>.Fail(DaoErrorType.NotFound,
                 $"User type for user {username} not found")
             : Result<string, DaoErrorType>.Success(userType, $"UserType for {username} returned.");
     }
@@ -148,7 +151,7 @@ internal class UserRepository(PersistenceAccess.DatabaseContext dbContext) : IUs
                 .FirstOrDefault(u => u.Username == username)?.BillDetails);
 
         return userBillDetails == null
-            ? Result<BillDto, DaoErrorType>.Fail(DaoErrorType.UserNotFound,
+            ? Result<BillDto, DaoErrorType>.Fail(DaoErrorType.NotFound,
                 $"Billing details for user {username} not found")
             : Result<BillDto, DaoErrorType>.Success(userBillDetails, $"User {username} has billing details.");
     }

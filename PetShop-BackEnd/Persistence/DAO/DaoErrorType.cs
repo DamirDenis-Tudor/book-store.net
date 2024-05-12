@@ -2,7 +2,8 @@ namespace Persistence.DAO;
 
 public enum DaoErrorType
 {
-    UserNotFound,
-    UserAlreadyRegistered,
-    CouldNotUpdate,
+    NotFound,
+    AlreadyRegistered,
+    ListIsEmpty,
+    DatabaseError,
 }
