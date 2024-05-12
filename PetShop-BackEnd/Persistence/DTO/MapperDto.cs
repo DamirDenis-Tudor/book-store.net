@@ -1,4 +1,6 @@
+using Logger;
 using Persistence.DTO.Bill;
+using Persistence.DTO.Order;
 using Persistence.DTO.Product;
 using Persistence.DTO.User;
 using Persistence.Entity;
@@ -67,10 +69,11 @@ internal class MapperDto
         {
             Name = productDto.Name,
             Price = productDto.Price,
-            Quantity = productDto.Quantity
+            Quantity = productDto.Quantity,
+            OrderProducts = new List<OrderProduct>()
         };
     }
-    
+
     internal static ProductDto? MapToProductDto(Entity.Product? product)
     {
         if (product == null) return null;
@@ -82,5 +85,56 @@ internal class MapperDto
             Photo = product.Photo
         };
     }
-    
+
+    private static OrderProductDto? MapToOrderProductDto(Entity.OrderProduct? orderProduct)
+    {
+        if (orderProduct == null) return null;
+
+        return new OrderProductDto
+        {
+            ProductName = orderProduct.Product!.Name,
+            Price = orderProduct.Product.Price * orderProduct.Quantity,
+            SessionCode = orderProduct.OrderSession!.SessionCode,
+            Quantity = orderProduct.Quantity
+        };
+    }
+
+    internal static OrderSessionDto? MapToOrderSessionDto(Entity.OrderSession? orderSession)
+    {
+        if (orderSession == null) return null;
+
+        var orderProductsDto = new List<OrderProductDto>();
+        orderSession.OrderProducts.ToList().ForEach(op =>
+            {
+                orderProductsDto.Add(MapperDto.MapToOrderProductDto(op)!);
+            }
+        );
+
+        return new OrderSessionDto
+        {
+            Username = orderSession.User!.Username,
+            SessionCode = orderSession.SessionCode,
+            Status = orderSession.SessionCode,
+            OrderProducts = orderProductsDto
+        };
+    }
+
+    internal static OrderProduct MapToOrderProduct(OrderProductDto orderProductDto)
+    {
+        return new OrderProduct
+        {
+            OrderProductName = orderProductDto.ProductName,
+            Quantity = orderProductDto.Quantity,
+        };
+    }
+
+    internal static OrderSession MapToOrderSession(OrderSessionDto orderSessionDto)
+    {
+        return new OrderSession
+        {
+            SessionCode = orderSessionDto.SessionCode,
+            Status = orderSessionDto.Status,
+            OrderProducts = new List<OrderProduct>()
+        };
+    }
 }

@@ -17,8 +17,9 @@ public class PersistenceAccess
         private DatabaseContext()
         {
             _logger.LogInformation("DatabaseContext instantiated.");
-            Database.Migrate();
-            
+            //Database.Migrate();
+
+            //Database.EnsureDeleted();
             if (Database.EnsureCreated())
             {
                 Console.WriteLine("Successfully created.");
@@ -28,7 +29,8 @@ public class PersistenceAccess
         public static DatabaseContext Instance { get; } = new();
 
         public DbSet<User> Users { get; init; }
-        public DbSet<OrderProduct> Orders { get; init; }
+        public DbSet<OrderSession> OrdersSessions { get; init; }
+        public DbSet<OrderProduct> OrdersProducts { get; init; }
         public DbSet<Product> Products { get; init; }
         public DbSet<BillDetails> Bills { get; init; }
 
@@ -43,8 +45,9 @@ public class PersistenceAccess
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<User>().ToTable("Users");
-            modelBuilder.Entity<OrderProduct>().ToTable("Orders");
-            modelBuilder.Entity<Product>().ToTable("Products");
+            modelBuilder.Entity<OrderProduct>().ToTable("OrderProducts");
+            modelBuilder.Entity<OrderSession>().ToTable("OrderSessions");
+            modelBuilder.Entity<Product>().ToTable("Product");
             modelBuilder.Entity<BillDetails>().ToTable("BillDetails");
         }
     }
