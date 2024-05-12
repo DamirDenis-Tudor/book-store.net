@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Persistence.DAL;
 using Persistence.DAO.Interfaces;
+using Persistence.DTO;
 using Persistence.DTO.Bill;
 
 namespace Persistence.DAO.Repositories;
@@ -36,5 +37,18 @@ internal class BillRepository(PersistenceAccess.DatabaseContext dbContext) : IBi
             return Result<string, DaoErrorType>.Fail(DaoErrorType.DatabaseError,
                 "Database error occurred while updating bill.");
         }
+    }
+
+    public Result<BillDto, DaoErrorType> GetBillingDetails(string username)
+    {
+        var userBillDetails = MapperDto.MapToBillDto(
+            dbContext.Users
+                .Include(user => user.BillDetails)
+                .FirstOrDefault(u => u.Username == username)?.BillDetails);
+
+        return userBillDetails == null
+            ? Result<BillDto, DaoErrorType>.Fail(DaoErrorType.NotFound,
+                $"Billing details for user {username} not found")
+            : Result<BillDto, DaoErrorType>.Success(userBillDetails, $"User {username} has billing details.");
     }
 }

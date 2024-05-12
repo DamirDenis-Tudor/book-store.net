@@ -14,5 +14,5 @@ public interface IUserRepository
     Result<BillUserDto, DaoErrorType> GetUser(string username);
     Result<string, DaoErrorType> GetUserPassword(string username);
     Result<string, DaoErrorType> GetUserType(string username);
-    Result<BillDto, DaoErrorType> GetBillingDetails(string username);
+
 }

@@ -142,17 +142,4 @@ internal class UserRepository(PersistenceAccess.DatabaseContext dbContext) : IUs
                 $"User type for user {username} not found")
             : Result<string, DaoErrorType>.Success(userType, $"UserType for {username} returned.");
     }
-
-    public Result<BillDto, DaoErrorType> GetBillingDetails(string username)
-    {
-        var userBillDetails = MapperDto.MapToBillDto(
-            dbContext.Users
-                .Include(user => user.BillDetails)
-                .FirstOrDefault(u => u.Username == username)?.BillDetails);
-
-        return userBillDetails == null
-            ? Result<BillDto, DaoErrorType>.Fail(DaoErrorType.NotFound,
-                $"Billing details for user {username} not found")
-            : Result<BillDto, DaoErrorType>.Success(userBillDetails, $"User {username} has billing details.");
-    }
 }
