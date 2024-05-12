@@ -26,7 +26,7 @@ public class BillRepositoryUnit
             Is.EqualTo(true)
         );
 
-        var billingDetails = PersistenceAccess.UserRepository.GetBillingDetails(user.Username);
+        var billingDetails = PersistenceAccess.BillRepository.GetBillingDetails(user.Username);
         Assert.That(billingDetails.IsSuccess, Is.EqualTo(true));
         Assert.That(billingDetails.SuccessValue.PostalCode.Equals(billDto.PostalCode), Is.EqualTo(true));
         Assert.That(PersistenceAccess.UserRepository.DeleteUser(user.Username).IsSuccess, Is.EqualTo(true));
