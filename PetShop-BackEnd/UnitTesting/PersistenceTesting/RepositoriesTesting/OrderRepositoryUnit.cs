@@ -1,22 +1,21 @@
-using NUnit.Framework.Interfaces;
 using Persistence.DAL;
 using Persistence.DTO.Order;
 using Persistence.DTO.Product;
 using Persistence.DTO.User;
 
-namespace UnitTesting;
+namespace UnitTesting.PersistenceTesting.RepositoriesTesting;
 
 public class OrderRepositoryUnit
 {
     private string sessionCode = "code_123";
 
-    private UserInfoDto _user = new UserInfoDto
+    private readonly UserInfoDto _user = new()
     {
         FirstName = "testCreateAndDelete", LastName = "testCreateAndDelete", Username = "test_12345CreateAndDelete",
         Password = "testCreateAndDelete", Email = "test@test.testCreateAndDelete", UserType = "TESTER"
     };
 
-    private List<ProductDto> _products = [
+    private readonly List<ProductDto> _products = [
         new ProductDto { Name = "Book", Price = 10.0m, Quantity = 100 },
         new ProductDto { Name = "Food", Price = 15.0m, Quantity = 100 },
         new ProductDto { Name = "Toy", Price = 20.0m, Quantity = 100 }

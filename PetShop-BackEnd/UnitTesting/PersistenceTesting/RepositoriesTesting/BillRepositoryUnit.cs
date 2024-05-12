@@ -1,11 +1,8 @@
-using Logger;
-using Microsoft.Extensions.Logging;
 using Persistence.DAL;
-using Persistence.DAO;
 using Persistence.DTO.Bill;
 using Persistence.DTO.User;
 
-namespace UnitTesting;
+namespace UnitTesting.PersistenceTesting.RepositoriesTesting;
 
 public class BillRepositoryUnit
 {
