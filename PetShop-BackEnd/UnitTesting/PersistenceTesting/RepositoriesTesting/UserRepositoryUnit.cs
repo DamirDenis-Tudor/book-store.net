@@ -1,7 +1,7 @@
 using Persistence.DAL;
 using Persistence.DTO.User;
 
-namespace UnitTesting;
+namespace UnitTesting.PersistenceTesting.RepositoriesTesting;
 
 public class UserRepositoryUnit
 {

@@ -8,5 +8,32 @@
   &lt;TestAncestor&gt;
     &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.UserRepositoryUnit&lt;/TestId&gt;
     &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.BillRepositoryUnit.UpdateBillUnitTest&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.ProductRepositoryunit.CreateAndDeleteBillUnitTest&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.BillRepositoryUnit&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.ProductRepositoryUnit&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.OrderRepositoryUnit.Test&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.OrderRepositoryUnit.RegisterAndDeleteUnitTest&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.OrderRepositoryUnit.GettersUnitTest&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.PersistenceTesting.OverallPersistenceUnitTest.CheckOverallUnitTest&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=33e9d98b_002D7297_002D46a7_002Db791_002D9d4a8794cee3/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="UserRepositoryUnit" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.UserRepositoryUnit&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.BillRepositoryUnit.UpdateBillUnitTest&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.ProductRepositoryunit.CreateAndDeleteBillUnitTest&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.BillRepositoryUnit&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.ProductRepositoryUnit&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.OrderRepositoryUnit.Test&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=5be93958_002D7485_002D4fe1_002D8559_002D354b08302012/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Test #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.OrderRepositoryUnit.Test&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=966bdd16_002Dfe70_002D4472_002D9c9e_002D016ca2df2e8a/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Test" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.OrderRepositoryUnit.Test&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
