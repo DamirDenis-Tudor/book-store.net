@@ -12,7 +12,7 @@ namespace Persistence.DAO.Repositories;
 
 internal class ProductRepository(PersistenceAccess.DatabaseContext dbContext) : IProductRepository
 {
-    private readonly ILogger _logger = Logging.Instance.GetLogger<BillRepository>();
+    private readonly ILogger _logger = Logger.Logger.Instance.GetLogger<BillRepository>();
 
     public bool RegisterProduct(ProductDto productDto)
     {
@@ -81,7 +81,7 @@ internal class ProductRepository(PersistenceAccess.DatabaseContext dbContext) : 
             }
 
             existingProduct.Price = newPrice;
-
+            dbContext.Update(existingProduct);
             dbContext.SaveChanges();
         }
         catch (DbException e)

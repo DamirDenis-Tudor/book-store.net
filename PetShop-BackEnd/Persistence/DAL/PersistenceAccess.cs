@@ -12,11 +12,13 @@ public class PersistenceAccess
 {
     internal sealed class DatabaseContext : DbContext
     {
-        private readonly ILogger _logger = Logging.Instance.GetLogger<DatabaseContext>();
+        private readonly ILogger _logger = Logger.Logger.Instance.GetLogger<DatabaseContext>();
 
         private DatabaseContext()
         {
             _logger.LogInformation("DatabaseContext instantiated.");
+            Database.Migrate();
+            
             if (Database.EnsureCreated())
             {
                 Console.WriteLine("Successfully created.");

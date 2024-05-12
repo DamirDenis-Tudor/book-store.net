@@ -13,10 +13,10 @@ internal class BillDetails
     public int Id { get; init; }
     
     [Column]
+    [Required]
     public int? UserId { get; init; }
 
     [ForeignKey(nameof(UserId))] 
-    [Required] 
     public User? User { get; init; }
 
     [Column(TypeName = "VARCHAR")]
