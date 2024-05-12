@@ -39,9 +39,11 @@ internal class User
     [StringLength(100)]
     public required string UserType { get; init; }
 
+    [InverseProperty(nameof(User))]
     [DeleteBehavior(DeleteBehavior.Cascade)]
     public required BillDetails BillDetails { get; init; }
-
+    
+    [InverseProperty(nameof(User))]
     [DeleteBehavior(DeleteBehavior.Cascade)]
     public IList<OrderSession>? OrderSessions { get; init; } = new List<OrderSession>();
 }

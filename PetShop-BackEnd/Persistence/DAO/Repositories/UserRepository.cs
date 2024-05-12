@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using Logger;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -12,27 +11,31 @@ namespace Persistence.DAO.Repositories;
 
 internal class UserRepository(PersistenceAccess.DatabaseContext dbContext) : IUserRepository
 {
-    private readonly ILogger _logger = Logging.Instance.GetLogger<UserRepository>();
+    private readonly ILogger _logger = Logger.Logger.Instance.GetLogger<UserRepository>();
 
-    public bool RegisterUser(UserInfoDto infoDtoUserInfo)
+    public Result<bool, DaoErrorType> RegisterUser(UserInfoDto userDtoInfoDto)
     {
         try
         {
-            var user = MapperDto.MapToUser(infoDtoUserInfo);
+            if (GetUser(userDtoInfoDto.Username).IsSuccess)
+                throw new DbUpdateException();
+            
+            var user = MapperDto.MapToUser(userDtoInfoDto);
             dbContext.Users.Add(user);
-            dbContext.Bills.Add(user.BillDetails);
             dbContext.SaveChanges();
         }
         catch (DbUpdateException e)
         {
-            _logger.LogWarning("Could not register user: {} ", e);
-            return false;
+            return Result<bool, DaoErrorType>.Fail(
+                DaoErrorType.UserAlreadyRegistered,
+                $"User {userDtoInfoDto.Username} already exist. Caused by {nameof(DbUpdateException)}."
+            );
         }
 
-        return true;
+        return Result<bool, DaoErrorType>.Success(true,$"User {userDtoInfoDto.Username} registered.");
     }
 
-    public bool UpdateUser(string username, UserInfoDto userDtoInfoDto)
+    public Result<bool, DaoErrorType> UpdateUser(string username, UserInfoDto userDtoInfoDto)
     {
         try
         {
@@ -41,8 +44,10 @@ internal class UserRepository(PersistenceAccess.DatabaseContext dbContext) : IUs
 
             if (existingUser == null)
             {
-                _logger.LogWarning("Could not delete user: {}", username);
-                return false;
+                return Result<bool, DaoErrorType>.Fail(
+                    DaoErrorType.UserNotFound,
+                    $"User {userDtoInfoDto.Username} not found. Caused by existingUser={existingUser}."
+                );
             }
 
             if (userDtoInfoDto.Username != "") existingUser.Username = userDtoInfoDto.Username;
@@ -56,14 +61,16 @@ internal class UserRepository(PersistenceAccess.DatabaseContext dbContext) : IUs
         }
         catch (DbUpdateException e)
         {
-            _logger.LogWarning("Could not register user: {} ", e);
-            return false;
+            return Result<bool, DaoErrorType>.Fail(
+                DaoErrorType.UserAlreadyRegistered,
+                $"User {userDtoInfoDto.Username} cannot be updated. Caused by {nameof(DbUpdateException)}."
+            );
         }
 
-        return true;
+        return Result<bool, DaoErrorType>.Success(true,$"User {username} updated successfully: {userDtoInfoDto}");
     }
 
-    public bool DeleteUser(string username)
+    public Result<bool, DaoErrorType> DeleteUser(string username)
     {
         try
         {
@@ -72,47 +79,77 @@ internal class UserRepository(PersistenceAccess.DatabaseContext dbContext) : IUs
 
             if (existingUser == null)
             {
-                _logger.LogWarning("Could not delete user: {}", username);
-                return false;
+                return Result<bool, DaoErrorType>.Fail(
+                    DaoErrorType.UserNotFound,
+                    $"User {username} could not be deleted. Caused by existingUser={existingUser}."
+                );
             }
 
+            using var dbContextTransaction = dbContext.Database.BeginTransaction();
             dbContext.Users.Remove(existingUser);
             dbContext.SaveChanges();
+            dbContextTransaction.Commit();
         }
         catch (DbUpdateException e)
         {
-            _logger.LogWarning("Could not delete user: {} ", e);
-            return false;
+            return Result<bool, DaoErrorType>.Fail(
+                DaoErrorType.UserAlreadyRegistered,
+                $"User {username} cannot be updated. Caused by {nameof(DbUpdateException)}."
+            );
         }
 
-        return true;
+        return Result<bool, DaoErrorType>.Success(true,$"User {username} updated successfully.");
     }
 
-    public List<BillUserDto?> GetAllUsers()
+    public Result<List<BillUserDto>, DaoErrorType> GetAllUsers()
     {
-        var users = new List<BillUserDto?>();
-        dbContext.Users.ToList().ForEach(u => users.Add(MapperDto.MapToBillUserDto(u)));
-        return users;
+        var users = new List<BillUserDto>();
+        dbContext.Users.ToList().ForEach(u => users.Add(MapperDto.MapToBillUserDto(u)!));
+        return Result<List<BillUserDto>, DaoErrorType>.Success(users, "Users list returned.");
     }
 
-    public BillUserDto? GetUser(string username) =>
-        MapperDto.MapToBillUserDto(dbContext.Users.Include(user => user.BillDetails)
-            .FirstOrDefault(u => u.Username == username));
-
-    public string? GetUserPassword(string username) =>
-        dbContext.Users.FirstOrDefault(u => u.Username == username)?.Password;
-
-
-    public string? GetUserType(string username) =>
-        dbContext.Users.FirstOrDefault(u => u.Username == username)?.UserType;
-
-    public BillDto? GetBillingDetails(string username)
+    public Result<BillUserDto, DaoErrorType> GetUser(string username)
     {
-        var test = MapperDto.MapToBillDto(dbContext.Users.Include(user => user.BillDetails)
-            .FirstOrDefault(u => u.Username == username)?.BillDetails);
-        
-        _logger.LogInformation(test.ToString());
-        return test;
+        var billUserDto = MapperDto.MapToBillUserDto(
+            dbContext.Users
+                .Include(user => user.BillDetails)
+                .FirstOrDefault(u => u.Username == username)
+        );
+
+        return billUserDto == null
+            ? Result<BillUserDto, DaoErrorType>.Fail(DaoErrorType.UserNotFound, $"User {username} not found")
+            : Result<BillUserDto, DaoErrorType>.Success(billUserDto,$"User {username} found");
     }
 
+
+    public Result<string, DaoErrorType> GetUserPassword(string username)
+    {
+        var password = dbContext.Users.FirstOrDefault(u => u.Username == username)?.Password;
+        return password == null
+            ? Result<string, DaoErrorType>.Fail(DaoErrorType.UserNotFound,
+                $"Password for user {username} not found")
+            : Result<string, DaoErrorType>.Success(password, $"User {username} password found");
+    }
+
+    public Result<string, DaoErrorType> GetUserType(string username)
+    {
+        var userType = dbContext.Users.FirstOrDefault(u => u.Username == username)?.UserType;
+        return userType == null
+            ? Result<string, DaoErrorType>.Fail(DaoErrorType.UserNotFound,
+                $"User type for user {username} not found")
+            : Result<string, DaoErrorType>.Success(userType, $"UserType for {username} returned.");
+    }
+
+    public Result<BillDto, DaoErrorType> GetBillingDetails(string username)
+    {
+        var userBillDetails = MapperDto.MapToBillDto(
+            dbContext.Users
+                .Include(user => user.BillDetails)
+                .FirstOrDefault(u => u.Username == username)?.BillDetails);
+
+        return userBillDetails == null
+            ? Result<BillDto, DaoErrorType>.Fail(DaoErrorType.UserNotFound,
+                $"Billing details for user {username} not found")
+            : Result<BillDto, DaoErrorType>.Success(userBillDetails, $"User {username} has billing details.");
+    }
 }
