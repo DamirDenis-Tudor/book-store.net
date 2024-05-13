@@ -6,6 +6,8 @@ namespace UnitTesting.PersistenceTesting.RepositoriesTesting;
 
 public class BillRepositoryUnit
 {
+    [SetUp]
+    public void PrepareTesting() => PersistenceAccess.SetIntegrationMode(IntegrationMode.Testing);
     [Test]
     public void UpdateBillUnitTest()
     {

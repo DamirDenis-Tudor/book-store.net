@@ -5,7 +5,6 @@ using Persistence.DAL;
 using Persistence.DAO.Interfaces;
 using Persistence.DTO;
 using Persistence.DTO.Order;
-using Persistence.Entity;
 
 namespace Persistence.DAO.Repositories;
 

@@ -21,9 +21,14 @@ internal class Product
     public required decimal Price { get; set; }
 
     [Column(TypeName = "INT")] [Required] public required int Quantity { get; set; }
+    
+    [Column(TypeName = "VARCHAR")]
+    [StringLength(50)]
+    [Required]
+    public required string Category { get; init; }
 
     [Column(TypeName = "VARBINARY")] public byte[]? Photo { get; init; }
-    
+
     [DeleteBehavior(DeleteBehavior.Restrict)]
     public required IList<OrderProduct> OrderProducts { get; init; }
 }

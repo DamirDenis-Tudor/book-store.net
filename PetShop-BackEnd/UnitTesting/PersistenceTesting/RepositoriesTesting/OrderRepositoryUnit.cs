@@ -7,7 +7,7 @@ namespace UnitTesting.PersistenceTesting.RepositoriesTesting;
 
 public class OrderRepositoryUnit
 {
-    private string sessionCode = "code_123";
+    private const string SessionCode = "code_123";
 
     private readonly UserInfoDto _user = new()
     {
@@ -16,14 +16,16 @@ public class OrderRepositoryUnit
     };
 
     private readonly List<ProductDto> _products = [
-        new ProductDto { Name = "Book", Price = 10.0m, Quantity = 100 },
-        new ProductDto { Name = "Food", Price = 15.0m, Quantity = 100 },
-        new ProductDto { Name = "Toy", Price = 20.0m, Quantity = 100 }
+        new ProductDto { Name = "Lecture1", Price = 10.0m, Quantity = 100, Category = "Books"},
+        new ProductDto { Name = "Lecture2", Price = 15.0m, Quantity = 100, Category = "Books"},
+        new ProductDto { Name = "Laptop1", Price = 20.0m, Quantity = 100, Category = "Laptops"}
     ];
 
     [SetUp]
     public void RegisterOrderUnitTest()
     {
+        PersistenceAccess.SetIntegrationMode(IntegrationMode.Testing);
+        
         PersistenceAccess.UserRepository.RegisterUser(_user);
         _products.ForEach(p => PersistenceAccess.ProductRepository.RegisterProduct(p));
     }
@@ -40,13 +42,13 @@ public class OrderRepositoryUnit
     {
         List<OrderProductDto> orderProductDtos = [];
         _products.ForEach(p => orderProductDtos.Add(new OrderProductDto
-            { ProductName = p.Name, SessionCode = sessionCode, Quantity = 5 })
+            { ProductName = p.Name, SessionCode = SessionCode, Quantity = 5 })
         );
 
         var orderSessionDto = new OrderSessionDto
         {
             Username = _user.Username,
-            SessionCode = sessionCode,
+            SessionCode = SessionCode,
             Status = "Paid",
             OrderProducts = orderProductDtos
         };
@@ -60,13 +62,13 @@ public class OrderRepositoryUnit
     {
         List<OrderProductDto> orderProductDtos = [];
         _products.ForEach(p => orderProductDtos.Add(new OrderProductDto
-            { ProductName = p.Name, SessionCode = sessionCode, Quantity = 5 })
+            { ProductName = p.Name, SessionCode = SessionCode, Quantity = 5 })
         );
 
         var orderSessionDto = new OrderSessionDto
         {
             Username = _user.Username,
-            SessionCode = sessionCode,
+            SessionCode = SessionCode,
             Status = "Paid",
             OrderProducts = orderProductDtos
         };
