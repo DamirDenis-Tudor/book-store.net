@@ -5,6 +5,8 @@ namespace UnitTesting.PersistenceTesting.RepositoriesTesting;
 
 public class UserRepositoryUnit
 {
+    [SetUp]
+    public void PrepareTesting() => PersistenceAccess.SetIntegrationMode(IntegrationMode.Testing);
     [Test]
     public void CreateAndDeleteUserUnitTest()
     {

@@ -10,11 +10,12 @@ public class ProductRepositoryUnit
     [SetUp]
     public void RegisterProductUnitTest()
     {
+        PersistenceAccess.SetIntegrationMode(IntegrationMode.Testing);
         _productDtos.AddRange(new[]
         {
-            new ProductDto { Name = "Book", Price = 10.0m, Quantity = 100 },
-            new ProductDto { Name = "Toy", Price = 15.0m, Quantity = 10 },
-            new ProductDto { Name = "Food", Price = 20.0m, Quantity = 500 }
+            new ProductDto { Name = "Lecture1", Price = 10.0m, Quantity = 100, Category = "Books"},
+            new ProductDto { Name = "Lecture2", Price = 15.0m, Quantity = 100, Category = "Books"},
+            new ProductDto { Name = "Laptop1", Price = 20.0m, Quantity = 100, Category = "Laptops"}
         });
 
         _productDtos.ToList().ForEach(p =>
@@ -32,7 +33,7 @@ public class ProductRepositoryUnit
     }
 
     [Test]
-    public void CreateCheckDeleteBillUnitTest()
+    public void CreateCheckDeleteProductUnitTest()
     {
         Assert.That(PersistenceAccess.ProductRepository.RegisterProduct(_productDtos[2]).IsSuccess, Is.EqualTo(false));
 
@@ -42,6 +43,11 @@ public class ProductRepositoryUnit
         Assert.That(allProducts.IsSuccess, Is.EqualTo(true));
         allProducts.SuccessValue.ToList().ForEach(Console.WriteLine);
         Assert.That(allProducts.SuccessValue.Count, Is.EqualTo(3));
+        
+        var allProductsByCategory = PersistenceAccess.ProductRepository.GetAllProductsByCategory("Books");
+        Assert.That(allProductsByCategory.IsSuccess, Is.EqualTo(true));
+        allProductsByCategory.SuccessValue.ToList().ForEach(Console.WriteLine);
+        Assert.That(allProductsByCategory.SuccessValue.Count, Is.EqualTo(2));
 
         var allProductsStats = PersistenceAccess.ProductRepository.GetAllProductsStats();
         Assert.That(allProductsStats.IsSuccess, Is.EqualTo(true));

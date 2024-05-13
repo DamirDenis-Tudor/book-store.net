@@ -48,6 +48,19 @@ internal class ProductRepository(PersistenceAccess.DatabaseContext dbContext) : 
             .Success(products, "Product {name} found.");
     }
 
+    public Result<IList<ProductDto>, DaoErrorType> GetAllProductsByCategory(string category)
+    {
+        var orderSessions = dbContext.Products
+            .Where(p => p.Category == category )
+            .ToList();
+
+        var orderSessionDtos = orderSessions.Select(MapperDto.MapToProductDto).ToList();
+
+        return orderSessions.Count!=0 && orderSessionDtos.Count != 0
+            ? Result<IList<ProductDto>, DaoErrorType>.Success(orderSessionDtos!, "Products list returned.")
+            : Result<IList<ProductDto>, DaoErrorType>.Fail(DaoErrorType.ListIsEmpty, "No order session found.");
+    }
+
     public Result<IList<ProductStatsDto>, DaoErrorType> GetAllProductsStats()
     {
         var products = new List<ProductStatsDto>();

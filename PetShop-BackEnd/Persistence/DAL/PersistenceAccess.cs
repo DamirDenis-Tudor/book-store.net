@@ -1,3 +1,5 @@
+using System.Collections.Specialized;
+using System.ComponentModel.Design;
 using Logger;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -17,9 +19,7 @@ public class PersistenceAccess
         private DatabaseContext()
         {
             _logger.LogInformation("DatabaseContext instantiated.");
-            //Database.Migrate();
 
-            //Database.EnsureDeleted();
             if (Database.EnsureCreated())
             {
                 Console.WriteLine("Successfully created.");
@@ -36,7 +36,17 @@ public class PersistenceAccess
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite($"Data Source={Directory.GetCurrentDirectory()}/PetShop.db");
+            switch (IntegrationMode)
+            {
+                case IntegrationMode.Production:
+                    optionsBuilder.UseSqlite($"Data Source={Directory.GetCurrentDirectory()}/PetShop.db");
+                    break;
+                case IntegrationMode.Testing:
+                    optionsBuilder.UseInMemoryDatabase("TestingDatabase");
+                    break;
+                default:
+                    throw new CheckoutException("IntegrationMode is not set.");
+            }
         }
 
 
@@ -50,10 +60,22 @@ public class PersistenceAccess
             modelBuilder.Entity<Product>().ToTable("Product");
             modelBuilder.Entity<BillDetails>().ToTable("BillDetails");
         }
+
+        internal static IntegrationMode IntegrationMode = IntegrationMode.NotSet;
     }
 
-    public static IUserRepository UserRepository { get; } = new UserRepository(DatabaseContext.Instance);
-    public static IProductRepository ProductRepository { get; } = new ProductRepository(DatabaseContext.Instance);
-    public static IOrderRepository OrderRepository { get; } = new OrderRepository(DatabaseContext.Instance);
-    public static IBillRepository BillRepository { get; } = new BillRepository(DatabaseContext.Instance);
+    public static IUserRepository UserRepository { get; private set; } = null!;
+    public static IProductRepository ProductRepository { get; private set; } = null!;
+    public static IOrderRepository OrderRepository { get; private set; } = null!;
+    public static IBillRepository BillRepository { get; private set; } = null!;
+
+    public static void SetIntegrationMode(IntegrationMode integrationMode)
+    {
+        DatabaseContext.IntegrationMode = integrationMode;
+        
+        UserRepository = new UserRepository(DatabaseContext.Instance);
+        ProductRepository = new ProductRepository(DatabaseContext.Instance);
+        OrderRepository = new OrderRepository(DatabaseContext.Instance);
+        BillRepository = new BillRepository(DatabaseContext.Instance);
+    } 
 }

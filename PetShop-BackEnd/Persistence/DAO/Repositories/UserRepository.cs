@@ -84,11 +84,9 @@ internal class UserRepository(PersistenceAccess.DatabaseContext dbContext) : IUs
                     $"User {username} could not be deleted. Caused by existingUser={existingUser}."
                 );
             }
-
-            using var dbContextTransaction = dbContext.Database.BeginTransaction();
+            
             dbContext.Users.Remove(existingUser);
             dbContext.SaveChanges();
-            dbContextTransaction.Commit();
         }
         catch (DbUpdateException e)
         {

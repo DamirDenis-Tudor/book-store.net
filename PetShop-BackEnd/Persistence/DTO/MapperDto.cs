@@ -70,7 +70,8 @@ internal class MapperDto
             Name = productDto.Name,
             Price = productDto.Price,
             Quantity = productDto.Quantity,
-            OrderProducts = new List<OrderProduct>()
+            OrderProducts = new List<OrderProduct>(),
+            Category = productDto.Category
         };
     }
 
@@ -82,7 +83,8 @@ internal class MapperDto
             Name = product.Name,
             Price = product.Price,
             Quantity = product.Quantity,
-            Photo = product.Photo
+            Photo = product.Photo,
+            Category = product.Category
         };
     }
 
