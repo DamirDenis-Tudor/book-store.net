@@ -4,63 +4,51 @@ using Microsoft.Extensions.Logging;
 using Persistence.DAL;
 using Persistence.DAO.Interfaces;
 using Persistence.DTO;
+using Persistence.DTO.Bill;
 
 namespace Persistence.DAO.Repositories;
 
 internal class BillRepository(PersistenceAccess.DatabaseContext dbContext) : IBillRepository
 {
-    private readonly ILogger _logger = Logging.Instance.GetLogger<BillRepository>();
-    public bool AttachBillToUsername(string username, BillDto billDto)
+    public Result<string, DaoErrorType> UpdateBillToUsername(string username, BillDto billDto)
     {
         try
         {
-            var bill = MapperDto.MapToBill(billDto);
-            dbContext.Bills.Add(bill);
+            var billDetails = dbContext.Bills.Include(b => b.User)
+                .FirstOrDefault(b => b.User != null && b.User.Username == username);
+
+            if (billDetails == null)
+                return Result<string, DaoErrorType>.Fail(DaoErrorType.DatabaseError, "Bill not found.");
+
+            if (!string.IsNullOrEmpty(billDto.Address)) billDetails.Address = billDto.Address;
+            if (!string.IsNullOrEmpty(billDto.Country)) billDetails.Country = billDto.Country;
+            if (!string.IsNullOrEmpty(billDto.PostalCode)) billDetails.PostalCode = billDto.PostalCode;
+            if (!string.IsNullOrEmpty(billDto.Telephone)) billDetails.Telephone = billDto.Telephone;
+            if (!string.IsNullOrEmpty(billDto.City)) billDetails.City = billDto.City;
+
+            dbContext.Entry(billDetails.User!).State = EntityState.Detached;
+            dbContext.Update(billDetails);
             dbContext.SaveChanges();
 
-            var user = dbContext.Users
-                .Include(user => user.BillDetails)
-                .FirstOrDefault(u => u.Username == username);
-            if (user == null)
-            {
-                _logger.LogWarning("User not found: {Username}", username);
-                return false;
-            }
-
-            user.BillDetails = bill;
-            dbContext.SaveChanges();
-            return true;
+            return Result<string, DaoErrorType>.Success("Bill updated successfully.");
         }
         catch (DbUpdateException e)
         {
-            _logger.LogError("Could not add bill to: {Username}", username);
-            return false;
+            return Result<string, DaoErrorType>.Fail(DaoErrorType.DatabaseError,
+                "Database error occurred while updating bill.");
         }
     }
 
-    public bool DeleteBillByUsername(string username)
+    public Result<BillDto, DaoErrorType> GetBillingDetails(string username)
     {
-        try
-        {
-            var bill = dbContext.Users.Include(user => user.BillDetails)
-                .FirstOrDefault(u => u.Username == username)?.BillDetails;
+        var userBillDetails = MapperDto.MapToBillDto(
+            dbContext.Users
+                .Include(user => user.BillDetails)
+                .FirstOrDefault(u => u.Username == username)?.BillDetails);
 
-            if (bill == null)
-            {
-                _logger.LogWarning("Bill not found for: {Username}", username);
-                return false;
-            }
-
-            dbContext.Bills.Remove(bill);
-        
-            dbContext.SaveChanges();
-        
-            return true;
-        }
-        catch (Exception e)
-        {
-            _logger.LogWarning("Error when deleting bill for: {Username}", username);
-            return false;
-        }
+        return userBillDetails == null
+            ? Result<BillDto, DaoErrorType>.Fail(DaoErrorType.NotFound,
+                $"Billing details for user {username} not found")
+            : Result<BillDto, DaoErrorType>.Success(userBillDetails, $"User {username} has billing details.");
     }
 }

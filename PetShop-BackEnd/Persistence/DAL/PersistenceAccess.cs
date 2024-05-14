@@ -1,4 +1,5 @@
-using System.Runtime.CompilerServices;
+using System.Collections.Specialized;
+using System.ComponentModel.Design;
 using Logger;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -6,17 +7,19 @@ using Persistence.DAO.Interfaces;
 using Persistence.DAO.Repositories;
 using Persistence.Entity;
 
-[assembly: InternalsVisibleTo("Business")]
+
 namespace Persistence.DAL;
-internal class PersistenceAccess
+
+public class PersistenceAccess
 {
-   
     internal sealed class DatabaseContext : DbContext
     {
-        private readonly ILogger _logger = Logging.Instance.GetLogger<DatabaseContext>();
+        private readonly ILogger _logger = Logger.Logger.Instance.GetLogger<DatabaseContext>();
+
         private DatabaseContext()
         {
             _logger.LogInformation("DatabaseContext instantiated.");
+
             if (Database.EnsureCreated())
             {
                 Console.WriteLine("Successfully created.");
@@ -26,35 +29,53 @@ internal class PersistenceAccess
         public static DatabaseContext Instance { get; } = new();
 
         public DbSet<User> Users { get; init; }
-        public DbSet<OrderProduct> Orders { get; init; }
+        public DbSet<OrderSession> OrdersSessions { get; init; }
+        public DbSet<OrderProduct> OrdersProducts { get; init; }
         public DbSet<Product> Products { get; init; }
         public DbSet<BillDetails> Bills { get; init; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite($"Data Source={Directory.GetCurrentDirectory()
-                .Replace("Presentation","Persistence")}/Database/PetShop.db");
+            switch (IntegrationMode)
+            {
+                case IntegrationMode.Production:
+                    optionsBuilder.UseSqlite($"Data Source={Directory.GetCurrentDirectory()}/PetShop.db");
+                    break;
+                case IntegrationMode.Testing:
+                    optionsBuilder.UseInMemoryDatabase("TestingDatabase");
+                    break;
+                default:
+                    throw new CheckoutException("IntegrationMode is not set.");
+            }
         }
-            
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<User>().ToTable("Users");
-            modelBuilder.Entity<OrderProduct>().ToTable("Orders");
-            modelBuilder.Entity<Product>().ToTable("Products");
+            modelBuilder.Entity<OrderProduct>().ToTable("OrderProducts");
+            modelBuilder.Entity<OrderSession>().ToTable("OrderSessions");
+            modelBuilder.Entity<Product>().ToTable("Product");
             modelBuilder.Entity<BillDetails>().ToTable("BillDetails");
         }
+
+        internal static IntegrationMode IntegrationMode = IntegrationMode.NotSet;
     }
 
-    private static readonly IUserRepository UserRepo = new UserRepository(DatabaseContext.Instance);
-    private static readonly IProductRepository ProductRepo = new ProductRepository(DatabaseContext.Instance);
-    private static readonly IOrderRepository OrderRepo = new OrderRepository(DatabaseContext.Instance);
-    private static readonly IBillRepository BillRepo = new BillRepository(DatabaseContext.Instance);
-    
-    public IUserRepository UserRepository => UserRepo;
-    public IProductRepository ProductRepository { get; } = ProductRepo;
-    public IOrderRepository OrderRepository { get; } = OrderRepo;
-    public IBillRepository BillRepository { get; } = BillRepo;
+    public static IUserRepository UserRepository { get; private set; } = null!;
+    public static IProductRepository ProductRepository { get; private set; } = null!;
+    public static IOrderRepository OrderRepository { get; private set; } = null!;
+    public static IBillRepository BillRepository { get; private set; } = null!;
+
+    public static void SetIntegrationMode(IntegrationMode integrationMode)
+    {
+        DatabaseContext.IntegrationMode = integrationMode;
+        
+        UserRepository = new UserRepository(DatabaseContext.Instance);
+        ProductRepository = new ProductRepository(DatabaseContext.Instance);
+        OrderRepository = new OrderRepository(DatabaseContext.Instance);
+        BillRepository = new BillRepository(DatabaseContext.Instance);
+    } 
 }

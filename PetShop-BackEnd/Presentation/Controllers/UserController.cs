@@ -1,6 +1,7 @@
 using Business;
 using Microsoft.AspNetCore.Mvc;
 using Persistence.DTO;
+using Persistence.DTO.User;
 
 namespace PetShop_BackEnd.Controllers;
 
