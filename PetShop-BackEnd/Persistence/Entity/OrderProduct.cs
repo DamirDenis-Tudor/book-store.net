@@ -11,19 +11,23 @@ internal class OrderProduct
     
     [Column]
     public int ProductId;
-
-    [ForeignKey("ProductId")] 
-    [Required]
-    public required Product Product { get; init; }
+    
+    [ForeignKey(nameof(ProductId))] 
+    public Product? Product { get; set; }
     
     [Column]
     public int? OrderSessionId { get; init; }
 
-    [ForeignKey("OrderSessionId")] 
-    [Required] 
-    public required OrderSession OrderSession { get; init; }
+    [ForeignKey(nameof(OrderSessionId))] 
+    public OrderSession? OrderSession { get; init; }
     
-    [Required] 
     [Column]
-    public int Quantity { get; init; }
+    [Required] 
+    public required int Quantity { get; init; }
+    
+    [Column(TypeName = "VARCHAR")]
+    [StringLength(20)]
+    [Required]
+    public required string OrderProductName { get; init; }
+    
 }

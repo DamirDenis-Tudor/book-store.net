@@ -1,13 +1,12 @@
-using Persistence.Entity;
+using Persistence.DTO.Bill;
 
-namespace Persistence.DTO;
+namespace Persistence.DTO.User;
 
-public record UserInfoDto
+public record BillUserDto
 {
     public required string FirstName { get; init; }
     public required string LastName { get; init; }
     public required string Username { get; init; }
-    public required string Password { get; init; }
     public required string Email { get; init; }
-    public required string UserType { get; init; }
+    public required BillDto? BillDto { get; set; }
 }

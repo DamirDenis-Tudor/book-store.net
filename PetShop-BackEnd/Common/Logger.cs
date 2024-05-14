@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Logger;
 
-public class Logging
+public class Logger
 {
     private static readonly ILoggerFactory LoggerInstance = LoggerFactory.Create(
         builder => builder
@@ -15,9 +15,9 @@ public class Logging
 
     private readonly Dictionary<Type, ILogger> _loggers = new();
 
-    private Logging() { }
+    private Logger() { }
 
-    public static Logging Instance => new();
+    public static Logger Instance => new();
 
     public ILogger GetLogger<T>()
     {
