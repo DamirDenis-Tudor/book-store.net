@@ -1,0 +1,36 @@
+﻿@using Persistence.DTO.Product
+
+<div class="product-bg">
+	@if(Product != null)
+	{
+		@if (Product.Photo != null)
+		{
+			<img class="product-image" src="/Images/search_icon.png" alt="@getImg()" />
+		}
+		else
+		{
+			<div class="product-image"></div>
+		}
+
+		<div class="product-details">
+			<p class="product-name">@Product.Name</p>
+		<p class="product-description">TODO: DESCRIPTION</p> 
+		</div>
+		<div class="product-buy">
+			<p class="product-price">@Product.Price Lei</p>
+			<button class="product-add-cart">Add to cart</button>
+		</div>
+	}
+</div>
+
+@code {
+	[Parameter]
+	public ProductDto Product{ get; set; }
+
+	public string getImg()
+	{
+		string imreBase64Data = Convert.ToBase64String(Product.Photo);
+		string imgDataURL = string.Format("data:image/png;base64,{0}", imreBase64Data);
+		return imgDataURL;
+	}
+}
