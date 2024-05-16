@@ -7,11 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Pages\Login.razor.css" />
     <None Remove="Pages\search_icon.png" />
     <None Remove="Shared\ProductView.razor.css" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Entities\UserLogin.cs" />
+    <Content Include="Pages\Login.razor.css" />
     <Content Include="Pages\search_icon.png">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>

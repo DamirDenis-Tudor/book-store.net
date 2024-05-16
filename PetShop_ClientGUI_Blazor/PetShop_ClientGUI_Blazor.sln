@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetShop_ClientGUI_Blazor", "PetShop_ClientGUI_Blazor\PetShop_ClientGUI_Blazor.csproj", "{F95FEC7A-DC66-4EA0-98A1-AE9413B99F6E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetShop_ClientGUI_Blazor", "PetShop_ClientGUI_Blazor\PetShop_ClientGUI_Blazor.csproj", "{F95FEC7A-DC66-4EA0-98A1-AE9413B99F6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Petshop.Models", "Petshop.Models\Petshop.Models.csproj", "{47FA99FD-D44B-4A01-84B3-C0E0FCCA2A57}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Petshop.Models", "Petshop.Models\Petshop.Models.csproj", "{47FA99FD-D44B-4A01-84B3-C0E0FCCA2A57}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
