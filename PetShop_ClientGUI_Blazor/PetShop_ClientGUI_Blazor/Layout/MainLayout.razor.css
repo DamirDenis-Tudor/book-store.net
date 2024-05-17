@@ -1,0 +1,11 @@
+.page {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: #EDF2FA;
+    height: 100%;
+}
+
+main {
+    flex: 1;
+}

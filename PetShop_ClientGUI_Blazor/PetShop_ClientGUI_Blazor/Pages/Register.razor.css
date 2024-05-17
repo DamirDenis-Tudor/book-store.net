@@ -1,0 +1,115 @@
+﻿.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 0;
+}
+
+.logo {
+    color: #1F0519;
+    font-family: Inter;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+}
+
+.register-area {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+    width: 465px;
+    height: 530px;
+    border-radius: 30px;
+    background: #FAF6FE;
+    margin: 35px 0 120px 0;
+}
+
+    .register-area h2 {
+        color: #1F0519;
+        font-family: Inter;
+        font-size: 30px;
+        font-weight: 500;
+        margin-bottom: 100px;
+    }
+
+    .register-area span {
+        color: #4F464C;
+        text-align: center;
+        font-family: Inter;
+        font-size: 20px;
+        font-weight: 600;
+    }
+
+    .register-area a {
+        color: #7018C9;
+        font-family: Inter;
+        font-size: 20px;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+::deep .register-area form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.register-form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.register-btn {
+    width: 348px;
+    height: 45px;
+    border-radius: 20px;
+    background: #7018C9;
+    color: #FAF6FE;
+    font-family: Inter;
+    font-size: 20px;
+    font-weight: 700;
+    border: none;
+}
+
+::deep .register-input {
+    width: 419px;
+    height: 45px;
+    padding-left: 40px;
+    border-radius: 10px;
+    border: 3px solid #BAB3F2;
+    color: #4F464C;
+    font-family: Inter;
+    font-size: 15px;
+    font-weight: 600;
+    outline-color: #7018C9;
+}
+
+::deep .small{
+    display: flex;
+    gap: 20px;
+}
+
+::deep .small input {
+    width: 200px;
+}
+
+/*    ::deep .register-input.parola {
+        background-image: url('Images/password_icon.png');
+        background-size: 20px 20px;
+        background-repeat: no-repeat;
+    }*/
+
+.register-action-area {
+    margin-top: 40px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
