@@ -1,4 +1,18 @@
-using Logger;
+/**************************************************************************
+ *                                                                        *
+ *  Description: DTO's - ENTITIES MAPPER                                  *
+ *  Website:     https://github.com/DamirDenis-Tudor/PetShop-ProiectIP    *
+ *  Copyright:   (c) 2024, Damir Denis-Tudor                              *
+ *                                                                        *
+ *  This code and information is provided "as is" without warranty of     *
+ *  any kind, either expressed or implied, including but not limited      *
+ *  to the implied warranties of merchantability or fitness for a         *
+ *  particular purpose. You are free to use this source code in your      *
+ *  applications as long as the original copyright notice is included.    *
+ *                                                                        *
+ **************************************************************************/
+
+
 using Persistence.DTO.Bill;
 using Persistence.DTO.Order;
 using Persistence.DTO.Product;
@@ -7,8 +21,16 @@ using Persistence.Entity;
 
 namespace Persistence.DTO;
 
+/// <summary>
+/// Class for mapping between DTOs and Entities.
+/// </summary>
 internal class MapperDto
 {
+    /// <summary>
+    /// Maps a UserInfoDto to a User entity.
+    /// </summary>
+    /// <param name="userInfoDto">The UserInfoDto to map from.</param>
+    /// <returns>A User entity.</returns>
     internal static Entity.User MapToUser(UserInfoDto userInfoDto) =>
         new()
         {
@@ -21,6 +43,11 @@ internal class MapperDto
             BillDetails = new BillDetails { }
         };
 
+    /// <summary>
+    /// Maps a User entity to a UserInfoDto.
+    /// </summary>
+    /// <param name="user">The User entity to map from.</param>
+    /// <returns>A UserInfoDto or null if the user is null.</returns>
     internal static UserInfoDto? MapToUserDto(Entity.User? user)
     {
         return user != null
@@ -36,6 +63,11 @@ internal class MapperDto
             : null;
     }
 
+    /// <summary>
+    /// Maps a User entity to a BillUserDto.
+    /// </summary>
+    /// <param name="user">The User entity to map from.</param>
+    /// <returns>A BillUserDto or null if the user is null.</returns>
     internal static BillUserDto? MapToBillUserDto(Entity.User? user)
     {
         if (user == null) return null;
@@ -50,6 +82,11 @@ internal class MapperDto
         };
     }
 
+    /// <summary>
+    /// Maps a BillDetails entity to a BillDto.
+    /// </summary>
+    /// <param name="bill">The BillDetails entity to map from.</param>
+    /// <returns>A BillDto or null if the bill is null.</returns>
     internal static BillDto? MapToBillDto(BillDetails? bill)
     {
         if (bill == null) return null;
@@ -63,6 +100,11 @@ internal class MapperDto
         };
     }
 
+    /// <summary>
+    /// Maps a ProductDto to a Product entity.
+    /// </summary>
+    /// <param name="productDto">The ProductDto to map from.</param>
+    /// <returns>A Product entity.</returns>
     internal static Entity.Product MapToProduct(ProductDto productDto)
     {
         return new Entity.Product
@@ -75,6 +117,11 @@ internal class MapperDto
         };
     }
 
+    /// <summary>
+    /// Maps a Product entity to a ProductDto.
+    /// </summary>
+    /// <param name="product">The Product entity to map from.</param>
+    /// <returns>A ProductDto or null if the product is null.</returns>
     internal static ProductDto? MapToProductDto(Entity.Product? product)
     {
         if (product == null) return null;
@@ -88,6 +135,11 @@ internal class MapperDto
         };
     }
 
+    /// <summary>
+    /// Maps an OrderProduct entity to an OrderProductDto.
+    /// </summary>
+    /// <param name="orderProduct">The OrderProduct entity to map from.</param>
+    /// <returns>An OrderProductDto or null if the orderProduct is null.</returns>
     private static OrderProductDto? MapToOrderProductDto(Entity.OrderProduct? orderProduct)
     {
         if (orderProduct == null) return null;
@@ -101,6 +153,11 @@ internal class MapperDto
         };
     }
 
+    /// <summary>
+    /// Maps an OrderSession entity to an OrderSessionDto.
+    /// </summary>
+    /// <param name="orderSession">The OrderSession entity to map from.</param>
+    /// <returns>An OrderSessionDto or null if the orderSession is null.</returns>
     internal static OrderSessionDto? MapToOrderSessionDto(Entity.OrderSession? orderSession)
     {
         if (orderSession == null) return null;
@@ -121,6 +178,11 @@ internal class MapperDto
         };
     }
 
+    /// <summary>
+    /// Maps an OrderProductDto to an OrderProduct entity.
+    /// </summary>
+    /// <param name="orderProductDto">The OrderProductDto to map from.</param>
+    /// <returns>An OrderProduct entity.</returns>
     internal static OrderProduct MapToOrderProduct(OrderProductDto orderProductDto)
     {
         return new OrderProduct
@@ -130,6 +192,11 @@ internal class MapperDto
         };
     }
 
+    /// <summary>
+    /// Maps an OrderSessionDto to an OrderSession entity.
+    /// </summary>
+    /// <param name="orderSessionDto">The OrderSessionDto to map from.</param>
+    /// <returns>An OrderSession entity.</returns>
     internal static OrderSession MapToOrderSession(OrderSessionDto orderSessionDto)
     {
         return new OrderSession
