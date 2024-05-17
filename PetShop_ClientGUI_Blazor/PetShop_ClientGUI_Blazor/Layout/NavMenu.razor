@@ -13,7 +13,7 @@
         @if(loggedIn)
         {
            <a href="/account" class="account"><img src="Images/account_icon.png" alt="Account" />Contul meu</a>
-           <button class="logout-btn"> <img src="Images/logout_icon.png" alt="Logout" /></button>
+           <button class="logout-btn" onclick="@logout"> <img src="Images/logout_icon.png" alt="Logout" /></button>
            <button class="cart-btn"> <img src="Images/cart_icon.png" alt="View Cart" /></button>
         }
         else{
@@ -26,6 +26,10 @@
 
 @code{
     bool loggedIn = true;
+
+    public void logout(){
+        loggedIn = false;
+    }
 }
 
 @* <div class="top-row ps-3 navbar navbar-dark">
