@@ -1,45 +1,67 @@
 ﻿@page "/register"
+@using System.ComponentModel.DataAnnotations
 
 <div class="content">
 	<h1 class="logo">PetShop</h1>
 	<div class="register-area">
 		<h2>Salut!</h2>
-		<EditForm Model="user" OnSubmit="register">
+		<EditForm Model="@user" OnSubmit="register">
+			<DataAnnotationsValidator/>
+			<ValidationSummary />
 			<div class="register-form">
 				<div class="small">
-					<InputText class="register-input" @bind-Value="user.FirstName" placeholder="Nume..."></InputText>
-					<InputText class="register-input" @bind-Value="user.LastName" placeholder="Prenume..."></InputText>
+					<div class="input">
+						<lable for="register-username">Nume: </lable>
+						<InputText class="register-input" @bind-Value="user.FirstName" placeholder="Popescu..."></InputText>
+					</div>
+					<div class="input">
+						<lable for="register-username">Prenume: </lable>
+						<InputText class="register-input" @bind-Value="user.LastName" placeholder="Vlad..."></InputText>
+					</div>
 				</div>
-				<InputText class="register-input" @bind-Value="user.Username" placeholder="Username..."></InputText>
-				<InputText class="register-input" @bind-Value="user.Email" placeholder="Adresa de email..."></InputText>
-				<InputText class="register-input" @bind-Value="user.Password" placeholder="Parola..."></InputText>
+				<div class="input">
+					<lable for="register-username">Username: </lable>
+					<InputText id="register-username" class="register-input" @bind-Value="user.Username" placeholder="popescvld98..."></InputText>
+				</div>
+				<div class="input">
+					<lable for="register-username">Adresa de email: </lable>
+					<InputText class="register-input" @bind-Value="user.Email" type="email" placeholder="popescu.vlad@gmail.com..."></InputText>
+				</div>
+				<div class="input">
+					<lable for="register-username">Parola: </lable>
+					<InputText class="register-input" @bind-Value="user.Password" type="password" placeholder="Parola..."></InputText>
+				</div>
 			</div>
 			<div class="register-action-area">
-				<button type="submit" class="register-btn">Register</button>
-				<span>Nu ai cont? Te poti autentifica <a href="/register">aici</a>!</span>
+				<button type="submit" class="register-btn">Inregistreaza-te</button>
+				<span>Ai deja cont? Coneteaza-te <a href="/login">aici</a>!</span>
 			</div>
-		</EditForm>
+		</EditForm> 
 		
 	</div>
-	<h1 class="logo" style="opacity: 0;">PetShop</h1>
+	@* <h1 class="logo" style="opacity: 0;">PetShop</h1> *@
 </div>
 
 
 @code {
 	public class UserInfoDto
 	{
+		[Required]
 		public string FirstName { get; set; }
+		[Required]
 		public string LastName { get; set; }
+		[Required]
 		public string Username { get; set; }
+		[Required]
 		public string Password { get; set; }
+		[Required]
 		public string Email { get; set; }
-		public string UserType { get; set; }
 	}
 
-	UserInfoDto user { get; set; } = new UserInfoDto();
+	UserInfoDto user = new UserInfoDto();
 
 	void register()
 	{
-		
+		Console.Write("Register");
 	}
 }

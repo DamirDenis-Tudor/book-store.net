@@ -1,0 +1,44 @@
+﻿@page "/viewcart"
+@using Persistence.DTO.Product
+
+<PageTitle>View Cart</PageTitle>
+
+<NavMenu />
+
+<div class="content">
+	<main>
+		<div class="title">
+			<h2>Cosul meu</h2>
+		</div>
+		@foreach (var prod in Products)
+		{
+			<ProductView Product="@prod"/>
+		}
+
+	</main>
+	<aside>
+		<div>
+			<h2>Sumar comanda</h2>
+			<p>Cost produse: 123.34 Lei</p>
+			<p>Cost transport: 11.99 Lei</p>
+		</div>
+		<div>
+			<h2>
+				Total:<br />2332.99 Lei
+			</h2>
+
+			<a href="/checkout"><button>Continua</button></a>
+		</div>
+	</aside>
+</div>
+
+@code{
+	private List<ProductDto> Products = new List<ProductDto>
+	{
+	  new ProductDto{ Category="Haine", Name="Tricou", Price=242, Quantity=25, Photo=null},
+	  new ProductDto{ Category="Droguri", Name="Key", Price=546.67m, Quantity=25, Photo=null},
+	  new ProductDto{ Category="Injectabile", Name="Cherosen", Price=23, Quantity=6543, Photo= null},
+	  new ProductDto{ Category="Sclavi", Name="Tricolori", Price=1.3m, Quantity=2, Photo=null},
+	  new ProductDto{ Category="Haine", Name="Sosete", Price=54.1m, Quantity=2322, Photo=null},
+	};
+}
