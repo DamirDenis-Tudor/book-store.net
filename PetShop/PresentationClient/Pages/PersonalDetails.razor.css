@@ -1,0 +1,122 @@
+﻿.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 0;
+}
+
+.logo {
+    color: #1F0519;
+    font-family: Inter;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+}
+
+.register-area {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    /*width: 100%;*/
+    /*height: 100%;*/
+    border-radius: 30px;
+    background: #FAF6FE;
+    padding: 25px 35px 0 35px;
+    margin: 35px 0 100px 0;
+}
+
+    .register-area h2 {
+        color: #1F0519;
+        font-family: Inter;
+        font-size: 30px;
+        font-weight: 500;
+        margin: 0 0 5px 0;
+    }
+
+    .register-area p {
+        color: #1F0519;
+        font-family: Inter;
+        font-size: 25px;
+        font-weight: 700;
+        margin: 0;
+    }
+
+::deep .register-area form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+
+    padding-left: 15px;
+}
+
+.register-form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.register-btn {
+    width: 348px;
+    height: 50px;
+    border-radius: 20px;
+    background: #7018C9;
+    color: #FAF6FE;
+    font-family: Inter;
+    font-size: 20px;
+    font-weight: 700;
+    border: none;
+}
+
+::deep .register-input {
+    width: 600px;
+    height: 45px;
+    padding-left: 40px;
+    border-radius: 10px;
+    border: 3px solid #BAB3F2;
+    color: #4F464C;
+    font-family: Inter;
+    font-size: 15px;
+    font-weight: 600;
+     
+}
+    ::deep .register-input:valid {
+        outline-color: #249689;
+    }
+    ::deep .register-input:invalid {
+        outline-color: #FF5963;
+    }
+
+::deep .small{
+    display: flex;
+    gap: 20px;
+}
+
+::deep .small input {
+    width: 200px;
+}
+
+.register-action-area {
+    margin-top: 50px;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.input {
+    display: flex;
+    flex-direction: column;
+
+    color: #1F0519;
+    font-family: Inter;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+    .input lable {
+        margin-bottom: 3px;
+    }
