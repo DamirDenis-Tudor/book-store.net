@@ -1,16 +1,17 @@
 ﻿.product-bg {
 	display: flex;
-	width: 1440px;
-	height: 150px;
+	align-items: center;
+	width: 1300px;
+	height: 140px;
 	border-radius: 20px;
 	background-color: #FAF6FE;
-	padding: 16px 26px 16px 32px;
+	padding: 16px 20px 16px 20px;
 	margin-bottom: 20px;
 }
 
 .product-image {
-	width: 146px;
-	height: 117px;
+	width: 115px;
+	height: 92px;
 	border-radius: 20px;
 	background: #BAB3F2;
 }
@@ -18,13 +19,13 @@
 .product-details {
 	display: flex;
 	flex-direction: column;
-	margin-left: 35px;
+	margin-left: 30px;
 }
 
 .product-name {
 	color: #1F0519;
 	font-family: Inter;
-	font-size: 25px;
+	font-size: 22px;
 	font-weight: 600;
 	margin: 0px;
 }
@@ -32,7 +33,7 @@
 .product-description {
 	color: #4F464C;
 	font-family: Inter;
-	font-size: 18px;
+	font-size: 17px;
 	font-weight: 400;
 	width: 900px;
 	margin: 0px;
@@ -42,28 +43,23 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	margin-left: 55px;
+	margin-left: 70px;
 }
 
 .product-price {
 	color: #7018C9;
 	font-family: Inter;
-	font-size: 25px;
+	font-size: 24px;
 	font-weight: 600;
-	margin: 0 0 8px 0;
+	margin: 0 0 0 0;
 }
 
-.product-add-cart {
-	width: 252px;
-	height: 47px;
-	border-radius: 30px;
-	background-color: #2BDE91;
-	color: #FAF6FE;
-	font-family: Inter;
-	font-size: 20px;
-	font-weight: 600;
-	border: none;
+.quintity-section{
+	display: flex;
+	align-items: center;
+	gap: 10px;
 }
+
 
 .product-quantity-modify {
 	width: 30px;
@@ -74,11 +70,14 @@
 	font-family: Inter;
 	font-size: 20px;
 	font-weight: 600;
+	border: none;
+	padding: 0;
 }
 
 .product-quantity {
 	color: #1F0519;
 	font-family: Inter;
-	font-size: 20px;
+	font-size: 22px;
 	font-weight: 600;
+	margin: 0;
 }

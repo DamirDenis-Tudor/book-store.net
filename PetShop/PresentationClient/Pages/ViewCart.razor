@@ -12,7 +12,7 @@
 		</div>
 		@foreach (var prod in Products)
 		{
-			<ProductView Product="@prod"/>
+			<ProductCart Product="@prod"/>
 		}
 
 	</main>
@@ -35,10 +35,12 @@
 @code{
 	private List<ProductDto> Products = new List<ProductDto>
 	{
-	  new ProductDto{ Category="Haine", Name="Tricou", Price=242, Quantity=25, Photo=null},
+	  new ProductDto{ Category="Haine", Name="NATURES PROTECTION DOG ADULT LAMB, 4 KG", Price=242, Quantity=25, Photo=null},
 	  new ProductDto{ Category="Droguri", Name="Key", Price=546.67m, Quantity=25, Photo=null},
 	  new ProductDto{ Category="Injectabile", Name="Cherosen", Price=23, Quantity=6543, Photo= null},
 	  new ProductDto{ Category="Sclavi", Name="Tricolori", Price=1.3m, Quantity=2, Photo=null},
 	  new ProductDto{ Category="Haine", Name="Sosete", Price=54.1m, Quantity=2322, Photo=null},
 	};
+
+
 }
