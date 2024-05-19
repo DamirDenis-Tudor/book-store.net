@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <None Remove="Pages\AccountDashboard.razor.css" />
       <None Remove="Pages\PersonalDetails.razor.css" />
       <None Remove="Pages\ViewCart.razor.css" />
       <None Remove="Shared\ProductCart.razor.css" />
@@ -27,6 +28,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Content Include="Pages\AccountDashboard.razor.css" />
       <Content Include="Pages\PersonalDetails.razor.css" />
       <Content Include="Pages\ViewCart.razor.css" />
       <Content Include="Shared\ProductCart.razor.css" />
