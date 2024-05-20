@@ -1,12 +1,13 @@
 ﻿.main {
     display: flex;
+
     width: 100%;
     height: 100%;
     padding-top: 37px;
 }
 
 .categories {
-    width: 369px;
+    width: 340px;
     height: 530px;
     margin-top: 36px;
     padding: 25px 0 0 37px;
@@ -33,7 +34,9 @@
 }
 
 .products-view{
-    margin-left: 36px;
+    margin-left: 40px;
+    width: 100%;
+    padding-right: 50px;
 }
 
 .filter {
@@ -42,7 +45,7 @@
 
     padding-left: 33px;
     height: 60px;
-    width: 1440px;
+    width: 100%;
     border-radius: 30px;
     background-color: #FAF6FE;
 }
