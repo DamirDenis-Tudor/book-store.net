@@ -1,0 +1,137 @@
+﻿.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 0;
+}
+
+.logo {
+    color: #1F0519;
+    font-family: Inter;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+}
+
+.pay-area {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+    width: 465px;
+    /*height: 100%;*/
+    border-radius: 30px;
+    background: #FAF6FE;
+    margin: 35px 0 100px 0;
+    padding-top: 15px;
+}
+
+    .pay-area h2 {
+        color: #1F0519;
+        font-family: Inter;
+        font-size: 25px;
+        font-weight: 500;
+        margin: 5px 0 30px 0;
+    }
+
+    .pay-area span {
+        color: #4F464C;
+        text-align: center;
+        font-family: Inter;
+        font-size: 20px;
+        font-weight: 600;
+    }
+
+    .pay-area a {
+        color: #7018C9;
+        font-family: Inter;
+        font-size: 20px;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+::deep .pay-area form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 15px;
+}
+
+.pay-form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.pay-btn {
+    width: 348px;
+    height: 45px;
+    border-radius: 20px;
+    background: #7018C9;
+    color: #FAF6FE;
+    font-family: Inter;
+    font-size: 20px;
+    font-weight: 700;
+    border: none;
+}
+
+::deep .pay-input {
+    width: 419px;
+    height: 45px;
+    padding-left: 15px;
+    border-radius: 10px;
+    border: 3px solid #BAB3F2;
+    color: #4F464C;
+    font-family: Inter;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+    ::deep .pay-input:valid {
+        outline-color: #249689;
+    }
+
+    ::deep .pay-input:invalid {
+        outline-color: #FF5963;
+    }
+
+::deep .small {
+    display: flex;
+    gap: 20px;
+}
+
+    ::deep .small input {
+        width: 200px;
+    }
+
+/*    ::deep .pay-input.parola {
+        background-image: url('Images/password_icon.png');
+        background-size: 20px 20px;
+        background-repeat: no-repeat;
+    }*/
+
+.pay-action-area {
+    margin-top: 30px;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.input {
+    display: flex;
+    flex-direction: column;
+    color: #1F0519;
+    font-family: Inter;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+    .input lable {
+        margin-bottom: 3px;
+    }
