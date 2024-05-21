@@ -1,0 +1,61 @@
+﻿@page "/pay"
+@using System.ComponentModel.DataAnnotations
+
+<div class="content">
+	<h1 class="logo">PetShop</h1>
+	<div class="pay-area">
+		<h2>Detalii de plata:</h2>
+		<EditForm Model="@card" OnSubmit="pay">
+			<DataAnnotationsValidator />
+			<ValidationSummary />
+			<div class="pay-form">
+				
+				<div class="input">
+					<lable for="pay-username">Numar card: </lable>
+					<InputText id="pay-username" class="pay-input" @bind-Value="card.CardNumber" placeholder="6456..."></InputText>
+				</div>
+				<div class="input">
+					<lable for="pay-username">Nume posesor card: </lable>
+					<InputText class="pay-input" @bind-Value="card.Name" placeholder="Popescu Vlad"></InputText>
+				</div>
+				<div class="small">
+					<div class="input">
+						<lable for="pay-username">Data expirare: </lable>
+						<InputDate class="pay-input" @bind-Value="card.ExpirationDate"></InputDate>
+					</div>
+					<div class="input">
+						<lable for="pay-username">Cvv: </lable>
+						<InputNumber class="pay-input" @bind-Value="card.Cvv" placeholder="100"></InputNumber>
+					</div>
+				</div>
+			</div>
+			<div class="pay-action-area">
+				<a href="/account"><button type="submit" class="pay-btn">Plateste acum!</button></a>
+			</div>
+		</EditForm>
+
+	</div>
+	@* <h1 class="logo" style="opacity: 0;">PetShop</h1> *@
+</div>
+
+
+@code {
+	public class Card
+	{
+		[Required, StringLength(16, ErrorMessage = "Numarul cardului trebuie sa aiba o lungime de 16 cifre")]
+		public string CardNumber { get; set; }
+		[Required]
+		public string Name { get; set; }
+		[Required]
+		public DateTime ExpirationDate { get; set; } = DateTime.Now;
+		[Required, Range(100, 999)]
+		public int Cvv { get; set; }
+	}
+
+	Card card = new Card();
+
+	void pay()
+	{
+		Console.Write("Pay");
+	}
+}
