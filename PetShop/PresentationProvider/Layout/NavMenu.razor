@@ -13,8 +13,8 @@
         @if(loggedIn)
         {
            <a href="/account" class="account"><img src="Images/account_icon.png" alt="Account" />Contul meu</a>
-           <button class="logout-btn" onclick="@logout"> <img src="Images/logout_icon.png" alt="Logout" /></button>
-            <a href="/add"><button class="cart-btn"> <img src="Images/plus_icon.png" alt="Add Product" /> </button></a>
+            <a href="/"><button class="logout-btn" onclick="@logout"> <img src="Images/logout_icon.png" alt="Logout" /></button></a>
+           <a href="/add"><button class="add-product-btn"> <img src="Images/plus_icon.png" alt="Add Product" /> </button></a>
         }
         else{
             <a href="/login" class="button button-login">Login</a>
