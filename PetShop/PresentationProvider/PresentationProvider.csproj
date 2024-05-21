@@ -7,8 +7,20 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.4"/>
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.4" PrivateAssets="all"/>
+      <None Remove="Pages\AddProduct.razor.css" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="Pages\AddProduct.razor.css" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="wwwroot\Images\plus_icon.png" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.4" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.4" PrivateAssets="all" />
     </ItemGroup>
 
     <ItemGroup>
