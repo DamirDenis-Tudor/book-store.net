@@ -6,7 +6,7 @@
 	<div class="register-area">
 		<h2>Detalii produs:</h2>
 		<EditForm Model="@product" OnSubmit="placeOrder">
-			<DataAnnotationsValidator />
+			<ObjectGraphDataAnnotationsValidator/>
 			<ValidationSummary />
 			<div class="register-form">
 				<div class="input">
@@ -29,7 +29,7 @@
 				</div>
 				<div class="input">
 					<lable for="register-username">Poza produs:</lable>
-					<InputFile class="register-input" @bind-Value="product.Photo"></InputFile>
+					<InputFile class="custom-file-input" @bind-Value="product.Photo"></InputFile>
 				</div>
 
 			</div>
@@ -45,17 +45,21 @@
 @code {
 	public record ProductDto
 	{
-		[Required]
+		[Required(ErrorMessage = "Completeaza campul \"Nume produs\"")]
+		[ValidateComplexType]
 		public string Name { get; set; }
-		[Required]
+		[Required(ErrorMessage = "Completeaza campul \"Pret\"")]
+		[ValidateComplexType]
 		public decimal Price { get; set; }
-		[Required]
+		[Required(ErrorMessage = "Completeaza campul \"Cantitate\"")]
+		[ValidateComplexType]
 		public int Quantity { get; set; }
-		[Required]
+		[Required(ErrorMessage = "Completeaza campul \"Categorie produs\"")]
+		[ValidateComplexType]
 		public string Category { get; set; }
-		public byte[]? Photo { get; set; }
+		public Stream? Photo { get; set; }
 	}
-
+	
 	ProductDto product = new ProductDto();
 
 	void placeOrder()
