@@ -7,7 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-<<<<<<< Updated upstream
       <None Remove="Pages\AddProduct.razor.css" />
     </ItemGroup>
 
@@ -17,16 +16,15 @@
 
     <ItemGroup>
       <None Include="wwwroot\Images\plus_icon.png" />
-=======
       <None Remove="Shared\ProductCart.razor.css" />
     </ItemGroup>
 
     <ItemGroup>
       <Content Include="Shared\ProductCart.razor.css" />
->>>>>>> Stashed changes
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Components.DataAnnotations.Validation" Version="3.2.0-rc1.20223.4" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.4" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.4" PrivateAssets="all" />
     </ItemGroup>
@@ -34,5 +32,12 @@
     <ItemGroup>
       <ProjectReference Include="..\Business\Business.csproj" />
     </ItemGroup>
+
+	<ItemGroup>
+		<_ContentIncludedByDefault Remove="wwwroot\css\app.css" />
+		<_ContentIncludedByDefault Remove="wwwroot\index.html" />
+		<_ContentIncludedByDefault Remove="Pages\Home.razor" />
+		<_ContentIncludedByDefault Remove="Layout\MainLayout.razor" />
+	</ItemGroup>
 
 </Project>
