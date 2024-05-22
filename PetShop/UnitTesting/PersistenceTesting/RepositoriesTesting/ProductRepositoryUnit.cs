@@ -13,9 +13,9 @@ public class ProductRepositoryUnit
         PersistenceAccess.SetIntegrationMode(IntegrationMode.Testing);
         _productDtos.AddRange(new[]
         {
-            new ProductDto { Name = "Lecture1", Price = 10.0m, Quantity = 100, Category = "Books"},
-            new ProductDto { Name = "Lecture2", Price = 15.0m, Quantity = 100, Category = "Books"},
-            new ProductDto { Name = "Laptop1", Price = 20.0m, Quantity = 100, Category = "Laptops"}
+            new ProductDto { Name = "Lecture1",Description = "", Price = 10.0m, Quantity = 100, Category = "Books"},
+            new ProductDto { Name = "Lecture2",Description = "", Price = 15.0m, Quantity = 100, Category = "Books"},
+            new ProductDto { Name = "Laptop1",Description = "", Price = 20.0m, Quantity = 100, Category = "Laptops"}
         });
 
         _productDtos.ToList().ForEach(p =>

@@ -24,9 +24,9 @@ public class OverallPersistenceUnitTest
 
     private readonly List<ProductDto> _products =
     [
-        new ProductDto { Name = "Lecture1", Price = 10.0m, Quantity = 100, Category = "Books" },
-        new ProductDto { Name = "Lecture2", Price = 15.0m, Quantity = 100, Category = "Books" },
-        new ProductDto { Name = "Laptop1", Price = 20.0m, Quantity = 100, Category = "Laptops" }
+        new ProductDto { Name = "Lecture1",Description = "", Price = 10.0m, Quantity = 100, Category = "Books" },
+        new ProductDto { Name = "Lecture2",Description = "", Price = 15.0m, Quantity = 100, Category = "Books" },
+        new ProductDto { Name = "Laptop1",Description = "", Price = 20.0m, Quantity = 100, Category = "Laptops" }
     ];
 
     [SetUp]
@@ -44,7 +44,7 @@ public class OverallPersistenceUnitTest
 
         List<OrderProductDto> orderProductDtos = [];
         _products.ForEach(p => orderProductDtos.Add(new OrderProductDto
-            { ProductName = p.Name, SessionCode = _sessionCode, Quantity = new Random().Next(100) })
+            { ProductName = p.Name,Description = "", SessionCode = _sessionCode, OrderQuantity = new Random().Next(100) })
         );
 
         var orderSessionDto = new OrderSessionDto
