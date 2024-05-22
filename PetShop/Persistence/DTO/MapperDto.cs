@@ -110,6 +110,7 @@ internal class MapperDto
         return new Entity.Product
         {
             Name = productDto.Name,
+            Description = productDto.Description,
             Price = productDto.Price,
             Quantity = productDto.Quantity,
             OrderProducts = new List<OrderProduct>(),
@@ -128,6 +129,7 @@ internal class MapperDto
         return new ProductDto
         {
             Name = product.Name,
+            Description = product.Description,
             Price = product.Price,
             Quantity = product.Quantity,
             Photo = product.Photo,
@@ -147,9 +149,10 @@ internal class MapperDto
         return new OrderProductDto
         {
             ProductName = orderProduct.Product!.Name,
+            Description = orderProduct.Product!.Description,
             Price = orderProduct.Product.Price * orderProduct.Quantity,
             SessionCode = orderProduct.OrderSession!.SessionCode,
-            Quantity = orderProduct.Quantity
+            OrderQuantity = orderProduct.Quantity
         };
     }
 
@@ -188,7 +191,7 @@ internal class MapperDto
         return new OrderProduct
         {
             OrderProductName = orderProductDto.ProductName,
-            Quantity = orderProductDto.Quantity,
+            Quantity = orderProductDto.OrderQuantity,
         };
     }
 
