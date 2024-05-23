@@ -1,4 +1,5 @@
 ﻿@page "/home"
+
 @using Persistence.DAL
 @using Persistence.DTO.Product
 
@@ -18,6 +19,7 @@
             }
         </ul>
     </div>
+
     <div class="products-view">
         <div class="filter">
             <label class="order-by" for="order-by-select"> Order by:</label>
@@ -29,6 +31,7 @@
             <input class="price-range" type="number" name="low-price-range" value=""/>
             <label class="price-range" for="low-price-range"> - </label>
             <input class="price-range" type="number" name="height-price-range" value=""/>
+
         </div>
         <div class="products">
             @foreach (var product in Products)
@@ -40,9 +43,9 @@
 </div>
 
 @code{
-
     public class ProductCategory
     {
+
         public string Name { get; set; }
     }
 
