@@ -1,0 +1,65 @@
+﻿@page "/add"
+@using System.ComponentModel.DataAnnotations
+
+<div class="content">
+	<h1 class="logo">PetShop</h1>
+	<div class="register-area">
+		<h2>Detalii produs:</h2>
+		<EditForm Model="@product" OnSubmit="placeOrder">
+			<DataAnnotationsValidator/>
+			<ValidationSummary />
+			<div class="register-form">
+				<div class="input">
+					<lable for="register-username">Nume produs:</lable>
+					<InputText class="register-input" @bind-Value="product.Name" placeholder="Hrana uscata caini adult cu vitamine"></InputText>
+				</div>
+				<div class="small">
+					<div class="input">
+						<lable for="register-username">Pret:</lable>
+						<InputNumber class="register-input" @bind-Value="product.Price" placeholder="42.12"></InputNumber>
+					</div>
+					<div class="input">
+						<lable for="register-username">Cantitae:</lable>
+						<InputNumber id="register-username" class="register-input" @bind-Value="product.Quantity" placeholder="23"></InputNumber>
+					</div>
+				</div>
+				<div class="input">
+					<lable for="register-username">Categorie produs:</lable>
+					<InputText class="register-input" @bind-Value="product.Category" placeholder="Hrana"></InputText>
+				</div>
+				<div class="input">
+					<lable for="register-username">Poza produs:</lable>
+					<InputFile class="custom-file-input" @bind-Value="product.Photo"></InputFile>
+				</div>
+
+			</div>
+			<div class="register-action-area">
+				<button type="submit" class="register-btn">Adauga produs</button>
+			</div>
+		</EditForm>
+
+	</div>
+</div>
+
+
+@code {
+	public record ProductDto
+	{
+		[Required(ErrorMessage = "Completeaza campul \"Nume produs\"")]
+		public string Name { get; set; }
+		[Required(ErrorMessage = "Completeaza campul \"Pret\"")]
+		public decimal Price { get; set; }
+		[Required(ErrorMessage = "Completeaza campul \"Cantitate\"")]
+		public int Quantity { get; set; }
+		[Required(ErrorMessage = "Completeaza campul \"Categorie produs\"")]
+		public string Category { get; set; }
+		public Stream? Photo { get; set; }
+	}
+	
+	ProductDto product = new ProductDto();
+
+	void placeOrder()
+	{
+		Console.Write("OrderPalced");
+	}
+}
