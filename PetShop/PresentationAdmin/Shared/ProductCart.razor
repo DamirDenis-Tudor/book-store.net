@@ -1,0 +1,54 @@
+﻿@using Persistence.DTO.Product
+
+<div class="product-bg">
+	@if (Product != null)
+	{
+		@if (Product.Photo != null)
+		{
+			<img class="product-image" src="/Images/search_icon.png" alt="@getImg()" />
+		}
+		else
+		{
+			<div class="product-image"></div>
+		}
+
+		<div class="product-details">
+			<p class="product-name">@Product.Name</p>
+			<p class="product-description">Natures Protection Dog Adult Lamb, 4 kg este o hrana uscata Super Premium cu carne de miel pentru caini, completa si echilibrata, cu surse de proteine si ingrediente de cea mai buna calitate.
+				Compozitia acestei hrane uscate pentru caini este imbogatita cu ingrediente care sunt perfecte pentru a furniza 
+			</p>
+		</div>
+		<div class="product-buy">
+			<p class="product-price">@Product.Price Lei</p>
+			<div class="quintity-section">
+				<button class="product-quantity-modify" @onclick="decreaseQuintity">-</button>
+				<p class="product-quantity">@Quantity</p>
+				<button class="product-quantity-modify" @onclick="increaseQuintity">+</button>
+			</div>
+		</div>
+	}
+</div>
+
+@code {
+	[Parameter]
+	public ProductDto Product { get; set; }
+	public int Quantity = 32;
+
+	public string getImg()
+	{
+		string imreBase64Data = Convert.ToBase64String(Product.Photo);
+		string imgDataURL = string.Format("data:image/png;base64,{0}", imreBase64Data);
+		return imgDataURL;
+	}
+
+
+	private void increaseQuintity()
+	{
+		Quantity = Quantity + 1;
+	}
+	
+	private void decreaseQuintity()
+	{
+		Quantity = Quantity - 1;
+	}
+}

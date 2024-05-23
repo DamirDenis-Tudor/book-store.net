@@ -1,0 +1,72 @@
+﻿<div class="navbar-bg">
+    <div class="logo-search">
+        <a href="/" class="logo">Petshop</a>
+        <div class="search-section">
+            <input class="search-bar" placeholder="Incepe o cautare..." />
+            @* TODO: Reaizat search-ul ca un from cu inputul si buton de search langa, bara de search fiind compusa din input si button de search alaturate *@
+            @* <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="#7018C9" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+            </svg> *@
+        </div>
+    </div>
+    <div class="auth-area">
+        @if(loggedIn)
+        {
+           <a href="/account" class="account"><img src="Images/account_icon.png" alt="Account" />Contul meu</a>
+            <a href="/"><button class="logout-btn" onclick="@logout"> <img src="Images/logout_icon.png" alt="Logout" /></button></a>
+           <a href="/add"><button class="add-product-btn"> <img src="Images/plus_icon.png" alt="Add Product" /> </button></a>
+        }
+        else{
+            <a href="/login" class="button button-login">Login</a>
+        }
+    </div>
+
+</div>
+
+@code{
+    bool loggedIn = true;
+
+    public void logout(){
+        loggedIn = false;
+    }
+}
+
+@* <div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">PresentationClient</a>
+        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</div>
+
+<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
+    <nav class="flex-column">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="counter">
+                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="weather">
+                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
+            </NavLink>
+        </div>
+    </nav>
+</div>
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+} *@

@@ -1,0 +1,107 @@
+﻿.content{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	padding: 0;
+}
+
+.logo {
+	color: #1F0519;
+	font-family: Inter;
+	font-size: 40px;
+	font-style: normal;
+	font-weight: 800;
+	line-height: normal;
+}
+
+.login-area {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	width: 465px;
+	border-radius: 30px;
+	background: #FAF6FE;
+	margin: 35px 0 120px 0;
+	padding: 25px 0 15px 0;
+}
+
+.login-area h2 {
+
+	color: #1F0519;
+	font-family: Inter;
+	font-size: 30px;
+	font-weight: 500;
+	margin-bottom: 65px;
+}
+
+.login-area span{
+	color: #4F464C;
+	text-align: center;
+	font-family: Inter;
+	font-size: 20px;
+	font-weight: 600;
+}
+
+.login-area a{
+	color: #7018C9;
+	font-family: Inter;
+	font-size: 20px;
+	font-weight: 600;
+	text-decoration: none;
+}
+
+::deep .login-area form {
+	display: inline-flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-around;
+}
+
+.login-form {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 10px;
+}
+
+.login-btn {
+	width: 348px;
+	height: 45px;
+	border-radius: 20px;
+	background: #2BDE91;
+	color: #FAF6FE;
+	font-family: Inter;
+	font-size: 20px;
+	font-weight: 700;
+	border: none;
+
+	margin-top: 30px;
+}
+
+::deep .login-input {
+	width: 419px;
+	height: 45px;
+	padding-left: 40px;
+	border-radius: 10px;
+	border: 3px solid #BAB3F2;
+	color: #4F464C;
+	font-family: Inter;
+	font-size: 15px;
+	font-weight: 600;
+	outline-color: #7018C9;
+}
+	::deep .login-input.parola {
+		background-image: url('/wwwroot/Images/password_icon.png');
+		background-size: 20px 20px;
+		background-repeat: no-repeat;
+	}
+
+.login-action-area{
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
