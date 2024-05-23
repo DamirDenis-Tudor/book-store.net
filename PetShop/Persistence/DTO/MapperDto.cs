@@ -24,7 +24,7 @@ namespace Persistence.DTO;
 /// <summary>
 /// Class for mapping between DTOs and Entities.
 /// </summary>
-internal class MapperDto
+internal static class MapperDto
 {
     /// <summary>
     /// Maps a UserInfoDto to a User entity.
@@ -114,7 +114,8 @@ internal class MapperDto
             Price = productDto.Price,
             Quantity = productDto.Quantity,
             OrderProducts = new List<OrderProduct>(),
-            Category = productDto.Category
+            Category = productDto.Category,
+            Link = productDto.Link
         };
     }
 
@@ -132,7 +133,7 @@ internal class MapperDto
             Description = product.Description,
             Price = product.Price,
             Quantity = product.Quantity,
-            Photo = product.Photo,
+            Link = product.Link,
             Category = product.Category
         };
     }

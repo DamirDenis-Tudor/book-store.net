@@ -14,7 +14,6 @@
 
 using Logger;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using Persistence.DAL;
 using Persistence.DAO.Interfaces;
 using Persistence.DTO;
@@ -22,10 +21,8 @@ using Persistence.DTO.User;
 
 namespace Persistence.DAO.Repositories;
 
-internal class UserRepository(PersistenceAccess.DatabaseContext dbContext) : IUserRepository
+internal class UserRepository(DatabaseContext dbContext) : IUserRepository
 {
-    private readonly ILogger _logger = Logger.Logger.Instance.GetLogger<UserRepository>();
-
     public Result<bool, DaoErrorType> RegisterUser(UserInfoDto userDtoInfoDto)
     {
         try

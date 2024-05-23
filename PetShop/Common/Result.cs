@@ -12,8 +12,6 @@
  *                                                                        *
  **************************************************************************/
 
-using Microsoft.Extensions.Logging;
-
 namespace Logger;
 
 /// <summary>
@@ -65,7 +63,6 @@ public class Result<TSuccess, TErrorType> where TErrorType : Enum
     /// <returns>A success result.</returns>
     public static Result<TSuccess, TErrorType> Success(TSuccess value, string message = "No message")
     {
-        Logger.Instance.GetLogger<Result<TSuccess, TErrorType>>().LogInformation(message);
         return new Result<TSuccess, TErrorType>(value, message);
     }
 
@@ -77,7 +74,6 @@ public class Result<TSuccess, TErrorType> where TErrorType : Enum
     /// <returns>A failure result.</returns>
     public static Result<TSuccess, TErrorType> Fail(TErrorType errorType, string message = "No message")
     {
-        Logger.Instance.GetLogger<Result<TSuccess, TErrorType>>().LogError(message);
         return new Result<TSuccess, TErrorType>(errorType, message);
     }
 }

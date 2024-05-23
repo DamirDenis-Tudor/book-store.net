@@ -4,7 +4,7 @@ using Persistence.DTO.Order;
 using Persistence.DTO.Product;
 using Persistence.DTO.User;
 
-namespace UnitTesting.PersistenceTesting;
+namespace UnitTesting.Persistence.UnitTesting;
 
 public class OverallPersistenceUnitTest
 {
@@ -24,23 +24,23 @@ public class OverallPersistenceUnitTest
 
     private readonly List<ProductDto> _products =
     [
-        new ProductDto { Name = "Lecture1",Description = "", Price = 10.0m, Quantity = 100, Category = "Books" },
-        new ProductDto { Name = "Lecture2",Description = "", Price = 15.0m, Quantity = 100, Category = "Books" },
-        new ProductDto { Name = "Laptop1",Description = "", Price = 20.0m, Quantity = 100, Category = "Laptops" }
+        new ProductDto { Name = "Lecture1",Description = "", Price = 10.0m, Quantity = 100, Category = "Books", Link = ".png" },
+        new ProductDto { Name = "Lecture2",Description = "", Price = 15.0m, Quantity = 100, Category = "Books", Link = ".png" },
+        new ProductDto { Name = "Laptop1",Description = "", Price = 20.0m, Quantity = 100, Category = "Laptops", Link = ".png" }
     ];
 
     [SetUp]
     public void RegisterUnitTest()
     {
-        PersistenceAccess.SetIntegrationMode(IntegrationMode.Testing);
+        PersistenceAccess.Instance.SetIntegrationMode(IntegrationMode.Testing);
         
-        Assert.That(PersistenceAccess.UserRepository.RegisterUser(_user).IsSuccess, Is.EqualTo(true));
+        Assert.That(PersistenceAccess.Instance.UserRepository.RegisterUser(_user).IsSuccess, Is.EqualTo(true));
         Assert.That(
-            PersistenceAccess.BillRepository.UpdateBillToUsername(_user.Username, _billDto).IsSuccess,
+            PersistenceAccess.Instance.BillRepository.UpdateBillToUsername(_user.Username, _billDto).IsSuccess,
             Is.EqualTo(true)
         );
         _products.ForEach(p =>
-            Assert.That(PersistenceAccess.ProductRepository.RegisterProduct(p).IsSuccess, Is.EqualTo(true)));
+            Assert.That(PersistenceAccess.Instance.ProductRepository.RegisterProduct(p).IsSuccess, Is.EqualTo(true)));
 
         List<OrderProductDto> orderProductDtos = [];
         _products.ForEach(p => orderProductDtos.Add(new OrderProductDto
@@ -55,25 +55,25 @@ public class OverallPersistenceUnitTest
             OrderProducts = orderProductDtos
         };
 
-        Assert.That(PersistenceAccess.OrderRepository.RegisterOrderSession(orderSessionDto).IsSuccess,
+        Assert.That(PersistenceAccess.Instance.OrderRepository.RegisterOrderSession(orderSessionDto).IsSuccess,
             Is.EqualTo(true));
     }
 
     [TearDown]
     public void DeleteUnitTest()
     {
-        Assert.That(PersistenceAccess.UserRepository.DeleteUser(_user.Username).IsSuccess, Is.EqualTo(true));
-        _products.ForEach(p => PersistenceAccess.ProductRepository.DeleteProduct(p.Name));
+        Assert.That(PersistenceAccess.Instance.UserRepository.DeleteUser(_user.Username).IsSuccess, Is.EqualTo(true));
+        _products.ForEach(p => PersistenceAccess.Instance.ProductRepository.DeleteProduct(p.Name));
     }
 
     [Test]
     public void CheckOverallUnitTest()
     {
-        var productStats = PersistenceAccess.ProductRepository.GetAllProductsStats();
+        var productStats = PersistenceAccess.Instance.ProductRepository.GetAllProductsStats();
         Assert.That(productStats.IsSuccess, Is.EqualTo(true));
         productStats.SuccessValue.ToList().ForEach(Console.WriteLine);
 
-        var userOrders = PersistenceAccess.OrderRepository.GetAllOrdersByUsername(_user.Username);
+        var userOrders = PersistenceAccess.Instance.OrderRepository.GetAllOrdersByUsername(_user.Username);
         Assert.That(userOrders.IsSuccess, Is.EqualTo(true));
         userOrders.SuccessValue.ToList().ForEach(Console.WriteLine);
     }

@@ -17,9 +17,9 @@ namespace Persistence.DTO.Product;
 public record ProductDto
 {
     public required string Name { get; init; }
-    public string Description { get; set; } = "";
+    public required string Description { get; init; }
     public required decimal Price { get; init; }
     public required int Quantity { get; init; }
     public required string Category { get; init; }
-    public byte[]? Photo { get; set; }
+    public string? Link { get; init; }
 }

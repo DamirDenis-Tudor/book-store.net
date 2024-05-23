@@ -22,7 +22,7 @@ using Persistence.DTO.Product;
 
 namespace Persistence.DAO.Repositories;
 
-internal class ProductRepository(PersistenceAccess.DatabaseContext dbContext) : IProductRepository
+internal class ProductRepository(DatabaseContext dbContext) : IProductRepository
 {
     public Result<bool, DaoErrorType> RegisterProduct(ProductDto productDto)
     {
@@ -56,8 +56,10 @@ internal class ProductRepository(PersistenceAccess.DatabaseContext dbContext) : 
     {
         var products = new List<ProductDto>();
         dbContext.Products.ToList().ForEach(p => products.Add(MapperDto.MapToProductDto(p)!));
-        return Result<IList<ProductDto>, DaoErrorType>
-            .Success(products, "Product {name} found.");
+        return products.Count != 0
+            ? Result<IList<ProductDto>, DaoErrorType>.Success(products, "Products registered.")
+            : Result<IList<ProductDto>, DaoErrorType>.Fail(DaoErrorType.ListIsEmpty, "No products registered.");
+
     }
 
     public Result<IList<ProductDto>, DaoErrorType> GetAllProductsByCategory(string category)
@@ -95,7 +97,7 @@ internal class ProductRepository(PersistenceAccess.DatabaseContext dbContext) : 
                         Name = p.Name,
                         TotalRevenue = totalRevenue,
                         TotalItemsSold = totalItemsSold,
-                        Photo = p.Photo
+                        Link = p.Link
                     });
                 });
         
