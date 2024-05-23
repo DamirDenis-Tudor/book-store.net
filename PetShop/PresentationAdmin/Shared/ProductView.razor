@@ -4,14 +4,7 @@
 	@if(Product != null)
 	{
 		<div class="product-image-section">
-			@if (Product.Photo != null)
-			{
-				<img class="product-image" src="/Images/search_icon.png" alt="@getImg()" />
-			}
-			else
-			{
-				<div class="product-image"></div>
-			}
+			<img class="product-image" src="/Images/search_icon.png" alt="" />
 		</div>
 
 		<div class="product-details">
@@ -33,11 +26,4 @@
 @code {
 	[Parameter]
 	public ProductDto Product{ get; set; }
-
-	public string getImg()
-	{
-		string imreBase64Data = Convert.ToBase64String(Product.Photo);
-		string imgDataURL = string.Format("data:image/png;base64,{0}", imreBase64Data);
-		return imgDataURL;
-	}
 }
