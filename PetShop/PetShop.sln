@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business", "Business\Busine
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{37AE0CCE-CB9C-48E6-B967-67FABF3CF736}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTesting", "UnitTesting\UnitTesting.csproj", "{53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Integration", "Integration\Integration.csproj", "{53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PresentationClient", "PresentationClient\PresentationClient.csproj", "{2ADEFE7E-1A44-47A8-AF86-FA1F04DF5646}"
 EndProject

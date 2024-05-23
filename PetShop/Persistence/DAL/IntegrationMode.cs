@@ -23,14 +23,14 @@ public enum IntegrationMode
     /// Integration mode for testing environments.
     /// </summary>
     Testing,
-
+    
     /// <summary>
     /// Integration mode for production environments.
     /// </summary>
     Production,
-
+    
     /// <summary>
-    /// Default integration mode when not explicitly set.
+    /// Integration mode for integration environments.
     /// </summary>
-    NotSet
+    Integration,
 }

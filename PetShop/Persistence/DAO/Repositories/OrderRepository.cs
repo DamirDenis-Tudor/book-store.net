@@ -22,7 +22,7 @@ using Persistence.DTO.Order;
 
 namespace Persistence.DAO.Repositories;
 
-internal class OrderRepository(PersistenceAccess.DatabaseContext dbContext) : IOrderRepository
+internal class OrderRepository(DatabaseContext dbContext) : IOrderRepository
 {
     public Result<bool, DaoErrorType> RegisterOrderSession(OrderSessionDto orderSessionDto)
     {

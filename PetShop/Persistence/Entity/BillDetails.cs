@@ -16,7 +16,6 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace Persistence.Entity;
 
 [Index(nameof(UserId), IsUnique = true)]
@@ -28,6 +27,7 @@ internal class BillDetails
     
     [Column]
     [Required]
+
     public int? UserId { get; init; }
 
     [ForeignKey(nameof(UserId))] 
