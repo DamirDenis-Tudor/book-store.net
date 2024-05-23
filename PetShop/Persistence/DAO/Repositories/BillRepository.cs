@@ -21,7 +21,7 @@ using Persistence.DTO.Bill;
 
 namespace Persistence.DAO.Repositories;
 
-internal class BillRepository(PersistenceAccess.DatabaseContext dbContext) : IBillRepository
+internal class BillRepository(DatabaseContext dbContext) : IBillRepository
 {
     public Result<string, DaoErrorType> UpdateBillToUsername(string username, BillDto billDto)
     {

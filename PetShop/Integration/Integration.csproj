@@ -7,6 +7,7 @@
 
         <IsPackable>false</IsPackable>
         <IsTestProject>true</IsTestProject>
+        <RootNamespace>UnitTesting</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -23,6 +24,12 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Persistence\Persistence.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Microsoft.AspNetCore.Components.WebAssembly">
+        <HintPath>..\..\..\..\..\.nuget\packages\microsoft.aspnetcore.components.webassembly\8.0.4\lib\net8.0\Microsoft.AspNetCore.Components.WebAssembly.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
 </Project>
