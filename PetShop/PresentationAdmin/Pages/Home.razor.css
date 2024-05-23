@@ -1,0 +1,128 @@
+﻿.main {
+    display: flex;
+
+    width: 100%;
+    height: 100%;
+    padding-top: 37px;
+}
+
+aside {
+    width: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.categories {
+    height: 530px;
+    margin-top: 36px;
+    padding: 25px 0 0 37px;
+    margin: 0 0 0 30px;
+    border-radius: 20px;
+    background: #FAF6FE;
+}
+
+.action-bar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 0 15px 0;
+
+    margin-top: 36px;
+    margin: 0 0 0 30px;
+    border-radius: 20px;
+    background: #FAF6FE;
+}
+
+.categories-title {
+    color: #7018C9;
+    font-family: Inter;
+    font-size: 25px;
+    font-weight: 600;
+    margin: 0;
+}
+
+
+.categories-list a, li {
+    color: #7018C9;
+    text-decoration: none;
+    font-family: Inter;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.products-view{
+    margin-left: 40px;
+    width: 100%;
+    padding-right: 50px;
+}
+
+.filter {
+    display: flex;
+    align-items: center;
+
+    padding-left: 33px;
+    height: 60px;
+    width: 100%;
+    border-radius: 30px;
+    background-color: #FAF6FE;
+}
+
+.filter p{
+    margin: 0;
+}
+
+select.order-by {
+    width: 180px;
+    height: 40px;
+    border-radius: 10px;
+    outline-color: #BAB3F2;
+    outline-width: 2px;
+    border: 2px solid #7018C9;
+    margin-right: 47px;
+}
+
+label.order-by {
+    margin-right:13px;
+    color: #1F0519;
+    font-family: Inter;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+input.price-range {
+    width: 100px;
+    height: 40px;
+    border-radius: 10px;
+    border: 2px solid #BAB3F2;
+    outline-color: #7018C9;
+    outline-width: 2px;
+}
+
+label.price-range {
+    margin: 0 13px 0 13px;
+    color: #1F0519;
+    font-family: Inter;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.products{
+    display: flex;
+    flex-direction: column;
+    margin-top: 28px;
+}
+
+.button {
+    padding: 0 30px 0 30px;
+    height: 45px;
+    border-radius: 20px;
+    background: #7018C9;
+    color: #FAF6FE;
+    font-family: Inter;
+    font-size: 20px;
+    font-weight: 600;
+    border: none;
+}
