@@ -1,10 +1,13 @@
 ﻿@page "/"
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 @using Persistence.DAL
 @using Persistence.DTO.Product
+@inject ProtectedLocalStorage ProtectedLocalStore
+@inject NavigationManager NavigationManager
 
 <PageTitle>Home</PageTitle>
 
-<NavMenu />
+<NavMenu/>
 
 <div class="main">
 	<div class="categories">
@@ -24,7 +27,7 @@
                 </li>
             }
         </ul>
-	</div>
+    </div>
     <div class="products-view">
         <div class="filter">
             <label class="order-by" for="order-by-select"> Order by:</label>
