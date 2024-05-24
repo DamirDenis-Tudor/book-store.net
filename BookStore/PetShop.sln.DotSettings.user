@@ -1,0 +1,24 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=887e06a3_002D896e_002D450b_002Dafe7_002D250a55087cae/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="AddEntities #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.Persistence.DbSeeder.Seeder.AddEntities&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.PersistenceTesting.OverallPersistenceUnitTest&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=a7c8e319_002D765c_002D4bbc_002Dbd4a_002D7d0fa222761e/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="AddEntities" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.Persistence.DbSeeder.Seeder.AddEntities&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.PersistenceTesting.OverallPersistenceUnitTest&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.PersistenceTesting.BillRepositoryUnit&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.PersistenceTesting.OrderRepositoryUnit&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.PersistenceTesting.ProductRepositoryUnit&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.PersistenceTesting.UserRepositoryUnit&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.DbSeeder.Seeder.AddEntities&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.DbSeeder.Seeder&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=b96c225c_002D2b0a_002D4d24_002D92db_002D7e88e341cad5/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Seeder" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.DbSeeder.Seeder&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
