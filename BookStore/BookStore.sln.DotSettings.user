@@ -17,7 +17,7 @@
     &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.DbSeeder.Seeder&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=b96c225c_002D2b0a_002D4d24_002D92db_002D7e88e341cad5/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Seeder" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=b96c225c_002D2b0a_002D4d24_002D92db_002D7e88e341cad5/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Seeder" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
     &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.DbSeeder.Seeder&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
