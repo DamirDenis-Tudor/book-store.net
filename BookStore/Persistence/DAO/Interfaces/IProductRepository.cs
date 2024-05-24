@@ -28,7 +28,9 @@ public interface IProductRepository
     /// <param name="productDto">The product data transfer object containing the details of the product to register.</param>
     /// <returns>A Result containing either a boolean indicating success or a DaoErrorType indicating the type of error.</returns>
     Result<bool, DaoErrorType> RegisterProduct(ProductDto productDto);
-
+    
+    Result<IList<string>, DaoErrorType> GetCategories();
+    
     /// <summary>
     /// Retrieves a product by its name.
     /// </summary>

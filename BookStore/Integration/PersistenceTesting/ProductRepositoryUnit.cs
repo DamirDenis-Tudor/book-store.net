@@ -53,6 +53,8 @@ public class ProductRepositoryUnit
         Assert.That(allProductsStats.IsSuccess, Is.EqualTo(true));
         allProductsStats.SuccessValue.ToList().ForEach(Console.WriteLine);
         Assert.That(allProductsStats.SuccessValue.Count, Is.EqualTo(3));
+        
+        PersistenceAccess.Instance.ProductRepository.GetCategories().SuccessValue.ToList().ForEach(Console.WriteLine);
     }
 
     [Test]

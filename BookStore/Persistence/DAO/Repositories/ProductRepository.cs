@@ -12,6 +12,7 @@
  *                                                                        *
  **************************************************************************/
 
+using System.Collections;
 using Common;
 using Microsoft.EntityFrameworkCore;
 using Persistence.DAL;
@@ -39,6 +40,19 @@ internal class ProductRepository(DatabaseContext dbContext) : IProductRepository
         }
 
         return Result<bool, DaoErrorType>.Success(true, "Product registered successfully.");
+    }
+
+    public Result<IList<string>, DaoErrorType> GetCategories()
+    {
+        var categories = new List<string>();
+        dbContext.Products.ToList().ForEach(product =>
+        {
+            categories.Add(product.Category);
+        });
+        
+        return categories.Count != 0
+            ? Result<IList<string>, DaoErrorType>.Success(categories.Distinct().ToList(), "Successfully fetched categories.")
+            : Result<IList<string>, DaoErrorType>.Fail(DaoErrorType.ListIsEmpty, "Fail to fetch categories.");
     }
 
     public Result<ProductDto, DaoErrorType>GetProduct(string name)
