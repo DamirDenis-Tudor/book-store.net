@@ -19,7 +19,7 @@ app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 
-PersistenceAccess.Instance.SetIntegrationMode(IntegrationMode.Production);
+PersistenceFacade.Instance.SetIntegrationMode(IntegrationMode.Production);
 
 app.UseRouting();
 

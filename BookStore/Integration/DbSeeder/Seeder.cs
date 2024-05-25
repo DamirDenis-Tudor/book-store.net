@@ -1,5 +1,6 @@
 using System.Text.Json;
-using Business.DTO;
+using Business.BTO;
+using Business.Mappers;
 using Common;
 using Persistence.DAL;
 using Persistence.DTO.Bill;
@@ -13,23 +14,25 @@ public class Seeder
 {
     private sealed record UserBill
     {
-        public required UserInfoDto UserInfoDto { get; init; }
-        public required BillDto BillDto { get; init; }
+        public required UserInfoDto UserInfoDto { get; set; }
+        public required BillDto BillDto { get; set; }
     }
 
     [OneTimeSetUp]
-    public void PrepareDatabase() => PersistenceAccess.Instance.SetIntegrationMode(IntegrationMode.Integration);
+    public void PrepareDatabase() => PersistenceFacade.Instance.SetIntegrationMode(IntegrationMode.Integration);
 
     [Test, Order(1)]
     public void AddUsers()
     {
         var file = File.ReadAllText(
-            $"{SlnDirectory.GetPath()}/Integration/DbSeeder/Resources/UsersSeed.json");
+            $"{SlnDirectory.GetPath()}{Path.DirectorySeparatorChar}Integration/DbSeeder/Resources/UsersSeed.json".Replace('/', Path.DirectorySeparatorChar));
         JsonSerializer.Deserialize<List<UserBill>>(file)?.ForEach(userBill =>
             {
-                Assert.That(PersistenceAccess.Instance.UserRepository
+                userBill.UserInfoDto = GdprMapper.DoUserInfoDtoGdpr(userBill.UserInfoDto);
+                userBill.BillDto = GdprMapper.DoBillGdpr(userBill.BillDto);
+                Assert.That(PersistenceFacade.Instance.UserRepository
                     .RegisterUser(userBill.UserInfoDto).IsSuccess, Is.EqualTo(true));
-                Assert.That(PersistenceAccess.Instance.BillRepository
+                Assert.That(PersistenceFacade.Instance.BillRepository
                         .UpdateBillToUsername(userBill.UserInfoDto.Username, userBill.BillDto).IsSuccess,
                     Is.EqualTo(true));
             }
@@ -40,9 +43,9 @@ public class Seeder
     public void AddProducts()
     {
         var file = File.ReadAllText(
-            $"{SlnDirectory.GetPath()}/Integration/DbSeeder/Resources/ProductsSeed.json");
+            $"{SlnDirectory.GetPath()}/Integration/DbSeeder/Resources/ProductsSeed.json".Replace('/', Path.DirectorySeparatorChar));
         JsonSerializer.Deserialize<List<ProductDto>>(file)?.ForEach(productDto =>
-            Assert.That(PersistenceAccess.Instance.ProductRepository.RegisterProduct(productDto).IsSuccess,
+            Assert.That(PersistenceFacade.Instance.ProductRepository.RegisterProduct(productDto).IsSuccess,
                 Is.EqualTo(true))
         );
     }
@@ -50,11 +53,11 @@ public class Seeder
     [Test, Order(3)]
     public void AddOrders()
     {
-        var persistence = PersistenceAccess.Instance;
+        var persistence = PersistenceFacade.Instance;
 
-        var file = File.ReadAllText($"{SlnDirectory.GetPath()}/Integration/DbSeeder/Resources/OrdersSeed.json");
+        var file = File.ReadAllText($"{SlnDirectory.GetPath()}/Integration/DbSeeder/Resources/OrdersSeed.json".Replace('/', Path.DirectorySeparatorChar));
 
-        JsonSerializer.Deserialize<List<OrderDto>>(file)?.ForEach(orderDto =>
+        JsonSerializer.Deserialize<List<OrderBto>>(file)?.ForEach(orderDto =>
             {
                 var orderSession = new OrderSessionDto
                 {
@@ -64,7 +67,7 @@ public class Seeder
                     OrderProducts = []
                 };
 
-                orderDto.OrderItemDtos.ForEach(item =>
+                orderDto.OrderItemBtos.ForEach(item =>
                     {
                         var product = persistence.ProductRepository.GetProduct(item.ProductName);
                         if (!product.IsSuccess) return;

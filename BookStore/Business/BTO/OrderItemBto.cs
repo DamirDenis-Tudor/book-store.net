@@ -1,6 +1,6 @@
-namespace Business.DTO;
+namespace Business.BTO;
 
-public record OrderItemDto
+public record OrderItemBto
 {
     public required string ProductName { get; init; }
     public required int OrderQuantity { get; init; }
