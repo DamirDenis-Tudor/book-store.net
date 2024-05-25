@@ -31,7 +31,7 @@ namespace PresentationClient.Pages
 		{
 			if (editContext.Validate())
 			{
-				PersistenceAccess.Instance.UserRepository.RegisterUser(new UserInfoDto()
+                PersistenceFacade.Instance.UserRepository.RegisterUser(new UserInfoDto()
 				{
 					Email = user.Email,
 					FirstName = user.FirstName,
@@ -40,7 +40,7 @@ namespace PresentationClient.Pages
 					Username = user.Username,
 					UserType = "user"
 				});
-				PersistenceAccess.Instance.UserRepository.GetAllUsers().SuccessValue.ForEach(Console.WriteLine);
+                PersistenceFacade.Instance.UserRepository.GetAllUsers().SuccessValue.ForEach(Console.WriteLine);
 				NavigationManager.NavigateTo("/login");
 			}
 		}

@@ -7,10 +7,14 @@
     <h1 class="logo">PetShop</h1>
     <div class="login-area">
         <h2>Salut!</h2>
-        <EditForm Model="user" OnValidSubmit="login">
+        <EditForm Model="user" OnValidSubmit="LoginSubmit">
+            <DataAnnotationsValidator/>
+            <div class="validation">
+                <ValidationSummary/>
+            </div>
             <div class="login-form">
-                <InputText class="login-input email" @bind-Value="user.Username" placeholder="Adresa de email..."></InputText>
-                <InputText class="login-input parola" @bind-Value="user.Password" placeholder="Parola..."></InputText>
+                <InputText class="login-input email" @bind-Value="user.Username" placeholder="Username..."></InputText>
+                <InputText class="login-input parola" @bind-Value="user.Password" type="password" placeholder="Parola..."></InputText>
             </div>
             <div class="login-action-area">
                 <button type="submit" class="login-btn">Login</button>

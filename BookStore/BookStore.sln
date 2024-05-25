@@ -11,11 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Integration", "Integration\Integration.csproj", "{53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PresentationClient", "PresentationClient\PresentationClient.csproj", "{2ADEFE7E-1A44-47A8-AF86-FA1F04DF5646}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PresentationClient", "PresentationClient\PresentationClient.csproj", "{2ADEFE7E-1A44-47A8-AF86-FA1F04DF5646}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PresentationAdmin", "PresentationAdmin\PresentationAdmin.csproj", "{9BB17E6A-1D8A-4F96-99E6-9E6471A0ED8D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PresentationAdmin", "PresentationAdmin\PresentationAdmin.csproj", "{9BB17E6A-1D8A-4F96-99E6-9E6471A0ED8D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PresentationProvider", "PresentationProvider\PresentationProvider.csproj", "{26E8BF25-90D1-4D79-A8F0-711E3588BD79}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PresentationProvider", "PresentationProvider\PresentationProvider.csproj", "{26E8BF25-90D1-4D79-A8F0-711E3588BD79}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
