@@ -5,7 +5,7 @@
 	<h1 class="logo">PetShop</h1>
 	<div class="pay-area">
 		<h2>Detalii de plata:</h2>
-		<EditForm Model="@card" OnSubmit="pay">
+		<EditForm Model="@card" OnSubmit="Pay">
 			<DataAnnotationsValidator />
 			<ValidationSummary />
 			<div class="pay-form">
@@ -30,7 +30,7 @@
 				</div>
 			</div>
 			<div class="pay-action-area">
-				<a href="/account"><button type="submit" class="pay-btn">Plateste acum!</button></a>
+				<button type="submit" class="pay-btn">Plateste acum!</button>
 			</div>
 		</EditForm>
 
@@ -38,24 +38,3 @@
 	@* <h1 class="logo" style="opacity: 0;">PetShop</h1> *@
 </div>
 
-
-@code {
-	public class Card
-	{
-		[Required, StringLength(16, ErrorMessage = "Numarul cardului trebuie sa aiba o lungime de 16 cifre")]
-		public string CardNumber { get; set; }
-		[Required]
-		public string Name { get; set; }
-		[Required]
-		public DateTime ExpirationDate { get; set; } = DateTime.Now;
-		[Required, Range(100, 999)]
-		public int Cvv { get; set; }
-	}
-
-	Card card = new Card();
-
-	void pay()
-	{
-		Console.Write("Pay");
-	}
-}

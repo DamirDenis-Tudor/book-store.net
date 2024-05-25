@@ -9,21 +9,24 @@ namespace PresentationClient.Pages
 	{
 		[Inject]
 		protected ProductsScope ProductsScope { get; set; }
+        protected ObservableCollection<ProductDto> DisplayProducts { get; set; }
 
-
-		protected decimal? _priceRangeMin, _priceRangeMax;
+        protected decimal? _priceRangeMin, _priceRangeMax;
         protected decimal? PriceRangeMin
 		{
 			get => _priceRangeMin; 
 			set{
 				_priceRangeMin = value;
-				if(Category == null)
-					DisplayProducts = new ObservableCollection<ProductDto>(ProductsScope.Products.Where(p => p.Price >= _priceRangeMin));
-				else
+				if (_serach == null)
 				{
-					CategoryFilter();
-					DisplayProducts = new ObservableCollection<ProductDto>(DisplayProducts.Where(p => p.Price >= _priceRangeMin));
-                }
+					if (Category == null)
+						DisplayProducts = new ObservableCollection<ProductDto>(ProductsScope.Products.Where(p => p.Price >= _priceRangeMin));
+					else
+					{
+						CategoryFilter();
+						DisplayProducts = new ObservableCollection<ProductDto>(DisplayProducts.Where(p => p.Price >= _priceRangeMin));
+					}
+				}
             }
 		}
 		protected decimal? PriceRangeMax
@@ -32,13 +35,16 @@ namespace PresentationClient.Pages
             set
             {
                 _priceRangeMax = value;
-                if (Category == null)
-                    DisplayProducts = new ObservableCollection<ProductDto>(ProductsScope.Products.Where(p => p.Price <= _priceRangeMax));
-                else
-                {
-                    CategoryFilter();
-                    DisplayProducts = new ObservableCollection<ProductDto>(DisplayProducts.Where(p => p.Price <= _priceRangeMax));
-                }
+				if (_serach == null)
+				{
+					if (Category == null)
+						DisplayProducts = new ObservableCollection<ProductDto>(ProductsScope.Products.Where(p => p.Price <= _priceRangeMax));
+					else
+					{
+						CategoryFilter();
+						DisplayProducts = new ObservableCollection<ProductDto>(DisplayProducts.Where(p => p.Price <= _priceRangeMax));
+					}
+				}
             }
         }
 
@@ -53,7 +59,7 @@ namespace PresentationClient.Pages
             }
 		}
         private string? _serach = null;
-		[SupplyParameterFromQuery]
+		[SupplyParameterFromQuery(Name = "search")]
 		protected string? Search { get => _serach;
 			 set{
 				_serach = value;
@@ -62,13 +68,13 @@ namespace PresentationClient.Pages
             }
 		}
 
-
-        protected ObservableCollection<ProductDto> DisplayProducts { get; set; }
-
 		protected override void OnInitialized()
 		{
+			Console.WriteLine(_serach);
             if(_serach == null)
 				DisplayProducts = new ObservableCollection<ProductDto>(ProductsScope.Products);
+			else
+				DisplayProducts = new ObservableCollection<ProductDto>(ProductsScope.Products.Where(p => p.Name.Contains(_serach)));
 			PriceRangeMax = DisplayProducts.Max(prod => prod.Price);
 			PriceRangeMin = DisplayProducts.Min(prod => prod.Price);
         }

@@ -5,9 +5,9 @@
 	<h1 class="logo">PetShop</h1>
 	<div class="register-area">
 		<h2>Detalii personale:</h2>
-		<EditForm Model="@bill" OnSubmit="placeOrder">
+		<EditForm Model="@bill" OnSubmit="PlaceOrder">
 			<DataAnnotationsValidator/>
-			<ValidationSummary />
+			@* <ValidationSummary /> *@
 			<div class="register-form">
 				<div class="input">
 					<lable for="register-username">Numar de telefon:</lable>
@@ -23,43 +23,19 @@
 				</div>
 				<div class="input">
 					<lable for="register-username">Adresa:</lable>
-					<InputText class="register-input" @bind-Value="bill.Address" type="email" placeholder="Sector 3, Stefan cel Mare, bloc 23, et 6"></InputText>
+					<InputText class="register-input" @bind-Value="bill.Address" placeholder="Sector 3, Stefan cel Mare, bloc 23, et 6"></InputText>
 				</div>
 				<div class="input">
 					<lable for="register-username">Cod posta:</lable>
-					<InputText class="register-input" @bind-Value="bill.PostalCode" type="email" placeholder="645386"></InputText>
+					<InputText class="register-input" @bind-Value="bill.PostalCode" placeholder="645386"></InputText>
 				</div>
 				
 			</div>
 			<div class="register-action-area">
 				<p>Total: 342.99 Lei</p>
-				<button type="submit" class="register-btn">Plasare comanda</button>
+				<button class="register-btn">Plasare comanda</button>
 			</div>
 		</EditForm> 
 		
 	</div>
 </div>
-
-
-@code {
-	public class BillDto
-	{
-		[Required]
-		public string Address { get; set; }
-		[Required]
-		public string Telephone { get; set; }
-		[Required]
-		public string Country { get; set; }
-		[Required]
-		public string City { get; set; }
-		[Required]
-		public string PostalCode { get; set; }
-	}
-
-	BillDto bill = new BillDto();
-
-	void placeOrder()
-	{
-		Console.Write("OrderPalced");
-	}
-}

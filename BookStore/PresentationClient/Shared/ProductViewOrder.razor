@@ -3,7 +3,9 @@
 <div class="product-bg">
 	@if (Product != null)
 	{
-		<img src="@Product.Link" alt=""/>
+		<div class="product-image-section">
+			<img class="product-image" src="@Product.Link" alt="" />
+		</div>
 
 		<div class="product-details">
 			<p class="product-name">@Product.ProductName</p>
