@@ -1,4 +1,5 @@
-﻿@using Persistence.DTO.Product
+﻿@using Persistence.DTO.Order
+@using Persistence.DTO.Product
 
 <div class="product-bg">
 	@if (Product != null)
@@ -6,16 +7,14 @@
 		<img class="product-image" src="/Images/search_icon.png"  alt=""/>
 
 		<div class="product-details">
-			<p class="product-name">@Product.Name</p>
-			<p class="product-description">Natures Protection Dog Adult Lamb, 4 kg este o hrana uscata Super Premium cu carne de miel pentru caini, completa si echilibrata, cu surse de proteine si ingrediente de cea mai buna calitate.
-				Compozitia acestei hrane uscate pentru caini este imbogatita cu ingrediente care sunt perfecte pentru a furniza 
-			</p>
+			<p class="product-name">@Product.ProductName</p>
+			<p class="product-description">@Product.Description</p>
 		</div>
 		<div class="product-buy">
 			<p class="product-price">@Product.Price Lei</p>
 			<div class="quintity-section">
 				<button class="product-quantity-modify" @onclick="DecreaseQuantity">-</button>
-				<p class="product-quantity">@_quantity</p>
+				<p class="product-quantity">@Product.OrderQuantity</p>
 				<button class="product-quantity-modify" @onclick="IncreaseQuantity">+</button>
 			</div>
 		</div>
@@ -24,7 +23,7 @@
 
 @code {
 	[Parameter]
-	public ProductDto? Product { get; set; }
+	public OrderProductData? Product { get; set; }
 
 	private int _quantity = 32;
 
