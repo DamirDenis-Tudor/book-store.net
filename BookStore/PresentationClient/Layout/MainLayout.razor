@@ -1,8 +1,58 @@
-﻿@inherits LayoutComponentBase
-<div class="page">
-    <main>
-        <article>
-            @Body
-        </article>
-    </main>
-</div>
+﻿@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@inject ProtectedLocalStorage ProtectedLocalStore
+@inject NavigationManager NavigationManager
+
+
+@if (_isAuthenticated == null)
+{
+    <p>Loading...</p>
+}
+else if (_isAuthenticated == true || NavigationManager.ToBaseRelativePath(NavigationManager.Uri) == "login")
+{
+    @inherits LayoutComponentBase
+    
+    <div class="page">
+        <main>
+            <article>
+                @Body
+            </article>
+        </main>
+    </div>
+}
+else if (_isAuthenticated == true && NavigationManager.ToBaseRelativePath(NavigationManager.Uri) == "login")
+{
+    NavigationManager.NavigateTo("/");
+}
+else
+{
+    NavigationManager.NavigateTo("/login");
+}
+
+@code{
+    private bool? _isAuthenticated = null;
+    private bool _isFirstRender = true;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (_isFirstRender)
+        {
+            _isFirstRender = false;
+
+            var result = await ProtectedLocalStore.GetAsync<string>("currentCount");
+            if (result.Success && result.Value == "token")
+            {
+                Console.WriteLine("True");
+                _isAuthenticated = true;
+            }
+            else
+            {
+                Console.WriteLine("Faslse");
+                _isAuthenticated = false;
+            }
+
+            StateHasChanged();
+        }
+    }
+}

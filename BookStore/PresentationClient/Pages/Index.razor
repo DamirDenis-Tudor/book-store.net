@@ -1,32 +1,37 @@
 ﻿@page "/"
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 @using Persistence.DAL
 @using Persistence.DTO.Product
+@inject ProtectedLocalStorage ProtectedLocalStore
+@inject NavigationManager NavigationManager
 
 <PageTitle>Home</PageTitle>
 
-<NavMenu />
+<NavMenu/>
 
 <div class="main">
-	<div class="categories">
-		<p class="categories-title">Categorii</p>
+    <div class="categories">
+        <p class="categories-title">""</p>
         <ul class="categories-list">
             @foreach (var category in Categories)
             {
-                <li><a href="@($"/category/{category.Name}")">@category.Name</a></li>
+                <li>
+                    <a href="@($"/category/{category.Name}")">@category.Name</a>
+                </li>
             }
         </ul>
-	</div>
+    </div>
     <div class="products-view">
         <div class="filter">
             <label class="order-by" for="order-by-select"> Order by:</label>
             <select class="order-by" name="order-by-select">
-                <option class="order-by"   value="name">Name</option>
+                <option class="order-by" value="name">Name</option>
                 <option class="order-by" value="price">Price</option>
             </select>
             <label class="price-range" for="low-price-range">Price range:</label>
-            <input class="price-range" type="number" name="low-price-range" value="" />
+            <input class="price-range" type="number" name="low-price-range" value=""/>
             <label class="price-range" for="low-price-range"> - </label>
-            <input class="price-range" type="number" name="height-price-range" value="" />
+            <input class="price-range" type="number" name="height-price-range" value=""/>
         </div>
         <div class="products">
             @foreach (var product in Products)
@@ -38,17 +43,20 @@
 </div>
 
 @code{
-    public class ProductCategory{
+
+    public class ProductCategory
+    {
         public string Name { get; set; }
     }
 
     private List<ProductCategory> Categories = new List<ProductCategory>
     {
-        new ProductCategory{ Name = "Jucarii"},
-        new ProductCategory{ Name = "Haine"},
-        new ProductCategory{ Name = "Mancare"},
-        new ProductCategory{ Name = "Custi"},
+        new ProductCategory { Name = "Jucarii" },
+        new ProductCategory { Name = "Haine" },
+        new ProductCategory { Name = "Mancare" },
+        new ProductCategory { Name = "Custi" },
     };
 
-    private IList<ProductDto> Products = PersistenceAccess.Instance.ProductRepository.GetAllProducts().SuccessValue;
+    private IList<ProductDto> Products = PersistenceFacade.Instance.ProductRepository.GetAllProducts().SuccessValue;
+
 }

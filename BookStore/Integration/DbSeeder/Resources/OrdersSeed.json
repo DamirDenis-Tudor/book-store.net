@@ -1,7 +1,7 @@
 [
   {
     "Username": "john_doe123",
-    "OrderItemDtos": [
+    "OrderItemBtos": [
       {
         "ProductName": "Oppenheimer\nPortretul unei enigme",
         "OrderQuantity": 5
@@ -18,7 +18,7 @@
   },
   {
     "Username": "john_doe123",
-    "OrderItemDtos": [
+    "OrderItemBtos": [
       {
         "ProductName": "You Will Get Through This Night",
         "OrderQuantity": 10

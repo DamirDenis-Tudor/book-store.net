@@ -10,7 +10,7 @@ public class ProductRepositoryUnit
     [SetUp]
     public void RegisterProductUnitTest()
     {
-        PersistenceAccess.Instance.SetIntegrationMode(IntegrationMode.Testing);
+        PersistenceFacade.Instance.SetIntegrationMode(IntegrationMode.Testing);
         _productDtos.AddRange(new[]
         {
             new ProductDto { Name = "Lecture1",Description = "", Price = 10.0m, Quantity = 100, Category = "Books", Link = ".png"},
@@ -19,7 +19,7 @@ public class ProductRepositoryUnit
         });
 
         _productDtos.ToList().ForEach(p =>
-                Assert.That(PersistenceAccess.Instance.ProductRepository?.RegisterProduct(p).IsSuccess, Is.EqualTo(true))
+                Assert.That(PersistenceFacade.Instance.ProductRepository?.RegisterProduct(p).IsSuccess, Is.EqualTo(true))
         );
     }
 
@@ -27,7 +27,7 @@ public class ProductRepositoryUnit
     public void DeleteProductUnitTest()
     {
         _productDtos.ToList().ForEach(p =>
-            Assert.That(PersistenceAccess.Instance.ProductRepository?.DeleteProduct(p.Name).IsSuccess, Is.EqualTo(true))
+            Assert.That(PersistenceFacade.Instance.ProductRepository?.DeleteProduct(p.Name).IsSuccess, Is.EqualTo(true))
         );
         _productDtos.Clear();
     }
@@ -35,40 +35,40 @@ public class ProductRepositoryUnit
     [Test]
     public void CreateCheckDeleteProductUnitTest()
     {
-        Assert.That(PersistenceAccess.Instance.ProductRepository?.RegisterProduct(_productDtos[2]).IsSuccess, Is.EqualTo(false));
+        Assert.That(PersistenceFacade.Instance.ProductRepository?.RegisterProduct(_productDtos[2]).IsSuccess, Is.EqualTo(false));
 
-        Assert.That(PersistenceAccess.Instance.ProductRepository?.GetProduct(_productDtos[0].Name).IsSuccess, Is.EqualTo(true));
+        Assert.That(PersistenceFacade.Instance.ProductRepository?.GetProduct(_productDtos[0].Name).IsSuccess, Is.EqualTo(true));
 
-        var allProducts = PersistenceAccess.Instance.ProductRepository.GetAllProducts();
+        var allProducts = PersistenceFacade.Instance.ProductRepository.GetAllProducts();
         Assert.That(allProducts.IsSuccess, Is.EqualTo(true));
         allProducts.SuccessValue.ToList().ForEach(Console.WriteLine);
         Assert.That(allProducts.SuccessValue.Count, Is.EqualTo(3));
         
-        var allProductsByCategory = PersistenceAccess.Instance.ProductRepository.GetAllProductsByCategory("Books");
+        var allProductsByCategory = PersistenceFacade.Instance.ProductRepository.GetAllProductsByCategory("Books");
         Assert.That(allProductsByCategory.IsSuccess, Is.EqualTo(true));
         allProductsByCategory.SuccessValue.ToList().ForEach(Console.WriteLine);
         Assert.That(allProductsByCategory.SuccessValue.Count, Is.EqualTo(2));
 
-        var allProductsStats = PersistenceAccess.Instance.ProductRepository.GetAllProductsStats();
+        var allProductsStats = PersistenceFacade.Instance.ProductRepository.GetAllProductsStats();
         Assert.That(allProductsStats.IsSuccess, Is.EqualTo(true));
         allProductsStats.SuccessValue.ToList().ForEach(Console.WriteLine);
         Assert.That(allProductsStats.SuccessValue.Count, Is.EqualTo(3));
         
-        PersistenceAccess.Instance.ProductRepository.GetCategories().SuccessValue.ToList().ForEach(Console.WriteLine);
+        PersistenceFacade.Instance.ProductRepository.GetCategories().SuccessValue.ToList().ForEach(Console.WriteLine);
     }
 
     [Test]
     public void UpdateUnitTest()
     {
-        Assert.That(PersistenceAccess.Instance.ProductRepository?.UpdatePrice(_productDtos[1].Name, 1).IsSuccess, Is.EqualTo(true));
+        Assert.That(PersistenceFacade.Instance.ProductRepository?.UpdatePrice(_productDtos[1].Name, 1).IsSuccess, Is.EqualTo(true));
         
-        var product = PersistenceAccess.Instance.ProductRepository.GetProduct(_productDtos[1].Name);
+        var product = PersistenceFacade.Instance.ProductRepository.GetProduct(_productDtos[1].Name);
         Assert.That(product.IsSuccess, Is.EqualTo(true));
         Assert.That(product.SuccessValue.Price, Is.EqualTo(1));
         
-        Assert.That(PersistenceAccess.Instance.ProductRepository.UpdateQuantity(_productDtos[1].Name, 1).IsSuccess, Is.EqualTo(true));
+        Assert.That(PersistenceFacade.Instance.ProductRepository.UpdateQuantity(_productDtos[1].Name, 1).IsSuccess, Is.EqualTo(true));
         
-        product = PersistenceAccess.Instance.ProductRepository.GetProduct(_productDtos[1].Name);
+        product = PersistenceFacade.Instance.ProductRepository.GetProduct(_productDtos[1].Name);
         Assert.That(product.IsSuccess, Is.EqualTo(true));
         Assert.That(product.SuccessValue.Quantity, Is.EqualTo(1));
     }

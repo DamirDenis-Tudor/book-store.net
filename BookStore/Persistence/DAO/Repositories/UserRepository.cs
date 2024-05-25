@@ -29,7 +29,7 @@ internal class UserRepository(DatabaseContext dbContext) : IUserRepository
         {
             if (GetUser(userDtoInfoDto.Username).IsSuccess)
                 throw new DbUpdateException();
-            
+
             var user = MapperDto.MapToUser(userDtoInfoDto);
             dbContext.Users.Add(user);
             dbContext.SaveChanges();
@@ -42,7 +42,7 @@ internal class UserRepository(DatabaseContext dbContext) : IUserRepository
             );
         }
 
-        return Result<bool, DaoErrorType>.Success(true,$"User {userDtoInfoDto.Username} registered.");
+        return Result<bool, DaoErrorType>.Success(true, $"User {userDtoInfoDto.Username} registered.");
     }
 
     public Result<bool, DaoErrorType> UpdateUser(string username, UserInfoDto userDtoInfoDto)
@@ -77,7 +77,7 @@ internal class UserRepository(DatabaseContext dbContext) : IUserRepository
             );
         }
 
-        return Result<bool, DaoErrorType>.Success(true,$"User {username} updated successfully: {userDtoInfoDto}");
+        return Result<bool, DaoErrorType>.Success(true, $"User {username} updated successfully: {userDtoInfoDto}");
     }
 
     public Result<bool, DaoErrorType> DeleteUser(string username)
@@ -94,7 +94,7 @@ internal class UserRepository(DatabaseContext dbContext) : IUserRepository
                     $"User {username} could not be deleted. Caused by existingUser={existingUser}."
                 );
             }
-            
+
             dbContext.Users.Remove(existingUser);
             dbContext.SaveChanges();
         }
@@ -106,13 +106,14 @@ internal class UserRepository(DatabaseContext dbContext) : IUserRepository
             );
         }
 
-        return Result<bool, DaoErrorType>.Success(true,$"User {username} updated successfully.");
+        return Result<bool, DaoErrorType>.Success(true, $"User {username} updated successfully.");
     }
 
     public Result<List<BillUserDto>, DaoErrorType> GetAllUsers()
     {
         var users = new List<BillUserDto>();
-        dbContext.Users.ToList().ForEach(u => users.Add(MapperDto.MapToBillUserDto(u)!));
+        dbContext.Users.Include(user => user.BillDetails).ToList()
+            .ForEach(u => users.Add(MapperDto.MapToBillUserDto(u)!));
 
         return users.Count != 0
             ? Result<List<BillUserDto>, DaoErrorType>.Success(users, "Users list returned.")
@@ -129,7 +130,7 @@ internal class UserRepository(DatabaseContext dbContext) : IUserRepository
 
         return billUserDto == null
             ? Result<BillUserDto, DaoErrorType>.Fail(DaoErrorType.NotFound, $"User {username} not found")
-            : Result<BillUserDto, DaoErrorType>.Success(billUserDto,$"User {username} found");
+            : Result<BillUserDto, DaoErrorType>.Success(billUserDto, $"User {username} found");
     }
 
 
