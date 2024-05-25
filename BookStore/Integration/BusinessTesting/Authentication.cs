@@ -32,14 +32,14 @@ public class Authentication
             Password = _user.Password
         };
 
-        Assert.That(_businessFacade.AuthenticationService.Login(userLoginBto).ErrorType,
+        Assert.That(_businessFacade.AuthService.Login(userLoginBto).ErrorType,
             Is.EqualTo(BaoErrorType.UserPasswordNotFound));
     }
     
     [Test , Order(2)]
     public void Register()
     {
-        Assert.That(_businessFacade.AuthenticationService.Register(_user).IsSuccess,
+        Assert.That(_businessFacade.AuthService.Register(_user).IsSuccess,
             Is.EqualTo(true));
     }
     
@@ -53,16 +53,16 @@ public class Authentication
             Password = _user.Password
         };
 
-        var login = _businessFacade.AuthenticationService.Login(userLoginBto);
+        var login = _businessFacade.AuthService.Login(userLoginBto);
         Assert.That(login.IsSuccess, Is.EqualTo(true));
         
-        Assert.That(_businessFacade.AuthenticationService.CheckSession(_user.Username, login.SuccessValue).IsSuccess,
+        Assert.That(_businessFacade.AuthService.CheckSession(_user.Username, login.SuccessValue).IsSuccess,
             Is.EqualTo(true));
     }
 
     [Test, Order(4)]
     public void Logout()
     {
-        Assert.That(_businessFacade.AuthenticationService.Logout(_user.Username).IsSuccess, Is.EqualTo(true));
+        Assert.That(_businessFacade.AuthService.Logout(_user.Username).IsSuccess, Is.EqualTo(true));
     }
 }

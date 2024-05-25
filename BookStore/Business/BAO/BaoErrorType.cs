@@ -24,6 +24,8 @@ public enum BaoErrorType
     /// </summary>
     UserPasswordNotFound,
     UserSessionNotFound,
+    UserNotFound,
+    UserNotAllowed,
 
     /// <summary>
     /// Indicates that the item is already registered.
@@ -40,6 +42,13 @@ public enum BaoErrorType
     /// </summary>
     DatabaseError,
     SessionExpired,
-    InvalidSession
+    InvalidSession,
+    ProductNotFound,
+    InsufficienciesStock,
+    UserHasNoOrders,
+    NoProductRegistered, 
+    FailedToRegisterProduct,
+    FailedToUpdateProductPrice,
+    FailedToUpdateProductStocks
     
 }

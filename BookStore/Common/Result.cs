@@ -12,7 +12,14 @@
  *                                                                        *
  **************************************************************************/
 
+using System.Dynamic;
+
 namespace Common;
+
+public class VoidResult()
+{
+    public static VoidResult Get() => new ();
+}
 
 /// <summary>
 /// Generic class representing a result of an operation.

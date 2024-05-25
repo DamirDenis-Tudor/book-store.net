@@ -27,7 +27,7 @@ public interface IUserRepository
     /// </summary>
     /// <param name="userInfo">The user data transfer object containing the details of the user to register.</param>
     /// <returns>A Result containing either a boolean indicating success or a DaoErrorType indicating the type of error.</returns>
-    Result<bool, DaoErrorType> RegisterUser(UserInfoDto userInfo);
+    Result<VoidResult, DaoErrorType> RegisterUser(UserInfoDto userInfo);
 
     /// <summary>
     /// Updates an existing user's details.
@@ -35,14 +35,14 @@ public interface IUserRepository
     /// <param name="username">The username of the user to update.</param>
     /// <param name="userDtoInfoDto">The user data transfer object containing the new details of the user.</param>
     /// <returns>A Result containing either a boolean indicating success or a DaoErrorType indicating the type of error.</returns>
-    Result<bool, DaoErrorType> UpdateUser(string username, UserInfoDto userDtoInfoDto);
+    Result<VoidResult, DaoErrorType> UpdateUser(string username, UserInfoDto userDtoInfoDto);
 
     /// <summary>
     /// Deletes a user by their username.
     /// </summary>
     /// <param name="username">The username of the user to delete.</param>
     /// <returns>A Result containing either a boolean indicating success or a DaoErrorType indicating the type of error.</returns>
-    Result<bool, DaoErrorType> DeleteUser(string username);
+    Result<VoidResult, DaoErrorType> DeleteUser(string username);
 
     /// <summary>
     /// Retrieves a list of all users.

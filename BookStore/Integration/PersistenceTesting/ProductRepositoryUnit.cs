@@ -44,10 +44,6 @@ public class ProductRepositoryUnit
         allProducts.SuccessValue.ToList().ForEach(Console.WriteLine);
         Assert.That(allProducts.SuccessValue.Count, Is.EqualTo(3));
         
-        var allProductsByCategory = PersistenceFacade.Instance.ProductRepository.GetAllProductsByCategory("Books");
-        Assert.That(allProductsByCategory.IsSuccess, Is.EqualTo(true));
-        allProductsByCategory.SuccessValue.ToList().ForEach(Console.WriteLine);
-        Assert.That(allProductsByCategory.SuccessValue.Count, Is.EqualTo(2));
 
         var allProductsStats = PersistenceFacade.Instance.ProductRepository.GetAllProductsStats();
         Assert.That(allProductsStats.IsSuccess, Is.EqualTo(true));

@@ -23,7 +23,7 @@ namespace Persistence.DAO.Repositories;
 
 internal class BillRepository(DatabaseContext dbContext) : IBillRepository
 {
-    public Result<string, DaoErrorType> UpdateBillToUsername(string username, BillDto billDto)
+    public Result<VoidResult, DaoErrorType> UpdateBillToUsername(string username, BillDto billDto)
     {
         try
         {
@@ -31,7 +31,7 @@ internal class BillRepository(DatabaseContext dbContext) : IBillRepository
                 .FirstOrDefault(b => b.User != null && b.User.Username == username);
 
             if (billDetails == null)
-                return Result<string, DaoErrorType>.Fail(DaoErrorType.DatabaseError, "Bill not found.");
+                return Result<VoidResult, DaoErrorType>.Fail(DaoErrorType.DatabaseError, "Bill not found.");
 
             if (!string.IsNullOrEmpty(billDto.Address)) billDetails.Address = billDto.Address;
             if (!string.IsNullOrEmpty(billDto.Country)) billDetails.Country = billDto.Country;
@@ -43,11 +43,11 @@ internal class BillRepository(DatabaseContext dbContext) : IBillRepository
             dbContext.Update(billDetails);
             dbContext.SaveChanges();
 
-            return Result<string, DaoErrorType>.Success("Bill updated successfully.");
+            return Result<VoidResult, DaoErrorType>.Success(VoidResult.Get());
         }
         catch (DbUpdateException e)
         {
-            return Result<string, DaoErrorType>.Fail(DaoErrorType.DatabaseError,
+            return Result<VoidResult, DaoErrorType>.Fail(DaoErrorType.DatabaseError,
                 "Database error occurred while updating bill.");
         }
     }
