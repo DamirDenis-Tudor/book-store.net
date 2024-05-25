@@ -1,3 +1,4 @@
+using Business.Utilities;
 using Common;
 
 namespace UnitTesting.GdprUtilityTesting;

@@ -24,6 +24,7 @@ public class Seeder
     [Test, Order(1)]
     public void AddUsers()
     {
+        Console.WriteLine(DateTime.Now);
         var file = File.ReadAllText(
             $"{SlnDirectory.GetPath()}{Path.DirectorySeparatorChar}Integration/DbSeeder/Resources/UsersSeed.json".Replace('/', Path.DirectorySeparatorChar));
         JsonSerializer.Deserialize<List<UserBill>>(file)?.ForEach(userBill =>
@@ -57,17 +58,18 @@ public class Seeder
 
         var file = File.ReadAllText($"{SlnDirectory.GetPath()}/Integration/DbSeeder/Resources/OrdersSeed.json".Replace('/', Path.DirectorySeparatorChar));
 
-        JsonSerializer.Deserialize<List<OrderBto>>(file)?.ForEach(orderDto =>
+        JsonSerializer.Deserialize<List<OrderBto>>(file)?.ForEach(orderBto =>
             {
+                orderBto = GdprMapper.DoOrderBto(orderBto);
                 var orderSession = new OrderSessionDto
                 {
-                    Username = orderDto.Username,
+                    Username = orderBto.Username,
                     SessionCode = new Random().Next(100000).ToString(),
                     Status = "Comanda plasata",
                     OrderProducts = []
                 };
 
-                orderDto.OrderItemBtos.ForEach(item =>
+                orderBto.OrderItemBtos.ForEach(item =>
                     {
                         var product = persistence.ProductRepository.GetProduct(item.ProductName);
                         if (!product.IsSuccess) return;
