@@ -11,8 +11,7 @@ namespace PresentationClient.Pages
 		protected ProductsScope ProductsScope { get; set; }
         protected ObservableCollection<ProductDto> DisplayProducts { get; set; }
 
-
-		protected decimal? _priceRangeMin, _priceRangeMax;
+        protected decimal? _priceRangeMin, _priceRangeMax;
         protected decimal? PriceRangeMin
 		{
 			get => _priceRangeMin; 
@@ -68,9 +67,6 @@ namespace PresentationClient.Pages
 					DisplayProducts = new ObservableCollection<ProductDto>(ProductsScope.Products.Where(p => p.Name.Contains(_serach)));
             }
 		}
-
-
-        protected ObservableCollection<ProductDto> DisplayProducts { get; set; }
 
 		protected override void OnInitialized()
 		{
