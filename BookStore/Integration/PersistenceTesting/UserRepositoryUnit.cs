@@ -6,7 +6,7 @@ namespace UnitTesting.PersistenceTesting;
 public class UserRepositoryUnit
 {
     [SetUp]
-    public void PrepareTesting() => PersistenceAccess.Instance.SetIntegrationMode(IntegrationMode.Testing);
+    public void PrepareTesting() => PersistenceFacade.Instance.SetIntegrationMode(IntegrationMode.Testing);
     [Test]
     public void CreateAndDeleteUserUnitTest()
     {
@@ -17,11 +17,11 @@ public class UserRepositoryUnit
         };
         Assert.Multiple(() =>
             {
-                Assert.That(PersistenceAccess.Instance.UserRepository?.RegisterUser(user).IsSuccess, Is.EqualTo(true));
-                Assert.That(PersistenceAccess.Instance.UserRepository?.RegisterUser(user).IsSuccess, Is.EqualTo(false));
+                Assert.That(PersistenceFacade.Instance.UserRepository?.RegisterUser(user).IsSuccess, Is.EqualTo(true));
+                Assert.That(PersistenceFacade.Instance.UserRepository?.RegisterUser(user).IsSuccess, Is.EqualTo(false));
 
-                Assert.That(PersistenceAccess.Instance.UserRepository?.DeleteUser(user.Username).IsSuccess, Is.EqualTo(true));
-                Assert.That(PersistenceAccess.Instance.UserRepository?.DeleteUser(user.Username).IsSuccess, Is.EqualTo(false));
+                Assert.That(PersistenceFacade.Instance.UserRepository?.DeleteUser(user.Username).IsSuccess, Is.EqualTo(true));
+                Assert.That(PersistenceFacade.Instance.UserRepository?.DeleteUser(user.Username).IsSuccess, Is.EqualTo(false));
             }
         );
     }
@@ -34,7 +34,7 @@ public class UserRepositoryUnit
             FirstName = "testUpdate", LastName = "testUpdate", Username = "test_12345Update",
             Password = "testUpdate", Email = "test@test.testUpdate", UserType = "TESTERUpdate"
         };
-        Assert.That(PersistenceAccess.Instance.UserRepository?.RegisterUser(user).IsSuccess, Is.EqualTo(true));
+        Assert.That(PersistenceFacade.Instance.UserRepository?.RegisterUser(user).IsSuccess, Is.EqualTo(true));
 
         var userUpdated = new UserInfoDto
         {
@@ -42,10 +42,10 @@ public class UserRepositoryUnit
             Password = "", Email = "", UserType = ""
         };
 
-        Assert.That(PersistenceAccess.Instance.UserRepository.UpdateUser(user.Username, userUpdated).IsSuccess,
+        Assert.That(PersistenceFacade.Instance.UserRepository.UpdateUser(user.Username, userUpdated).IsSuccess,
             Is.EqualTo(true));
 
-        var fetchedUser = PersistenceAccess.Instance.UserRepository.GetUser(userUpdated.Username);
+        var fetchedUser = PersistenceFacade.Instance.UserRepository.GetUser(userUpdated.Username);
         Assert.Multiple(() =>
             {
                 Assert.That(fetchedUser.IsSuccess, Is.EqualTo(true));
@@ -62,14 +62,14 @@ public class UserRepositoryUnit
         Assert.Multiple(() =>
             {
                 Assert.That(
-                    PersistenceAccess.Instance.UserRepository.UpdateUser(userUpdated.Username, userUpdatedUsername).IsSuccess,
+                    PersistenceFacade.Instance.UserRepository.UpdateUser(userUpdated.Username, userUpdatedUsername).IsSuccess,
                     Is.EqualTo(true)
                 );
 
-                Assert.That(PersistenceAccess.Instance.UserRepository.GetUser(user.Username).IsSuccess, Is.EqualTo(false));
+                Assert.That(PersistenceFacade.Instance.UserRepository.GetUser(user.Username).IsSuccess, Is.EqualTo(false));
             }
         );
-        Assert.That(PersistenceAccess.Instance.UserRepository.DeleteUser(
+        Assert.That(PersistenceFacade.Instance.UserRepository.DeleteUser(
                 userUpdatedUsername.Username).IsSuccess,
             Is.EqualTo(true)
         );
@@ -85,19 +85,19 @@ public class UserRepositoryUnit
         };
         Assert.Multiple(() =>
         {
-            Assert.That(PersistenceAccess.Instance.UserRepository?.RegisterUser(user).IsSuccess, Is.EqualTo(true));
+            Assert.That(PersistenceFacade.Instance.UserRepository?.RegisterUser(user).IsSuccess, Is.EqualTo(true));
 
-            Assert.That(PersistenceAccess.Instance.UserRepository?.GetUser(user.Username).IsSuccess, Is.EqualTo(true));
+            Assert.That(PersistenceFacade.Instance.UserRepository?.GetUser(user.Username).IsSuccess, Is.EqualTo(true));
             
-            var allUsersResult = PersistenceAccess.Instance.UserRepository?.GetAllUsers();
+            var allUsersResult = PersistenceFacade.Instance.UserRepository?.GetAllUsers();
             Assert.That(allUsersResult?.IsSuccess, Is.EqualTo(true));
             Assert.IsNotEmpty(allUsersResult?.SuccessValue!);
 
-            Assert.That(PersistenceAccess.Instance.UserRepository?.GetUserPassword(user.Username).IsSuccess, Is.EqualTo(true));
+            Assert.That(PersistenceFacade.Instance.UserRepository?.GetUserPassword(user.Username).IsSuccess, Is.EqualTo(true));
 
-            Assert.That(PersistenceAccess.Instance.UserRepository?.GetUserType(user.Username).IsSuccess, Is.EqualTo(true));
+            Assert.That(PersistenceFacade.Instance.UserRepository?.GetUserType(user.Username).IsSuccess, Is.EqualTo(true));
 
-            Assert.That(PersistenceAccess.Instance.UserRepository?.DeleteUser(user.Username).IsSuccess, Is.EqualTo(true));
+            Assert.That(PersistenceFacade.Instance.UserRepository?.DeleteUser(user.Username).IsSuccess, Is.EqualTo(true));
         });
     }
 }

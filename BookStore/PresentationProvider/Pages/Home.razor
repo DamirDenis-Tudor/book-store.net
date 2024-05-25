@@ -57,6 +57,6 @@
         new ProductCategory { Name = "Custi" },
     };
     
-    private IList<ProductDto> Products = PersistenceAccess.Instance.ProductRepository.GetAllProducts().SuccessValue;
+    private IList<ProductDto> Products = PersistenceFacade.Instance.ProductRepository.GetAllProducts().SuccessValue;
 
 }
