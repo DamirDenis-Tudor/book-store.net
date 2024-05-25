@@ -17,11 +17,11 @@ using Persistence.DAO.Repositories;
 
 namespace Persistence.DAL;
 
-public class PersistenceAccess
+public class PersistenceFacade
 {
-    private static readonly Lazy<PersistenceAccess> LazyInstance = new(() => new PersistenceAccess());
+    private static readonly Lazy<PersistenceFacade> LazyInstance = new(() => new PersistenceFacade());
 
-    public static PersistenceAccess Instance => LazyInstance.Value;
+    public static PersistenceFacade Instance => LazyInstance.Value;
 
     private DatabaseContext? _databaseContext;
     public IUserRepository UserRepository { get; private set; } = null!;
@@ -29,11 +29,13 @@ public class PersistenceAccess
     public IOrderRepository OrderRepository { get; private set; } = null!;
     public IBillRepository BillRepository { get; private set; } = null!;
 
-    private PersistenceAccess() { }
+    private PersistenceFacade() { }
 
     public void SetIntegrationMode(IntegrationMode integrationMode)
     {
-        _databaseContext = new DatabaseContext(integrationMode);
+        if (_databaseContext != null) return;
+        Console.WriteLine(integrationMode);
+         _databaseContext = new DatabaseContext(integrationMode);
         
         UserRepository = new UserRepository(_databaseContext);
         ProductRepository = new ProductRepository(_databaseContext);

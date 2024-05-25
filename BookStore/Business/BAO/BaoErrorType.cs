@@ -1,6 +1,6 @@
 /**************************************************************************
  *                                                                        *
- *  Description: OrderSessionDto                                          *
+ *  Description: DaoErrorType                                             *
  *  Website:     https://github.com/DamirDenis-Tudor/PetShop-ProiectIP    *
  *  Copyright:   (c) 2024, Damir Denis-Tudor                              *
  *                                                                        *
@@ -12,13 +12,34 @@
  *                                                                        *
  **************************************************************************/
 
-namespace Persistence.DTO.Order;
+namespace Business.BAO;
 
-public record OrderSessionDto
+/// <summary>
+/// Enumeration representing various types of errors that can occur in the DAO (Data Access Object) layer.
+/// </summary>
+public enum BaoErrorType
 {
-    public required string Username { get; set; }
-    public decimal TotalPrice { get; set; }
-    public required string SessionCode { get; init; }
-    public required string Status { get; init; }
-    public required List<OrderProductDto> OrderProducts { get; init; }
+    /// <summary>
+    /// Indicates that the requested item was not found.
+    /// </summary>
+    UserPasswordNotFound,
+    UserSessionNotFound,
+
+    /// <summary>
+    /// Indicates that the item is already registered.
+    /// </summary>
+    InvalidPassword,
+
+    /// <summary>
+    /// Indicates that the list is empty.
+    /// </summary>
+    InvalidRegisterData,
+
+    /// <summary>
+    /// Indicates a general database error.
+    /// </summary>
+    DatabaseError,
+    SessionExpired,
+    InvalidSession
+    
 }

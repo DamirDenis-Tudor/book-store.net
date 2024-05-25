@@ -64,7 +64,7 @@ internal sealed class DatabaseContext : DbContext
             case IntegrationMode.Production:
             case IntegrationMode.Integration:
                 Console.WriteLine("Integration mode: Production");
-                optionsBuilder.UseSqlite($"Data Source={SlnDirectory.GetPath()}{Path.PathSeparator}Persistence{Path.PathSeparator}PetShop.db");
+                optionsBuilder.UseSqlite($"Data Source={SlnDirectory.GetPath()}/Persistence/BookStore.db".Replace('/', Path.DirectorySeparatorChar));
                 break;
             case IntegrationMode.Testing:
                 Console.WriteLine("Integration mode: Testing");

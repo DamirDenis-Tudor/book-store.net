@@ -32,15 +32,15 @@ public class OverallPersistenceUnitTest
     [SetUp]
     public void RegisterUnitTest()
     {
-        PersistenceAccess.Instance.SetIntegrationMode(IntegrationMode.Testing);
+        PersistenceFacade.Instance.SetIntegrationMode(IntegrationMode.Testing);
         
-        Assert.That(PersistenceAccess.Instance.UserRepository.RegisterUser(_user).IsSuccess, Is.EqualTo(true));
+        Assert.That(PersistenceFacade.Instance.UserRepository.RegisterUser(_user).IsSuccess, Is.EqualTo(true));
         Assert.That(
-            PersistenceAccess.Instance.BillRepository.UpdateBillToUsername(_user.Username, _billDto).IsSuccess,
+            PersistenceFacade.Instance.BillRepository.UpdateBillToUsername(_user.Username, _billDto).IsSuccess,
             Is.EqualTo(true)
         );
         _products.ForEach(p =>
-            Assert.That(PersistenceAccess.Instance.ProductRepository.RegisterProduct(p).IsSuccess, Is.EqualTo(true)));
+            Assert.That(PersistenceFacade.Instance.ProductRepository.RegisterProduct(p).IsSuccess, Is.EqualTo(true)));
 
         List<OrderProductDto> orderProductDtos = [];
         _products.ForEach(p => orderProductDtos.Add(new OrderProductDto
@@ -55,25 +55,25 @@ public class OverallPersistenceUnitTest
             OrderProducts = orderProductDtos
         };
 
-        Assert.That(PersistenceAccess.Instance.OrderRepository.RegisterOrderSession(orderSessionDto).IsSuccess,
+        Assert.That(PersistenceFacade.Instance.OrderRepository.RegisterOrderSession(orderSessionDto).IsSuccess,
             Is.EqualTo(true));
     }
 
     [TearDown]
     public void DeleteUnitTest()
     {
-        Assert.That(PersistenceAccess.Instance.UserRepository.DeleteUser(_user.Username).IsSuccess, Is.EqualTo(true));
-        _products.ForEach(p => PersistenceAccess.Instance.ProductRepository.DeleteProduct(p.Name));
+        Assert.That(PersistenceFacade.Instance.UserRepository.DeleteUser(_user.Username).IsSuccess, Is.EqualTo(true));
+        _products.ForEach(p => PersistenceFacade.Instance.ProductRepository.DeleteProduct(p.Name));
     }
 
     [Test]
     public void CheckOverallUnitTest()
     {
-        var productStats = PersistenceAccess.Instance.ProductRepository.GetAllProductsStats();
+        var productStats = PersistenceFacade.Instance.ProductRepository.GetAllProductsStats();
         Assert.That(productStats.IsSuccess, Is.EqualTo(true));
         productStats.SuccessValue.ToList().ForEach(Console.WriteLine);
 
-        var userOrders = PersistenceAccess.Instance.OrderRepository.GetAllOrdersByUsername(_user.Username);
+        var userOrders = PersistenceFacade.Instance.OrderRepository.GetAllOrdersByUsername(_user.Username);
         Assert.That(userOrders.IsSuccess, Is.EqualTo(true));
         userOrders.SuccessValue.ToList().ForEach(Console.WriteLine);
     }

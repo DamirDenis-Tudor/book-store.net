@@ -25,17 +25,17 @@ public class OrderRepositoryUnit
     [SetUp]
     public void RegisterOrderUnitTest()
     {
-        PersistenceAccess.Instance.SetIntegrationMode(IntegrationMode.Testing);
+        PersistenceFacade.Instance.SetIntegrationMode(IntegrationMode.Testing);
         Console.WriteLine("tessssss");
-        PersistenceAccess.Instance.UserRepository.RegisterUser(_user);
-        _products.ForEach(p => PersistenceAccess.Instance.ProductRepository.RegisterProduct(p));
+        PersistenceFacade.Instance.UserRepository.RegisterUser(_user);
+        _products.ForEach(p => PersistenceFacade.Instance.ProductRepository.RegisterProduct(p));
     }
 
     [TearDown]
     public void DeleteOrderUnitTest()
     {
-        _products.ForEach(p => PersistenceAccess.Instance.ProductRepository.DeleteProduct(p.Name));
-        PersistenceAccess.Instance.UserRepository.DeleteUser(_user.Username);
+        _products.ForEach(p => PersistenceFacade.Instance.ProductRepository.DeleteProduct(p.Name));
+        PersistenceFacade.Instance.UserRepository.DeleteUser(_user.Username);
     }
 
     [Test]
@@ -54,9 +54,9 @@ public class OrderRepositoryUnit
             OrderProducts = orderProductDtos
         };
 
-        Assert.That(PersistenceAccess.Instance.OrderRepository.RegisterOrderSession(orderSessionDto).IsSuccess,
+        Assert.That(PersistenceFacade.Instance.OrderRepository.RegisterOrderSession(orderSessionDto).IsSuccess,
             Is.EqualTo(true));
-        Assert.That(PersistenceAccess.Instance.OrderRepository.DeleteOrderSession(orderSessionDto.SessionCode).IsSuccess,
+        Assert.That(PersistenceFacade.Instance.OrderRepository.DeleteOrderSession(orderSessionDto.SessionCode).IsSuccess,
             Is.EqualTo(true));
     }
 
@@ -76,20 +76,20 @@ public class OrderRepositoryUnit
             OrderProducts = orderProductDtos
         };
 
-        Assert.That(PersistenceAccess.Instance.OrderRepository.RegisterOrderSession(orderSessionDto).IsSuccess,
+        Assert.That(PersistenceFacade.Instance.OrderRepository.RegisterOrderSession(orderSessionDto).IsSuccess,
             Is.EqualTo(true));
-        Assert.That(PersistenceAccess.Instance.OrderRepository.GetSessionOrder(orderSessionDto.SessionCode).IsSuccess,
+        Assert.That(PersistenceFacade.Instance.OrderRepository.GetSessionOrder(orderSessionDto.SessionCode).IsSuccess,
             Is.EqualTo(true));
 
-        var sessionOrders = PersistenceAccess.Instance.OrderRepository.GetAllOrders();
+        var sessionOrders = PersistenceFacade.Instance.OrderRepository.GetAllOrders();
         Assert.That(sessionOrders.IsSuccess, Is.EqualTo(true));
         Assert.That(sessionOrders.SuccessValue.Count, Is.EqualTo(1));
 
         sessionOrders.SuccessValue.ToList()[0].OrderProducts.ForEach(Console.WriteLine);
 
-        Assert.That(PersistenceAccess.Instance.OrderRepository.GetSessionOrder(orderSessionDto.SessionCode).IsSuccess,
+        Assert.That(PersistenceFacade.Instance.OrderRepository.GetSessionOrder(orderSessionDto.SessionCode).IsSuccess,
             Is.EqualTo(true));
-        Assert.That(PersistenceAccess.Instance.OrderRepository.DeleteOrderSession(orderSessionDto.SessionCode).IsSuccess,
+        Assert.That(PersistenceFacade.Instance.OrderRepository.DeleteOrderSession(orderSessionDto.SessionCode).IsSuccess,
             Is.EqualTo(true));
     }
 }
