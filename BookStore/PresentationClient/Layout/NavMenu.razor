@@ -14,10 +14,10 @@
         </div>
     </div>
     <div class="auth-area">
-        @if(loggedIn)
+        @if(_loggedIn)
         {
            <a href="/account" class="account"><img src="Images/account_icon.png" alt="Account" />Contul meu</a>
-           <button class="logout-btn" onclick="@logout"> <img src="Images/logout_icon.png" alt="Logout" /></button>
+           <button class="logout-btn" onclick="@Logout"> <img src="Images/logout_icon.png" alt="Logout" /></button>
             <a href="/viewcart"><button class="cart-btn"> <img src="Images/cart_icon.png" alt="View Cart" /></button></a>
         }
         else{
@@ -27,14 +27,3 @@
     </div>
 
 </div>
-
-@code{
-    bool loggedIn = true;
-
-    public void logout(){
-        loggedIn = false;
-        ProtectedLocalStorage.DeleteAsync("currentCount");
-        NavigationManager.NavigateTo("/login");
-    }
-}
-

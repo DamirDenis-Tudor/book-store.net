@@ -15,11 +15,13 @@ namespace PresentationClient.Layout
             } 
 		}
 
-		bool loggedIn = true;
+		private bool _loggedIn = true;
 
-		public void logout()
+		public void Logout()
 		{
-			loggedIn = false;
+			_loggedIn = false;
+			ProtectedLocalStorage.DeleteAsync("sessiontoken");
+			NavigationManager.NavigateTo("/login");
 		}
 	}
 }

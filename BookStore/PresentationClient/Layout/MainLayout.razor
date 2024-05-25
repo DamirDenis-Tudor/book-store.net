@@ -5,7 +5,9 @@
 
 @if (_isAuthenticated == null)
 {
-    <p>Loading...</p>
+    <div class="page">
+        <LoadingPage />
+    </div>
 }
 else if (_isAuthenticated == true || NavigationManager.ToBaseRelativePath(NavigationManager.Uri) == "login")
 {
@@ -35,12 +37,12 @@ else
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
-
         if (_isFirstRender)
         {
             _isFirstRender = false;
 
-            var result = await ProtectedLocalStore.GetAsync<string>("currentCount");
+            var result = await ProtectedLocalStore.GetAsync<string>("sessiontoken");
+            Console.WriteLine(result.Value);
             if (result.Success && result.Value == "token")
             {
                 Console.WriteLine("True");
