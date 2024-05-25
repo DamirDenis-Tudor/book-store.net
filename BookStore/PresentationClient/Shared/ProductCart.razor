@@ -1,40 +1,27 @@
 ﻿@using Persistence.DTO.Order
 @using Persistence.DTO.Product
 
-<div class="product-bg">
-	@if (Product != null)
-	{
-		<img class="product-image" src="/Images/search_icon.png"  alt=""/>
-
-		<div class="product-details">
-			<p class="product-name">@Product.ProductName</p>
-			<p class="product-description">@Product.Description</p>
-		</div>
-		<div class="product-buy">
-			<p class="product-price">@Product.Price Lei</p>
-			<div class="quintity-section">
-				<button class="product-quantity-modify" @onclick="DecreaseQuantity">-</button>
-				<p class="product-quantity">@Product.OrderQuantity</p>
-				<button class="product-quantity-modify" @onclick="IncreaseQuantity">+</button>
+@if(_enabled)
+{
+	<div class="product-bg">
+		@if (Product != null)
+		{
+			<div class="product-image-section">
+				<img class="product-image" src="@Product.Link"  alt=""/>
 			</div>
-		</div>
-	}
-</div>
 
-@code {
-	[Parameter]
-	public OrderProductData? Product { get; set; }
-
-	private int _quantity = 32;
-
-
-	private void IncreaseQuantity()
-	{
-		_quantity = _quantity + 1;
-	}
-	
-	private void DecreaseQuantity()
-	{
-		_quantity = _quantity - 1;
-	}
+			<div class="product-details">
+				<p class="product-name">@Product.ProductName</p>
+				<p class="product-description">@Product.Description</p>
+			</div>
+			<div class="product-buy">
+				<p class="product-price">@Product.Price Lei</p>
+				<div class="quintity-section">
+					<button class="product-quantity-modify" @onclick="DecreaseQuantity">-</button>
+					<p class="product-quantity">@Product.OrderQuantity</p>
+					<button class="product-quantity-modify" @onclick="IncreaseQuantity">+</button>
+				</div>
+			</div>
+		}
+	</div>
 }
