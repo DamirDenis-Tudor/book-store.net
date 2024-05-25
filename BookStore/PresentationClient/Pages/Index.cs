@@ -11,7 +11,8 @@ namespace PresentationClient.Pages
 		protected ProductsScope ProductsScope { get; set; }
         protected ObservableCollection<ProductDto> DisplayProducts { get; set; }
 
-        protected decimal? _priceRangeMin, _priceRangeMax;
+
+		protected decimal? _priceRangeMin, _priceRangeMax;
         protected decimal? PriceRangeMin
 		{
 			get => _priceRangeMin; 
@@ -20,14 +21,14 @@ namespace PresentationClient.Pages
 				if (_serach == null)
 				{
 					if (Category == null)
-						DisplayProducts = new ObservableCollection<ProductDto>(ProductsScope.Products.Where(p => p.Price >= _priceRangeMin));
-					else
-					{
-						CategoryFilter();
-						DisplayProducts = new ObservableCollection<ProductDto>(DisplayProducts.Where(p => p.Price >= _priceRangeMin));
-					}
-				}
+					DisplayProducts = new ObservableCollection<ProductDto>(ProductsScope.Products.Where(p => p.Price >= _priceRangeMin));
+				else
+				{
+					CategoryFilter();
+					DisplayProducts = new ObservableCollection<ProductDto>(DisplayProducts.Where(p => p.Price >= _priceRangeMin));
+                }
             }
+		}
 		}
 		protected decimal? PriceRangeMax
         {
@@ -37,15 +38,15 @@ namespace PresentationClient.Pages
                 _priceRangeMax = value;
 				if (_serach == null)
 				{
-					if (Category == null)
-						DisplayProducts = new ObservableCollection<ProductDto>(ProductsScope.Products.Where(p => p.Price <= _priceRangeMax));
-					else
-					{
-						CategoryFilter();
-						DisplayProducts = new ObservableCollection<ProductDto>(DisplayProducts.Where(p => p.Price <= _priceRangeMax));
-					}
-				}
+                if (Category == null)
+                    DisplayProducts = new ObservableCollection<ProductDto>(ProductsScope.Products.Where(p => p.Price <= _priceRangeMax));
+                else
+                {
+                    CategoryFilter();
+                    DisplayProducts = new ObservableCollection<ProductDto>(DisplayProducts.Where(p => p.Price <= _priceRangeMax));
+                }
             }
+        }
         }
 
         private string? _category = null;
@@ -67,6 +68,9 @@ namespace PresentationClient.Pages
 					DisplayProducts = new ObservableCollection<ProductDto>(ProductsScope.Products.Where(p => p.Name.Contains(_serach)));
             }
 		}
+
+
+        protected ObservableCollection<ProductDto> DisplayProducts { get; set; }
 
 		protected override void OnInitialized()
 		{
