@@ -1,7 +1,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Common;
+namespace Business.Utilities;
 
 public static class GdprUtility
 {

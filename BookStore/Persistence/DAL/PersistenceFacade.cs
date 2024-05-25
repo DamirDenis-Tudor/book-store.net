@@ -33,7 +33,9 @@ public class PersistenceFacade
 
     public void SetIntegrationMode(IntegrationMode integrationMode)
     {
-        _databaseContext = new DatabaseContext(integrationMode);
+        if (_databaseContext != null) return;
+        Console.WriteLine(integrationMode);
+         _databaseContext = new DatabaseContext(integrationMode);
         
         UserRepository = new UserRepository(_databaseContext);
         ProductRepository = new ProductRepository(_databaseContext);

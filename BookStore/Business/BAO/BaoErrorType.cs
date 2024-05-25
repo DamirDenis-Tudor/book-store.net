@@ -22,20 +22,24 @@ public enum BaoErrorType
     /// <summary>
     /// Indicates that the requested item was not found.
     /// </summary>
-    NotFound,
+    UserPasswordNotFound,
+    UserSessionNotFound,
 
     /// <summary>
     /// Indicates that the item is already registered.
     /// </summary>
-    AlreadyRegistered,
+    InvalidPassword,
 
     /// <summary>
     /// Indicates that the list is empty.
     /// </summary>
-    ListIsEmpty,
+    InvalidRegisterData,
 
     /// <summary>
     /// Indicates a general database error.
     /// </summary>
     DatabaseError,
+    SessionExpired,
+    InvalidSession
+    
 }
