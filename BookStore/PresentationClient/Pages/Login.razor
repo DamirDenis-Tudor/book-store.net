@@ -1,35 +1,20 @@
 ﻿@page "/login"
-@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
-@inject ProtectedLocalStorage ProtectedLocalStorage
-@inject NavigationManager NavigationManager
 
 <div class="content">
-    <h1 class="logo">PetShop</h1>
-    <div class="login-area">
-        <h2>Salut!</h2>
-        <EditForm Model="user" OnValidSubmit="login">
-            <div class="login-form">
-                <InputText class="login-input email" @bind-Value="user.Username" placeholder="Adresa de email..."></InputText>
-                <InputText class="login-input parola" @bind-Value="user.Password" placeholder="Parola..."></InputText>
-            </div>
-            <div class="login-action-area">
-                <button type="submit" class="login-btn">Login</button>
-                <span>Nu ai cont? Te poti autentifica <a href="/register">aici</a>!</span>
-            </div>
-        </EditForm>
-
-    </div>
-    <h1 class="logo" style="opacity: 0;">PetShop</h1>
+	<h1 class="logo">PetShop</h1>
+	<div class="login-area">
+		<h2>Salut!</h2>
+		<EditForm Model="user" OnSubmit="login" >
+			<div class="login-form">
+				<InputText class="login-input email" @bind-Value="user.Username" placeholder="Adresa de email..."></InputText>
+				<InputText class="login-input parola" @bind-Value="user.Password" placeholder="Parola..."></InputText>
+			</div>
+			<div class="login-action-area">
+				<button type="submit" class="login-btn">Login</button>
+				<span>Nu ai cont? Te poti autentifica <a href="/register">aici</a>!</span>
+			</div>
+		</EditForm>
+		
+	</div>
+	<h1 class="logo" style="opacity: 0;">PetShop</h1>
 </div>
-
-@code {
-    UserLogin user { get; } = new UserLogin();
-
-    async Task login()
-    {
-        string token = "token";
-        await ProtectedLocalStorage.SetAsync("currentCount", token);
-        NavigationManager.NavigateTo("/");
-    }
-
-}
