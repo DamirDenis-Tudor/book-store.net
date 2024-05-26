@@ -5,7 +5,7 @@ namespace PresentationClient.Pages
 {
 	public partial class Login
 	{
-		UserLogin user { get; set; } = new UserLogin();
+		UserLogin User { get; set; } = new UserLogin();
 
 		private async Task LoginSubmit(EditContext editContext)
         {
