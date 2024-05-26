@@ -19,6 +19,7 @@ using Persistence.DAL;
 using Persistence.DAO.Interfaces;
 using Persistence.DTO;
 using Persistence.DTO.Order;
+using Persistence.Mappers;
 
 namespace Persistence.DAO.Repositories;
 
@@ -38,6 +39,7 @@ internal class OrderRepository(DatabaseContext dbContext) : IOrderRepository
                 );
             var orderSession = MapperDto.MapToOrderSession(orderSessionDto);
             orderSession.User = dbContext.Users.FirstOrDefault(u => u.Username == orderSessionDto.Username);
+            
             orderSessionDto.OrderProducts.ToList().ForEach(op =>
                 {
                     var orderProduct = MapperDto.MapToOrderProduct(op);
@@ -45,9 +47,7 @@ internal class OrderRepository(DatabaseContext dbContext) : IOrderRepository
                     orderProduct.Product = dbContext.Products.Include(p => p.OrderProducts)
                         .FirstOrDefault(p =>
                             p.Name == op.ProductName);
-
-                    orderSession.TotalPrice += orderProduct.Product!.Price * orderProduct.Quantity;
-
+                    
                     orderSession.OrderProducts.Add(orderProduct);
                 }
             );
@@ -59,7 +59,7 @@ internal class OrderRepository(DatabaseContext dbContext) : IOrderRepository
         {
             return Result<VoidResult, DaoErrorType>.Fail(
                 DaoErrorType.DatabaseError,
-                $"Order with sessionCode {orderSessionDto.SessionCode} failed to add."
+                $"Order with sessionCode {orderSessionDto.SessionCode} failed to add: {e.Message}"
             );
         }
 

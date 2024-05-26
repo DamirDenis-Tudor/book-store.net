@@ -18,6 +18,7 @@ using Persistence.DAL;
 using Persistence.DAO.Interfaces;
 using Persistence.DTO;
 using Persistence.DTO.User;
+using Persistence.Mappers;
 
 namespace Persistence.DAO.Repositories;
 

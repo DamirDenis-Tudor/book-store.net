@@ -7,7 +7,7 @@ using Persistence.DTO.Product;
 
 namespace Business.BAO.Services;
 
-public class InventoryService : IInventory
+internal class InventoryService : IInventory
 {
     private readonly PersistenceFacade _persistenceFacade = PersistenceFacade.Instance;
     
@@ -41,7 +41,7 @@ public class InventoryService : IInventory
 
         var register = _persistenceFacade.ProductRepository.RegisterProduct(productDto);
         return !register.IsSuccess
-            ? Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.FailedToRegisterProduct)
+            ? Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.FailedToRegisterProduct, register.Message)
             : Result<VoidResult, BaoErrorType>.Success(VoidResult.Get());
     }
 
