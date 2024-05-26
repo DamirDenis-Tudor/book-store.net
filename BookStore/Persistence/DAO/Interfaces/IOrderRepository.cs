@@ -27,14 +27,14 @@ public interface IOrderRepository
     /// </summary>
     /// <param name="orderSessionDto">The order session data transfer object containing the details of the order session to register.</param>
     /// <returns>A Result containing either a boolean indicating success or a DaoErrorType indicating the type of error.</returns>
-    Result<bool, DaoErrorType> RegisterOrderSession(OrderSessionDto orderSessionDto);
+    Result<VoidResult, DaoErrorType> RegisterOrderSession(OrderSessionDto orderSessionDto);
 
     /// <summary>
     /// Deletes an order session by its session code.
     /// </summary>
     /// <param name="sessionCode">The session code of the order session to delete.</param>
     /// <returns>A Result containing either a boolean indicating success or a DaoErrorType indicating the type of error.</returns>
-    Result<bool, DaoErrorType> DeleteOrderSession(string sessionCode);
+    Result<VoidResult, DaoErrorType> DeleteOrderSession(string sessionCode);
 
     /// <summary>
     /// Retrieves an order session by its session code.
@@ -55,4 +55,5 @@ public interface IOrderRepository
     /// </summary>
     /// <returns>A Result containing either a list of OrderSessionDto or a DaoErrorType indicating the type of error.</returns>
     Result<IList<OrderSessionDto>, DaoErrorType> GetAllOrders();
+    
 }

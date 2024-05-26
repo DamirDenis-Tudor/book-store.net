@@ -18,12 +18,13 @@ using Persistence.DAL;
 using Persistence.DAO.Interfaces;
 using Persistence.DTO;
 using Persistence.DTO.User;
+using Persistence.Mappers;
 
 namespace Persistence.DAO.Repositories;
 
 internal class UserRepository(DatabaseContext dbContext) : IUserRepository
 {
-    public Result<bool, DaoErrorType> RegisterUser(UserInfoDto userDtoInfoDto)
+    public Result<VoidResult, DaoErrorType> RegisterUser(UserInfoDto userDtoInfoDto)
     {
         try
         {
@@ -36,16 +37,16 @@ internal class UserRepository(DatabaseContext dbContext) : IUserRepository
         }
         catch (DbUpdateException e)
         {
-            return Result<bool, DaoErrorType>.Fail(
+            return Result<VoidResult, DaoErrorType>.Fail(
                 DaoErrorType.AlreadyRegistered,
                 $"User {userDtoInfoDto.Username} already exist. Caused by {nameof(DbUpdateException)}."
             );
         }
 
-        return Result<bool, DaoErrorType>.Success(true, $"User {userDtoInfoDto.Username} registered.");
+        return Result<VoidResult, DaoErrorType>.Success(VoidResult.Get(), $"User {userDtoInfoDto.Username} registered.");
     }
 
-    public Result<bool, DaoErrorType> UpdateUser(string username, UserInfoDto userDtoInfoDto)
+    public Result<VoidResult, DaoErrorType> UpdateUser(string username, UserInfoDto userDtoInfoDto)
     {
         try
         {
@@ -54,7 +55,7 @@ internal class UserRepository(DatabaseContext dbContext) : IUserRepository
 
             if (existingUser == null)
             {
-                return Result<bool, DaoErrorType>.Fail(
+                return Result<VoidResult, DaoErrorType>.Fail(
                     DaoErrorType.NotFound,
                     $"User {userDtoInfoDto.Username} not found. Caused by existingUser={existingUser}."
                 );
@@ -71,16 +72,16 @@ internal class UserRepository(DatabaseContext dbContext) : IUserRepository
         }
         catch (DbUpdateException e)
         {
-            return Result<bool, DaoErrorType>.Fail(
+            return Result<VoidResult, DaoErrorType>.Fail(
                 DaoErrorType.AlreadyRegistered,
                 $"User {userDtoInfoDto.Username} cannot be updated. Caused by {nameof(DbUpdateException)}."
             );
         }
 
-        return Result<bool, DaoErrorType>.Success(true, $"User {username} updated successfully: {userDtoInfoDto}");
+        return Result<VoidResult, DaoErrorType>.Success(VoidResult.Get(), $"User {username} updated successfully: {userDtoInfoDto}");
     }
 
-    public Result<bool, DaoErrorType> DeleteUser(string username)
+    public Result<VoidResult, DaoErrorType> DeleteUser(string username)
     {
         try
         {
@@ -89,7 +90,7 @@ internal class UserRepository(DatabaseContext dbContext) : IUserRepository
 
             if (existingUser == null)
             {
-                return Result<bool, DaoErrorType>.Fail(
+                return Result<VoidResult, DaoErrorType>.Fail(
                     DaoErrorType.NotFound,
                     $"User {username} could not be deleted. Caused by existingUser={existingUser}."
                 );
@@ -100,13 +101,13 @@ internal class UserRepository(DatabaseContext dbContext) : IUserRepository
         }
         catch (DbUpdateException e)
         {
-            return Result<bool, DaoErrorType>.Fail(
+            return Result<VoidResult, DaoErrorType>.Fail(
                 DaoErrorType.DatabaseError,
                 $"User {username} cannot be updated. Caused by {nameof(DbUpdateException)}."
             );
         }
 
-        return Result<bool, DaoErrorType>.Success(true, $"User {username} updated successfully.");
+        return Result<VoidResult, DaoErrorType>.Success(VoidResult.Get(), $"User {username} updated successfully.");
     }
 
     public Result<List<BillUserDto>, DaoErrorType> GetAllUsers()

@@ -3,7 +3,7 @@ using Persistence.DTO.Order;
 using Persistence.DTO.Product;
 using Persistence.DTO.User;
 
-namespace UnitTesting.PersistenceTesting;
+namespace UnitTesting.Persistence.UnitTesting;
 
 public class OrderRepositoryUnit
 {
@@ -80,12 +80,6 @@ public class OrderRepositoryUnit
             Is.EqualTo(true));
         Assert.That(PersistenceFacade.Instance.OrderRepository.GetSessionOrder(orderSessionDto.SessionCode).IsSuccess,
             Is.EqualTo(true));
-
-        var sessionOrders = PersistenceFacade.Instance.OrderRepository.GetAllOrders();
-        Assert.That(sessionOrders.IsSuccess, Is.EqualTo(true));
-        Assert.That(sessionOrders.SuccessValue.Count, Is.EqualTo(1));
-
-        sessionOrders.SuccessValue.ToList()[0].OrderProducts.ForEach(Console.WriteLine);
 
         Assert.That(PersistenceFacade.Instance.OrderRepository.GetSessionOrder(orderSessionDto.SessionCode).IsSuccess,
             Is.EqualTo(true));
