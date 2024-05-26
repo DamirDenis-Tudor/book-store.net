@@ -56,15 +56,16 @@ internal class AuthService : IAuth
 
         return Result<string, BaoErrorType>.Success(token,
             $"User {userLoginBto.Username} succesfully logged in.");
+        
     }
 
     public Result<VoidResult, BaoErrorType> CheckSession(string token)
     {
         var sessionToRemove = _sessions.FirstOrDefault(s => s.Value.Item1 == token);
 
-		if (EqualityComparer<KeyValuePair<string, Tuple<string, DateTime>>>.Default.Equals(sessionToRemove, default))
-		{
-			return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.InvalidSession, "Invalid session.");
+        if (sessionToRemove.Equals(default(KeyValuePair<string, Tuple<string, DateTime>>)))
+        {
+			return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.InvalidSession, "Invalid session empty.");
 		}
 
 		if (sessionToRemove.Value.Item1 != token)

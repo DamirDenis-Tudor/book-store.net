@@ -13,7 +13,7 @@ else if (_isAuthenticated == true && NavigationManager.ToBaseRelativePath(Naviga
 {
     NavigationManager.NavigateTo("/");
 }
-else if (_isAuthenticated == true || NavigationManager.ToBaseRelativePath(NavigationManager.Uri) == "login")
+else if (NavigationManager.ToBaseRelativePath(NavigationManager.Uri) == "register" || _isAuthenticated == true || NavigationManager.ToBaseRelativePath(NavigationManager.Uri) == "login")
 {
     @inherits LayoutComponentBase
     
