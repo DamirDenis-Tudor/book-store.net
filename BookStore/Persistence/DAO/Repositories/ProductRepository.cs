@@ -30,40 +30,40 @@ internal class ProductRepository(DatabaseContext dbContext) : IProductRepository
     {
         try
         {
-            if (GetProduct(productDto.Name).IsSuccess) 
-                return Result<VoidResult, DaoErrorType>.Fail(DaoErrorType.AlreadyRegistered, $"Product {productDto.Name} already registered.");
+            if (GetProduct(productDto.Name).IsSuccess)
+                return Result<VoidResult, DaoErrorType>.Fail(DaoErrorType.AlreadyRegistered,
+                    $"Product {productDto.Name} already registered.");
             dbContext.Products.Add(MapperDto.MapToProduct(productDto));
             dbContext.SaveChanges();
         }
         catch (DbUpdateException e)
         {
-            return Result<VoidResult, DaoErrorType>.Fail(DaoErrorType.DatabaseError, $"Failed to register product: {e.Message}");
+            return Result<VoidResult, DaoErrorType>.Fail(DaoErrorType.DatabaseError,
+                $"Failed to register product {productDto.Name}: {e.Message}");
         }
 
-        return Result<VoidResult, DaoErrorType>.Success(VoidResult.Get(), "Product registered successfully.");
+        return Result<VoidResult, DaoErrorType>.Success(VoidResult.Get(), $"Product {productDto.Name} registered successfully.");
     }
 
     public Result<IList<string>, DaoErrorType> GetCategories()
     {
         var categories = new List<string>();
-        dbContext.Products.ToList().ForEach(product =>
-        {
-            categories.Add(product.Category);
-        });
-        
+        dbContext.Products.ToList().ForEach(product => { categories.Add(product.Category); });
+
         return categories.Count != 0
-            ? Result<IList<string>, DaoErrorType>.Success(categories.Distinct().ToList(), "Successfully fetched categories.")
+            ? Result<IList<string>, DaoErrorType>.Success(categories.Distinct().ToList(),
+                "Successfully fetched categories.")
             : Result<IList<string>, DaoErrorType>.Fail(DaoErrorType.ListIsEmpty, "Fail to fetch categories.");
     }
 
-    public Result<ProductDto, DaoErrorType>GetProduct(string name)
+    public Result<ProductDto, DaoErrorType> GetProduct(string name)
     {
         var productDto = MapperDto.MapToProductDto(dbContext.Products.FirstOrDefault(p => p.Name == name));
-        if (productDto == null) 
-            return  Result<ProductDto, DaoErrorType>
-                .Fail(DaoErrorType.NotFound, "Product {name} not found.");
+        if (productDto == null)
+            return Result<ProductDto, DaoErrorType>
+                .Fail(DaoErrorType.NotFound, $"Product {name} not found.");
         return Result<ProductDto, DaoErrorType>
-            .Success(productDto, "Product {name} found.");
+            .Success(productDto, $"Product {name} found.");
     }
 
 
@@ -74,18 +74,17 @@ internal class ProductRepository(DatabaseContext dbContext) : IProductRepository
         return products.Count != 0
             ? Result<IList<ProductDto>, DaoErrorType>.Success(products, "Products registered.")
             : Result<IList<ProductDto>, DaoErrorType>.Fail(DaoErrorType.ListIsEmpty, "No products registered.");
-
     }
 
     public Result<IList<ProductDto>, DaoErrorType> GetAllProductsByCategory(string category)
     {
         var orderSessions = dbContext.Products
-            .Where(p => p.Category == category )
+            .Where(p => p.Category == category)
             .ToList();
 
         var orderSessionDtos = orderSessions.Select(MapperDto.MapToProductDto).ToList();
 
-        return orderSessions.Count!=0 && orderSessionDtos.Count != 0
+        return orderSessions.Count != 0 && orderSessionDtos.Count != 0
             ? Result<IList<ProductDto>, DaoErrorType>.Success(orderSessionDtos!, "Products list returned.")
             : Result<IList<ProductDto>, DaoErrorType>.Fail(DaoErrorType.ListIsEmpty, "No order session found.");
     }
@@ -105,19 +104,18 @@ internal class ProductRepository(DatabaseContext dbContext) : IProductRepository
                             {
                                 totalRevenue += p.Price * o.Quantity;
                                 totalItemsSold += o.Quantity;
-                            } 
+                            }
                         );
                     products.Add(new ProductStatsDto
                     {
-                        Name = p.Name,
                         TotalRevenue = totalRevenue,
                         TotalItemsSold = totalItemsSold,
-                        Link = p.Link
+                        ProductDto = MapperDto.MapToProductDto(p)!
                     });
                 });
-        
+
         return Result<IList<ProductStatsDto>, DaoErrorType>
-            .Success(products, "Product {name} found.");
+            .Success(products, "Products found.");
     }
 
     public Result<VoidResult, DaoErrorType> UpdatePrice(string name, decimal newPrice)
@@ -136,10 +134,12 @@ internal class ProductRepository(DatabaseContext dbContext) : IProductRepository
         }
         catch (DbUpdateException e)
         {
-            return Result<VoidResult, DaoErrorType>.Fail(DaoErrorType.DatabaseError, "Failed to update product price.");
+            return Result<VoidResult, DaoErrorType>.Fail(DaoErrorType.DatabaseError,
+                $"Failed to update product price: {e.Message}");
         }
 
-        return Result<VoidResult, DaoErrorType>.Success(VoidResult.Get(), $"Product '{name}' price updated successfully.");
+        return Result<VoidResult, DaoErrorType>.Success(VoidResult.Get(),
+            $"Product '{name}' price updated successfully.");
     }
 
     public Result<VoidResult, DaoErrorType> UpdateQuantity(string name, int quantity)
@@ -156,10 +156,12 @@ internal class ProductRepository(DatabaseContext dbContext) : IProductRepository
         }
         catch (DbUpdateException e)
         {
-            return Result<VoidResult, DaoErrorType>.Fail(DaoErrorType.DatabaseError, "Failed to update product quantity.");
+            return Result<VoidResult, DaoErrorType>.Fail(DaoErrorType.DatabaseError,
+                $"Failed to update product quantity: {e.Message}");
         }
 
-        return Result<VoidResult, DaoErrorType>.Success(VoidResult.Get(), $"Product '{name}' quantity updated successfully.");
+        return Result<VoidResult, DaoErrorType>.Success(VoidResult.Get(),
+            $"Product '{name}' quantity updated successfully.");
     }
 
     public Result<VoidResult, DaoErrorType> DeleteProduct(string name)
@@ -169,13 +171,14 @@ internal class ProductRepository(DatabaseContext dbContext) : IProductRepository
             var existingProduct = dbContext.Products.FirstOrDefault(p => p.Name == name);
             if (existingProduct == null)
                 return Result<VoidResult, DaoErrorType>.Fail(DaoErrorType.NotFound, $"Product '{name}' not found.");
-            
+
             dbContext.Products.Remove(existingProduct);
             dbContext.SaveChanges();
         }
         catch (DbUpdateException e)
         {
-            return Result<VoidResult, DaoErrorType>.Fail(DaoErrorType.DatabaseError, $"Failed to delete product '{name}'.");
+            return Result<VoidResult, DaoErrorType>.Fail(DaoErrorType.DatabaseError,
+                $"Failed to delete product '{name}'.");
         }
 
         return Result<VoidResult, DaoErrorType>.Success(VoidResult.Get(), $"Product '{name}' deleted successfully.");
