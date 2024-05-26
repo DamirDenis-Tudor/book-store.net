@@ -1,62 +1,48 @@
 ﻿@page "/home"
-
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 @using Persistence.DAL
 @using Persistence.DTO.Product
 
 <PageTitle>Home</PageTitle>
 
-<NavMenu/>
+<NavMenu />
 
 <div class="main">
     <div class="categories">
-        <p class="categories-title">Categorii</p>
+        <a class="categories-title" href="/home"><p>Categorii</p></a>
         <ul class="categories-list">
-            @foreach (var category in Categories)
+            @foreach (string category in ProductsScope.Categories)
             {
                 <li>
-                    <a href="@($"/category/{category.Name}")">@category.Name</a>
+                    @if (category == Category)
+                    {
+                        <a class="selected" href="@($"/home?category={@category}")">@category</a>
+                    }
+                    else
+                    {
+                        <a href="@($"/home?category={@category}")">@category</a>
+                    }
                 </li>
             }
         </ul>
     </div>
-
     <div class="products-view">
         <div class="filter">
             <label class="order-by" for="order-by-select"> Order by:</label>
-            <select class="order-by" name="order-by-select">
+            <select class="order-by" name="order-by-select" @onchange="OnSortOrderChange">
                 <option class="order-by" value="name">Name</option>
                 <option class="order-by" value="price">Price</option>
             </select>
             <label class="price-range" for="low-price-range">Price range:</label>
-            <input class="price-range" type="number" name="low-price-range" value=""/>
+            <InputNumber class="price-range" type="number" name="low-price-range" @bind-Value="@PriceRangeMin"></InputNumber>
             <label class="price-range" for="low-price-range"> - </label>
-            <input class="price-range" type="number" name="height-price-range" value=""/>
-
+            <InputNumber class="price-range" type="number" name="height-price-range" @bind-Value="@PriceRangeMax"></InputNumber>
         </div>
         <div class="products">
-            @foreach (var product in Products)
+            @foreach (var product in @DisplayProducts)
             {
-                <ProductView Product=@product/>
+                <ProductView Product=@product />
             }
         </div>
     </div>
 </div>
-
-@code{
-    public class ProductCategory
-    {
-
-        public string Name { get; set; }
-    }
-
-    private List<ProductCategory> Categories = new List<ProductCategory>
-    {
-        new ProductCategory { Name = "Jucarii" },
-        new ProductCategory { Name = "Haine" },
-        new ProductCategory { Name = "Mancare" },
-        new ProductCategory { Name = "Custi" },
-    };
-    
-    private IList<ProductDto> Products = PersistenceFacade.Instance.ProductRepository.GetAllProducts().SuccessValue;
-
-}

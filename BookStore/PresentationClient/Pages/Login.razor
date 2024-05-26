@@ -7,10 +7,14 @@
     <h1 class="logo">PetShop</h1>
     <div class="login-area">
         <h2>Salut!</h2>
-        <EditForm Model="user" OnValidSubmit="login">
+        <EditForm Model="User" OnValidSubmit="LoginSubmit">
+            <DataAnnotationsValidator/>
+            <div class="validation">
+                <ValidationSummary/>
+            </div>
             <div class="login-form">
-                <InputText class="login-input email" @bind-Value="user.Username" placeholder="Adresa de email..."></InputText>
-                <InputText class="login-input parola" @bind-Value="user.Password" placeholder="Parola..."></InputText>
+                <InputText class="login-input email" @bind-Value="User.Username" placeholder="Username..."></InputText>
+                <InputText class="login-input parola" @bind-Value="User.Password" type="password" placeholder="Parola..."></InputText>
             </div>
             <div class="login-action-area">
                 <button type="submit" class="login-btn">Login</button>
@@ -21,15 +25,3 @@
     </div>
     <h1 class="logo" style="opacity: 0;">PetShop</h1>
 </div>
-
-@code {
-    UserLogin user { get; } = new UserLogin();
-
-    async Task login()
-    {
-        string token = "token";
-        await ProtectedLocalStorage.SetAsync("currentCount", token);
-        NavigationManager.NavigateTo("/");
-    }
-
-}

@@ -56,7 +56,7 @@ public class Seeder
     {
         var persistence = PersistenceFacade.Instance;
 
-        var file = File.ReadAllText($"{SlnDirectory.GetPath()}/Integration/DbSeeder/Persistence/OrdersSeed.json".Replace('/', Path.DirectorySeparatorChar));
+        var file = File.ReadAllText($"{SlnDirectory.GetPath()}/Integration/Persistence/Resources/OrdersSeed.json".Replace('/', Path.DirectorySeparatorChar));
 
         JsonSerializer.Deserialize<List<OrderBto>>(file)?.ForEach(orderBto =>
             {

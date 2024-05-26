@@ -25,7 +25,7 @@
     display: flex;
 }
 
-.search-bar {
+::deep .search-bar {
     width: 1080px;
     height: 50px;
     border-radius: 30px;
@@ -36,10 +36,10 @@
     background-size: 30px 30px;
 }
 
-    .search-bar:focus {
-        outline: none !important;
-        border: 3px solid #7018C9;
-    }
+::deep .search-bar:focus {
+    outline: none !important;
+    border: 3px solid #7018C9;
+}
 
 .button {
     border-radius: 20px;

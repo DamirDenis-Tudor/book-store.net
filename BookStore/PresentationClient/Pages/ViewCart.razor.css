@@ -11,6 +11,7 @@
 main{
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 
 aside {
@@ -23,7 +24,7 @@ aside {
     border-radius: 20px;
     background: #FAF6FE;
     padding: 20px 0 12px 23px;
-    margin-top: 85px;
+    margin: 85px 0 0 40px;
 }
 
     aside h2 {
@@ -56,6 +57,9 @@ aside {
         font-family: Inter;
         font-size: 22px;
         font-weight: 600;
+    }
+    aside .btn-diabled {
+        background: #BAB3F2;
     }
 
 .title {
