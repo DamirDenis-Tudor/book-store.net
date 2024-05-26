@@ -1,6 +1,7 @@
 ﻿using Business.BAL;
 using Microsoft.AspNetCore.Components;
 using Persistence.DTO.User;
+using PresentationAdmin.Service;
 
 namespace PresentationAdmin.Shared
 {
@@ -9,9 +10,18 @@ namespace PresentationAdmin.Shared
         [Parameter]
         public BillUserDto User { get; set; }
 
-        public void Delete()
+        [Inject]
+        public IUserLoginService UserData { get; set; }
+
+        [Inject]
+        public NavigationManager NavigationManager { get; set; }
+
+
+        public async void Delete()
         {
-            BusinessFacade.Instance.UsersService.DeleteUser("admin", User.Username);
-        }
+            var result = BusinessFacade.Instance.UsersService.DeleteUser(await UserData.GetUsername(), User.Username);
+            NavigationManager.NavigateTo("/users", true);
+            
+		}
     }
 }

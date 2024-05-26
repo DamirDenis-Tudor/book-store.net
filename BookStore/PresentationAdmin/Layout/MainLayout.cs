@@ -1,8 +1,22 @@
-﻿namespace PresentationAdmin.Layout
+﻿using Business.BAL;
+using Common;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
+using Microsoft.Extensions.Logging;
+using PresentationAdmin.Service;
+
+namespace PresentationAdmin.Layout
 {
     public partial class MainLayout
     {
-        private bool? _isAuthenticated = null;
+		[Inject]
+		public BusinessFacade Business { get; set; }
+        [Inject]
+		public ProtectedLocalStorage LocalStorage { get; set; }
+		[Inject]
+		public IUserLoginService UserData { get; set; }
+
+		private bool? _isAuthenticated = null;
         private bool _isFirstRender = true;
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -12,16 +26,26 @@
             {
                 _isFirstRender = false;
 
-                var result = await ProtectedLocalStore.GetAsync<string>("sessiontoken");
-                Console.WriteLine(result.Value);
-                if (result.Success && result.Value == "token")
+                var sessionToken = await LocalStorage.GetAsync<string>("sessiontoken");
+                var username = await LocalStorage.GetAsync<string>("username");
+
+
+				if (sessionToken.Success && username.Success)
                 {
-                    _isAuthenticated = true;
+					var checkResult = Business.AuthService.CheckSession(username.Value, sessionToken.Value);
+                    if (!checkResult.IsSuccess)
+                    {
+                        Logger.Instance.GetLogger<MainLayout>().LogError(checkResult.Message);
+						_isAuthenticated = false;
+					}
+                    else
+                    {
+                        _isAuthenticated = checkResult.SuccessValue;
+                    }
+					
                 }
                 else
-                {
                     _isAuthenticated = false;
-                }
 
                 StateHasChanged();
             }

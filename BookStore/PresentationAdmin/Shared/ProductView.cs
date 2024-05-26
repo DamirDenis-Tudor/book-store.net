@@ -6,6 +6,6 @@ namespace PresentationAdmin.Shared
     public partial class ProductView
     {
         [Parameter]
-        public ProductDto? Product { get; set; }
+        public ProductStatsDto? Product { get; set; }
     }
 }

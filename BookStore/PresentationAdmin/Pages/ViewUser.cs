@@ -8,7 +8,7 @@ namespace PresentationAdmin.Pages
     {
         private IList<BillUserDto> Users {
             get {
-                var result = BusinessFacade.Instance.UsersService.GetAllUsers("admin");
+                var result = BusinessFacade.Instance.UsersService.GetAllUsers("admin_12345");
                 if (!result.IsSuccess)
                 {
                     Logger.Instance.GetLogger<ViewUser>().LogError(result.Message);
