@@ -34,7 +34,7 @@ public class Seeder
                 Assert.That(PersistenceFacade.Instance.UserRepository
                     .RegisterUser(userBill.UserInfoDto).IsSuccess, Is.EqualTo(true));
                 Assert.That(PersistenceFacade.Instance.BillRepository
-                        .UpdateBillToUsername(userBill.UserInfoDto.Username, userBill.BillDto).IsSuccess,
+                        .UpdateBillByUsername(userBill.UserInfoDto.Username, userBill.BillDto).IsSuccess,
                     Is.EqualTo(true));
             }
         );

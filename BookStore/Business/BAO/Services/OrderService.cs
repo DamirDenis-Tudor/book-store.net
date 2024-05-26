@@ -54,7 +54,7 @@ public class OrderService : IOrder
         }
 
         return Result<VoidResult, BaoErrorType>.Success(VoidResult.Get(),
-            $"Order {orderSessionDto.SessionCode} placed succefully.");
+            $"Order {orderSessionDto.SessionCode} placed successfully.");
     }
 
     public Result<IList<OrderSessionDto>, BaoErrorType> GetUserOrders(string username)

@@ -49,6 +49,8 @@ public enum BaoErrorType
     NoProductRegistered, 
     FailedToRegisterProduct,
     FailedToUpdateProductPrice,
-    FailedToUpdateProductStocks
+    FailedToUpdateProductStocks,
+    FailedToDeleteAProduct,
+    InvalidUserType
     
 }

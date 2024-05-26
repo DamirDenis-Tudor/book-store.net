@@ -24,7 +24,7 @@ public class BillRepositoryUnit
             Address = "Tester cel Mare", Telephone = "1000000000",
             Country = "Testania", City = "Tity", PostalCode = "123456"
         };
-        Assert.That(PersistenceFacade.Instance.BillRepository?.UpdateBillToUsername(
+        Assert.That(PersistenceFacade.Instance.BillRepository?.UpdateBillByUsername(
                 user.Username, billDto).IsSuccess,
             Is.EqualTo(true)
         );

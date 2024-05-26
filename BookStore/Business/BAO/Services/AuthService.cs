@@ -36,22 +36,6 @@ public class AuthService : IAuth
             $"User {userLoginBto.Username} succesfully logged in.");
     }
 
-    public Result<bool, BaoErrorType> Register(UserInfoDto userInfoDto)
-    {
-        var gdprUserInfoDto = GdprMapper.DoUserInfoDtoGdpr(userInfoDto);
-
-        var result = _persistenceFacade.UserRepository.RegisterUser(gdprUserInfoDto);
-
-        if (result.IsSuccess)
-            return Result<bool, BaoErrorType>.Success(true,
-                $"User {userInfoDto.Username} succesfully logged in.");
-        if (result.ErrorType == DaoErrorType.AlreadyRegistered)
-            return Result<bool, BaoErrorType>.Fail(BaoErrorType.InvalidRegisterData,
-                $"Invalid register data {userInfoDto.Username}");
-        return Result<bool, BaoErrorType>.Fail(BaoErrorType.DatabaseError,
-            $"Database error while register {userInfoDto.Username}");
-    }
-
     public Result<bool, BaoErrorType> CheckSession(string username, string token)
     {
         if (!_sessions.TryGetValue(username, out var session) || session.Item1 != token)

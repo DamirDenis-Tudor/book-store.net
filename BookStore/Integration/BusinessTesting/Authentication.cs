@@ -39,7 +39,7 @@ public class Authentication
     [Test , Order(2)]
     public void Register()
     {
-        Assert.That(_businessFacade.AuthService.Register(_user).IsSuccess,
+        Assert.That(_businessFacade.UsersService.RegisterUser(_user).IsSuccess,
             Is.EqualTo(true));
     }
     
