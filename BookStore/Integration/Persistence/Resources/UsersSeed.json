@@ -1,6 +1,6 @@
 [
   {
-    "UserInfoDto": {
+    "UserRegisterDto": {
       "FirstName": "John",
       "LastName": "Doe",
       "Username": "john_doe123",
@@ -17,7 +17,7 @@
     }
   },
   {
-    "UserInfoDto": {
+    "UserRegisterDto": {
       "FirstName": "Alice",
       "LastName": "Smith",
       "Username": "alice_smith123",
@@ -34,7 +34,7 @@
     }
   },
   {
-    "UserInfoDto": {
+    "UserRegisterDto": {
       "FirstName": "Bob",
       "LastName": "Johnson",
       "Username": "bob_johnson123",
@@ -51,7 +51,7 @@
     }
   },
   {
-    "UserInfoDto": {
+    "UserRegisterDto": {
       "FirstName": "Emma",
       "LastName": "Davis",
       "Username": "emma_davis123",
@@ -68,7 +68,7 @@
     }
   },
   {
-    "UserInfoDto": {
+    "UserRegisterDto": {
       "FirstName": "Michael",
       "LastName": "Brown",
       "Username": "michael_brown123",
@@ -85,7 +85,7 @@
     }
   },
   {
-    "UserInfoDto": {
+    "UserRegisterDto": {
       "FirstName": "Sarah",
       "LastName": "Wilson",
       "Username": "sarah_wilson123",
@@ -102,7 +102,7 @@
     }
   },
   {
-    "UserInfoDto": {
+    "UserRegisterDto": {
       "FirstName": "Admin",
       "LastName": "Admin",
       "Username": "admin_12345",
@@ -119,7 +119,7 @@
     }
   },
   {
-    "UserInfoDto": {
+    "UserRegisterDto": {
       "FirstName": "Provider",
       "LastName": "Provider",
       "Username": "provider_12345",

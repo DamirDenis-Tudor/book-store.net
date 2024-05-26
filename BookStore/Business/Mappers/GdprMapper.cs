@@ -1,3 +1,17 @@
+/**************************************************************************
+ *                                                                        *
+ *  Description: GDPR Mapper Utility                                      *
+ *  Website:     https://github.com/DamirDenis-Tudor/PetShop-ProiectIP    *
+ *  Copyright:   (c) 2024, Damir Denis-Tudor                              *
+ *                                                                        *
+ *  This code and information is provided "as is" without warranty of     *
+ *  any kind, either expressed or implied, including but not limited      *
+ *  to the implied warranties of merchantability or fitness for a         *
+ *  particular purpose. You are free to use this source code in your      *
+ *  applications as long as the original copyright notice is included.    *
+ *                                                                        *
+ **************************************************************************/
+
 using Business.BTO;
 using Business.Utilities;
 using Persistence.DTO.Bill;
@@ -6,43 +20,66 @@ using Persistence.DTO.User;
 
 namespace Business.Mappers;
 
-public static class GdprMapper
+/// <summary>
+/// Utility class for mapping user and bill data according to GDPR (General Data Protection Regulation) standards.
+/// </summary>
+internal static class GdprMapper
 {
-    public static UserInfoDto DoUserInfoDtoGdpr(UserInfoDto userInfoDto)
+    /// <summary>
+    /// Maps the user registration data to GDPR compliant format.
+    /// </summary>
+    /// <param name="userRegisterDto">The user registration data to be mapped.</param>
+    /// <returns>The user registration data mapped to GDPR compliant format.</returns>
+    public static UserRegisterDto DoUserInfoDtoGdpr(UserRegisterDto userRegisterDto)
+    {
+        return new UserRegisterDto
+        {
+            FirstName = GdprUtility.Encrypt(userRegisterDto.FirstName),
+            LastName = GdprUtility.Encrypt(userRegisterDto.LastName),
+            Username = GdprUtility.Encrypt(userRegisterDto.Username),
+            Password = GdprUtility.Hash(userRegisterDto.Password),
+            Email = GdprUtility.Encrypt(userRegisterDto.Email),
+            UserType = GdprUtility.Encrypt(userRegisterDto.UserType)
+        };
+    }
+
+    /// <summary>
+    /// Maps the user information data to GDPR compliant format for billing purposes.
+    /// </summary>
+    /// <param name="userInfoDto">The user information data to be mapped.</param>
+    /// <returns>The user information data mapped to GDPR compliant format for billing purposes.</returns>
+    public static UserInfoDto DoBillUserDtoGdpr(UserInfoDto userInfoDto)
     {
         return new UserInfoDto
         {
             FirstName = GdprUtility.Encrypt(userInfoDto.FirstName),
             LastName = GdprUtility.Encrypt(userInfoDto.LastName),
             Username = GdprUtility.Encrypt(userInfoDto.Username),
-            Password = GdprUtility.Hash(userInfoDto.Password),
-            Email = GdprUtility.Encrypt(userInfoDto.Email),
-            UserType = GdprUtility.Encrypt(userInfoDto.UserType)
-        };
-    }
-    
-    public static BillUserDto DoBillUserDtoGdpr(BillUserDto billUserDto)
-    {
-        return new BillUserDto
-        {
-            FirstName = GdprUtility.Encrypt(billUserDto.FirstName),
-            LastName = GdprUtility.Encrypt(billUserDto.LastName),
-            Username = GdprUtility.Encrypt(billUserDto.Username),
-            Email = GdprUtility.Encrypt(billUserDto.Email)
+            Email = GdprUtility.Encrypt(userInfoDto.Email)
         };
     }
 
-    public static BillUserDto UndoBillUserDtoGdpr(BillUserDto encryptedBillUserDto)
+    /// <summary>
+    /// Reverts the GDPR compliant mapping of user information data for billing purposes.
+    /// </summary>
+    /// <param name="encryptedUserInfoDto">The GDPR compliant user information data to be reverted.</param>
+    /// <returns>The reverted user information data for billing purposes.</returns>
+    public static UserInfoDto UndoBillUserDtoGdpr(UserInfoDto encryptedUserInfoDto)
     {
-        return new BillUserDto
+        return new UserInfoDto
         {
-            FirstName = GdprUtility.Decrypt(encryptedBillUserDto.FirstName),
-            LastName = GdprUtility.Decrypt(encryptedBillUserDto.LastName),
-            Username = GdprUtility.Decrypt(encryptedBillUserDto.Username),
-            Email = GdprUtility.Decrypt(encryptedBillUserDto.Email),
+            FirstName = GdprUtility.Decrypt(encryptedUserInfoDto.FirstName),
+            LastName = GdprUtility.Decrypt(encryptedUserInfoDto.LastName),
+            Username = GdprUtility.Decrypt(encryptedUserInfoDto.Username),
+            Email = GdprUtility.Decrypt(encryptedUserInfoDto.Email),
         };
     }
-    
+
+    /// <summary>
+    /// Maps the billing data to GDPR compliant format.
+    /// </summary>
+    /// <param name="billDto">The billing data to be mapped.</param>
+    /// <returns>The billing data mapped to GDPR compliant format.</returns>
     public static BillDto DoBillGdpr(BillDto billDto)
     {
         return new BillDto
@@ -55,6 +92,11 @@ public static class GdprMapper
         };
     }
 
+    /// <summary>
+    /// Reverts the GDPR compliant mapping of billing data.
+    /// </summary>
+    /// <param name="encryptedBillDto">The GDPR compliant billing data to be reverted.</param>
+    /// <returns>The reverted billing data.</returns>
     public static BillDto UndoBillGdpr(BillDto encryptedBillDto)
     {
         return new BillDto
@@ -67,24 +109,44 @@ public static class GdprMapper
         };
     }
 
+    /// <summary>
+    /// Maps the order session data to GDPR compliant format.
+    /// </summary>
+    /// <param name="orderSessionDto">The order session data to be mapped.</param>
+    /// <returns>The order session data mapped to GDPR compliant format.</returns>
     public static OrderSessionDto DoOrderSessionDtoGdpr(OrderSessionDto orderSessionDto)
     {
         orderSessionDto.Username = GdprUtility.Encrypt(orderSessionDto.Username);
         return orderSessionDto;
     }
 
+    /// <summary>
+    /// Reverts the GDPR compliant mapping of order session data.
+    /// </summary>
+    /// <param name="encryptedOrderSessionDto">The GDPR compliant order session data to be reverted.</param>
+    /// <returns>The reverted order session data.</returns>
     public static OrderSessionDto UndoOrderSessionDtoGdpr(OrderSessionDto encryptedOrderSessionDto)
     {
         encryptedOrderSessionDto.Username = GdprUtility.Decrypt(encryptedOrderSessionDto.Username);
         return encryptedOrderSessionDto;
     }
 
+    /// <summary>
+    /// Maps the order data to GDPR compliant format.
+    /// </summary>
+    /// <param name="orderBto">The order data to be mapped.</param>
+    /// <returns>The order data mapped to GDPR compliant format.</returns>
     public static OrderBto DoOrderBto(OrderBto orderBto)
     {
         orderBto.Username = GdprUtility.Encrypt(orderBto.Username);
         return orderBto;
     }
-    
+        
+    /// <summary>
+    /// Maps the user login data to GDPR compliant format.
+    /// </summary>
+    /// <param name="userLoginBto">The user login data to be mapped.</param>
+    /// <returns>The user login data mapped to GDPR compliant format.</returns>
     public static UserLoginBto DoUserLoginBto(UserLoginBto userLoginBto)
     {
         return new UserLoginBto

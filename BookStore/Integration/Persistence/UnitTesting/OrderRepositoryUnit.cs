@@ -9,7 +9,7 @@ public class OrderRepositoryUnit
 {
     private const string SessionCode = "code_123";
 
-    private readonly UserInfoDto _user = new()
+    private readonly UserRegisterDto _user = new()
     {
         FirstName = "testCreateAndDelete", LastName = "testCreateAndDelete", Username = "test_12345CreateAndDelete",
         Password = "testCreateAndDelete", Email = "test@test.testCreateAndDelete", UserType = "TESTER"

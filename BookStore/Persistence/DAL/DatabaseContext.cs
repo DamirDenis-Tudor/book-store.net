@@ -1,6 +1,7 @@
 using System.ComponentModel.Design;
 using Common;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Persistence.Entity;
 
 namespace Persistence.DAL;
@@ -10,7 +11,7 @@ namespace Persistence.DAL;
 /// </summary>
 internal sealed class DatabaseContext : DbContext
 {
-    //private readonly ILogger _logger = Logger.Logger.Instance.GetLogger<DatabaseContext>();
+    private readonly ILogger _logger = Logger.Instance.GetLogger<DatabaseContext>();
     private readonly IntegrationMode _integrationMode;
 
     /// <summary>
@@ -18,13 +19,15 @@ internal sealed class DatabaseContext : DbContext
     /// </summary>
     public DatabaseContext(IntegrationMode integrationMode)
     {
+        _logger.LogInformation("DatabaseContext instantiated.");
+        
         _integrationMode = integrationMode;
-        Console.WriteLine("DatabaseContext instantiated.");
+
         if (_integrationMode == IntegrationMode.Integration)
             Database.EnsureDeleted();
         if (Database.EnsureCreated())
         {
-            Console.WriteLine("Database created successfully.");
+            _logger.LogInformation("Database created successfully.");
         }
     }
 
@@ -63,11 +66,11 @@ internal sealed class DatabaseContext : DbContext
         {
             case IntegrationMode.Production:
             case IntegrationMode.Integration:
-                Console.WriteLine("Integration mode: Production");
+                _logger.LogInformation("Integration mode: Production");
                 optionsBuilder.UseSqlite($"Data Source={SlnDirectory.GetPath()}/Persistence/BookStore.db".Replace('/', Path.DirectorySeparatorChar));
                 break;
             case IntegrationMode.Testing:
-                Console.WriteLine("Integration mode: Testing");
+                _logger.LogInformation("Integration mode: Testing");
                 optionsBuilder.UseInMemoryDatabase("TestingDatabase");
                 break;
             default:

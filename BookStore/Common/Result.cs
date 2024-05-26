@@ -14,6 +14,10 @@
 
 namespace Common;
 
+/// <summary>
+/// Class representing Void type.
+/// Usefully when the result is not important.
+/// </summary>
 public class VoidResult
 {
     public static VoidResult Get() => new ();

@@ -14,7 +14,7 @@ public class Seeder
 {
     private sealed record UserBill
     {
-        public required UserInfoDto UserInfoDto { get; set; }
+        public required UserRegisterDto UserRegisterDto { get; set; }
         public required BillDto BillDto { get; set; }
     }
 
@@ -26,15 +26,15 @@ public class Seeder
     {
         Console.WriteLine(DateTime.Now);
         var file = File.ReadAllText(
-            $"{SlnDirectory.GetPath()}{Path.DirectorySeparatorChar}Integration/Persistence/Resources/UsersSeed.json".Replace('/', Path.DirectorySeparatorChar));
+            $"{SlnDirectory.GetPath()}/Integration/Persistence/Resources/UsersSeed.json".Replace('/', Path.DirectorySeparatorChar));
         JsonSerializer.Deserialize<List<UserBill>>(file)?.ForEach(userBill =>
             {
-                userBill.UserInfoDto = GdprMapper.DoUserInfoDtoGdpr(userBill.UserInfoDto);
+                userBill.UserRegisterDto = GdprMapper.DoUserInfoDtoGdpr(userBill.UserRegisterDto);
                 userBill.BillDto = GdprMapper.DoBillGdpr(userBill.BillDto);
                 Assert.That(PersistenceFacade.Instance.UserRepository
-                    .RegisterUser(userBill.UserInfoDto).IsSuccess, Is.EqualTo(true));
+                    .RegisterUser(userBill.UserRegisterDto).IsSuccess, Is.EqualTo(true));
                 Assert.That(PersistenceFacade.Instance.BillRepository
-                        .UpdateBillByUsername(userBill.UserInfoDto.Username, userBill.BillDto).IsSuccess,
+                        .UpdateBillByUsername(userBill.UserRegisterDto.Username, userBill.BillDto).IsSuccess,
                     Is.EqualTo(true));
             }
         );

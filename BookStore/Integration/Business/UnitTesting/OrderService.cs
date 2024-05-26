@@ -11,9 +11,9 @@ public class OrderService
 {
     private BusinessFacade _businessFacade;
     private OrderBto _validOrderBto;
-    private UserInfoDto _clientUser;
-    private UserInfoDto _adminUser;
-    private UserInfoDto _providerUser;
+    private UserRegisterDto _clientUser;
+    private UserRegisterDto _adminUser;
+    private UserRegisterDto _providerUser;
 
     [OneTimeSetUp]
     public void PrepareDatabase()
@@ -21,7 +21,7 @@ public class OrderService
         PersistenceFacade.Instance.SetIntegrationMode(IntegrationMode.Testing);
         _businessFacade = BusinessFacade.Instance;
 
-        _adminUser = new UserInfoDto
+        _adminUser = new UserRegisterDto
         {
             FirstName = "AdminUser", LastName = "AdminUser", Username = "AdminUser_123",
             Password = "adminUser_123", Email = "admin@admin.com", UserType = "ADMIN"
@@ -29,14 +29,14 @@ public class OrderService
         var gdprAdmin = GdprMapper.DoUserInfoDtoGdpr(_adminUser);
         Assert.That(PersistenceFacade.Instance.UserRepository.RegisterUser(gdprAdmin).IsSuccess, Is.EqualTo(true));
 
-        _clientUser = new UserInfoDto
+        _clientUser = new UserRegisterDto
         {
             FirstName = "ClientUser", LastName = "ClientUser", Username = "clientUser_123",
             Password = "client_123", Email = "client@client.com", UserType = "CLIENT"
         };
         Assert.That(_businessFacade.UsersService.RegisterClient(_clientUser).IsSuccess, Is.EqualTo(true));
 
-        _providerUser = new UserInfoDto
+        _providerUser = new UserRegisterDto
         {
             FirstName = "ProviderUser", LastName = "ProviderUser", Username = "provider_123",
             Password = "provider_123", Email = "provider@provider.com", UserType = "PROVIDER"

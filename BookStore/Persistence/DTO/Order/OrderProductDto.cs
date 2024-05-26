@@ -21,6 +21,5 @@ public record OrderProductDto
     public decimal Price { get; init; }
     public required string SessionCode { get; init; }
     public required int OrderQuantity { get; init; }
-
     public string? Link { get; init; }
 }

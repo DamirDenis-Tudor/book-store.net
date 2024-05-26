@@ -25,17 +25,17 @@ public interface IUserRepository
     /// <summary>
     /// Registers a new user.
     /// </summary>
-    /// <param name="userInfo">The user data transfer object containing the details of the user to register.</param>
+    /// <param name="userRegister">The user data transfer object containing the details of the user to register.</param>
     /// <returns>A Result containing either a boolean indicating success or a DaoErrorType indicating the type of error.</returns>
-    Result<VoidResult, DaoErrorType> RegisterUser(UserInfoDto userInfo);
+    Result<VoidResult, DaoErrorType> RegisterUser(UserRegisterDto userRegister);
 
     /// <summary>
     /// Updates an existing user's details.
     /// </summary>
     /// <param name="username">The username of the user to update.</param>
-    /// <param name="userDtoInfoDto">The user data transfer object containing the new details of the user.</param>
+    /// <param name="userDtoRegisterDto">The user data transfer object containing the new details of the user.</param>
     /// <returns>A Result containing either a boolean indicating success or a DaoErrorType indicating the type of error.</returns>
-    Result<VoidResult, DaoErrorType> UpdateUser(string username, UserInfoDto userDtoInfoDto);
+    Result<VoidResult, DaoErrorType> UpdateUser(string username, UserRegisterDto userDtoRegisterDto);
 
     /// <summary>
     /// Deletes a user by their username.
@@ -47,15 +47,15 @@ public interface IUserRepository
     /// <summary>
     /// Retrieves a list of all users.
     /// </summary>
-    /// <returns>A Result containing either a list of BillUserDto or a DaoErrorType indicating the type of error.</returns>
-    Result<List<BillUserDto>, DaoErrorType> GetAllUsers();
+    /// <returns>A Result containing either a list of UserInfoDto or a DaoErrorType indicating the type of error.</returns>
+    Result<List<UserInfoDto>, DaoErrorType> GetAllUsers();
 
     /// <summary>
     /// Retrieves a user by their username.
     /// </summary>
     /// <param name="username">The username of the user to retrieve.</param>
-    /// <returns>A Result containing either the BillUserDto or a DaoErrorType indicating the type of error.</returns>
-    Result<BillUserDto, DaoErrorType> GetUser(string username);
+    /// <returns>A Result containing either the UserInfoDto or a DaoErrorType indicating the type of error.</returns>
+    Result<UserInfoDto, DaoErrorType> GetUser(string username);
 
     /// <summary>
     /// Retrieves the password of a user by their username.

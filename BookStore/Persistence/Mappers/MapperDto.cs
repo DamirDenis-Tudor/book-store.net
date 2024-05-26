@@ -27,31 +27,31 @@ namespace Persistence.Mappers;
 internal static class MapperDto
 {
     /// <summary>
-    /// Maps a UserInfoDto to a User entity.
+    /// Maps a UserRegisterDto to a User entity.
     /// </summary>
-    /// <param name="userInfoDto">The UserInfoDto to map from.</param>
+    /// <param name="userRegisterDto">The UserRegisterDto to map from.</param>
     /// <returns>A User entity.</returns>
-    internal static Entity.User MapToUser(UserInfoDto userInfoDto) =>
+    internal static Entity.User MapToUser(UserRegisterDto userRegisterDto) =>
         new()
         {
-            FirstName = userInfoDto.FirstName,
-            LastName = userInfoDto.LastName,
-            Username = userInfoDto.Username,
-            Password = userInfoDto.Password,
-            Email = userInfoDto.Email,
-            UserType = userInfoDto.UserType,
+            FirstName = userRegisterDto.FirstName,
+            LastName = userRegisterDto.LastName,
+            Username = userRegisterDto.Username,
+            Password = userRegisterDto.Password,
+            Email = userRegisterDto.Email,
+            UserType = userRegisterDto.UserType,
             BillDetails = new BillDetails { }
         };
 
     /// <summary>
-    /// Maps a User entity to a UserInfoDto.
+    /// Maps a User entity to a UserRegisterDto.
     /// </summary>
     /// <param name="user">The User entity to map from.</param>
-    /// <returns>A UserInfoDto or null if the user is null.</returns>
-    internal static UserInfoDto? MapToUserDto(Entity.User? user)
+    /// <returns>A UserRegisterDto or null if the user is null.</returns>
+    internal static UserRegisterDto? MapToUserDto(Entity.User? user)
     {
         return user != null
-            ? new UserInfoDto()
+            ? new UserRegisterDto()
             {
                 FirstName = user.FirstName,
                 LastName = user.LastName,
@@ -64,15 +64,15 @@ internal static class MapperDto
     }
 
     /// <summary>
-    /// Maps a User entity to a BillUserDto.
+    /// Maps a User entity to a UserInfoDto.
     /// </summary>
     /// <param name="user">The User entity to map from.</param>
-    /// <returns>A BillUserDto or null if the user is null.</returns>
-    internal static BillUserDto? MapToBillUserDto(Entity.User? user)
+    /// <returns>A UserInfoDto or null if the user is null.</returns>
+    internal static UserInfoDto? MapToBillUserDto(Entity.User? user)
     {
         if (user == null) return null;
 
-        return new BillUserDto
+        return new UserInfoDto
         {
             FirstName = user.FirstName,
             LastName = user.LastName,
