@@ -38,7 +38,8 @@ namespace PresentationAdmin.Pages
 		{
 			if (editContext.Validate())
 			{
-				var result = Business.UsersService.RegisterProvider(await UserData.GetUsername(), new UserInfoDto()
+				var username = Business.AuthService.GetUsername(await UserData.GetToken());
+				var result = Business.UsersService.RegisterProvider(username.SuccessValue, new UserRegisterDto()
 				{
 					Email = user.Email,
 					FirstName = user.FirstName,

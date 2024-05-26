@@ -11,8 +11,6 @@ namespace PresentationAdmin.Layout
     {
 		[Inject]
 		public BusinessFacade Business { get; set; }
-        [Inject]
-		public ProtectedLocalStorage LocalStorage { get; set; }
 		[Inject]
 		public IUserLoginService UserData { get; set; }
 
@@ -26,13 +24,11 @@ namespace PresentationAdmin.Layout
             {
                 _isFirstRender = false;
 
-                var sessionToken = await LocalStorage.GetAsync<string>("sessiontoken");
-                var username = await LocalStorage.GetAsync<string>("username");
+                var sessionToken = await UserData.GetToken();
 
-
-				if (sessionToken.Success && username.Success)
+				if (sessionToken != null)
                 {
-					var checkResult = Business.AuthService.CheckSession(username.Value, sessionToken.Value);
+					var checkResult = Business.AuthService.CheckSession(sessionToken);
                     if (!checkResult.IsSuccess)
                     {
                         Logger.Instance.GetLogger<MainLayout>().LogError(checkResult.Message);
@@ -40,7 +36,7 @@ namespace PresentationAdmin.Layout
 					}
                     else
                     {
-                        _isAuthenticated = checkResult.SuccessValue;
+                        _isAuthenticated = true;
                     }
 					
                 }

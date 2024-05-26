@@ -62,7 +62,12 @@ internal class AuthService : IAuth
     {
         var sessionToRemove = _sessions.FirstOrDefault(s => s.Value.Item1 == token);
 
-        if (sessionToRemove.Value.Item1 != token)
+		if (EqualityComparer<KeyValuePair<string, Tuple<string, DateTime>>>.Default.Equals(sessionToRemove, default))
+		{
+			return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.InvalidSession, "Invalid session.");
+		}
+
+		if (sessionToRemove.Value.Item1 != token)
             return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.InvalidSession, "Invalid session.");
 
         if (DateTime.Now <= sessionToRemove.Value.Item2)

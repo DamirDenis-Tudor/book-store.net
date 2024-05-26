@@ -15,19 +15,19 @@
         <div class="categories">
             <a class="categories-title" href="/home"><p>Categorii</p></a>
             <ul class="categories-list">
-                @foreach (string category in ProductsScope.Categories)
+                @foreach (string category in ProductsScope.Categories())
                 {
                     <li>
-                        @if (category == Category)
+                         @if (category == Category)
                         {
                             <a class="selected" href="@($"/home?category={@category}")">@category</a>
                         }
                         else
-                        {
+                        { 
                             <a href="@($"/home?category={@category}")">@category</a>
                         }
                     </li>
-                }
+                } 
             </ul>
         </div>
     </aside>

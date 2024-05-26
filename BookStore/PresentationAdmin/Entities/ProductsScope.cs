@@ -9,31 +9,22 @@ namespace PresentationAdmin.Entities
 {
 	public class ProductsScope
 	{
-		private IUserLoginService _userData;
+		/*private IUserLoginService _userData;
 		private ProtectedLocalStorage ll;
-		public ProductsScope(IUserLoginService userData, ProtectedLocalStorage l)
+		public ProductsScope(IUserLoginService userData)
 		{
 			_userData = userData;
-			ll = l;
-		}
-
-
-		//public IList<ProductStatsDto> Products { get { return BusinessFacade.Instance.InventoryService.GetInventoryStats(await _userData.GetUsername()).SuccessValue; } set; }
-		//public IList<ProductStatsDto> Products { get { return BusinessFacade.Instance.InventoryService.GetInventoryStats(await _userData.GetUsername()).SuccessValue; } set; }
-		public IList<string> Categories { get; set; } = PersistenceFacade.Instance.ProductRepository.GetCategories().SuccessValue;
-
-		public async Task<IList<ProductStatsDto>> GetProducts()
-		{
-			//var result = BusinessFacade.Instance.InventoryService.GetInventoryStats(await _userData.GetUsername());
-			//var dwd = await ll.GetAsync<string>("sessiontoken");
-			return PersistenceFacade.Instance.ProductRepository.GetAllProductsStats().SuccessValue;
-			//return result.IsSuccess ? result.SuccessValue : new List<ProductStatsDto>(); 
-		}/*public async Task<IList<ProductStatsDto>> GetProducts()
-		{
-			//var result = BusinessFacade.Instance.InventoryService.GetInventoryStats(await _userData.GetUsername());
-			var dwd = await _userData.GetUsername();
-			return PersistenceFacade.Instance.ProductRepository.GetAllProductsStats().SuccessValue;
-			//return result.IsSuccess ? result.SuccessValue : new List<ProductStatsDto>(); 
 		}*/
+
+
+		public IList<ProductStatsDto> Products { get { return BusinessFacade.Instance.InventoryService.GetInventoryStats().SuccessValue; } set { Products = value; } }
+		//public IList<ProductStatsDto> Products { get { return BusinessFacade.Instance.InventoryService.GetInventoryStats(await _userData.GetUsername()).SuccessValue; } set; }
+		public IList<string> Categories()
+		{
+			List<string> cat = new List<string>();
+			foreach (var item in Products)
+				cat.Add(item.ProductDto.Category);
+			return cat.Distinct().ToList();
+		}
 	}
 }

@@ -22,13 +22,12 @@ namespace PresentationAdmin.Pages
 		private string _logginError = "";
 		private string _logginSuccess = "";
 
-		private async Task LoginSubmit(EditContext editContext)
+		private void LoginSubmit(EditContext editContext)
 		{
-			editContext.OnFieldChanged += test;
+			editContext.OnFieldChanged += OnFieldChange;
 			if (editContext.Validate())
 			{
-				var result = Business.AuthService.Login(User.ConverToBto());
-				//var result = BusinessFacade.Instance.AuthService.Login(new Business.BTO.UserLoginBto() { Username="admin_12345", Password="admin@2024"});
+				var result = Business.AuthService.Login(User.ConverToBto(), LoginMode.Admin);
 				if (!result.IsSuccess)
 				{
 					Logger.Instance.GetLogger<Index>().LogError(result.Message);
@@ -38,7 +37,6 @@ namespace PresentationAdmin.Pages
 				{
 					_logginSuccess = result.Message;
 					UserData.SetToken(result.SuccessValue);
-					UserData.SetUsername(User.Username);
 
 					NavigationManager.NavigateTo("/home", true);
 				}
@@ -46,7 +44,7 @@ namespace PresentationAdmin.Pages
 			}
 		}
 
-		private void test(object? sender, FieldChangedEventArgs e)
+		private void OnFieldChange(object? sender, FieldChangedEventArgs e)
 		{
 			_logginError = "";
 			_logginSuccess = "";
