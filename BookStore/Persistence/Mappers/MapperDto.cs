@@ -77,8 +77,7 @@ internal static class MapperDto
             FirstName = user.FirstName,
             LastName = user.LastName,
             Username = user.Username,
-            Email = user.Email,
-            BillDto = MapToBillDto(user.BillDetails)
+            Email = user.Email
         };
     }
 

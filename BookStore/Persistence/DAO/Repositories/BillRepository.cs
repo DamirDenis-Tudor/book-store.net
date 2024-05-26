@@ -23,7 +23,7 @@ namespace Persistence.DAO.Repositories;
 
 internal class BillRepository(DatabaseContext dbContext) : IBillRepository
 {
-    public Result<VoidResult, DaoErrorType> UpdateBillToUsername(string username, BillDto billDto)
+    public Result<VoidResult, DaoErrorType> UpdateBillByUsername(string username, BillDto billDto)
     {
         try
         {

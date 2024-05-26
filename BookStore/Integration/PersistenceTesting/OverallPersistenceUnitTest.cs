@@ -36,7 +36,7 @@ public class OverallPersistenceUnitTest
         
         Assert.That(PersistenceFacade.Instance.UserRepository.RegisterUser(_user).IsSuccess, Is.EqualTo(true));
         Assert.That(
-            PersistenceFacade.Instance.BillRepository.UpdateBillToUsername(_user.Username, _billDto).IsSuccess,
+            PersistenceFacade.Instance.BillRepository.UpdateBillByUsername(_user.Username, _billDto).IsSuccess,
             Is.EqualTo(true)
         );
         _products.ForEach(p =>

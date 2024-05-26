@@ -10,17 +10,7 @@ namespace Business.BAO.Services;
 public class InventoryService : IInventory
 {
     private readonly PersistenceFacade _persistenceFacade = PersistenceFacade.Instance;
-
-    private bool CheckIfAdmin(string username)
-    {
-        var gdprUsername = GdprUtility.Encrypt(username);
-        var userType = _persistenceFacade.UserRepository.GetUserType(gdprUsername);
-        if (!userType.IsSuccess)
-            return false;
-
-        return userType.SuccessValue == GdprUtility.Encrypt("ADMIN");
-    }
-
+    
     public Result<IList<ProductDto>, BaoErrorType> GetInventory()
     {
         var inventory = _persistenceFacade.ProductRepository.GetAllProducts();
@@ -30,24 +20,24 @@ public class InventoryService : IInventory
             : Result<IList<ProductDto>, BaoErrorType>.Success(inventory.SuccessValue);
     }
 
-    public Result<IList<ProductStatsDto>, BaoErrorType> GetInventoryStats(string username)
+    public Result<IList<ProductStatsDto>, BaoErrorType> GetInventoryStats(string requester)
     {
-        if (!CheckIfAdmin(username: username))
+        if (!UserTypeChecker.CheckIfAdmin(username: requester))
             return Result<IList<ProductStatsDto>, BaoErrorType>.Fail(BaoErrorType.UserNotAllowed,
-                $"Username {username} is not ADMIN.");
+                $"Username {requester} is not ADMIN.");
 
         var productStats = _persistenceFacade.ProductRepository.GetAllProductsStats();
         return !productStats.IsSuccess
             ? Result<IList<ProductStatsDto>, BaoErrorType>.Fail(BaoErrorType.NoProductRegistered)
             : Result<IList<ProductStatsDto>, BaoErrorType>.Success(productStats.SuccessValue,
-                $"Username {username} is not ADMIN.");
+                $"Username {requester} is not ADMIN.");
     }
 
-    public Result<VoidResult, BaoErrorType> RegisterProduct(string username, ProductDto productDto)
+    public Result<VoidResult, BaoErrorType> RegisterProduct(string requester, ProductDto productDto)
     {
-        if (!CheckIfAdmin(username: username))
+        if (!UserTypeChecker.CheckIfProvider(username: requester))
             return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.UserNotAllowed,
-                $"Username {username} is not ADMIN.");
+                $"Username {requester} is not PROVIDER.");
 
         var register = _persistenceFacade.ProductRepository.RegisterProduct(productDto);
         return !register.IsSuccess
@@ -55,11 +45,11 @@ public class InventoryService : IInventory
             : Result<VoidResult, BaoErrorType>.Success(VoidResult.Get());
     }
 
-    public Result<VoidResult, BaoErrorType> UpdateProductPrice(string username, string productName, decimal price)
+    public Result<VoidResult, BaoErrorType> UpdateProductPrice(string requester, string productName, decimal price)
     {
-        if (!CheckIfAdmin(username: username))
+        if (!UserTypeChecker.CheckIfProvider(username: requester))
             return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.UserNotAllowed,
-                $"Username {username} is not ADMIN.");
+                $"Username {requester} is not PROVIDER.");
 
         var updatePrice = _persistenceFacade.ProductRepository.UpdatePrice(productName, price);
         return !updatePrice.IsSuccess
@@ -67,15 +57,30 @@ public class InventoryService : IInventory
             : Result<VoidResult, BaoErrorType>.Success(VoidResult.Get());
     }
 
-    public Result<VoidResult, BaoErrorType> UpdateProductStocks(string username, string productName, int quantity)
+    public Result<VoidResult, BaoErrorType> UpdateProductStocks(string requester, string productName, int quantity)
     {
-        if (!CheckIfAdmin(username: username))
+        if (!UserTypeChecker.CheckIfProvider(username: requester))
             return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.UserNotAllowed,
-                $"Username {username} is not ADMIN.");
+                $"Username {requester} is not PROVIDER.");
 
         var updateStocks = _persistenceFacade.ProductRepository.UpdateQuantity(productName, quantity);
         return !updateStocks.IsSuccess
             ? Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.FailedToUpdateProductStocks)
             : Result<VoidResult, BaoErrorType>.Success(VoidResult.Get());
+    }
+
+    public Result<VoidResult, BaoErrorType> DeleteProduct(string requester, string productName)
+    {
+        if (!UserTypeChecker.CheckIfProvider(username: requester))
+            return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.UserNotAllowed,
+                $"Username {requester} is not PROVIDER.");
+
+        var delete = _persistenceFacade.ProductRepository.DeleteProduct(productName);
+        if (!delete.IsSuccess)
+            return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.FailedToRegisterProduct,
+                $"Username {requester} is not PROVIDER.");
+        
+        return Result<VoidResult, BaoErrorType>.Success(VoidResult.Get());
+
     }
 }

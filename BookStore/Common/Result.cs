@@ -12,11 +12,9 @@
  *                                                                        *
  **************************************************************************/
 
-using System.Dynamic;
-
 namespace Common;
 
-public class VoidResult()
+public class VoidResult
 {
     public static VoidResult Get() => new ();
 }
