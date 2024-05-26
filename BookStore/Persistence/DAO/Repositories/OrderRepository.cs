@@ -76,8 +76,7 @@ internal class OrderRepository(DatabaseContext dbContext) : IOrderRepository
 
             if (existingOrderSession == null)
                 return Result<VoidResult, DaoErrorType>.Fail(
-                    DaoErrorType.NotFound,
-                    $"OrderSession {sessionCode} could not be deleted."
+                    DaoErrorType.NotFound, $"OrderSession {sessionCode} could not be deleted."
                 );
 
             dbContext.OrdersSessions.Remove(existingOrderSession);
@@ -87,7 +86,7 @@ internal class OrderRepository(DatabaseContext dbContext) : IOrderRepository
         {
             return Result<VoidResult, DaoErrorType>.Fail(
                 DaoErrorType.DatabaseError,
-                $"OrderSession {sessionCode} could not be deleted."
+                $"OrderSession {sessionCode} could not be deleted:  {e.Message}"
             );
         }
 
@@ -106,7 +105,7 @@ internal class OrderRepository(DatabaseContext dbContext) : IOrderRepository
         return orderSessionDto == null
             ? Result<OrderSessionDto, DaoErrorType>.Fail(DaoErrorType.NotFound,
                 $"OrderSession {sessionCode} not found.")
-            : Result<OrderSessionDto, DaoErrorType>.Success(orderSessionDto, $"OrderSession {sessionCode} not found");
+            : Result<OrderSessionDto, DaoErrorType>.Success(orderSessionDto, $"OrderSession {sessionCode} found");
     }
 
     public Result<IList<OrderSessionDto>, DaoErrorType> GetAllOrdersByUsername(string username)
@@ -133,6 +132,7 @@ internal class OrderRepository(DatabaseContext dbContext) : IOrderRepository
             .Include(o => o.OrderProducts)
             .ToList()
             .ForEach(o => orderSessions.Add(MapperDto.MapToOrderSessionDto(o)!));
+        
         return orderSessions.Count != 0
             ? Result<IList<OrderSessionDto>, DaoErrorType>
                 .Success(orderSessions, "OrderSessions list returned.")

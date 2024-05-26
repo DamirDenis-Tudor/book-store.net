@@ -32,7 +32,7 @@ internal class BillRepository(DatabaseContext dbContext) : IBillRepository
                 .FirstOrDefault(b => b.User != null && b.User.Username == username);
 
             if (billDetails == null)
-                return Result<VoidResult, DaoErrorType>.Fail(DaoErrorType.DatabaseError, "Bill not found.");
+                return Result<VoidResult, DaoErrorType>.Fail(DaoErrorType.NotFound, $"BillDetails not found for {username}.");
 
             if (!string.IsNullOrEmpty(billDto.Address)) billDetails.Address = billDto.Address;
             if (!string.IsNullOrEmpty(billDto.Country)) billDetails.Country = billDto.Country;
@@ -49,7 +49,7 @@ internal class BillRepository(DatabaseContext dbContext) : IBillRepository
         catch (DbUpdateException e)
         {
             return Result<VoidResult, DaoErrorType>.Fail(DaoErrorType.DatabaseError,
-                "Database error occurred while updating bill.");
+                $"Database error occurred while updating bill: {e.Message}");
         }
     }
 

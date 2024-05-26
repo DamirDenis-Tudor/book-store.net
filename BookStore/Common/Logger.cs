@@ -30,9 +30,6 @@ public class Logger
 
     private readonly Dictionary<Type, ILogger> _loggers = new();
 
-    /// <summary>
-    /// Private constructor to prevent direct instantiation.
-    /// </summary>
     private Logger() { }
 
     /// <summary>

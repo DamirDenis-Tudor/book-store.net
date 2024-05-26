@@ -12,7 +12,7 @@ public class BillRepositoryUnit
     [Test]
     public void UpdateBillUnitTest()
     {
-        var user = new UserInfoDto
+        var user = new UserRegisterDto
         {
             FirstName = "testUpdate", LastName = "testUpdate", Username = "test_12345Update",
             Password = "testUpdate", Email = "test@test.testUpdate", UserType = "TESTER"

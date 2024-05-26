@@ -12,8 +12,6 @@
  *                                                                        *
  **************************************************************************/
 
-using Persistence.DTO.Bill;
-
 namespace Persistence.DTO.User;
 
 public record UserInfoDto

@@ -10,9 +10,9 @@ public class InventoryService
 {
     private BusinessFacade _businessFacade;
     private ProductDto _productDto;
-    private UserInfoDto _clientUser;
-    private UserInfoDto _providerUser;
-    private UserInfoDto _adminUser;
+    private UserRegisterDto _clientUser;
+    private UserRegisterDto _providerUser;
+    private UserRegisterDto _adminUser;
 
     [OneTimeSetUp]
     public void PrepareDatabase()
@@ -29,7 +29,7 @@ public class InventoryService
             Category = "TEST"
         };
         
-        _adminUser = new UserInfoDto
+        _adminUser = new UserRegisterDto
         {
             FirstName = "AdminInventory", LastName = "AdminInventory", Username = "adminInventory_123",
             Password = "adminInventory_123", Email = "admin@admin.com", UserType = "ADMIN"
@@ -37,14 +37,14 @@ public class InventoryService
         var gdprAdmin = GdprMapper.DoUserInfoDtoGdpr(_adminUser);
         Assert.That(PersistenceFacade.Instance.UserRepository.RegisterUser(gdprAdmin).IsSuccess, Is.EqualTo(true));
         
-        _clientUser = new UserInfoDto
+        _clientUser = new UserRegisterDto
         {
             FirstName = "ClientInventory", LastName = "ClientInventory", Username = "clientInventory_123",
             Password = "clientInventory_123", Email = "client@client.com", UserType = "CLIENT"
         };
         Assert.That(_businessFacade.UsersService.RegisterClient(_clientUser).IsSuccess, Is.EqualTo(true));
         
-        _providerUser = new UserInfoDto
+        _providerUser = new UserRegisterDto
         {
             FirstName = "ProviderInventory", LastName = "ProviderInventory", Username = "providerInventory_123",
             Password = "providerInventory_123", Email = "provider@provider.com", UserType = "PROVIDER"
