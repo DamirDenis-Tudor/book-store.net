@@ -19,7 +19,7 @@ using Persistence.DTO.Product;
 using Persistence.DTO.User;
 using Persistence.Entity;
 
-namespace Persistence.DTO;
+namespace Persistence.Mappers;
 
 /// <summary>
 /// Class for mapping between DTOs and Entities.
@@ -77,8 +77,7 @@ internal static class MapperDto
             FirstName = user.FirstName,
             LastName = user.LastName,
             Username = user.Username,
-            Email = user.Email,
-            BillDto = MapToBillDto(user.BillDetails)
+            Email = user.Email
         };
     }
 

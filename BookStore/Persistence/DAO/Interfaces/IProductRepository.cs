@@ -27,7 +27,7 @@ public interface IProductRepository
     /// </summary>
     /// <param name="productDto">The product data transfer object containing the details of the product to register.</param>
     /// <returns>A Result containing either a boolean indicating success or a DaoErrorType indicating the type of error.</returns>
-    Result<bool, DaoErrorType> RegisterProduct(ProductDto productDto);
+    Result<VoidResult, DaoErrorType> RegisterProduct(ProductDto productDto);
     
     Result<IList<string>, DaoErrorType> GetCategories();
     
@@ -63,7 +63,7 @@ public interface IProductRepository
     /// <param name="name">The name of the product to update.</param>
     /// <param name="newPrice">The new price of the product.</param>
     /// <returns>A Result containing either a boolean indicating success or a DaoErrorType indicating the type of error.</returns>
-    Result<bool, DaoErrorType> UpdatePrice(string name, int newPrice);
+    Result<VoidResult, DaoErrorType> UpdatePrice(string name, decimal newPrice);
 
     /// <summary>
     /// Updates the quantity of a product.
@@ -71,12 +71,12 @@ public interface IProductRepository
     /// <param name="name">The name of the product to update.</param>
     /// <param name="quantity">The new quantity of the product.</param>
     /// <returns>A Result containing either a boolean indicating success or a DaoErrorType indicating the type of error.</returns>
-    Result<bool, DaoErrorType> UpdateQuantity(string name, int quantity);
+    Result<VoidResult, DaoErrorType> UpdateQuantity(string name, int quantity);
 
     /// <summary>
     /// Deletes a product by its name.
     /// </summary>
     /// <param name="name">The name of the product to delete.</param>
     /// <returns>A Result containing either a boolean indicating success or a DaoErrorType indicating the type of error.</returns>
-    Result<bool, DaoErrorType> DeleteProduct(string name);
+    Result<VoidResult, DaoErrorType> DeleteProduct(string name);
 }

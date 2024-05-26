@@ -21,5 +21,5 @@ public record ProductDto
     public required decimal Price { get; init; }
     public required int Quantity { get; init; }
     public required string Category { get; init; }
-    public string? Link { get; init; }
+    public string? Link { get; init; } = "";
 }

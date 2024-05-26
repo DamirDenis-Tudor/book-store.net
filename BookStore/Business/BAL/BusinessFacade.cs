@@ -7,11 +7,17 @@ namespace Business.BAL;
 public class BusinessFacade
 {
     public static BusinessFacade Instance => new();
-    public IAuthentication AuthenticationService { get; }
+    public IAuth AuthService { get; }
+    public IInventory InventoryService { get; }
+    public IOrder OrderService { get; }
+    public IUsers UsersService { get; }
     private BusinessFacade()
     {
         PersistenceFacade.Instance.SetIntegrationMode(IntegrationMode.Production);
 
-        AuthenticationService = new AuthenticationService();
+        AuthService = new AuthService();
+        InventoryService = new InventoryService();
+        OrderService = new OrderService();
+        UsersService = new UserService();
     }
 }

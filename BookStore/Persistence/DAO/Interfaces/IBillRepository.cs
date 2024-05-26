@@ -28,7 +28,7 @@ public interface IBillRepository
     /// <param name="username">The username to update the billing details for.</param>
     /// <param name="bill">The new billing details.</param>
     /// <returns>A Result containing either a success message or a DaoErrorType indicating the type of error.</returns>
-    Result<string, DaoErrorType> UpdateBillToUsername(string username, BillDto bill);
+    Result<VoidResult, DaoErrorType> UpdateBillByUsername(string username, BillDto bill);
 
     /// <summary>
     /// Retrieves the billing details for a given username.

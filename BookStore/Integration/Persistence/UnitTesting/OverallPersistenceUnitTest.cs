@@ -4,7 +4,7 @@ using Persistence.DTO.Order;
 using Persistence.DTO.Product;
 using Persistence.DTO.User;
 
-namespace UnitTesting.PersistenceTesting;
+namespace UnitTesting.Persistence.UnitTesting;
 
 public class OverallPersistenceUnitTest
 {
@@ -12,8 +12,8 @@ public class OverallPersistenceUnitTest
 
     private readonly UserInfoDto _user = new()
     {
-        FirstName = "testCreateAndDelete", LastName = "testCreateAndDelete", Username = "test_12345CreateAndDelete",
-        Password = "testCreateAndDelete", Email = "test@test.testCreateAndDelete", UserType = "TESTER"
+        FirstName = "test", LastName = "testCreateAndDelete", Username = "test_12345",
+        Password = "testC", Email = "test@test.testCreateAndDelete", UserType = "TESTER"
     };
 
     private readonly BillDto _billDto = new()
@@ -36,7 +36,7 @@ public class OverallPersistenceUnitTest
         
         Assert.That(PersistenceFacade.Instance.UserRepository.RegisterUser(_user).IsSuccess, Is.EqualTo(true));
         Assert.That(
-            PersistenceFacade.Instance.BillRepository.UpdateBillToUsername(_user.Username, _billDto).IsSuccess,
+            PersistenceFacade.Instance.BillRepository.UpdateBillByUsername(_user.Username, _billDto).IsSuccess,
             Is.EqualTo(true)
         );
         _products.ForEach(p =>

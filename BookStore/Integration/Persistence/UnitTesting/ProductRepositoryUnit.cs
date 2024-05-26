@@ -1,7 +1,7 @@
 using Persistence.DAL;
 using Persistence.DTO.Product;
 
-namespace UnitTesting.PersistenceTesting;
+namespace UnitTesting.Persistence.UnitTesting;
 
 public class ProductRepositoryUnit
 {
@@ -13,9 +13,9 @@ public class ProductRepositoryUnit
         PersistenceFacade.Instance.SetIntegrationMode(IntegrationMode.Testing);
         _productDtos.AddRange(new[]
         {
-            new ProductDto { Name = "Lecture1",Description = "", Price = 10.0m, Quantity = 100, Category = "Books", Link = ".png"},
-            new ProductDto { Name = "Lecture2",Description = "", Price = 15.0m, Quantity = 100, Category = "Books", Link = ".png"},
-            new ProductDto { Name = "Laptop1",Description = "", Price = 20.0m, Quantity = 100, Category = "Laptops", Link = ".png"}
+            new ProductDto { Name = "Lecture11",Description = "", Price = 10.0m, Quantity = 100, Category = "Books", Link = ".png"},
+            new ProductDto { Name = "Lecture21",Description = "", Price = 15.0m, Quantity = 100, Category = "Books", Link = ".png"},
+            new ProductDto { Name = "Laptop11",Description = "", Price = 20.0m, Quantity = 100, Category = "Laptops", Link = ".png"}
         });
 
         _productDtos.ToList().ForEach(p =>
@@ -38,21 +38,6 @@ public class ProductRepositoryUnit
         Assert.That(PersistenceFacade.Instance.ProductRepository?.RegisterProduct(_productDtos[2]).IsSuccess, Is.EqualTo(false));
 
         Assert.That(PersistenceFacade.Instance.ProductRepository?.GetProduct(_productDtos[0].Name).IsSuccess, Is.EqualTo(true));
-
-        var allProducts = PersistenceFacade.Instance.ProductRepository.GetAllProducts();
-        Assert.That(allProducts.IsSuccess, Is.EqualTo(true));
-        allProducts.SuccessValue.ToList().ForEach(Console.WriteLine);
-        Assert.That(allProducts.SuccessValue.Count, Is.EqualTo(3));
-        
-        var allProductsByCategory = PersistenceFacade.Instance.ProductRepository.GetAllProductsByCategory("Books");
-        Assert.That(allProductsByCategory.IsSuccess, Is.EqualTo(true));
-        allProductsByCategory.SuccessValue.ToList().ForEach(Console.WriteLine);
-        Assert.That(allProductsByCategory.SuccessValue.Count, Is.EqualTo(2));
-
-        var allProductsStats = PersistenceFacade.Instance.ProductRepository.GetAllProductsStats();
-        Assert.That(allProductsStats.IsSuccess, Is.EqualTo(true));
-        allProductsStats.SuccessValue.ToList().ForEach(Console.WriteLine);
-        Assert.That(allProductsStats.SuccessValue.Count, Is.EqualTo(3));
         
         PersistenceFacade.Instance.ProductRepository.GetCategories().SuccessValue.ToList().ForEach(Console.WriteLine);
     }

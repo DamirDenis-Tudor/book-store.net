@@ -4,12 +4,10 @@ using Business.Mappers;
 using Business.Utilities;
 using Common;
 using Persistence.DAL;
-using Persistence.DAO;
-using Persistence.DTO.User;
 
 namespace Business.BAO.Services;
 
-public class AuthenticationService : IAuthentication
+internal class AuthService : IAuth
 {
     private const int SessionThresholdMinutes = 5;
     private readonly PersistenceFacade _persistenceFacade = PersistenceFacade.Instance;
@@ -34,22 +32,6 @@ public class AuthenticationService : IAuthentication
 
         return Result<string, BaoErrorType>.Success(token,
             $"User {userLoginBto.Username} succesfully logged in.");
-    }
-
-    public Result<bool, BaoErrorType> Register(UserInfoDto userInfoDto)
-    {
-        var gdprUserInfoDto = GdprMapper.DoUserInfoDtoGdpr(userInfoDto);
-
-        var result = _persistenceFacade.UserRepository.RegisterUser(gdprUserInfoDto);
-
-        if (result.IsSuccess)
-            return Result<bool, BaoErrorType>.Success(true,
-                $"User {userInfoDto.Username} succesfully logged in.");
-        if (result.ErrorType == DaoErrorType.AlreadyRegistered)
-            return Result<bool, BaoErrorType>.Fail(BaoErrorType.InvalidRegisterData,
-                $"Invalid register data {userInfoDto.Username}");
-        return Result<bool, BaoErrorType>.Fail(BaoErrorType.DatabaseError,
-            $"Database error while register {userInfoDto.Username}");
     }
 
     public Result<bool, BaoErrorType> CheckSession(string username, string token)

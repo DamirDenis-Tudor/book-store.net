@@ -19,27 +19,28 @@ using Persistence.DAL;
 using Persistence.DAO.Interfaces;
 using Persistence.DTO;
 using Persistence.DTO.Product;
+using Persistence.Mappers;
 
 
 namespace Persistence.DAO.Repositories;
 
 internal class ProductRepository(DatabaseContext dbContext) : IProductRepository
 {
-    public Result<bool, DaoErrorType> RegisterProduct(ProductDto productDto)
+    public Result<VoidResult, DaoErrorType> RegisterProduct(ProductDto productDto)
     {
         try
         {
             if (GetProduct(productDto.Name).IsSuccess) 
-                return Result<bool, DaoErrorType>.Fail(DaoErrorType.AlreadyRegistered, $"Product {productDto.Name} already registered.");
+                return Result<VoidResult, DaoErrorType>.Fail(DaoErrorType.AlreadyRegistered, $"Product {productDto.Name} already registered.");
             dbContext.Products.Add(MapperDto.MapToProduct(productDto));
             dbContext.SaveChanges();
         }
         catch (DbUpdateException e)
         {
-            return Result<bool, DaoErrorType>.Fail(DaoErrorType.DatabaseError, "Failed to register product.");
+            return Result<VoidResult, DaoErrorType>.Fail(DaoErrorType.DatabaseError, $"Failed to register product: {e.Message}");
         }
 
-        return Result<bool, DaoErrorType>.Success(true, "Product registered successfully.");
+        return Result<VoidResult, DaoErrorType>.Success(VoidResult.Get(), "Product registered successfully.");
     }
 
     public Result<IList<string>, DaoErrorType> GetCategories()
@@ -119,12 +120,12 @@ internal class ProductRepository(DatabaseContext dbContext) : IProductRepository
             .Success(products, "Product {name} found.");
     }
 
-    public Result<bool, DaoErrorType> UpdatePrice(string name, int newPrice)
+    public Result<VoidResult, DaoErrorType> UpdatePrice(string name, decimal newPrice)
     {
         var existingProduct = dbContext.Products.FirstOrDefault(p => p.Name == name);
         if (existingProduct == null)
         {
-            return Result<bool, DaoErrorType>.Fail(DaoErrorType.NotFound, $"Product '{name}' not found.");
+            return Result<VoidResult, DaoErrorType>.Fail(DaoErrorType.NotFound, $"Product '{name}' not found.");
         }
 
         existingProduct.Price = newPrice;
@@ -135,17 +136,17 @@ internal class ProductRepository(DatabaseContext dbContext) : IProductRepository
         }
         catch (DbUpdateException e)
         {
-            return Result<bool, DaoErrorType>.Fail(DaoErrorType.DatabaseError, "Failed to update product price.");
+            return Result<VoidResult, DaoErrorType>.Fail(DaoErrorType.DatabaseError, "Failed to update product price.");
         }
 
-        return Result<bool, DaoErrorType>.Success(true, $"Product '{name}' price updated successfully.");
+        return Result<VoidResult, DaoErrorType>.Success(VoidResult.Get(), $"Product '{name}' price updated successfully.");
     }
 
-    public Result<bool, DaoErrorType> UpdateQuantity(string name, int quantity)
+    public Result<VoidResult, DaoErrorType> UpdateQuantity(string name, int quantity)
     {
         var existingProduct = dbContext.Products.FirstOrDefault(p => p.Name == name);
         if (existingProduct == null)
-            return Result<bool, DaoErrorType>.Fail(DaoErrorType.NotFound, $"Product '{name}' not found.");
+            return Result<VoidResult, DaoErrorType>.Fail(DaoErrorType.NotFound, $"Product '{name}' not found.");
 
         existingProduct.Quantity = quantity;
         try
@@ -155,28 +156,28 @@ internal class ProductRepository(DatabaseContext dbContext) : IProductRepository
         }
         catch (DbUpdateException e)
         {
-            return Result<bool, DaoErrorType>.Fail(DaoErrorType.DatabaseError, "Failed to update product quantity.");
+            return Result<VoidResult, DaoErrorType>.Fail(DaoErrorType.DatabaseError, "Failed to update product quantity.");
         }
 
-        return Result<bool, DaoErrorType>.Success(true, $"Product '{name}' quantity updated successfully.");
+        return Result<VoidResult, DaoErrorType>.Success(VoidResult.Get(), $"Product '{name}' quantity updated successfully.");
     }
 
-    public Result<bool, DaoErrorType> DeleteProduct(string name)
+    public Result<VoidResult, DaoErrorType> DeleteProduct(string name)
     {
         try
         {
             var existingProduct = dbContext.Products.FirstOrDefault(p => p.Name == name);
             if (existingProduct == null)
-                return Result<bool, DaoErrorType>.Fail(DaoErrorType.NotFound, $"Product '{name}' not found.");
+                return Result<VoidResult, DaoErrorType>.Fail(DaoErrorType.NotFound, $"Product '{name}' not found.");
             
             dbContext.Products.Remove(existingProduct);
             dbContext.SaveChanges();
         }
         catch (DbUpdateException e)
         {
-            return Result<bool, DaoErrorType>.Fail(DaoErrorType.DatabaseError, $"Failed to delete product '{name}'.");
+            return Result<VoidResult, DaoErrorType>.Fail(DaoErrorType.DatabaseError, $"Failed to delete product '{name}'.");
         }
 
-        return Result<bool, DaoErrorType>.Success(true, $"Product '{name}' deleted successfully.");
+        return Result<VoidResult, DaoErrorType>.Success(VoidResult.Get(), $"Product '{name}' deleted successfully.");
     }
 }

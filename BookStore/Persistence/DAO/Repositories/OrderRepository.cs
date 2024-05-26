@@ -19,12 +19,13 @@ using Persistence.DAL;
 using Persistence.DAO.Interfaces;
 using Persistence.DTO;
 using Persistence.DTO.Order;
+using Persistence.Mappers;
 
 namespace Persistence.DAO.Repositories;
 
 internal class OrderRepository(DatabaseContext dbContext) : IOrderRepository
 {
-    public Result<bool, DaoErrorType> RegisterOrderSession(OrderSessionDto orderSessionDto)
+    public Result<VoidResult, DaoErrorType> RegisterOrderSession(OrderSessionDto orderSessionDto)
     {
         try
         {
@@ -32,12 +33,13 @@ internal class OrderRepository(DatabaseContext dbContext) : IOrderRepository
                 o.SessionCode == orderSessionDto.SessionCode
             );
             if (existingOrderSession != null)
-                return Result<bool, DaoErrorType>.Fail(
+                return Result<VoidResult, DaoErrorType>.Fail(
                     DaoErrorType.AlreadyRegistered,
                     $"Order with sessionCode {orderSessionDto.SessionCode} is already present."
                 );
             var orderSession = MapperDto.MapToOrderSession(orderSessionDto);
             orderSession.User = dbContext.Users.FirstOrDefault(u => u.Username == orderSessionDto.Username);
+            
             orderSessionDto.OrderProducts.ToList().ForEach(op =>
                 {
                     var orderProduct = MapperDto.MapToOrderProduct(op);
@@ -45,9 +47,7 @@ internal class OrderRepository(DatabaseContext dbContext) : IOrderRepository
                     orderProduct.Product = dbContext.Products.Include(p => p.OrderProducts)
                         .FirstOrDefault(p =>
                             p.Name == op.ProductName);
-
-                    orderSession.TotalPrice += orderProduct.Product!.Price * orderProduct.Quantity;
-
+                    
                     orderSession.OrderProducts.Add(orderProduct);
                 }
             );
@@ -57,26 +57,25 @@ internal class OrderRepository(DatabaseContext dbContext) : IOrderRepository
         }
         catch (DbException e)
         {
-            return Result<bool, DaoErrorType>.Fail(
+            return Result<VoidResult, DaoErrorType>.Fail(
                 DaoErrorType.DatabaseError,
-                $"Order with sessionCode {orderSessionDto.SessionCode} failed to add."
+                $"Order with sessionCode {orderSessionDto.SessionCode} failed to add: {e.Message}"
             );
         }
 
-        return Result<bool, DaoErrorType>.Success(
-            true,
-            $"Order with sessionCode {orderSessionDto.SessionCode} wad added."
+        return Result<VoidResult, DaoErrorType>.Success(
+            VoidResult.Get(), $"Order with sessionCode {orderSessionDto.SessionCode} wad added."
         );
     }
 
-    public Result<bool, DaoErrorType> DeleteOrderSession(string sessionCode)
+    public Result<VoidResult, DaoErrorType> DeleteOrderSession(string sessionCode)
     {
         try
         {
             var existingOrderSession = dbContext.OrdersSessions.FirstOrDefault(o => o.SessionCode == sessionCode);
 
             if (existingOrderSession == null)
-                return Result<bool, DaoErrorType>.Fail(
+                return Result<VoidResult, DaoErrorType>.Fail(
                     DaoErrorType.NotFound,
                     $"OrderSession {sessionCode} could not be deleted."
                 );
@@ -86,13 +85,13 @@ internal class OrderRepository(DatabaseContext dbContext) : IOrderRepository
         }
         catch (DbUpdateException e)
         {
-            return Result<bool, DaoErrorType>.Fail(
+            return Result<VoidResult, DaoErrorType>.Fail(
                 DaoErrorType.DatabaseError,
                 $"OrderSession {sessionCode} could not be deleted."
             );
         }
 
-        return Result<bool, DaoErrorType>.Success(true, $"OrderSession added successfully.");
+        return Result<VoidResult, DaoErrorType>.Success(VoidResult.Get(), $"OrderSession added successfully.");
     }
 
     public Result<OrderSessionDto, DaoErrorType> GetSessionOrder(string sessionCode)

@@ -28,8 +28,7 @@ public static class GdprMapper
             FirstName = GdprUtility.Encrypt(billUserDto.FirstName),
             LastName = GdprUtility.Encrypt(billUserDto.LastName),
             Username = GdprUtility.Encrypt(billUserDto.Username),
-            Email = GdprUtility.Encrypt(billUserDto.Email),
-            BillDto = DoBillGdpr(billUserDto.BillDto!)
+            Email = GdprUtility.Encrypt(billUserDto.Email)
         };
     }
 
@@ -41,7 +40,6 @@ public static class GdprMapper
             LastName = GdprUtility.Decrypt(encryptedBillUserDto.LastName),
             Username = GdprUtility.Decrypt(encryptedBillUserDto.Username),
             Email = GdprUtility.Decrypt(encryptedBillUserDto.Email),
-            BillDto = UndoBillGdpr(encryptedBillUserDto.BillDto!)
         };
     }
     
