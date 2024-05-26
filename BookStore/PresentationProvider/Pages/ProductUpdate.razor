@@ -1,0 +1,30 @@
+﻿@page "/update-product"
+@using System.ComponentModel.DataAnnotations
+
+<div class="content">
+	<h1 class="logo">PetShop</h1>
+	<div class="register-area">
+		<h2>Detalii produs:</h2>
+		<EditForm Model="@_modifyProduct" OnSubmit="Submit">
+			<DataAnnotationsValidator/>
+			<ValidationSummary />
+			<div class="register-form">
+				<div class="small">
+					<div class="input">
+						<lable for="register-username">Pret:</lable>
+						<InputNumber class="register-input" @bind-Value="_modifyProduct.Price" placeholder="42.12"></InputNumber>
+					</div>
+					<div class="input">
+						<lable for="register-username">Cantitae:</lable>
+						<InputNumber id="register-username" class="register-input" @bind-Value="_modifyProduct.Quantity" placeholder="23"></InputNumber>
+					</div>
+				</div>
+
+			</div>
+			<div class="register-action-area">
+				<button type="submit" class="register-btn">Actualizeza Produs</button>
+			</div>
+		</EditForm>
+
+	</div>
+</div>
