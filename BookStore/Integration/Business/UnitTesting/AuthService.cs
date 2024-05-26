@@ -4,9 +4,9 @@ using Business.BTO;
 using Persistence.DAL;
 using Persistence.DTO.User;
 
-namespace UnitTesting.BusinessTesting;
+namespace UnitTesting.Business.UnitTesting;
 
-public class Authentication
+public class AuthService
 {
     private BusinessFacade _businessFacade;
     private UserInfoDto _user;
@@ -19,7 +19,7 @@ public class Authentication
         _user = new UserInfoDto
         {
             FirstName = "Test", LastName = "Test", Username = "test_123",
-            Password = "test_123", Email = "test@test.com", UserType = "TESTER"
+            Password = "test_123", Email = "test@test.com", UserType = "CLIENT"
         };
     }
     
@@ -39,7 +39,7 @@ public class Authentication
     [Test , Order(2)]
     public void Register()
     {
-        Assert.That(_businessFacade.UsersService.RegisterUser(_user).IsSuccess,
+        Assert.That(_businessFacade.UsersService.RegisterClient(_user).IsSuccess,
             Is.EqualTo(true));
     }
     

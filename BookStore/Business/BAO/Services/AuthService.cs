@@ -4,12 +4,10 @@ using Business.Mappers;
 using Business.Utilities;
 using Common;
 using Persistence.DAL;
-using Persistence.DAO;
-using Persistence.DTO.User;
 
 namespace Business.BAO.Services;
 
-public class AuthService : IAuth
+internal class AuthService : IAuth
 {
     private const int SessionThresholdMinutes = 5;
     private readonly PersistenceFacade _persistenceFacade = PersistenceFacade.Instance;

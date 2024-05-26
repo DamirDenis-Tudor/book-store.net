@@ -20,15 +20,16 @@
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=b96c225c_002D2b0a_002D4d24_002D92db_002D7e88e341cad5/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Seeder" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
-    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.DbSeeder.Seeder&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.PersistenceTesting.BillRepositoryUnit.UpdateBillUnitTest&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.GdprUtilityTesting.Operations.EncryptDecrypt&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.GdprUtilityTesting.Operations.HashPassword&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.GdprUtilityTesting.Operations&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.BusinessTesting.Authentication.LoginTest&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.BusinessTesting.Authentication.Register&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.BusinessTesting.Authentication.CheckSession&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.BusinessTesting.Authentication&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.Business.UnitTesting.AuthService&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.Business.UnitTesting.InventoryService&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.Business.UnitTesting.OrderService&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.Business.UnitTesting.UsersService.GetAllUsers&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.Business.UnitTesting.UsersService&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.Persistence.UnitTesting.BillRepositoryUnit&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.Persistence.UnitTesting.OrderRepositoryUnit&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.Persistence.UnitTesting.OverallPersistenceUnitTest&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.Persistence.UnitTesting.ProductRepositoryUnit&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::53F2CBA9-AAA0-4264-AD39-AD5641C8DDA5::net8.0::UnitTesting.Persistence.UnitTesting.UserRepositoryUnit&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f66214cd_002Dd672_002D4732_002Db324_002De5e4f473ee7f/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Seeder" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;

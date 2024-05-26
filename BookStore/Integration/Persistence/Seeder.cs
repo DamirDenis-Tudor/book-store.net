@@ -8,7 +8,7 @@ using Persistence.DTO.Order;
 using Persistence.DTO.Product;
 using Persistence.DTO.User;
 
-namespace UnitTesting.DbSeeder;
+namespace UnitTesting.Persistence;
 
 public class Seeder
 {
@@ -26,7 +26,7 @@ public class Seeder
     {
         Console.WriteLine(DateTime.Now);
         var file = File.ReadAllText(
-            $"{SlnDirectory.GetPath()}{Path.DirectorySeparatorChar}Integration/DbSeeder/Resources/UsersSeed.json".Replace('/', Path.DirectorySeparatorChar));
+            $"{SlnDirectory.GetPath()}{Path.DirectorySeparatorChar}Integration/Persistence/Resources/UsersSeed.json".Replace('/', Path.DirectorySeparatorChar));
         JsonSerializer.Deserialize<List<UserBill>>(file)?.ForEach(userBill =>
             {
                 userBill.UserInfoDto = GdprMapper.DoUserInfoDtoGdpr(userBill.UserInfoDto);
@@ -44,7 +44,7 @@ public class Seeder
     public void AddProducts()
     {
         var file = File.ReadAllText(
-            $"{SlnDirectory.GetPath()}/Integration/DbSeeder/Resources/ProductsSeed.json".Replace('/', Path.DirectorySeparatorChar));
+            $"{SlnDirectory.GetPath()}/Integration/Persistence/Resources/ProductsSeed.json".Replace('/', Path.DirectorySeparatorChar));
         JsonSerializer.Deserialize<List<ProductDto>>(file)?.ForEach(productDto =>
             Assert.That(PersistenceFacade.Instance.ProductRepository.RegisterProduct(productDto).IsSuccess,
                 Is.EqualTo(true))
@@ -56,7 +56,7 @@ public class Seeder
     {
         var persistence = PersistenceFacade.Instance;
 
-        var file = File.ReadAllText($"{SlnDirectory.GetPath()}/Integration/DbSeeder/Resources/OrdersSeed.json".Replace('/', Path.DirectorySeparatorChar));
+        var file = File.ReadAllText($"{SlnDirectory.GetPath()}/Integration/DbSeeder/Persistence/OrdersSeed.json".Replace('/', Path.DirectorySeparatorChar));
 
         JsonSerializer.Deserialize<List<OrderBto>>(file)?.ForEach(orderBto =>
             {

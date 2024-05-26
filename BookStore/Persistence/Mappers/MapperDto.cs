@@ -19,7 +19,7 @@ using Persistence.DTO.Product;
 using Persistence.DTO.User;
 using Persistence.Entity;
 
-namespace Persistence.DTO;
+namespace Persistence.Mappers;
 
 /// <summary>
 /// Class for mapping between DTOs and Entities.

@@ -8,7 +8,7 @@ using Persistence.DTO.Order;
 
 namespace Business.BAO.Services;
 
-public class OrderService : IOrder
+internal class OrderService : IOrder
 {
     private readonly PersistenceFacade _persistenceFacade = PersistenceFacade.Instance;
 
@@ -53,8 +53,12 @@ public class OrderService : IOrder
             orderSessionDto.TotalPrice += price;
         }
 
-        return Result<VoidResult, BaoErrorType>.Success(VoidResult.Get(),
-            $"Order {orderSessionDto.SessionCode} placed successfully.");
+        var registerOrder = _persistenceFacade.OrderRepository.RegisterOrderSession(orderSessionDto);
+        
+        return registerOrder.IsSuccess
+            ? Result<VoidResult, BaoErrorType>.Success(VoidResult.Get(),
+                $"Order {orderSessionDto.SessionCode} placed successfully.")
+            : Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.FailedToRegisterOrder, registerOrder.Message);
     }
 
     public Result<IList<OrderSessionDto>, BaoErrorType> GetUserOrders(string username)

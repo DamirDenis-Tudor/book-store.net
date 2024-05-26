@@ -19,6 +19,7 @@ using Persistence.DAL;
 using Persistence.DAO.Interfaces;
 using Persistence.DTO;
 using Persistence.DTO.Product;
+using Persistence.Mappers;
 
 
 namespace Persistence.DAO.Repositories;
@@ -36,7 +37,7 @@ internal class ProductRepository(DatabaseContext dbContext) : IProductRepository
         }
         catch (DbUpdateException e)
         {
-            return Result<VoidResult, DaoErrorType>.Fail(DaoErrorType.DatabaseError, "Failed to register product.");
+            return Result<VoidResult, DaoErrorType>.Fail(DaoErrorType.DatabaseError, $"Failed to register product: {e.Message}");
         }
 
         return Result<VoidResult, DaoErrorType>.Success(VoidResult.Get(), "Product registered successfully.");

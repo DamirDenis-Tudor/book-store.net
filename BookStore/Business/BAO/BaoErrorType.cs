@@ -25,6 +25,7 @@ public enum BaoErrorType
     UserPasswordNotFound,
     UserSessionNotFound,
     UserNotFound,
+    UsersNotFound,
     UserNotAllowed,
 
     /// <summary>
@@ -51,6 +52,6 @@ public enum BaoErrorType
     FailedToUpdateProductPrice,
     FailedToUpdateProductStocks,
     FailedToDeleteAProduct,
-    InvalidUserType
-    
+    InvalidUserType,
+    FailedToRegisterOrder
 }
