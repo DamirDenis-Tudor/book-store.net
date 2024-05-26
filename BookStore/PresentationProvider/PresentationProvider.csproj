@@ -11,7 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Pages\AddProduct - Copy.razor.css" />
     <None Remove="Pages\AddProduct.razor.css" />
+    <None Remove="Pages\ProductUpdate.razor.css" />
     <None Remove="Shared\ProductCart.razor.css" />
   </ItemGroup>
 
@@ -22,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Pages\ProductUpdate.razor.css" />
     <Content Include="Pages\AddProduct.razor.css" />
     <Content Include="Shared\ProductCart.razor.css" />
   </ItemGroup>
