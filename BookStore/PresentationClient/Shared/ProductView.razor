@@ -13,12 +13,7 @@
 		</div>
 		<div class="product-buy">
 			<p class="product-price">@Product.Price Lei</p>
-			<button class="product-add-cart">Add to cart</button>
+			<button class="product-add-cart" @onclick="@AddToCart">Add to cart</button>
 		</div>
 	}
 </div>
-
-@code {
-	[Parameter]
-	public ProductDto? Product{ get; set; }
-}

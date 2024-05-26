@@ -10,37 +10,40 @@
 		<div class="title">
 			<h2>Cosul meu</h2>
 		</div>
-		@foreach (var prod in Products)
+		@if (!_isDataLoaded)
 		{
-			<ProductCart Product="@prod"/>
+			@for (int i = 0; i < 5; ++i)
+			{
+				<ProductDummy />
+			}
+
+		}
+		else
+		{
+			@foreach (var prod in Products)
+			{
+				<ProductCart Product="@prod" RefreshView="@RefreshView"/>
+			}
 		}
 
 	</main>
 	<aside>
 		<div>
 			<h2>Sumar comanda</h2>
-			<p>Cost produse: 123.34 Lei</p>
-			<p>Cost transport: 11.99 Lei</p>
+			<p>Cost produse: @ProductsTotalPrice Lei</p>
+			<p>Cost transport: @_deliveryFee Lei</p>
 		</div>
 		<div>
 			<h2>
-				Total:<br />2332.99 Lei
+				Total:<br />@TotalPrice Lei
 			</h2>
-
-			<a href="/bill"><button>Continua</button></a>
+			@if (!_cartEmpty)
+			{
+				<a href="/bill"><button>Continua</button></a>
+			}else
+			{
+				<button class="btn-diabled">Continua</button>
+			}
 		</div>
 	</aside>
 </div>
-
-@code{
-	private List<ProductDto> Products = new List<ProductDto>
-	{
-	  new ProductDto{ Category="Haine",Description = "", Name="NATURES PROTECTION DOG ADULT LAMB, 4 KG", Price=242, Quantity=25, Link=null},
-	  new ProductDto{ Category="Droguri",Description = "", Name="Key", Price=546.67m, Quantity=25, Link=null},
-	  new ProductDto{ Category="Injectabile",Description = "", Name="Cherosen", Price=23, Quantity=6543, Link= null},
-	  new ProductDto{ Category="Sclavi",Description = "", Name="Tricolori", Price=1.3m, Quantity=2, Link=null},
-	  new ProductDto{ Category="Haine",Description = "", Name="Sosete", Price=54.1m, Quantity=2322, Link=null},
-	};
-
-
-}

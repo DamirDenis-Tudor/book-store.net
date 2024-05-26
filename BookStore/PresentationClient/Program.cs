@@ -1,9 +1,21 @@
-using Microsoft.JSInterop;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
+using Microsoft.AspNetCore.Components.Web;
+
 using Persistence.DAL;
+using PresentationClient.Entities;
+using PresentationClient.Pages;
+using PresentationClient.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+builder.Services.AddScoped<ProductsScope>();
+builder.Services.AddScoped<PersonalDetailsDataScoped>();
+
+//builder.Services.AddSingleton<ProtectedLocalStorage>();
+builder.Services.AddScoped<ProtectedLocalStorage>();
+builder.Services.AddScoped<ICartService, CartServiceLocal>();
 
 var app = builder.Build();
 
@@ -17,6 +29,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 PersistenceFacade.Instance.SetIntegrationMode(IntegrationMode.Production);
+
 
 app.UseRouting();
 

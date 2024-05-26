@@ -1,4 +1,4 @@
-﻿.content{
+﻿.content {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -21,51 +21,51 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-
 	width: 465px;
 	border-radius: 30px;
 	background: #FAF6FE;
+	padding: 20px 0 20px 0;
 	margin: 35px 0 120px 0;
-	padding: 25px 0 15px 0;
 }
 
-.login-area h2 {
+	.login-area h2 {
+		color: #1F0519;
+		font-family: Inter;
+		font-size: 30px;
+		font-weight: 500;
+		/*margin-bottom: 65px;*/
+	}
 
-	color: #1F0519;
-	font-family: Inter;
-	font-size: 30px;
-	font-weight: 500;
-	margin-bottom: 65px;
-}
+	.login-area span {
+		color: #4F464C;
+		text-align: center;
+		font-family: Inter;
+		font-size: 20px;
+		font-weight: 600;
+	}
 
-.login-area span{
-	color: #4F464C;
-	text-align: center;
-	font-family: Inter;
-	font-size: 20px;
-	font-weight: 600;
-}
-
-.login-area a{
-	color: #7018C9;
-	font-family: Inter;
-	font-size: 20px;
-	font-weight: 600;
-	text-decoration: none;
-}
+	.login-area a {
+		color: #7018C9;
+		font-family: Inter;
+		font-size: 20px;
+		font-weight: 600;
+		text-decoration: none;
+	}
 
 ::deep .login-area form {
 	display: inline-flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-around;
+	/*	gap: 20px;*/
 }
 
 .login-form {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
-	gap: 10px;
+	gap: 20px;
+	margin-top: 20px;
 }
 
 .login-btn {
@@ -78,8 +78,14 @@
 	font-size: 20px;
 	font-weight: 700;
 	border: none;
+}
 
-	margin-top: 30px;
+.validation {
+	padding: 5px 0 5px 0;
+}
+
+::deep .validation li {
+	color: #FF5963;
 }
 
 ::deep .login-input {
@@ -92,16 +98,21 @@
 	font-family: Inter;
 	font-size: 15px;
 	font-weight: 600;
-	outline-color: #7018C9;
 }
+
 	::deep .login-input.parola {
 		background-image: url('/wwwroot/Images/password_icon.png');
 		background-size: 20px 20px;
 		background-repeat: no-repeat;
 	}
 
-.login-action-area{
+::deep input:focus {
+	outline-color: #7018C9;
+}
+
+.login-action-area {
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
+	margin-top: 20px;
 }

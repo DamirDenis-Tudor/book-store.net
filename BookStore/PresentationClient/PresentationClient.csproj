@@ -11,6 +11,7 @@
     <None Remove="Pages\PaymentDetails.razor.css" />
     <None Remove="Pages\PersonalDetails.razor.css" />
     <None Remove="Pages\ViewCart.razor.css" />
+    <None Remove="Shared\ProductCart - Copy.razor.css" />
     <None Remove="Shared\ProductCart.razor.css" />
   </ItemGroup>
 

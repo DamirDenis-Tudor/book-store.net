@@ -5,7 +5,13 @@
 
 @if (_isAuthenticated == null)
 {
-    <p>Loading...</p>
+    <div class="page">
+        <LoadingPage />
+    </div>
+}
+else if (_isAuthenticated == true && NavigationManager.ToBaseRelativePath(NavigationManager.Uri) == "login")
+{
+    NavigationManager.NavigateTo("/");
 }
 else if (_isAuthenticated == true || NavigationManager.ToBaseRelativePath(NavigationManager.Uri) == "login")
 {
@@ -19,40 +25,7 @@ else if (_isAuthenticated == true || NavigationManager.ToBaseRelativePath(Naviga
         </main>
     </div>
 }
-else if (_isAuthenticated == true && NavigationManager.ToBaseRelativePath(NavigationManager.Uri) == "login")
-{
-    NavigationManager.NavigateTo("/");
-}
 else
 {
     NavigationManager.NavigateTo("/login");
-}
-
-@code{
-    private bool? _isAuthenticated = null;
-    private bool _isFirstRender = true;
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await base.OnAfterRenderAsync(firstRender);
-
-        if (_isFirstRender)
-        {
-            _isFirstRender = false;
-
-            var result = await ProtectedLocalStore.GetAsync<string>("currentCount");
-            if (result.Success && result.Value == "token")
-            {
-                Console.WriteLine("True");
-                _isAuthenticated = true;
-            }
-            else
-            {
-                Console.WriteLine("Faslse");
-                _isAuthenticated = false;
-            }
-
-            StateHasChanged();
-        }
-    }
 }
