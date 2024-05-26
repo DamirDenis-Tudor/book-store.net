@@ -1,8 +1,31 @@
-﻿@inherits LayoutComponentBase
-<div class="page">
-    <main>
-        <article>
-            @Body
-        </article>
-    </main>
-</div>
+﻿@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@inject ProtectedLocalStorage ProtectedLocalStore
+@inject NavigationManager NavigationManager
+
+
+@if (_isAuthenticated == null)
+{
+    <div class="page">
+        <LoadingPage />
+    </div>
+}
+else if (_isAuthenticated == true && NavigationManager.ToBaseRelativePath(NavigationManager.Uri) == "")
+{
+    NavigationManager.NavigateTo("/home");
+}
+else if (_isAuthenticated == true || NavigationManager.ToBaseRelativePath(NavigationManager.Uri) == "")
+{
+    @inherits LayoutComponentBase
+
+    <div class="page">
+        <main>
+            <article>
+                @Body
+            </article>
+        </main>
+    </div>
+}
+else
+{
+    NavigationManager.NavigateTo("/");
+}

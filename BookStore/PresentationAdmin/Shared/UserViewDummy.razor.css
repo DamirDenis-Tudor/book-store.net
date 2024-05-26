@@ -1,0 +1,55 @@
+﻿.user-bg {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 700px;/*width: 1380px;*/
+    height: 100px;
+    border-radius: 20px;
+    background-color: #FAF6FE;
+    padding: 14px 20px 10px 15px;
+}
+
+.side-bar {
+    width: 5px;
+    height: 60px;
+    border-radius: 10px;
+    background: #249689;
+}
+
+.user-content{
+    display: flex;
+    align-items: center;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+    margin-left: 25px;
+}
+
+.user-text {
+    background-color: #EDF2FA;
+    height: 10px;
+    width: 300px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+
+
+.user-delete {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 20px;
+    width: fit-content;
+}
+
+.delete-btn {
+    width: 40px;
+    height: 50px;
+    background-color: #EDF2FA;;
+    border-radius: 10px;
+    border: none;
+    padding: 0;
+    align-content: center;
+}
