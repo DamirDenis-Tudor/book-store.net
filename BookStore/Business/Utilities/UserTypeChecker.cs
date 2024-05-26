@@ -77,6 +77,6 @@ internal static class UserTypeChecker
 
         if (userType.SuccessValue == GdprUtility.Encrypt("ADMIN"))
             return LoginMode.Admin;
-        return userType.SuccessValue == GdprUtility.Encrypt("PROVIDER") ? LoginMode.Admin : LoginMode.Client;
+        return userType.SuccessValue == GdprUtility.Encrypt("PROVIDER") ? LoginMode.Provider : LoginMode.Client;
     }
 }
