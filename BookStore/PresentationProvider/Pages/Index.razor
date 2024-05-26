@@ -8,6 +8,8 @@
 		<EditForm Model="User" OnValidSubmit="LoginSubmit">
 			<DataAnnotationsValidator />
 			<div class="validation">
+				<p>@_logginError</p>
+				<p class="success">@_logginSuccess</p>
 				<ValidationSummary />
 			</div>
 			<div class="login-form">
