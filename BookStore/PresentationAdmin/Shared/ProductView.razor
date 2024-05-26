@@ -4,12 +4,12 @@
 	@if(Product != null)
 	{
 		<div class="product-image-section">
-			<img class="product-image" src="@Product.Link" alt="" />
+			<img class="product-image" src="@Product.ProductDto.Link" alt="" />
 		</div>
 
 		<div class="product-details">
-			<p class="product-name">@Product.Name</p>
-			<p class="product-description"></p>
+			<p class="product-name">@Product.ProductDto.Name</p>
+			<p class="product-description">@Product.ProductDto.Description</p>
 		</div>
 		<div class="product-buy">
 			<p class="product-price">Venituri: @Product.TotalRevenue Lei</p>

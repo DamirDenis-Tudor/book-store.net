@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using Business.BAL;
 using Common;
+using PresentationAdmin.Service;
 
 namespace PresentationAdmin.Layout
 {
@@ -10,7 +11,7 @@ namespace PresentationAdmin.Layout
         [Inject]
         private NavigationManager NavigationManager { get; set; }
         [Inject]
-        private ProtectedLocalStorage LocalStorage { get; set; }
+        private IUserLoginService UserData { get; set; }
 		[Inject]
 		public BusinessFacade Business { get; set; }
 
@@ -29,19 +30,17 @@ namespace PresentationAdmin.Layout
 
         public async void Logout()
         {
-            
-			var username = await LocalStorage.GetAsync<string>("username");
-			var result = Business.AuthService.Logout(username.Value);
+            var result = Business.AuthService.Logout(await UserData.GetToken());
             if (!result.IsSuccess)
                 Logger.Instance.GetLogger<NavMenu>().LogError(result.Message);
-            else if(result.SuccessValue)
+            else if (result.IsSuccess)
             {
-                LocalStorage.DeleteAsync("sessiontoken");
-                LocalStorage.DeleteAsync("username");
-				_loggedIn = false;
+                UserData.ClearSession();
+                _loggedIn = false;
 
-				NavigationManager.NavigateTo("/login");
+                NavigationManager.NavigateTo("/login");
             }
+            
         }
     }
 }
