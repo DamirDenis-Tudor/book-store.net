@@ -9,7 +9,7 @@ namespace PresentationAdmin.Pages
 	{
 		[Inject]
 		protected ProductsScope ProductsScope { get; set; }
-		protected ObservableCollection<ProductDto> DisplayProducts { get; set; }
+		protected ObservableCollection<ProductStatsDto> DisplayProducts { get; set; }
 
 		protected decimal? _priceRangeMin, _priceRangeMax;
 		protected decimal? PriceRangeMin
@@ -21,11 +21,11 @@ namespace PresentationAdmin.Pages
 				if (_serach == null)
 				{
 					if (Category == null)
-						DisplayProducts = new ObservableCollection<ProductDto>(ProductsScope.Products.Where(p => p.Price >= _priceRangeMin));
+						DisplayProducts = new ObservableCollection<ProductStatsDto>(ProductsScope.GetProducts().Result.Where(p => p.TotalRevenue >= _priceRangeMin));
 					else
 					{
 						CategoryFilter();
-						DisplayProducts = new ObservableCollection<ProductDto>(DisplayProducts.Where(p => p.Price >= _priceRangeMin));
+						DisplayProducts = new ObservableCollection<ProductStatsDto>(DisplayProducts.Where(p => p.TotalRevenue >= _priceRangeMin));
 					}
 				}
 			}
@@ -39,11 +39,11 @@ namespace PresentationAdmin.Pages
 				if (_serach == null)
 				{
 					if (Category == null)
-						DisplayProducts = new ObservableCollection<ProductDto>(ProductsScope.Products.Where(p => p.Price <= _priceRangeMax));
+						DisplayProducts = new ObservableCollection<ProductStatsDto>(ProductsScope.GetProducts().Result.Where(p => p.TotalRevenue <= _priceRangeMax));
 					else
 					{
 						CategoryFilter();
-						DisplayProducts = new ObservableCollection<ProductDto>(DisplayProducts.Where(p => p.Price <= _priceRangeMax));
+						DisplayProducts = new ObservableCollection<ProductStatsDto>(DisplayProducts.Where(p => p.TotalRevenue <= _priceRangeMax));
 					}
 				}
 			}
@@ -72,7 +72,7 @@ namespace PresentationAdmin.Pages
 			{
 				_serach = value;
 				if (_serach != null)
-					DisplayProducts = new ObservableCollection<ProductDto>(ProductsScope.Products.Where(p => p.Name.Contains(_serach)));
+					DisplayProducts = new ObservableCollection<ProductStatsDto>(ProductsScope.GetProducts().Result.Where(p => p.Name.Contains(_serach)));
 			}
 		}
 
@@ -80,11 +80,11 @@ namespace PresentationAdmin.Pages
 		{
 			Console.WriteLine(_serach);
 			if (_serach == null)
-				DisplayProducts = new ObservableCollection<ProductDto>(ProductsScope.Products);
+				DisplayProducts = new ObservableCollection<ProductStatsDto>(ProductsScope.GetProducts().Result);
 			else
-				DisplayProducts = new ObservableCollection<ProductDto>(ProductsScope.Products.Where(p => p.Name.Contains(_serach)));
-			PriceRangeMax = DisplayProducts.Max(prod => prod.Price);
-			PriceRangeMin = DisplayProducts.Min(prod => prod.Price);
+				DisplayProducts = new ObservableCollection<ProductStatsDto>(ProductsScope.GetProducts().Result.Where(p => p.Name.Contains(_serach)));
+			PriceRangeMax = DisplayProducts.Max(prod => prod.TotalRevenue);
+			PriceRangeMin = DisplayProducts.Min(prod => prod.TotalRevenue);
 		}
 
 		protected void OnSortOrderChange(ChangeEventArgs e)
@@ -93,10 +93,10 @@ namespace PresentationAdmin.Pages
 			switch (selectedMode)
 			{
 				case "name":
-					DisplayProducts = new ObservableCollection<ProductDto>(DisplayProducts.OrderBy(prod => prod.Name));
+					DisplayProducts = new ObservableCollection<ProductStatsDto>(DisplayProducts.OrderBy(prod => prod.Name));
 					break;
 				case "price":
-					DisplayProducts = new ObservableCollection<ProductDto>(DisplayProducts.OrderBy(prod => prod.Price));
+					DisplayProducts = new ObservableCollection<ProductStatsDto>(DisplayProducts.OrderBy(prod => prod.TotalRevenue));
 					break;
 				default:
 					break;
@@ -106,19 +106,19 @@ namespace PresentationAdmin.Pages
 
 		private void CategoryFilter()
 		{
-			if (Category != null)
-				DisplayProducts = new ObservableCollection<ProductDto>(ProductsScope.Products.Where(p => p.Category == Category));
-			else
-				DisplayProducts = new ObservableCollection<ProductDto>(ProductsScope.Products);
+			/*if (Category != null)
+				DisplayProducts = new ObservableCollection<ProductStatsDto>(ProductsScope.GetProducts().Result.Where(p => p. == Category));
+			else*/
+				DisplayProducts = new ObservableCollection<ProductStatsDto>(ProductsScope.GetProducts().Result);
 		}
 
 		public void OnPriceRangeChangeMin(decimal? price)
 		{
-			DisplayProducts = new ObservableCollection<ProductDto>(ProductsScope.Products.Where(p => p.Price >= price));
+			DisplayProducts = new ObservableCollection<ProductStatsDto>(ProductsScope.GetProducts().Result.Where(p => p.TotalRevenue >= price));
 		}
 		protected void OnPriceRangeChangeMax(decimal? price)
 		{
-			DisplayProducts = new ObservableCollection<ProductDto>(ProductsScope.Products.Where(p => p.Price <= price));
+			DisplayProducts = new ObservableCollection<ProductStatsDto>(ProductsScope.GetProducts().Result.Where(p => p.TotalRevenue <= price));
 		}
 	}
 }

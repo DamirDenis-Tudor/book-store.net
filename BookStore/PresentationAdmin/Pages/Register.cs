@@ -1,8 +1,10 @@
 ﻿using Business.BAL;
+using Common;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Persistence.DAL;
 using Persistence.DTO.User;
+using PresentationAdmin.Service;
 using System.ComponentModel.DataAnnotations;
 
 namespace PresentationAdmin.Pages
@@ -11,6 +13,10 @@ namespace PresentationAdmin.Pages
 	{
 		[Inject]
 		private NavigationManager NavigationManager { get; set; }
+		[Inject]
+		public BusinessFacade Business { get; set; }
+		[Inject]
+		public IUserLoginService UserData { get; set; }
 
 		public class UserInfoData
 		{
@@ -28,20 +34,23 @@ namespace PresentationAdmin.Pages
 
 		UserInfoData user = new UserInfoData();
 
-		private void RegisterSubmit(EditContext editContext)
+		private async void RegisterSubmit(EditContext editContext)
 		{
 			if (editContext.Validate())
 			{
-                BusinessFacade.Instance.UsersService.RegisterProvider("admin", new UserInfoDto()
-                {
-                    Email = user.Email,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    Password = user.Password,
-                    Username = user.Username,
-                    UserType = "provider"
-                });
-				NavigationManager.NavigateTo("/home");
+				var result = Business.UsersService.RegisterProvider(await UserData.GetUsername(), new UserInfoDto()
+				{
+					Email = user.Email,
+					FirstName = user.FirstName,
+					LastName = user.LastName,
+					Password = user.Password,
+					Username = user.Username,
+					UserType = "PROVIDER"
+				});
+				if (!result.IsSuccess)
+					Logger.Instance.GetLogger<Register>().LogError(result.Message);
+				else
+					NavigationManager.NavigateTo("/home");
 			}
 		}
 	}

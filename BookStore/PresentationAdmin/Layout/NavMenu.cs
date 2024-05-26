@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.AspNetCore.Components;
+using Business.BAL;
+using Common;
 
 namespace PresentationAdmin.Layout
 {
@@ -9,8 +11,10 @@ namespace PresentationAdmin.Layout
         private NavigationManager NavigationManager { get; set; }
         [Inject]
         private ProtectedLocalStorage LocalStorage { get; set; }
+		[Inject]
+		public BusinessFacade Business { get; set; }
 
-        private string? _search;
+		private string? _search;
         protected string? Serach
         {
             get => _search;
@@ -23,11 +27,21 @@ namespace PresentationAdmin.Layout
 
         private bool _loggedIn = true;
 
-        public void Logout()
+        public async void Logout()
         {
-            _loggedIn = false;
-            LocalStorage.DeleteAsync("sessiontoken");
-            NavigationManager.NavigateTo("/login");
+            
+			var username = await LocalStorage.GetAsync<string>("username");
+			var result = Business.AuthService.Logout(username.Value);
+            if (!result.IsSuccess)
+                Logger.Instance.GetLogger<NavMenu>().LogError(result.Message);
+            else if(result.SuccessValue)
+            {
+                LocalStorage.DeleteAsync("sessiontoken");
+                LocalStorage.DeleteAsync("username");
+				_loggedIn = false;
+
+				NavigationManager.NavigateTo("/login");
+            }
         }
     }
 }
