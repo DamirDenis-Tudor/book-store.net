@@ -3,12 +3,28 @@
   "WorkspaceRootPath": "D:\\Facultate\\IP\\Proiect IP\\PetShop-ProiectIP\\BookStore\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{2ADEFE7E-1A44-47A8-AF86-FA1F04DF5646}|PresentationClient\\PresentationClient.csproj|d:\\facultate\\ip\\proiect ip\\petshop-proiectip\\bookstore\\presentationclient\\pages\\accountdashboard.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{2ADEFE7E-1A44-47A8-AF86-FA1F04DF5646}|PresentationClient\\PresentationClient.csproj|solutionrelative:presentationclient\\pages\\accountdashboard.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{9BB17E6A-1D8A-4F96-99E6-9E6471A0ED8D}|PresentationAdmin\\PresentationAdmin.csproj|d:\\facultate\\ip\\proiect ip\\petshop-proiectip\\bookstore\\presentationadmin\\shared\\userviewdummy.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9BB17E6A-1D8A-4F96-99E6-9E6471A0ED8D}|PresentationAdmin\\PresentationAdmin.csproj|solutionrelative:presentationadmin\\shared\\userviewdummy.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2ADEFE7E-1A44-47A8-AF86-FA1F04DF5646}|PresentationClient\\PresentationClient.csproj|d:\\facultate\\ip\\proiect ip\\petshop-proiectip\\bookstore\\presentationclient\\pages\\viewcart.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{2ADEFE7E-1A44-47A8-AF86-FA1F04DF5646}|PresentationClient\\PresentationClient.csproj|solutionrelative:presentationclient\\pages\\viewcart.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{9BB17E6A-1D8A-4F96-99E6-9E6471A0ED8D}|PresentationAdmin\\PresentationAdmin.csproj|d:\\facultate\\ip\\proiect ip\\petshop-proiectip\\bookstore\\presentationadmin\\shared\\userviewdummy.razor.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{9BB17E6A-1D8A-4F96-99E6-9E6471A0ED8D}|PresentationAdmin\\PresentationAdmin.csproj|solutionrelative:presentationadmin\\shared\\userviewdummy.razor.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9BB17E6A-1D8A-4F96-99E6-9E6471A0ED8D}|PresentationAdmin\\PresentationAdmin.csproj|d:\\facultate\\ip\\proiect ip\\petshop-proiectip\\bookstore\\presentationadmin\\pages\\viewuser.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9BB17E6A-1D8A-4F96-99E6-9E6471A0ED8D}|PresentationAdmin\\PresentationAdmin.csproj|solutionrelative:presentationadmin\\pages\\viewuser.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9BB17E6A-1D8A-4F96-99E6-9E6471A0ED8D}|PresentationAdmin\\PresentationAdmin.csproj|d:\\facultate\\ip\\proiect ip\\petshop-proiectip\\bookstore\\presentationadmin\\shared\\userview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9BB17E6A-1D8A-4F96-99E6-9E6471A0ED8D}|PresentationAdmin\\PresentationAdmin.csproj|solutionrelative:presentationadmin\\shared\\userview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9BB17E6A-1D8A-4F96-99E6-9E6471A0ED8D}|PresentationAdmin\\PresentationAdmin.csproj|d:\\facultate\\ip\\proiect ip\\petshop-proiectip\\bookstore\\presentationadmin\\shared\\userview.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9BB17E6A-1D8A-4F96-99E6-9E6471A0ED8D}|PresentationAdmin\\PresentationAdmin.csproj|solutionrelative:presentationadmin\\shared\\userview.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9BB17E6A-1D8A-4F96-99E6-9E6471A0ED8D}|PresentationAdmin\\PresentationAdmin.csproj|d:\\facultate\\ip\\proiect ip\\petshop-proiectip\\bookstore\\presentationadmin\\pages\\viewuser.razor.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{9BB17E6A-1D8A-4F96-99E6-9E6471A0ED8D}|PresentationAdmin\\PresentationAdmin.csproj|solutionrelative:presentationadmin\\pages\\viewuser.razor.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     }
   ],
   "DocumentGroupContainers": [
@@ -21,34 +37,86 @@
           "SelectedChildIndex": 1,
           "Children": [
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UserViewDummy.razor.css",
+              "DocumentMoniker": "D:\\Facultate\\IP\\Proiect IP\\PetShop-ProiectIP\\BookStore\\PresentationAdmin\\Shared\\UserViewDummy.razor.css",
+              "RelativeDocumentMoniker": "PresentationAdmin\\Shared\\UserViewDummy.razor.css",
+              "ToolTip": "D:\\Facultate\\IP\\Proiect IP\\PetShop-ProiectIP\\BookStore\\PresentationAdmin\\Shared\\UserViewDummy.razor.css",
+              "RelativeToolTip": "PresentationAdmin\\Shared\\UserViewDummy.razor.css",
+              "ViewState": "AQIAABIAAAAAAAAAAAAAACAAAAANAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2024-05-26T11:31:14.033Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "AccountDashboard.razor",
-              "DocumentMoniker": "D:\\Facultate\\IP\\Proiect IP\\PetShop-ProiectIP\\BookStore\\PresentationClient\\Pages\\AccountDashboard.razor",
-              "RelativeDocumentMoniker": "PresentationClient\\Pages\\AccountDashboard.razor",
-              "ToolTip": "D:\\Facultate\\IP\\Proiect IP\\PetShop-ProiectIP\\BookStore\\PresentationClient\\Pages\\AccountDashboard.razor",
-              "RelativeToolTip": "PresentationClient\\Pages\\AccountDashboard.razor",
-              "ViewState": "AQIAAAYAAAAAAAAAAAAAAA4AAAADAAAA",
+              "Title": "UserViewDummy.razor",
+              "DocumentMoniker": "D:\\Facultate\\IP\\Proiect IP\\PetShop-ProiectIP\\BookStore\\PresentationAdmin\\Shared\\UserViewDummy.razor",
+              "RelativeDocumentMoniker": "PresentationAdmin\\Shared\\UserViewDummy.razor",
+              "ToolTip": "D:\\Facultate\\IP\\Proiect IP\\PetShop-ProiectIP\\BookStore\\PresentationAdmin\\Shared\\UserViewDummy.razor",
+              "RelativeToolTip": "PresentationAdmin\\Shared\\UserViewDummy.razor",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAHAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-05-26T08:48:12.344Z",
+              "WhenOpened": "2024-05-26T11:30:30.463Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ViewCart.razor",
-              "DocumentMoniker": "D:\\Facultate\\IP\\Proiect IP\\PetShop-ProiectIP\\BookStore\\PresentationClient\\Pages\\ViewCart.razor",
-              "RelativeDocumentMoniker": "PresentationClient\\Pages\\ViewCart.razor",
-              "ToolTip": "D:\\Facultate\\IP\\Proiect IP\\PetShop-ProiectIP\\BookStore\\PresentationClient\\Pages\\ViewCart.razor",
-              "RelativeToolTip": "PresentationClient\\Pages\\ViewCart.razor",
+              "DocumentIndex": 5,
+              "Title": "ViewUser.razor.css",
+              "DocumentMoniker": "D:\\Facultate\\IP\\Proiect IP\\PetShop-ProiectIP\\BookStore\\PresentationAdmin\\Pages\\ViewUser.razor.css",
+              "RelativeDocumentMoniker": "PresentationAdmin\\Pages\\ViewUser.razor.css",
+              "ToolTip": "D:\\Facultate\\IP\\Proiect IP\\PetShop-ProiectIP\\BookStore\\PresentationAdmin\\Pages\\ViewUser.razor.css",
+              "RelativeToolTip": "PresentationAdmin\\Pages\\ViewUser.razor.css",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2024-05-26T11:29:58.431Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "UserView.cs",
+              "DocumentMoniker": "D:\\Facultate\\IP\\Proiect IP\\PetShop-ProiectIP\\BookStore\\PresentationAdmin\\Shared\\UserView.cs",
+              "RelativeDocumentMoniker": "PresentationAdmin\\Shared\\UserView.cs",
+              "ToolTip": "D:\\Facultate\\IP\\Proiect IP\\PetShop-ProiectIP\\BookStore\\PresentationAdmin\\Shared\\UserView.cs",
+              "RelativeToolTip": "PresentationAdmin\\Shared\\UserView.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAuwAkAAAAbAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-26T11:15:41.633Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "UserView.razor",
+              "DocumentMoniker": "D:\\Facultate\\IP\\Proiect IP\\PetShop-ProiectIP\\BookStore\\PresentationAdmin\\Shared\\UserView.razor",
+              "RelativeDocumentMoniker": "PresentationAdmin\\Shared\\UserView.razor",
+              "ToolTip": "D:\\Facultate\\IP\\Proiect IP\\PetShop-ProiectIP\\BookStore\\PresentationAdmin\\Shared\\UserView.razor",
+              "RelativeToolTip": "PresentationAdmin\\Shared\\UserView.razor",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-05-26T08:48:07.249Z",
+              "WhenOpened": "2024-05-26T11:15:12.661Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ViewUser.razor",
+              "DocumentMoniker": "D:\\Facultate\\IP\\Proiect IP\\PetShop-ProiectIP\\BookStore\\PresentationAdmin\\Pages\\ViewUser.razor",
+              "RelativeDocumentMoniker": "PresentationAdmin\\Pages\\ViewUser.razor",
+              "ToolTip": "D:\\Facultate\\IP\\Proiect IP\\PetShop-ProiectIP\\BookStore\\PresentationAdmin\\Pages\\ViewUser.razor",
+              "RelativeToolTip": "PresentationAdmin\\Pages\\ViewUser.razor",
+              "ViewState": "AQIAAAUAAAAAAAAAAAAWwBQAAAAEAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-05-26T11:13:55.971Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
             }
           ]
         },
