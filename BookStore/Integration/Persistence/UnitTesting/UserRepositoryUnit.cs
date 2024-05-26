@@ -1,7 +1,7 @@
 using Persistence.DAL;
 using Persistence.DTO.User;
 
-namespace UnitTesting.PersistenceTesting;
+namespace UnitTesting.Persistence.UnitTesting;
 
 public class UserRepositoryUnit
 {
@@ -10,7 +10,7 @@ public class UserRepositoryUnit
     [Test]
     public void CreateAndDeleteUserUnitTest()
     {
-        var user = new UserInfoDto
+        var user = new UserRegisterDto
         {
             FirstName = "testCreateAndDelete", LastName = "testCreateAndDelete", Username = "test_12345CreateAndDelete",
             Password = "testCreateAndDelete", Email = "test@test.testCreateAndDelete", UserType = "TESTER"
@@ -29,14 +29,14 @@ public class UserRepositoryUnit
     [Test]
     public void UpdateUserUnitTest()
     {
-        var user = new UserInfoDto
+        var user = new UserRegisterDto
         {
             FirstName = "testUpdate", LastName = "testUpdate", Username = "test_12345Update",
             Password = "testUpdate", Email = "test@test.testUpdate", UserType = "TESTERUpdate"
         };
         Assert.That(PersistenceFacade.Instance.UserRepository?.RegisterUser(user).IsSuccess, Is.EqualTo(true));
 
-        var userUpdated = new UserInfoDto
+        var userUpdated = new UserRegisterDto
         {
             FirstName = "NonTest", LastName = "", Username = "nonTest",
             Password = "", Email = "", UserType = ""
@@ -54,7 +54,7 @@ public class UserRepositoryUnit
         );
 
 
-        var userUpdatedUsername = new UserInfoDto
+        var userUpdatedUsername = new UserRegisterDto
         {
             FirstName = "test1", LastName = "", Username = "test",
             Password = "", Email = "", UserType = ""
@@ -78,7 +78,7 @@ public class UserRepositoryUnit
     [Test]
     public void CheckUserGettersUnitTest()
     {
-        var user = new UserInfoDto
+        var user = new UserRegisterDto
         {
             FirstName = "testGetters", LastName = "testGetters", Username = "test_12345Getters",
             Password = "testGetters", Email = "test@test.testGetters", UserType = "TESTERGetters"

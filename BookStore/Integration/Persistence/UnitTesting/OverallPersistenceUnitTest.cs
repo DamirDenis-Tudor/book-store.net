@@ -10,7 +10,7 @@ public class OverallPersistenceUnitTest
 {
     private readonly string _sessionCode = "qwerewbfcsd1231243drs233";
 
-    private readonly UserInfoDto _user = new()
+    private readonly UserRegisterDto _user = new()
     {
         FirstName = "test", LastName = "testCreateAndDelete", Username = "test_12345",
         Password = "testC", Email = "test@test.testCreateAndDelete", UserType = "TESTER"
