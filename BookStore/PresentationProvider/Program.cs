@@ -2,10 +2,13 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
 using Persistence.DAL;
+using PresentationProvider.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+
+builder.Services.AddScoped<ProductsScope>();
 
 var app = builder.Build();
 
