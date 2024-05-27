@@ -38,7 +38,7 @@ namespace PresentationAdmin.Layout
                 UserData.ClearSession();
                 _loggedIn = false;
 
-                NavigationManager.NavigateTo("/");
+                NavigationManager.NavigateTo("/", true);
             }
             
         }

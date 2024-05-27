@@ -2,7 +2,7 @@
 @using System.ComponentModel.DataAnnotations
 
 <div class="content">
-	<h1 class="logo">PetShop</h1>
+	<h1 class="logo">BookShop.net</h1>
 	<div class="register-area">
 		<h2>Detalii produs:</h2>
 		<EditForm Model="@product" OnSubmit="PlaceOrder">
@@ -11,12 +11,12 @@
 			<div class="register-form">
 				<div class="input">
 					<lable for="register-username">Nume produs:</lable>
-					<InputText class="register-input" @bind-Value="product.Name" placeholder="Hrana uscata caini adult cu vitamine"></InputText>
+					<InputText class="register-input" @bind-Value="product.Name" placeholder="Cartea Junglei"></InputText>
 				</div>
 				<div class="small">
 					<div class="input">
 						<lable for="register-username">Pret:</lable>
-						<InputNumber class="register-input" @bind-Value="product.Price" placeholder="42.12"></InputNumber>
+						<InputNumber class="register-input" @bind-Value="product.Price" placeholder="12.99"></InputNumber>
 					</div>
 					<div class="input">
 						<lable for="register-username">Cantitae:</lable>
@@ -25,11 +25,11 @@
 				</div>
 				<div class="input">
 					<lable for="register-username">Descriere produs:</lable>
-					<InputTextArea class="register-input" @bind-Value="product.Description" placeholder="Hrana plina de proteine pentru catei adulti..."></InputTextArea>
+					<InputTextArea class="register-input" @bind-Value="product.Description" placeholder="Mowgli este un pui de om crescut de lupi în inima junglei..."></InputTextArea>
 				</div>
 				<div class="input">
 					<lable for="register-username">Categorie produs:</lable>
-					<InputText class="register-input" @bind-Value="product.Category" placeholder="Hrana"></InputText>
+					<InputText class="register-input" @bind-Value="product.Category" placeholder="Carti pentru copii"></InputText>
 				</div>
 				<div class="input">
 					<lable for="register-username">Poza produs:</lable>
