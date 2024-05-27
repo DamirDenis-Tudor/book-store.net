@@ -1,12 +1,19 @@
+using Business.BAL;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.AspNetCore.Components.Web;
 
 using Persistence.DAL;
 using PresentationProvider.Entities;
+using PresentationProvider.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+
+builder.Services.AddSingleton<BusinessFacade>();
+builder.Services.AddScoped<ProtectedLocalStorage>();
+builder.Services.AddScoped<IUserLoginService, UserLoginService>();
 
 builder.Services.AddScoped<ProductsScope>();
 

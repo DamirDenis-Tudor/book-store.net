@@ -1,29 +1,26 @@
 ﻿@page "/"
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 
 <div class="content">
-	<h1 class="logo">PetShop</h1>
+	<h1 class="logo">BookShop.net</h1>
 	<div class="login-area">
 		<h2>Salut!</h2>
-		<EditForm Model="user" OnSubmit="login" >
+		<EditForm Model="User" OnValidSubmit="LoginSubmit">
+			<DataAnnotationsValidator />
+			<div class="validation">
+				<p>@_logginError</p>
+				<p class="success">@_logginSuccess</p>
+				<ValidationSummary />
+			</div>
 			<div class="login-form">
-				<InputText class="login-input email" @bind-Value="user.Username" placeholder="Adresa de email..."></InputText>
-				<InputText class="login-input parola" @bind-Value="user.Password" placeholder="Parola..."></InputText>
+				<InputText class="login-input email" @bind-Value="User.Username" placeholder="Username..."></InputText>
+				<InputText class="login-input parola" @bind-Value="User.Password" type="password" placeholder="Parola..."></InputText>
 			</div>
 			<div class="login-action-area">
 				<button type="submit" class="login-btn">Login</button>
 			</div>
 		</EditForm>
-		
+
 	</div>
-	<h1 class="logo" style="opacity: 0;">PetShop</h1>
+	<h1 class="logo" style="opacity: 0;">BookShop.net</h1>
 </div>
-
-
-@code {
-	UserLogin user { get; set; } = new UserLogin();
-
-	void login()
-	{
-		
-	}
-}

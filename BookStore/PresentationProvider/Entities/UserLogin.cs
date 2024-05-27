@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Business.BTO;
+using System.ComponentModel.DataAnnotations;
 
 namespace Presentation.Entities
 {
@@ -8,5 +9,10 @@ namespace Presentation.Entities
 		public string Username { get; set; }
 		[Required(ErrorMessage = "Introduceti parola contului")]
 		public string Password { get; set; }
+
+		public UserLoginBto ConverToBto()
+		{
+			return new UserLoginBto() { Username = Username, Password = Password };
+		}
 	}
 }

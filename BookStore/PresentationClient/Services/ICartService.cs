@@ -10,5 +10,6 @@ namespace PresentationClient.Services
 		Task AddToCart(ProductDto product);
 		void UpdateProduct(OrderProductData newProduct);
 		void DeleteProduct(OrderProductData newProduct);
+		void ClearCart();
 	}
 }

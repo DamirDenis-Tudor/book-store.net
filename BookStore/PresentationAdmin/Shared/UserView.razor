@@ -1,5 +1,6 @@
 ﻿@using Persistence.DTO.User
 
+
 <div class="user-bg">
 	@if (User != null)
 	{
@@ -12,17 +13,7 @@
 			</div>
 		</div>
 		<div class="user-delete">
-			<a href="/delete"><button class="delete-btn" onclick="@delete"> <img src="Images/delete_icon.png" alt="Delete User" /></button></a>
+			<button class="delete-btn" onclick="@Delete"> <img src="Images/delete_icon.png" alt="Delete User" /></button>
 		</div>
 	}
 </div>
-
-@code {
-	[Parameter]
-	public UserRegisterDto User{ get; set; }
-
-	public void delete()
-	{
-
-	}
-}

@@ -11,9 +11,12 @@
 			<p class="product-name">@Product.Name</p>
 			<p class="product-description">@Product.Description</p>
 		</div>
-		<div class="product-buy">
-			<p class="product-price">@Product.Price Lei</p>
-			<p class="product-quantity">Stoc: @Product.Quantity</p>
+		<div class="action-section">
+			<div class="product-buy">
+				<p class="product-price">@Product.Price Lei</p>
+				<p class="product-quantity">Stoc: @Product.Quantity</p>
+			</div>
+			<button class="edit-btn" @onclick="@ProductEdit"><img src="Images/edit_icon.png" alt="Edit" /></button>
 		</div>
 	}
 </div>

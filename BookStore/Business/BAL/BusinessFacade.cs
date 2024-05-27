@@ -55,7 +55,7 @@ namespace Business.BAL
         /// Private constructor to prevent direct instantiation.
         /// Initializes the persistence facade and business services.
         /// </summary>
-        private BusinessFacade()
+        public BusinessFacade()
         {
             PersistenceFacade.Instance.SetIntegrationMode(IntegrationMode.Production);
             

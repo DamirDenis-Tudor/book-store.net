@@ -140,7 +140,7 @@ internal class UserService : IUsers
 
     public Result<VoidResult, BaoErrorType> UpdateBill(string username, BillDto billDto)
     {
-        var result = _persistenceFacade.BillRepository.UpdateBillByUsername(GdprUtility.Encrypt(username), billDto);
+        var result = _persistenceFacade.BillRepository.UpdateBillByUsername(GdprUtility.Encrypt(username), GdprMapper.DoBillGdpr(billDto));
 
         _logger.LogInformation(result.Message);
         

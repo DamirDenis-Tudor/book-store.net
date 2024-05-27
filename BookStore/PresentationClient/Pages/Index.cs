@@ -16,7 +16,13 @@ namespace PresentationClient.Pages
 		{
 			get => _priceRangeMin; 
 			set{
-				_priceRangeMin = value;
+				if (value < 0)
+					_priceRangeMin = 0;
+				else if (value > _priceRangeMax)
+					_priceRangeMin = _priceRangeMax;
+				else
+					_priceRangeMin = value;
+
 				if (_serach == null)
 				{
 					if (Category == null)
@@ -34,7 +40,13 @@ namespace PresentationClient.Pages
             get => _priceRangeMax;
             set
             {
-                _priceRangeMax = value;
+				if (value < 0)
+					_priceRangeMax = 0;
+				else if (value < _priceRangeMin)
+					_priceRangeMax = _priceRangeMin;
+				else
+					_priceRangeMax = value;
+
 				if (_serach == null)
 				{
                 if (Category == null)
@@ -49,7 +61,7 @@ namespace PresentationClient.Pages
         }
 
         private string? _category = null;
-		[SupplyParameterFromQuery]
+		[SupplyParameterFromQuery(Name = "category")]
 		protected string? Category { get {
 				return _category;
 			} set

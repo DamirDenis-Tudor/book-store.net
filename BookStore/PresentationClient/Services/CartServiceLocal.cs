@@ -63,5 +63,10 @@ namespace PresentationClient.Services
 			await _localStorage.SetAsync("cart", products);
 		}
 
+		public async void ClearCart()
+		{
+			await _localStorage.DeleteAsync("cart");
+		}
+
 	}
 }

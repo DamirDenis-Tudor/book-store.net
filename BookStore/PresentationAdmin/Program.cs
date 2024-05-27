@@ -1,9 +1,17 @@
+using Business.BAL;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Persistence.DAL;
+using PresentationAdmin.Entities;
+using PresentationAdmin.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+
+builder.Services.AddScoped<ProductsScope>();
+builder.Services.AddSingleton<BusinessFacade>();
+builder.Services.AddScoped<IUserLoginService, UserLoginService>();
 
 var app = builder.Build();
 
@@ -16,6 +24,8 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
+
+PersistenceFacade.Instance.SetIntegrationMode(IntegrationMode.Production);
 
 app.UseRouting();
 
