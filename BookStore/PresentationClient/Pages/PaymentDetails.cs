@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Business.BAL;
+using Business.BTO;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Persistence.DTO.Bill;
 using Persistence.DTO.Order;
 using PresentationClient.Entities;
+using PresentationClient.Service;
 using PresentationClient.Services;
 using System.ComponentModel.DataAnnotations;
 
@@ -24,6 +27,10 @@ namespace PresentationClient.Pages
 
 		[Inject]
 		private ICartService CartService { get; set; }
+		[Inject]
+		private BusinessFacade Business { get; set; }
+		[Inject]
+		private IUserLoginService UserData { get; set; }
 		[Inject]
 		private PersonalDetailsDataScoped PersonalDetailsScoped { get; set; }
 		[Inject]
@@ -48,40 +55,43 @@ namespace PresentationClient.Pages
 				var cart = await CartService.GetCart();
 				if(cart != null)
 				{
-					string sessionCode = "23425";
-					decimal totalPrice = 0;
-					List<OrderProductDto> orderProducts = new List<OrderProductDto>();
-					cart.ForEach(prod => {
-						orderProducts.Add(new OrderProductDto()
-						{
-							ProductName = prod.ProductName,
-							Description = prod.Description,
-							Link = prod.Link,
-							OrderQuantity = prod.OrderQuantity,
-							Price = prod.Price,
-							SessionCode = sessionCode
-						});
-						totalPrice += prod.Price * prod.OrderQuantity;
-					});
-					//TODO: Make the delivery fee logic a separate service to be used by every component
-					if (totalPrice < 300)
-						totalPrice += 11.99m;
-
-					OrderSessionDto order = new OrderSessionDto()
+					var sessionToken = await UserData.GetToken();
+					if (sessionToken != null)
 					{
-						Username = "Marius",
-						OrderProducts = orderProducts,
-						SessionCode = sessionCode,
-						Status = "Placed",
-						TotalPrice = totalPrice
-					};
+						var username = Business.AuthService.GetUsername(sessionToken);
+						if (username.IsSuccess)
+						{
+							List<OrderItemBto> orderProducts = new List<OrderItemBto>();
+							cart.ForEach(prod => 
+								orderProducts.Add(new OrderItemBto()
+								{
+									ProductName = prod.ProductName,
+									OrderQuantity = prod.OrderQuantity,
+								}));
 
-					BillDto bill = PersonalDetailsScoped.ConvertToDto();
+							OrderBto order = new OrderBto() { 
+								Username = username.SuccessValue,
+								OrderItemBtos = orderProducts
+							};
 
-					Console.WriteLine(order);
-					NavigationManager.NavigateTo("/account");
+							Business.OrderService.PlaceOrder(order);
+							CartService.ClearCart();
+							if(DifferenceBillDetails(PersonalDetailsScoped.ConvertToDto(), Business.UsersService.GetUserBillInfo(username.SuccessValue).SuccessValue))
+								Business.UsersService.UpdateBill(username.SuccessValue, PersonalDetailsScoped.ConvertToDto());
+							NavigationManager.NavigateTo("/account");
+						}
+					}
 				}
 			}
+		}
+
+		private bool DifferenceBillDetails(BillDto remote, BillDto local)
+		{
+			return remote == null || remote.Address != local.Address || 
+				remote.City != local.City || 
+				remote.Country != local.Country ||
+				remote.PostalCode != local.PostalCode || 
+				remote.Telephone != local.Telephone;
 		}
 	}
 }

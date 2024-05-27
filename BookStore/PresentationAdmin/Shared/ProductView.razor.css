@@ -18,8 +18,8 @@
 }
 
 .product-image {
-    width: 115px;
-    height: 92px;
+    /*width: 115px;*/
+    height: 115px;
     border-radius: 20px;
     background: #BAB3F2;
 }

@@ -84,8 +84,12 @@
 	padding: 5px 0 5px 0;
 }
 
-::deep .validation li {
+::deep .validation li, p {
 	color: #FF5963;
+}
+
+::deep .success {
+	color: #249689;
 }
 
 ::deep .login-input {

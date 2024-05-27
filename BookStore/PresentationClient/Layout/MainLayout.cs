@@ -1,8 +1,19 @@
-﻿namespace PresentationClient.Layout
+﻿using Business.BAL;
+using Common;
+using Microsoft.AspNetCore.Components;
+using PresentationClient.Service;
+
+namespace PresentationClient.Layout
 {
     public partial class MainLayout
     {
-        private bool? _isAuthenticated = null;
+		[Inject]
+		public BusinessFacade Business { get; set; }
+		[Inject]
+		public IUserLoginService UserData { get; set; }
+
+
+		private bool? _isAuthenticated = null;
         private bool _isFirstRender = true;
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -12,18 +23,22 @@
             {
                 _isFirstRender = false;
 
-                var result = await ProtectedLocalStore.GetAsync<string>("sessiontoken");
-                Console.WriteLine(result.Value);
-                if (result.Success && result.Value == "token")
-                {
-                    _isAuthenticated = true;
-                }
-                else
-                {
-                    _isAuthenticated = false;
-                }
+				var sessionToken = await UserData.GetToken();
+				if (sessionToken != null)
+				{
+					var checkResult = Business.AuthService.CheckSession(sessionToken);
+                    if (!checkResult.IsSuccess)
+					{
+						Logger.Instance.GetLogger<MainLayout>().LogError(checkResult.Message);
+						_isAuthenticated = false;
+					}
+					else
+						_isAuthenticated = true;
+				}
+				else
+					_isAuthenticated = false;
 
-                StateHasChanged();
+				StateHasChanged();
             }
         }
     }

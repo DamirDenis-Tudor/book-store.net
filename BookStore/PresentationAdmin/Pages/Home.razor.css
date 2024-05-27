@@ -13,15 +13,6 @@ aside {
     gap: 15px;
 }
 
-.categories {
-    height: 530px;
-    margin-top: 36px;
-    padding: 25px 0 0 37px;
-    margin: 0 0 0 30px;
-    border-radius: 20px;
-    background: #FAF6FE;
-}
-
 .action-bar {
     display: flex;
     flex-direction: column;
@@ -29,8 +20,17 @@ aside {
     align-items: center;
     gap: 10px;
     padding: 15px 0 15px 0;
-
     margin-top: 36px;
+    margin: 0 0 0 30px;
+    border-radius: 20px;
+    background: #FAF6FE;
+}
+
+.categories {
+    width: 340px;
+    height: 530px;
+    margin-top: 36px;
+    padding: 25px 0 0 37px;
     margin: 0 0 0 30px;
     border-radius: 20px;
     background: #FAF6FE;
@@ -42,15 +42,22 @@ aside {
     font-size: 25px;
     font-weight: 600;
     margin: 0;
+    text-decoration: none;
 }
 
 
 .categories-list a, li {
-    color: #7018C9;
+    color: #BAB3F2;
     text-decoration: none;
     font-family: Inter;
     font-size: 20px;
     font-weight: 500;
+    .selected
+
+{
+    color: #7018C9;
+}
+
 }
 
 .products-view{
@@ -92,7 +99,7 @@ label.order-by {
     font-weight: 500;
 }
 
-input.price-range {
+::deep input.price-range {
     width: 100px;
     height: 40px;
     border-radius: 10px;

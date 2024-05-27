@@ -11,7 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Pages\AddProduct.razor.css" />
     <None Remove="Shared\ProductCart.razor.css" />
   </ItemGroup>
 
@@ -22,7 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Pages\AddProduct.razor.css" />
     <Content Include="Shared\ProductCart.razor.css" />
   </ItemGroup>
 
@@ -42,12 +40,6 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
     <Content Update="Layout\NavMenu.razor">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-    </Content>
-    <Content Update="MainLayout.razor">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-    </Content>
-    <Content Update="Pages\AddProduct.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
     <Content Update="Pages\Home.razor">

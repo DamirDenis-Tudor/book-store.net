@@ -2,32 +2,32 @@
 @using System.ComponentModel.DataAnnotations
 
 <div class="content">
-	<h1 class="logo">PetShop</h1>
+	<h1 class="logo">BookShop.net</h1>
 	<div class="register-area">
 		<h2>Detalii personale:</h2>
-		<EditForm Model="@bill" OnSubmit="PlaceOrder">
+		<EditForm Model="@_bill" OnSubmit="PlaceOrder">
 			<DataAnnotationsValidator/>
 			@* <ValidationSummary /> *@
 			<div class="register-form">
 				<div class="input">
 					<lable for="register-username">Numar de telefon:</lable>
-					<InputText class="register-input" @bind-Value="bill.Telephone" placeholder="+40782524751"></InputText>
+					<InputText class="register-input" @bind-Value="_bill.Telephone" placeholder="+40782524751"></InputText>
 				</div>
 				<div class="input">
 					<lable for="register-username">Tara:</lable>
-					<InputText class="register-input" @bind-Value="bill.Country" placeholder="Romania"></InputText>
+					<InputText class="register-input" @bind-Value="_bill.Country" placeholder="Romania"></InputText>
 				</div>
 				<div class="input">
 					<lable for="register-username">Localitate:</lable>
-					<InputText id="register-username" class="register-input" @bind-Value="bill.City" placeholder="Bucuresti"></InputText>
+					<InputText id="register-username" class="register-input" @bind-Value="_bill.City" placeholder="Bucuresti"></InputText>
 				</div>
 				<div class="input">
 					<lable for="register-username">Adresa:</lable>
-					<InputText class="register-input" @bind-Value="bill.Address" placeholder="Sector 3, Stefan cel Mare, bloc 23, et 6"></InputText>
+					<InputText class="register-input" @bind-Value="_bill.Address" placeholder="Sector 3, Stefan cel Mare, bloc 23, et 6"></InputText>
 				</div>
 				<div class="input">
 					<lable for="register-username">Cod posta:</lable>
-					<InputText class="register-input" @bind-Value="bill.PostalCode" placeholder="645386"></InputText>
+					<InputText class="register-input" @bind-Value="_bill.PostalCode" placeholder="645386"></InputText>
 				</div>
 				
 			</div>
