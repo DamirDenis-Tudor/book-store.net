@@ -4,7 +4,7 @@
 	width: 1300px;
 	height: 140px;
 	border-radius: 20px;
-	background-color: #FAF6FE;
+	background-color: #FBFCFB;
 	padding: 16px 20px 16px 20px;
 	margin-bottom: 20px;
 }
@@ -13,7 +13,7 @@
 	width: 115px;
 	height: 92px;
 	border-radius: 20px;
-	background: #BAB3F2;
+	background: #93C6A3;
 }
 
 .product-details {
@@ -23,7 +23,7 @@
 }
 
 .product-name {
-	color: #1F0519;
+	color: #061006;
 	font-family: Inter;
 	font-size: 22px;
 	font-weight: 600;
@@ -31,7 +31,7 @@
 }
 
 .product-description {
-	color: #4F464C;
+	color: #7F8D80;
 	font-family: Inter;
 	font-size: 17px;
 	font-weight: 400;
@@ -47,7 +47,7 @@
 }
 
 .product-price {
-	color: #7018C9;
+	color: #407E52;
 	font-family: Inter;
 	font-size: 24px;
 	font-weight: 600;
@@ -65,8 +65,8 @@
 	width: 30px;
 	height: 30px;
 	border-radius: 30px;
-	background-color: #4F464C;
-	color: #FAF6FE;
+	background-color: #7F8D80;
+	color: #FBFCFB;
 	font-family: Inter;
 	font-size: 20px;
 	font-weight: 600;
@@ -75,7 +75,7 @@
 }
 
 .product-quantity {
-	color: #1F0519;
+	color: #061006;
 	font-family: Inter;
 	font-size: 22px;
 	font-weight: 600;

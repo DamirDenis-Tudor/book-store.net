@@ -5,12 +5,12 @@
     align-items: center;
     width: 100%;
     height: 80px;
-    background-color: #FAF6FE;
+    background-color: #FBFCFB;
     border-radius: 0px 0px 40px 40px;
 }
 
 .logo {
-    color: #1F0519;
+    color: #061006;
     font-family: Inter;
     font-size: 40px;
     font-style: normal;
@@ -29,7 +29,7 @@
     width: 1080px;
     height: 50px;
     border-radius: 30px;
-    border: 3px solid #BAB3F2;
+    border: 3px solid #93C6A3;
     padding-left: 27px;
     background-image: url('../wwwroot/Images/search_icon.png');
     background-repeat: no-repeat;
@@ -38,12 +38,12 @@
 
 ::deep .search-bar:focus {
     outline: none !important;
-    border: 3px solid #7018C9;
+    border: 3px solid #407E52;
 }
 
 .button {
     border-radius: 20px;
-    color: #FAF6FE;
+    color: #FBFCFB;
     text-align: center;
     text-decoration: none;
     display: flex;
@@ -63,7 +63,7 @@
     margin: 0 50px 0 19px;
     width: 162px;
     height: 50px;
-    background-color: #2BDE91;
+    background-color: #6ED976;
 }
 
 .logout-btn {
@@ -71,7 +71,7 @@
     width: 50px;
     height: 50px;
     border-radius: 20px;
-    background: #2BDE91;
+    background: #6ED976;
     border: none;
 }
 
@@ -80,7 +80,7 @@
     width: 50px;
     height: 50px;
     border-radius: 20px;
-    background: #7018C9;
+    background: #407E52;
     border: none;
 }
 
@@ -91,7 +91,7 @@
 
 .account {
     margin-right: 30px;
-    color: #4F464C;
+    color: #7F8D80;
     font-family: Inter;
     font-size: 22px;
     font-weight: 600;

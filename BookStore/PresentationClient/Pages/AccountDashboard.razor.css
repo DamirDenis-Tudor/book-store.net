@@ -20,14 +20,14 @@
 
     width: 100%;
     border-radius: 20px;
-    background: #FAF6FE;
+    background: #FBFCFB;
     padding: 0px 30px 0px 30px;
     margin-bottom: 30px;
 }
 
     .title h2 {
         margin-bottom: 0;
-        color: #1F0519;
+        color: #061006;
         font-family: Inter;
         font-size: 25px;
         font-weight: 600;
@@ -41,7 +41,7 @@
     padding: 20px 40px 20px 30px;
     width: 100%;
     border-radius: 20px;
-    background-color: #FAF6FE;
+    background-color: #FBFCFB;
     margin-bottom: 30px;
 }
 
@@ -50,7 +50,7 @@
     justify-content: space-between;
     width: 100%;
 
-    color: #1F0519;
+    color: #061006;
     font-family: Inter;
     font-size: 22px;
     font-weight: 600;
@@ -63,14 +63,14 @@
 
     width: 100%;
     border-radius: 20px;
-    background: #EDF2FA;
+    background: #EEF6EE;
 }
 
 .update-btn {
     height: 48px;
     border-radius: 20px;
-    background: #7018C9;
-    color: #FAF6FE;
+    background: #407E52;
+    color: #FBFCFB;
     font-family: Inter;
     font-size: 20px;
     font-weight: 700;

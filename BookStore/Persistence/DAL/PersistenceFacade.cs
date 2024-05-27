@@ -76,6 +76,7 @@ namespace Persistence.DAL
             ProductRepository = new ProductRepository(_databaseContext);
             OrderRepository = new OrderRepository(_databaseContext);
             BillRepository = new BillRepository(_databaseContext);
+
         }
     }
 }
