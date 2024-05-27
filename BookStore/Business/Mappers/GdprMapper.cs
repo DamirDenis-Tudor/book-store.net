@@ -44,27 +44,11 @@ internal static class GdprMapper
     }
 
     /// <summary>
-    /// Maps the user information data to GDPR compliant format for billing purposes.
-    /// </summary>
-    /// <param name="userInfoDto">The user information data to be mapped.</param>
-    /// <returns>The user information data mapped to GDPR compliant format for billing purposes.</returns>
-    public static UserInfoDto DoBillUserDtoGdpr(UserInfoDto userInfoDto)
-    {
-        return new UserInfoDto
-        {
-            FirstName = GdprUtility.Encrypt(userInfoDto.FirstName),
-            LastName = GdprUtility.Encrypt(userInfoDto.LastName),
-            Username = GdprUtility.Encrypt(userInfoDto.Username),
-            Email = GdprUtility.Encrypt(userInfoDto.Email)
-        };
-    }
-
-    /// <summary>
     /// Reverts the GDPR compliant mapping of user information data for billing purposes.
     /// </summary>
     /// <param name="encryptedUserInfoDto">The GDPR compliant user information data to be reverted.</param>
     /// <returns>The reverted user information data for billing purposes.</returns>
-    public static UserInfoDto UndoBillUserDtoGdpr(UserInfoDto encryptedUserInfoDto)
+    public static UserInfoDto UndoUserInfoDtoGdpr(UserInfoDto encryptedUserInfoDto)
     {
         return new UserInfoDto
         {
@@ -107,17 +91,6 @@ internal static class GdprMapper
             City = GdprUtility.Decrypt(encryptedBillDto.City),
             PostalCode = GdprUtility.Decrypt(encryptedBillDto.PostalCode)
         };
-    }
-
-    /// <summary>
-    /// Maps the order session data to GDPR compliant format.
-    /// </summary>
-    /// <param name="orderSessionDto">The order session data to be mapped.</param>
-    /// <returns>The order session data mapped to GDPR compliant format.</returns>
-    public static OrderSessionDto DoOrderSessionDtoGdpr(OrderSessionDto orderSessionDto)
-    {
-        orderSessionDto.Username = GdprUtility.Encrypt(orderSessionDto.Username);
-        return orderSessionDto;
     }
 
     /// <summary>
