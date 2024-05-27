@@ -3,12 +3,8 @@
   "WorkspaceRootPath": "D:\\Facultate\\IP\\Proiect IP\\PetShop-ProiectIP\\BookStore\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{9BB17E6A-1D8A-4F96-99E6-9E6471A0ED8D}|PresentationAdmin\\PresentationAdmin.csproj|d:\\facultate\\ip\\proiect ip\\petshop-proiectip\\bookstore\\presentationadmin\\layout\\navmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9BB17E6A-1D8A-4F96-99E6-9E6471A0ED8D}|PresentationAdmin\\PresentationAdmin.csproj|solutionrelative:presentationadmin\\layout\\navmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2ADEFE7E-1A44-47A8-AF86-FA1F04DF5646}|PresentationClient\\PresentationClient.csproj|d:\\facultate\\ip\\proiect ip\\petshop-proiectip\\bookstore\\presentationclient\\layout\\navmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2ADEFE7E-1A44-47A8-AF86-FA1F04DF5646}|PresentationClient\\PresentationClient.csproj|solutionrelative:presentationclient\\layout\\navmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{2ADEFE7E-1A44-47A8-AF86-FA1F04DF5646}|PresentationClient\\PresentationClient.csproj|d:\\facultate\\ip\\proiect ip\\petshop-proiectip\\bookstore\\presentationclient\\layout\\mainlayout.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2ADEFE7E-1A44-47A8-AF86-FA1F04DF5646}|PresentationClient\\PresentationClient.csproj|solutionrelative:presentationclient\\layout\\mainlayout.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -27,27 +23,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "NavMenu.cs",
-              "DocumentMoniker": "D:\\Facultate\\IP\\Proiect IP\\PetShop-ProiectIP\\BookStore\\PresentationAdmin\\Layout\\NavMenu.cs",
-              "RelativeDocumentMoniker": "PresentationAdmin\\Layout\\NavMenu.cs",
-              "ToolTip": "D:\\Facultate\\IP\\Proiect IP\\PetShop-ProiectIP\\BookStore\\PresentationAdmin\\Layout\\NavMenu.cs",
-              "RelativeToolTip": "PresentationAdmin\\Layout\\NavMenu.cs",
-              "ViewState": "AQIAABMAAAAAAAAAAAAkwCgAAAA2AAAA",
+              "Title": "MainLayout.cs",
+              "DocumentMoniker": "D:\\Facultate\\IP\\Proiect IP\\PetShop-ProiectIP\\BookStore\\PresentationClient\\Layout\\MainLayout.cs",
+              "RelativeDocumentMoniker": "PresentationClient\\Layout\\MainLayout.cs",
+              "ToolTip": "D:\\Facultate\\IP\\Proiect IP\\PetShop-ProiectIP\\BookStore\\PresentationClient\\Layout\\MainLayout.cs",
+              "RelativeToolTip": "PresentationClient\\Layout\\MainLayout.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAxAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-27T08:16:40.721Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "NavMenu.cs",
-              "DocumentMoniker": "D:\\Facultate\\IP\\Proiect IP\\PetShop-ProiectIP\\BookStore\\PresentationClient\\Layout\\NavMenu.cs",
-              "RelativeDocumentMoniker": "PresentationClient\\Layout\\NavMenu.cs",
-              "ToolTip": "D:\\Facultate\\IP\\Proiect IP\\PetShop-ProiectIP\\BookStore\\PresentationClient\\Layout\\NavMenu.cs",
-              "RelativeToolTip": "PresentationClient\\Layout\\NavMenu.cs",
-              "ViewState": "AQIAABMAAAAAAAAAAAAkwAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-27T08:16:38.357Z",
+              "WhenOpened": "2024-05-27T22:50:06.439Z",
               "EditorCaption": ""
             }
           ]

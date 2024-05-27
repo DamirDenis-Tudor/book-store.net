@@ -70,7 +70,10 @@ internal class ProductRepository(DatabaseContext dbContext) : IProductRepository
     public Result<IList<ProductDto>, DaoErrorType> GetAllProducts()
     {
         var products = new List<ProductDto>();
-        dbContext.Products.ToList().ForEach(p => products.Add(MapperDto.MapToProductDto(p)!));
+        var list = dbContext.Products.ToList();
+        list.ForEach(p => dbContext.Entry(p).Reload());
+
+		dbContext.Products.ToList().ForEach(p => products.Add(MapperDto.MapToProductDto(p)!));
         return products.Count != 0
             ? Result<IList<ProductDto>, DaoErrorType>.Success(products, "Products registered.")
             : Result<IList<ProductDto>, DaoErrorType>.Fail(DaoErrorType.ListIsEmpty, "No products registered.");
