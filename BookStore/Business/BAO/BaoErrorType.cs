@@ -30,11 +30,6 @@ public enum BaoErrorType
     UserSessionNotFound,
 
     /// <summary>
-    /// Indicates that the requested user was not found.
-    /// </summary>
-    UserNotFound,
-
-    /// <summary>
     /// Indicates that no users were found.
     /// </summary>
     UsersNotFound,
