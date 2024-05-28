@@ -90,7 +90,7 @@ internal class UserService : IUsers
 
         for (var i = 0; i < result.SuccessValue.Count; i++)
         {
-            result.SuccessValue[i] = GdprMapper.UndoBillUserDtoGdpr(result.SuccessValue[i]);
+            result.SuccessValue[i] = GdprMapper.UndoUserInfoDtoGdpr(result.SuccessValue[i]);
         }
 
         return result.SuccessValue.Count > 1
@@ -106,7 +106,7 @@ internal class UserService : IUsers
         _logger.LogInformation(result.Message);
         
         return result.IsSuccess
-            ? Result<UserInfoDto, BaoErrorType>.Success(GdprMapper.UndoBillUserDtoGdpr(result.SuccessValue))
+            ? Result<UserInfoDto, BaoErrorType>.Success(GdprMapper.UndoUserInfoDtoGdpr(result.SuccessValue))
             : Result<UserInfoDto, BaoErrorType>.Fail(BaoErrorType.DatabaseError,
                 $"Database error while retrieving info for user {username}");
     }
@@ -140,7 +140,7 @@ internal class UserService : IUsers
 
     public Result<VoidResult, BaoErrorType> UpdateBill(string username, BillDto billDto)
     {
-        var result = _persistenceFacade.BillRepository.UpdateBillByUsername(GdprUtility.Encrypt(username), billDto);
+        var result = _persistenceFacade.BillRepository.UpdateBillByUsername(GdprUtility.Encrypt(username), GdprMapper.DoBillGdpr(billDto));
 
         _logger.LogInformation(result.Message);
         

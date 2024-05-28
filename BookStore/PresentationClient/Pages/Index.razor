@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 @using Persistence.DAL
 @using Persistence.DTO.Product
+@using PresentationClient.Entities
 @inject ProtectedLocalStorage ProtectedLocalStore
 @inject NavigationManager NavigationManager
 
@@ -10,13 +11,13 @@
 <NavMenu />
 
 <div class="main">
-	<div class="categories">
+    <div class="categories">
         <a class="categories-title" href="/"><p>Categorii</p></a>
         <ul class="categories-list">
-            @foreach (string category in ProductsScope.Categories)
+            @foreach (string category in ProductsScope.Instance.Categories())
             {
                 <li>
-                    @if(category == Category)
+                    @if (category == Category)
                     {
                         <a class="selected" href="@($"/?category={@category}")">@category</a>
                     }
@@ -32,7 +33,7 @@
         <div class="filter">
             <label class="order-by" for="order-by-select"> Order by:</label>
             <select class="order-by" name="order-by-select" @onchange="OnSortOrderChange">
-                <option class="order-by"   value="name">Name</option>
+                <option class="order-by" value="name">Name</option>
                 <option class="order-by" value="price">Price</option>
             </select>
             <label class="price-range" for="low-price-range">Price range:</label>
@@ -43,7 +44,7 @@
         <div class="products">
             @foreach (var product in @DisplayProducts)
             {
-                <ProductView Product=@product/>
+                <ProductView Product=@product />
             }
         </div>
     </div>

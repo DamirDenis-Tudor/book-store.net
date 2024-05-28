@@ -1,16 +1,16 @@
 ﻿@page "/login"
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
-@inject ProtectedLocalStorage ProtectedLocalStorage
-@inject NavigationManager NavigationManager
 
 <div class="content">
-    <h1 class="logo">PetShop</h1>
+    <h1 class="logo">BookShop.net</h1>
     <div class="login-area">
         <h2>Salut!</h2>
         <EditForm Model="User" OnValidSubmit="LoginSubmit">
-            <DataAnnotationsValidator/>
+            <DataAnnotationsValidator />
             <div class="validation">
-                <ValidationSummary/>
+                <p>@_logginError</p>
+                <p class="success">@_logginSuccess</p>
+                <ValidationSummary />
             </div>
             <div class="login-form">
                 <InputText class="login-input email" @bind-Value="User.Username" placeholder="Username..."></InputText>
@@ -23,5 +23,5 @@
         </EditForm>
 
     </div>
-    <h1 class="logo" style="opacity: 0;">PetShop</h1>
+    <h1 class="logo" style="opacity: 0;">BookShop.net</h1>
 </div>

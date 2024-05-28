@@ -17,8 +17,13 @@ namespace PresentationProvider.Pages
             get => _priceRangeMin;
             set
             {
-                _priceRangeMin = value;
-                if (_serach == null)
+				if (value < 0)
+					_priceRangeMin = 0;
+				else if (value > _priceRangeMax)
+					_priceRangeMin = _priceRangeMax;
+				else
+					_priceRangeMin = value;
+				if (_serach == null)
                 {
                     if (Category == null)
                         DisplayProducts = new ObservableCollection<ProductDto>(ProductsScope.Products.Where(p => p.Price >= _priceRangeMin));
@@ -35,8 +40,14 @@ namespace PresentationProvider.Pages
             get => _priceRangeMax;
             set
             {
-                _priceRangeMax = value;
-                if (_serach == null)
+				if (value < 0)
+					_priceRangeMax = 0;
+				else if (value < _priceRangeMin)
+					_priceRangeMax = _priceRangeMin;
+				else
+					_priceRangeMax = value;
+
+				if (_serach == null)
                 {
                     if (Category == null)
                         DisplayProducts = new ObservableCollection<ProductDto>(ProductsScope.Products.Where(p => p.Price <= _priceRangeMax));
@@ -50,7 +61,7 @@ namespace PresentationProvider.Pages
         }
 
         private string? _category = null;
-        [SupplyParameterFromQuery]
+        [SupplyParameterFromQuery(Name =  "category")]
         protected string? Category
         {
             get

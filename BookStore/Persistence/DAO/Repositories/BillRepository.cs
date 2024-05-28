@@ -16,7 +16,6 @@ using Common;
 using Microsoft.EntityFrameworkCore;
 using Persistence.DAL;
 using Persistence.DAO.Interfaces;
-using Persistence.DTO;
 using Persistence.DTO.Bill;
 using Persistence.Mappers;
 
