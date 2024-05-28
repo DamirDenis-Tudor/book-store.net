@@ -1,4 +1,22 @@
-﻿using Business.BAL;
+﻿/**************************************************************************
+ *                                                                        *
+ *  File:        AccountDashboard.cs                                      *
+ *  Copyright:   (c) 2024, Asmarandei Catalin                             *
+ *  Website:     https://github.com/DamirDenis-Tudor/BookStore.NET        *
+ *  Description: The page where the user can see details about his        *
+ *      account like orders, personal details                             *
+ *                                                                        *
+ *  This program is free software; you can redistribute it and/or modify  *
+ *  it under the terms of the GNU General Public License as published by  *
+ *  the Free Software Foundation. This program is distributed in the      *
+ *  hope that it will be useful, but WITHOUT ANY WARRANTY; without even   *
+ *  the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR   *
+ *  PURPOSE. See the GNU General Public License for more details.         *
+ *                                                                        *
+ **************************************************************************/
+
+
+using Business.BAL;
 using Common;
 using Microsoft.AspNetCore.Components;
 using Persistence.DAL;
@@ -7,16 +25,37 @@ using PresentationClient.Service;
 
 namespace PresentationClient.Pages
 {
+    /// <summary>
+    /// Fatches the user orders and displays them
+    /// </summary>
 	public partial class AccountDashboard
 	{
+        /// <summary>
+        /// The user login service for getting the token of the user
+        /// </summary>
         [Inject]
         public IUserLoginService UserData { get; set; }
+        /// <summary>
+        /// The business facade singleton
+        /// </summary>
         [Inject]
         public BusinessFacade Business { get; set; }
 
+        /// <summary>
+        /// The orders of the user that are displayed on the page
+        /// </summary>
 		private IList<OrderSessionDto> _orders = new List<OrderSessionDto>();
+
+        /// <summary>
+        /// User name that will be displayed
+        /// </summary>
         private string _name = "";
 
+        /// <summary>
+        /// Using the session token and user makes a call to get the user orders and one to get his full name
+        /// </summary>
+        /// <param name="firstRender"></param>
+        /// <returns></returns>
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             await base.OnAfterRenderAsync(firstRender);
