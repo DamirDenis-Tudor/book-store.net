@@ -76,7 +76,7 @@ internal class ProductRepository(DatabaseContext dbContext) : IProductRepository
         });
         
         return products.Count != 0
-            ? Result<IList<ProductDto>, DaoErrorType>.Success(products, "Products registered.")
+            ? Result<IList<ProductDto>, DaoErrorType>.Success(products, "Products fetched succesfully.")
             : Result<IList<ProductDto>, DaoErrorType>.Fail(DaoErrorType.ListIsEmpty, "No products registered.");
     }
 
