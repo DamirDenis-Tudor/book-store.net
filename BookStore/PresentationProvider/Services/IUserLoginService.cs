@@ -14,27 +14,28 @@
  *                                                                        *
  **************************************************************************/
 
-namespace PresentationProvider.Service
+namespace PresentationProvider.Services;
+
+/// <summary>
+/// Used for storing the user login session token and getting it
+/// </summary>
+public interface IUserLoginService
 {
     /// <summary>
-    /// Used for storing the user login session token and getting it
+    /// Set and save the token
     /// </summary>
-    public interface IUserLoginService
-	{
-        /// <summary>
-        /// Set and save the token
-        /// </summary>
-        /// <param name="token"></param>
-        void SetToken(string token);
-        /// <summary>
-        /// Get the token from storage
-        /// </summary>
-        /// <returns>The token</returns>
-		Task<string?> GetToken();
-        //string GetUsername();
-        /// <summary>
-        /// Clear the token from storage
-        /// </summary>
-        void ClearSession();
-	}
+    /// <param name="token"></param>
+    void SetToken(string? token);
+
+    /// <summary>
+    /// Get the token from storage
+    /// </summary>
+    /// <returns>The token</returns>
+    Task<string?> GetToken();
+
+    //string GetUsername();
+    /// <summary>
+    /// Clear the token from storage
+    /// </summary>
+    void ClearSession();
 }

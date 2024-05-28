@@ -17,11 +17,13 @@
 
 
 using Business.BAL;
+using Business.BAO;
 using Common;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Presentation.Entities;
 using PresentationProvider.Service;
+using PresentationProvider.Services;
 
 namespace PresentationProvider.Pages
 {
@@ -33,35 +35,38 @@ namespace PresentationProvider.Pages
         /// <summary>
         /// The informations introduced by the user for loggin
         /// </summary>
-        UserLogin User { get; set; } = new UserLogin();
-        
+        private UserLogin User { get; } = new();
+
         /// <summary>
         /// The user login service for storing the token of the user
         /// </summary>
         [Inject]
-        public IUserLoginService UserData { get; set; }
+        public IUserLoginService UserData { get; set; } = null!;
+
         /// <summary>
         /// The navigation manager for redirecting the user to the home page
         /// </summary>
         [Inject]
-        public NavigationManager NavigationManager { get; set; }
+        public NavigationManager NavigationManager { get; set; } = null!;
+
         /// <summary>
         /// The business facade singleton
         /// </summary>
         [Inject]
-        public BusinessFacade Business { get; set; }
+        public BusinessFacade Business { get; set; } = null!;
 
         /// <summary>
         /// The error message that will be displayed if the loggin fails
         /// </summary>
-        private string _logginError = "";
+        private string _loggingError = "";
+
         /// <summary>
         /// The success message that will be displayed if the loggin is successful
         /// </summary>
-        private string _logginSuccess = "";
+        private string _loggingSuccess = "";
 
         /// <summary>
-        /// Event called when the user submit the login form
+        /// Event called when the user submits the login form
         /// Makes a call with the given credentials, if the login is successful the session token given is stored 
         /// and the user is redirected to the home page
         /// </summary>
@@ -69,22 +74,21 @@ namespace PresentationProvider.Pages
         private void LoginSubmit(EditContext editContext)
         {
             editContext.OnFieldChanged += OnFieldChange;
-            if (editContext.Validate())
+            
+            if (!editContext.Validate()) return;
+            
+            var result = Business.AuthService.Login(User.ConverToBto(), LoginMode.Provider);
+            if (!result.IsSuccess)
             {
-                var result = Business.AuthService.Login(User.ConverToBto(), LoginMode.Provider);
-                if (!result.IsSuccess)
-                {
-                    Logger.Instance.GetLogger<Index>().LogError(result.Message);
-                    _logginError = result.Message;
-                }
-                else
-                {
-                    _logginSuccess = result.Message;
-                    UserData.SetToken(result.SuccessValue);
+                Logger.Instance.GetLogger<Index>().LogError(result.Message);
+                _loggingError = result.Message;
+            }
+            else
+            {
+                _loggingSuccess = result.Message;
+                UserData.SetToken(result.SuccessValue);
 
-                    NavigationManager.NavigateTo("/home", true);
-                }
-
+                NavigationManager.NavigateTo("/home", true);
             }
         }
 
@@ -95,8 +99,8 @@ namespace PresentationProvider.Pages
         /// <param name="e">The event raised for field changed</param>
         private void OnFieldChange(object? sender, FieldChangedEventArgs e)
         {
-            _logginError = "";
-            _logginSuccess = "";
+            _loggingError = "";
+            _loggingSuccess = "";
         }
     }
 }

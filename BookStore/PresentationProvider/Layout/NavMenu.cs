@@ -3,7 +3,7 @@
  *  File:        NavMenu.cs                                               *
  *  Copyright:   (c) 2024, Asmarandei Catalin                             *
  *  Website:     https://github.com/DamirDenis-Tudor/BookStore.NET        *
- *  Description: Header navigation bar that appears on every page of the  * 
+ *  Description: Header navigation bar that appears on every page of the  *
  *  single page aplication                                                *
  *                                                                        *
  *  This program is free software; you can redistribute it and/or modify  *
@@ -19,71 +19,78 @@
 using Business.BAL;
 using Common;
 using Microsoft.AspNetCore.Components;
-using PresentationProvider.Service;
+using PresentationProvider.Services;
 
-namespace PresentationProvider.Layout
+namespace PresentationProvider.Layout;
+
+/// <summary>
+/// The logic of the navigation bar for logging out the user and searching for products by name
+/// </summary>
+public partial class NavMenu
 {
     /// <summary>
-    /// The logic of the navigation bar for logging out the user and searching for products by name
+    /// Inject the navigation manager for redirecting the user to the login page
     /// </summary>
-    public partial class NavMenu
+    [Inject]
+    private NavigationManager NavigationManager { get; set; } = null!;
+
+    /// <summary>
+    /// Inject the user login service for getting the token of the user
+    /// </summary>
+    [Inject]
+    private IUserLoginService UserData { get; set; } = null!;
+
+    /// <summary>
+    /// Inject the business layer singleton
+    /// </summary>
+    [Inject]
+    public BusinessFacade Business { get; set; } = null!;
+
+    /// <summary>
+    /// The name of the product that the user is searching for
+    /// </summary>
+    private string? _search;
+
+    /// <summary>
+    /// When there is a value set, the user is redirected to the home page with an html query with the search value
+    /// </summary>
+    private string? Search
     {
-        /// <summary>
-        /// Inject the navigation manager for redirecting the user to the login page
-        /// </summary>
-        [Inject]
-        private NavigationManager NavigationManager { get; set; }
-        /// <summary>
-        /// Inject the user login service for getting the token of the user
-        /// </summary>
-        [Inject]
-        private IUserLoginService UserData { get; set; }
-        /// <summary>
-        /// Inject the business layer singleton
-        /// </summary>
-        [Inject]
-        public BusinessFacade Business { get; set; }
-
-        /// <summary>
-        /// The name of the product that the user is searching for
-        /// </summary>
-        private string? _search;
-        /// <summary>
-        /// When there is a value setted the user is redirected to the home page with a html query with the search value
-        /// </summary>
-        protected string? Serach
+        get => _search;
+        set
         {
-            get => _search;
-            set
-            {
-                _search = value;
-                NavigationManager.NavigateTo($"home/?search={_search}");
-            }
+            _search = value;
+            NavigationManager.NavigateTo($"home/?search={_search}");
         }
+    }
 
-        /// <summary>
-        /// If the user is valid logged in for displaying the acourding action buttons
-        /// </summary>
-        private bool _loggedIn = true;
+    /// <summary>
+    /// If the user is validly logged in for displaying the according action buttons
+    /// </summary>
+    private bool _loggedIn = true;
 
-        /// <summary>
-        /// Performing the logout action for the user
-        /// Logging out the user form the business layer, if it was successful then clear the session token and redirect to login page
-        /// </summary>
-        public async void Logout()
+    /// <summary>
+    /// Performing the logout action for the user
+    /// Logging out the user forms the business layer if it was successful then clear the session token and redirect to login page
+    /// </summary>
+    public async void Logout()
+    {
+        var result = Business.AuthService.Logout(await UserData.GetToken());
+        switch (result.IsSuccess)
         {
-            var result = Business.AuthService.Logout(await UserData.GetToken());
-            if (!result.IsSuccess)
+            case false:
                 Logger.Instance.GetLogger<NavMenu>().LogError(result.Message);
-            else if (result.IsSuccess)
-            {
+                break;
+            case true:
                 UserData.ClearSession();
+
                 _loggedIn = false;
+
                 Logger.Instance.GetLogger<NavMenu>().LogError(result.Message);
 
                 NavigationManager.NavigateTo("/", true);
-            }
 
+                break;
         }
     }
 }

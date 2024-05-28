@@ -1,30 +1,41 @@
 ﻿@page "/update-product"
-@using System.ComponentModel.DataAnnotations
 
 <div class="content">
 	<h1 class="logo">BookShop.net</h1>
+	
 	<div class="register-area">
-		<h2>Detalii produs:</h2>
+		
+		<h2>Product details:</h2>
+
 		<EditForm Model="@_modifyProduct" OnSubmit="Submit">
+			
 			<DataAnnotationsValidator/>
-			<ValidationSummary />
+			<ValidationSummary/>
+
 			<div class="register-form">
+
 				<div class="small">
+
 					<div class="input">
-						<lable for="register-username">Pret:</lable>
+						<lable for="register-username">Price:</lable>
 						<InputNumber class="register-input" @bind-Value="_modifyProduct.Price" placeholder="42.12"></InputNumber>
 					</div>
+
 					<div class="input">
-						<lable for="register-username">Cantitae:</lable>
+						<lable for="register-username">Quantity:</lable>
 						<InputNumber id="register-username" class="register-input" @bind-Value="_modifyProduct.Quantity" placeholder="23"></InputNumber>
 					</div>
+
 				</div>
 
 			</div>
+
 			<div class="register-action-area">
-				<button type="submit" class="register-btn">Actualizeza Produs</button>
+				<button type="submit" class="register-btn">Update product</button>
 			</div>
+
 		</EditForm>
 
 	</div>
+	
 </div>

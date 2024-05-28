@@ -22,7 +22,7 @@ using Persistence.DTO.Product;
 namespace PresentationProvider.Shared
 {
     /// <summary>
-    /// Used for dispalying the products
+    /// Used for displaying the products
     /// </summary>
     public partial class ProductView
     {
@@ -30,21 +30,20 @@ namespace PresentationProvider.Shared
         /// Navigation manager for redirecting the user to the update product page
         /// </summary>
         [Inject]
-        public NavigationManager NavigationManager { get; set; }
+        public NavigationManager NavigationManager { get; set; } = null!;
 
         /// <summary>
         /// The product received form the parent page to be displayed
         /// </summary>
         [Parameter]
-        public ProductDto? Product { get; set; }
+        public ProductDto Product { get; set; } = null!;
 
         /// <summary>
         /// Event called when the provider wants to edit the product
-        /// He will be redirected to the update page with the product name in query
+        /// He will be redirected to the update page with the product name in a query
         /// </summary>
-        private void ProductEdit()
-        {
-            NavigationManager.NavigateTo($"/update-product?product={Product.Name.Replace("\n", "%0A")}");
-        }
+        private void ProductEdit() => NavigationManager
+            .NavigateTo($"/update-product?product={Product.Name.Replace("\n", "%0A")}");
+        
     }
 }
