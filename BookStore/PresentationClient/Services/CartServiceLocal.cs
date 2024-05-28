@@ -16,6 +16,8 @@
  **************************************************************************/
 
 
+using Business.BAL;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Persistence.DTO.Order;
 using Persistence.DTO.Product;
@@ -25,19 +27,37 @@ namespace PresentationClient.Services;
 /// <summary>
 /// The cart is stored in the local session store
 /// </summary>
-public class CartServiceLocal(ProtectedLocalStorage localStorage) : ICartService
+public class CartServiceLocal(ProtectedLocalStorage localStorage, BusinessFacade businessFacade) : ICartService
 {
+
+    
+    private async Task<string> GetUsername()
+    {
+        var token = await localStorage.GetAsync<string>("sessiontoken");
+        if (!token.Success) return "";
+
+        var username = businessFacade.AuthService.GetUsername(token.Value);
+        return username.IsSuccess ? username.SuccessValue : "";
+    }
+    
     public async Task<List<OrderProductData>> GetCart()
     {
-        var result = await localStorage.GetAsync<List<OrderProductData>>("cart");
-        return (!result.Success || result.Value == null) ? new List<OrderProductData>() : result.Value;
+          
+        var username = await GetUsername();
+        if (username == "") return [];
+        
+        var result = await localStorage.GetAsync<List<OrderProductData>>($"cart{username}");
+        return (!result.Success || result.Value == null) ? [] : result.Value;
     }
-
+    
     public async Task AddToCart(ProductDto? product)
     {
         if (product == null) return;
-
-        var result = await localStorage.GetAsync<List<OrderProductData>>("cart");
+        
+        var username = await GetUsername();
+        if (username == "") return;
+        
+        var result = await localStorage.GetAsync<List<OrderProductData>>($"cart{username}");
 
         List<OrderProductData> products;
 
@@ -65,7 +85,7 @@ public class CartServiceLocal(ProtectedLocalStorage localStorage) : ICartService
         }
 
         products.ForEach(Console.WriteLine);
-        await localStorage.SetAsync("cart", products);
+        await localStorage.SetAsync($"cart{username}", products);
     }
 
     /// <summary>
@@ -79,8 +99,11 @@ public class CartServiceLocal(ProtectedLocalStorage localStorage) : ICartService
         var index = products.FindIndex(prod => prod.ProductName == newProduct.ProductName);
 
         products[index] = newProduct;
+        
+        var username = await GetUsername();
+        if (username == "") return;
 
-        await localStorage.SetAsync("cart", products);
+        await localStorage.SetAsync($"cart{username}", products);
     }
 
     public async void DeleteProduct(OrderProductData newProduct)
@@ -90,12 +113,17 @@ public class CartServiceLocal(ProtectedLocalStorage localStorage) : ICartService
         var index = products.FindIndex(prod => prod.ProductName == newProduct.ProductName);
 
         products.RemoveAt(index);
+        
+        var username = await GetUsername();
+        if (username == "") return;
 
-        await localStorage.SetAsync("cart", products);
+        await localStorage.SetAsync($"cart{username}", products);
     }
 
     public async void ClearCart()
     {
-        await localStorage.DeleteAsync("cart");
+        var username = await GetUsername();
+        if (username == "") return;
+        await localStorage.DeleteAsync($"cart{username}");
     }
 }
