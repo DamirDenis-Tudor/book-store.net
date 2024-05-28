@@ -17,6 +17,7 @@
 
 
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
+using PresentationProvider.Services;
 
 namespace PresentationProvider.Service
 {
@@ -48,7 +49,7 @@ namespace PresentationProvider.Service
 			return _username;
 		}*/
 
-        public async void SetToken(string token)
+        public async void SetToken(string? token)
         {
             await _localStorage.SetAsync("sessiontoken", token);
             Token = token;

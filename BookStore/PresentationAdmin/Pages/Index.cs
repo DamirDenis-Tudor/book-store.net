@@ -17,6 +17,7 @@
 
 
 using Business.BAL;
+using Business.BAO;
 using Common;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -69,22 +70,21 @@ namespace PresentationAdmin.Pages
         private void LoginSubmit(EditContext editContext)
         {
             editContext.OnFieldChanged += OnFieldChange;
-            if (editContext.Validate())
+            
+            if (!editContext.Validate()) return;
+ 
+            var result = Business.AuthService.Login(User.ConverToBto(), LoginMode.Admin);
+            if (!result.IsSuccess)
             {
-                var result = Business.AuthService.Login(User.ConverToBto(), LoginMode.Admin);
-                if (!result.IsSuccess)
-                {
-                    Logger.Instance.GetLogger<Index>().LogError(result.Message);
-                    _logginError = result.Message;
-                }
-                else
-                {
-                    _logginSuccess = result.Message;
-                    UserData.SetToken(result.SuccessValue);
+                Logger.Instance.GetLogger<Index>().LogError(result.Message);
+                _logginError = result.Message;
+            }
+            else
+            {
+                _logginSuccess = result.Message;
+                UserData.SetToken(result.SuccessValue);
 
-                    NavigationManager.NavigateTo("/home", true);
-                }
-
+                NavigationManager.NavigateTo("/home", true);
             }
         }
 

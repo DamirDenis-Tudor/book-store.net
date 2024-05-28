@@ -28,88 +28,98 @@ namespace PresentationProvider.Pages
     public partial class Home
     {
         /// <summary>
-        /// The products singleton utility class for getting the products
+        /// The product singleton utility class for getting the products
         /// </summary>
         [Inject]
-        protected ProductsScope ProductsScope { get; set; }
+        protected ProductsScope ProductsScope { get; set; } = null!;
+
         /// <summary>
-        /// The products that are displayed on the page, being dynamicly updated 
+        /// The products that are displayed on the page being dynamically updated 
         /// </summary>
-        protected ObservableCollection<ProductDto> DisplayProducts { get; set; }
+        private ObservableCollection<ProductDto> DisplayProducts { get; set; } = null!;
 
         /// <summary>
         /// The price range for filtering the products by price
         /// </summary>
-        protected decimal? _priceRangeMin, _priceRangeMax;
+        private decimal? _priceRangeMin;
+
+        /// <summary>
+        /// The price range for filtering the products by price
+        /// </summary>
+        private decimal? _priceRangeMax;
+
         /// <summary>
         /// The minimum price of the filter, if the value is changed and is valid the products will be filtered
         /// </summary>
-        protected decimal? PriceRangeMin
+        private decimal? PriceRangeMin
         {
             get => _priceRangeMin;
             set
             {
-				if (value < 0)
-					_priceRangeMin = 0;
-				else if (value > _priceRangeMax)
-					_priceRangeMin = _priceRangeMax;
-				else
-					_priceRangeMin = value;
-				if (_serach == null)
+                if (value < 0)
+                    _priceRangeMin = 0;
+                else if (value > _priceRangeMax)
+                    _priceRangeMin = _priceRangeMax;
+                else
+                    _priceRangeMin = value;
+
+                if (_search != null) return;
+
+                if (Category == null)
                 {
-                    if (Category == null)
-                        DisplayProducts = new ObservableCollection<ProductDto>(ProductsScope.Products.Where(p => p.Price >= _priceRangeMin));
-                    else
-                    {
-                        CategoryFilter();
-                        DisplayProducts = new ObservableCollection<ProductDto>(DisplayProducts.Where(p => p.Price >= _priceRangeMin));
-                    }
+                    CategoryFilter();
+                    DisplayProducts = new ObservableCollection<ProductDto>
+                        (DisplayProducts.Where(p => p.Price >= _priceRangeMin));
+                    return;
                 }
+
+                DisplayProducts = new ObservableCollection<ProductDto>
+                    (ProductsScope.Products.Where(p => p.Price >= _priceRangeMin));
             }
         }
 
         /// <summary>
         /// The maximum price of the filter, if the value is changed and is valid the products will be filtered
         /// </summary>
-        protected decimal? PriceRangeMax
+        private decimal? PriceRangeMax
         {
             get => _priceRangeMax;
             set
             {
-				if (value < 0)
-					_priceRangeMax = 0;
-				else if (value < _priceRangeMin)
-					_priceRangeMax = _priceRangeMin;
-				else
-					_priceRangeMax = value;
+                if (value < 0)
+                    _priceRangeMax = 0;
+                else if (value < _priceRangeMin)
+                    _priceRangeMax = _priceRangeMin;
+                else
+                    _priceRangeMax = value;
 
-				if (_serach == null)
+                if (_search != null) return;
+
+                if (Category != null)
                 {
-                    if (Category == null)
-                        DisplayProducts = new ObservableCollection<ProductDto>(ProductsScope.Products.Where(p => p.Price <= _priceRangeMax));
-                    else
-                    {
-                        CategoryFilter();
-                        DisplayProducts = new ObservableCollection<ProductDto>(DisplayProducts.Where(p => p.Price <= _priceRangeMax));
-                    }
+                    CategoryFilter();
+                    DisplayProducts = new ObservableCollection<ProductDto>
+                        (DisplayProducts.Where(p => p.Price <= _priceRangeMax));
+                    return;
                 }
+
+                DisplayProducts = new ObservableCollection<ProductDto>
+                    (ProductsScope.Products.Where(p => p.Price <= _priceRangeMax));
             }
         }
 
         /// <summary>
         /// The category of the product for filtering displayed products by category
         /// </summary>
-        private string? _category = null;
+        private string? _category;
+
         /// <summary>
         /// The category the products will be sorted by taken from the html query, if value is changed the products will be filtered
         /// </summary>
-        [SupplyParameterFromQuery(Name =  "category")]
+        [SupplyParameterFromQuery(Name = "category")]
         protected string? Category
         {
-            get
-            {
-                return _category;
-            }
+            get => _category;
             set
             {
                 _category = value;
@@ -120,45 +130,48 @@ namespace PresentationProvider.Pages
         /// <summary>
         /// The name of the product that the user is searching for
         /// </summary>
-        private string? _serach = null;
+        private string? _search;
+
         /// <summary>
         /// Value taken from the html query, if value is changed the products will be filtered for matching with the name
         /// </summary>
         [SupplyParameterFromQuery(Name = "search")]
         protected string? Search
         {
-            get => _serach;
+            get => _search;
             set
             {
-                _serach = value;
-                if (_serach != null)
-                    DisplayProducts = new ObservableCollection<ProductDto>(ProductsScope.Products.Where(p => p.Name.Contains(_serach)));
+                _search = value;
+
+                if (_search == null) return;
+
+                DisplayProducts = new ObservableCollection<ProductDto>
+                    (ProductsScope.Products.Where(p => p.Name.Contains(_search)));
             }
         }
 
         /// <summary>
         /// When the page initializes the products are filtered for search value, if it is the case,
-		/// and the price range is set for maximum product price and minimum product price(default values for the price filter)
+        /// and the price range is set for maximum product price and minimum product price(default values for the price filter)
         /// </summary>
         protected override void OnInitialized()
         {
-            Console.WriteLine(_serach);
-            if (_serach == null)
-                DisplayProducts = new ObservableCollection<ProductDto>(ProductsScope.Products);
-            else
-                DisplayProducts = new ObservableCollection<ProductDto>(ProductsScope.Products.Where(p => p.Name.Contains(_serach)));
+            DisplayProducts = _search == null
+                ? new ObservableCollection<ProductDto>(ProductsScope.Products)
+                : new ObservableCollection<ProductDto>(ProductsScope.Products.Where(p => p.Name.Contains(_search)));
+
             PriceRangeMax = DisplayProducts.Max(prod => prod.Price);
             PriceRangeMin = DisplayProducts.Min(prod => prod.Price);
         }
 
         /// <summary>
         /// Event called when the user changes the sorting mode
-		/// Matches the selected mode with the sorting mode and sorts the products
+        /// Matches the selected mode with the sorting mode and sorts the products
         /// </summary>
         /// <param name="e">The change event raised</param>
-        protected void OnSortOrderChange(ChangeEventArgs e)
+        private void OnSortOrderChange(ChangeEventArgs e)
         {
-            string selectedMode = e.Value.ToString();
+            var selectedMode = e.Value?.ToString();
             switch (selectedMode)
             {
                 case "name":
@@ -167,27 +180,14 @@ namespace PresentationProvider.Pages
                 case "price":
                     DisplayProducts = new ObservableCollection<ProductDto>(DisplayProducts.OrderBy(prod => prod.Price));
                     break;
-                default:
-                    break;
             }
-
         }
 
         private void CategoryFilter()
         {
-            if (Category != null)
-                DisplayProducts = new ObservableCollection<ProductDto>(ProductsScope.Products.Where(p => p.Category == Category));
-            else
-                DisplayProducts = new ObservableCollection<ProductDto>(ProductsScope.Products);
-        }
-
-        public void OnPriceRangeChangeMin(decimal? price)
-        {
-            DisplayProducts = new ObservableCollection<ProductDto>(ProductsScope.Products.Where(p => p.Price >= price));
-        }
-        protected void OnPriceRangeChangeMax(decimal? price)
-        {
-            DisplayProducts = new ObservableCollection<ProductDto>(ProductsScope.Products.Where(p => p.Price <= price));
+            DisplayProducts = Category != null
+                ? new ObservableCollection<ProductDto>(ProductsScope.Products.Where(p => p.Category == Category))
+                : new ObservableCollection<ProductDto>(ProductsScope.Products);
         }
     }
 }

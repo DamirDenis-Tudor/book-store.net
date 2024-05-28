@@ -47,7 +47,7 @@ namespace PresentationAdmin.Service
 			return _username;
 		}*/
 
-        public async void SetToken(string token)
+        public async void SetToken(string? token)
         {
             await _localStorage.SetAsync("sessiontoken", token);
             Token = token;

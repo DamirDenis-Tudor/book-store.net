@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using Persistence.DTO.Product;
 using PresentationProvider.Service;
 using System.ComponentModel.DataAnnotations;
+using PresentationProvider.Services;
 
 namespace PresentationProvider.Pages
 {
@@ -32,17 +33,19 @@ namespace PresentationProvider.Pages
         /// The user login service for getting the token of the user
         /// </summary>
         [Inject]
-        public IUserLoginService UserData { get; set; }
+        public IUserLoginService UserData { get; set; } = null!;
+
         /// <summary>
         /// The navigation manager for redirecting the user to the home page
         /// </summary>
         [Inject]
-        public NavigationManager NavigationManager { get; set; }
+        public NavigationManager NavigationManager { get; set; } = null!;
+
         /// <summary>
         /// The business facade singleton
         /// </summary>
         [Inject]
-        public BusinessFacade Business { get; set; }
+        public BusinessFacade Business { get; set; } = null!;
 
         /// <summary>
         /// The informations introduced by the provider for adding a new product
@@ -52,35 +55,45 @@ namespace PresentationProvider.Pages
             /// <summary>
             /// The name of the product
             /// </summary>
-            [Required(ErrorMessage = "Completeaza campul \"Nume produs\""), MinLength(10, ErrorMessage = "Descrierea trebuie sa aiba minim 30 caractere")]
-            public string Name { get; set; }
+            [Required(ErrorMessage = "Completeaza campul \"Nume produs\""),
+             MinLength(10, ErrorMessage = "Namele trebuie sa aiba minim 10 caractere")]
+            public string Name { get; set; } = null!;
+
             /// <summary>
             /// The price of the product
             /// </summary>
             [Required(ErrorMessage = "Completeaza campul \"Pret\"")]
-            public decimal Price { get; set; } = 1;
+            public decimal Price { get; set; }
+
             /// <summary>
             /// The quantity of the product
             /// </summary>
             [Required(ErrorMessage = "Completeaza campul \"Cantitate\"")]
-            public int Quantity { get; set; } = 1;
+            public int Quantity { get; set; }
+
             /// <summary>
             /// The category of the product
             /// </summary>
-            [Required(ErrorMessage = "Completeaza campul \"Categorie produs\""), MinLength(5, ErrorMessage = "Descrierea trebuie sa aiba minim 30 caractere")]
-            public string Category { get; set; }
-            [Required(ErrorMessage = "Completeaza campul \"Descriere produs\""), MinLength(5, ErrorMessage = "Descrierea trebuie sa aiba minim 50 caractere")]
-            public string Description { get; set; }
+            [Required(ErrorMessage = "Completeaza campul \"Categorie produs\""),
+             MinLength(5, ErrorMessage = "Descrierea trebuie sa aiba minim 30 caractere")]
+            public string Category { get; set; } = null!;
+
+            [Required(ErrorMessage = "Completeaza campul \"Descriere produs\""),
+             MinLength(5, ErrorMessage = "Descrierea trebuie sa aiba minim 50 caractere")]
+            public string Description { get; set; } = null!;
+
             /// <summary>
             /// The link to the photo of the product
             /// </summary>
+            [Required(ErrorMessage = "Completeaza campul \"Descriere produs\""),
+             MinLength(5, ErrorMessage = "Descrierea trebuie sa aiba minim 50 caractere")]
             public string? Photo { get; set; }
 
             /// <summary>
             /// Convert the object to a <see cref="ProductDto"/>
             /// </summary>
             /// <returns>The resulted object</returns>
-            public ProductDto ConverToDto()
+            public ProductDto ConverseToDto()
             {
                 return new ProductDto()
                 {
@@ -89,24 +102,24 @@ namespace PresentationProvider.Pages
                     Quantity = Quantity,
                     Category = Category,
                     Description = Description,
-					Link = Photo
-				};
+                    Link = Photo
+                };
             }
         }
 
         /// <summary>
         /// The product that is mapped to the form
         /// </summary>
-		ProductData product = new ProductData();
+        private readonly ProductData _product = new ProductData();
 
         /// <summary>
-        /// Event called when the provider submit the form
+        /// Event called when the provider submits the form
         /// Validates the form and if it is valid, the product is added to the system
-        /// If the process was successful the provider is redirected to the home page
+        /// If the process was successful, the provider is redirected to the home page
         /// </summary>
         /// <param name="editContext"></param>
         /// <returns></returns>
-        private async Task PlaceOrder (EditContext editContext)
+        private async Task PlaceOrder(EditContext editContext)
         {
             if (editContext.Validate())
             {
@@ -115,9 +128,9 @@ namespace PresentationProvider.Pages
                 {
                     var username = Business.AuthService.GetUsername(sessionToken);
 
-					Business.InventoryService.RegisterProduct(username.SuccessValue, product.ConverToDto());
+                    Business.InventoryService.RegisterProduct(username.SuccessValue, _product.ConverseToDto());
                     NavigationManager.NavigateTo("/home");
-				}
+                }
             }
         }
     }

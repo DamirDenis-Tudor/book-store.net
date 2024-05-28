@@ -25,7 +25,7 @@ namespace PresentationClient.Service
         /// Set and save the token
         /// </summary>
         /// <param name="token"></param>
-        void SetToken(string token);
+        void SetToken(string? token);
         /// <summary>
         /// Get the token from storage
         /// </summary>
