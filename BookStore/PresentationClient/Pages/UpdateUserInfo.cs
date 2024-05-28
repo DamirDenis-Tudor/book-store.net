@@ -1,4 +1,22 @@
-﻿using Business.BAL;
+﻿/**************************************************************************
+ *                                                                        *
+ *  File:        PaymentDetails.cs                                        *
+ *  Copyright:   (c) 2024, Asmarandei Catalin                             *
+ *  Website:     https://github.com/DamirDenis-Tudor/BookStore.NET        *
+ *  Description: The page where the user can modify his account           *
+ *      informations                                                      *
+ *                                                                        *
+ *  This program is free software; you can redistribute it and/or modify  *
+ *  it under the terms of the GNU General Public License as published by  *
+ *  the Free Software Foundation. This program is distributed in the      *
+ *  hope that it will be useful, but WITHOUT ANY WARRANTY; without even   *
+ *  the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR   *
+ *  PURPOSE. See the GNU General Public License for more details.         *
+ *                                                                        *
+ **************************************************************************/
+
+
+using Business.BAL;
 using Common;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -10,15 +28,30 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PresentationClient.Pages
 {
+    /// <summary>
+    /// Take the infroamtions about the account from the database, check for changes and update them
+    /// </summary>
 	public partial class UpdateUserInfo
 	{
+        /// <summary>
+        /// The navigation manager for redirecting the user
+        /// </summary>
         [Inject]
         private NavigationManager NavigationManager { get; set; }
+        /// <summary>
+        /// The business facade singleton
+        /// </summary>
         [Inject]
         public BusinessFacade Business { get; set; }
+        /// <summary>
+        /// The user login service for getting the token of the user
+        /// </summary>
         [Inject]
         public IUserLoginService UserData { get; set; }
 
+        /// <summary>
+        /// The account informations that the user will get in the form
+        /// </summary>
         public class UserInfoData
         {
             [Required]
@@ -32,6 +65,11 @@ namespace PresentationClient.Pages
             [Required]
             public string Email { get; set; }
 
+            /// <summary>
+            /// Mappes the user informations from an DTO to the object properties
+            /// <see cref="UserInfoDto"/>
+            /// </summary>
+            /// <param name="dto">The DTO object that will be mapped from</param>
             public void Deserialize(UserInfoDto dto)
             {
                 FirstName = dto.FirstName;
@@ -39,6 +77,10 @@ namespace PresentationClient.Pages
 				Username = dto.Username;
 				Email = dto.Email;
             }
+            /// <summary>
+            /// Mappes the user informations from the object properties to a DTO
+            /// </summary>
+            /// <returns>The resulted <see cref="UserInfoDto"/> object</returns>
             public UserRegisterDto ConverToDto()
             {
                 return new UserRegisterDto()
@@ -46,8 +88,16 @@ namespace PresentationClient.Pages
             }
 		}
 
+        /// <summary>
+        /// The user informations that are mapped to the form
+        /// </summary>
         private UserInfoData _user = new UserInfoData();
 
+        /// <summary>
+        /// Gets the user informations from the database and mappes them to the form
+        /// </summary>
+        /// <param name="firstRender">If the page is rendered for the first time</param>
+        /// <returns>Async Task</returns>
 		protected override async Task OnAfterRenderAsync(bool firstRender)
 		{
 			if (firstRender)
@@ -69,6 +119,13 @@ namespace PresentationClient.Pages
 			}
 		}
 
+        /// <summary>
+        /// Event called when the user submit the update account inforamtion form
+        /// If there is any difference between the informations stored in the database and the ones entered by the user, 
+        /// the informations are updated.
+        /// The user is logged out(in case he updates his username or password) and redirected to the loggin page
+        /// </summary>
+        /// <param name="editContext"></param>
 		private async void RegisterSubmit(EditContext editContext)
         {
             if (editContext.Validate())
@@ -85,22 +142,15 @@ namespace PresentationClient.Pages
                         NavigationManager.NavigateTo("/", true);
 					}
 				}
-                /*var result = Business.UsersService.RegisterClient(new UserRegisterDto()
-                {
-                    Email = user.Email,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    Password = user.Password,
-                    Username = user.Username,
-                    UserType = "CLIENT"
-                });
-                if (!result.IsSuccess)
-                    Logger.Instance.GetLogger<Register>().LogError(result.Message);
-                else
-                    NavigationManager.NavigateTo("/home");*/
             }
         }
 
+        /// <summary>
+        /// Checks if two <see cref="UserInfoDto"/> objects have different between informations
+        /// </summary>
+        /// <param name="remote">The first object for check</param>
+        /// <param name="local">The secound object for check</param>
+        /// <returns>true If there is any difference</returns>
 		private bool DifferenceBillDetails(UserInfoDto remote, UserInfoData local)
 		{
             return remote == null || remote.Email != local.FirstName ||

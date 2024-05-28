@@ -1,10 +1,31 @@
-﻿using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
+﻿/**************************************************************************
+ *                                                                        *
+ *  File:        PaymentDetails.cs                                        *
+ *  Copyright:   (c) 2024, Asmarandei Catalin                             *
+ *  Website:     https://github.com/DamirDenis-Tudor/BookStore.NET        *
+ *  Description: The service for operating with the cart. The cart is     *
+ *  stored in the local session store                                     *
+ *                                                                        *
+ *  This program is free software; you can redistribute it and/or modify  *
+ *  it under the terms of the GNU General Public License as published by  *
+ *  the Free Software Foundation. This program is distributed in the      *
+ *  hope that it will be useful, but WITHOUT ANY WARRANTY; without even   *
+ *  the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR   *
+ *  PURPOSE. See the GNU General Public License for more details.         *
+ *                                                                        *
+ **************************************************************************/
+
+
+using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.AspNetCore.Components;
 using Persistence.DTO.Order;
 using Persistence.DTO.Product;
 
 namespace PresentationClient.Services
 {
+    /// <summary>
+    /// The cart is stored in the local session store
+    /// </summary>
     public class CartServiceLocal : ICartService
     {
 		private readonly ProtectedLocalStorage _localStorage;
@@ -45,8 +66,11 @@ namespace PresentationClient.Services
 				await _localStorage.SetAsync("cart", products);
 			}
 		}
-
-		public async void UpdateProduct(OrderProductData newProduct)
+        /// <summary>
+        /// The product that will be changed with the new one are matched by product name
+        /// </summary>
+        /// <param name="newProduct">The newer version of the product</param>
+        public async void UpdateProduct(OrderProductData newProduct)
 		{
 			List<OrderProductData> products = await GetCart();
 			int index = products.FindIndex(prod => prod.ProductName == newProduct.ProductName);
