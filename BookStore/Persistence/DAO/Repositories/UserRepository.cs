@@ -87,7 +87,9 @@ internal class UserRepository(DatabaseContext dbContext) : IUserRepository
     {
         try
         {
-            var existingUser = dbContext.Users.Include(user => user.BillDetails)
+            var existingUser = dbContext.Users
+                .Include(user => user.BillDetails)
+                .Include(user => user.OrderSessions)
                 .FirstOrDefault(user => user.Username == username);
 
             if (existingUser == null)
@@ -105,7 +107,7 @@ internal class UserRepository(DatabaseContext dbContext) : IUserRepository
         {
             return Result<VoidResult, DaoErrorType>.Fail(
                 DaoErrorType.DatabaseError,
-                $"User {username} cannot be updated: {e.Message}."
+                $"User {username} cannot be updated: {e}."
             );
         }
 

@@ -1,19 +1,19 @@
-﻿@using Persistence.DTO.User
+﻿<div class="user-bg">
+	
+	<div class="user-content">
+		
+		<div class="side-bar"></div>
 
+		<div class="user-details">
+			<p class="user-name">@User.FirstName @User.LastName</p>
+			<p class="user-username">@User.Username</p>
+			<p class="user-email">@User.Email</p>
+		</div>
 
-<div class="user-bg">
-	@if (User != null)
-	{
-		<div class="user-content">
-			<div class="side-bar"></div>
-			<div class="user-details">
-				<p class="user-name">@User.FirstName @User.LastName</p>
-				<p class="user-username">@User.Username</p>
-				<p class="user-email">@User.Email</p>
-			</div>
-		</div>
-		<div class="user-delete">
-			<button class="delete-btn" onclick="@Delete"> <img src="Images/delete_icon.png" alt="Delete User" /></button>
-		</div>
-	}
+	</div>
+	
+	<div class="user-delete">
+		<button class="delete-btn" onclick="@Delete"> <img src="Images/delete_icon.png" alt="Delete User" /></button>
+	</div>
+	
 </div>

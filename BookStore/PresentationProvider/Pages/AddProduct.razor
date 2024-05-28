@@ -1,46 +1,58 @@
 ﻿@page "/add"
-@using System.ComponentModel.DataAnnotations
 
 <div class="content">
 	<h1 class="logo">BookShop.net</h1>
+	
 	<div class="register-area">
-		<h2>Detalii produs:</h2>
-		<EditForm Model="@product" OnSubmit="PlaceOrder">
+		
+		<h2>Product details:</h2>
+
+		<EditForm Model="@_product" OnSubmit="PlaceOrder">
 			<DataAnnotationsValidator/>
-			<ValidationSummary />
+			<ValidationSummary/>
+			
 			<div class="register-form">
+				
 				<div class="input">
-					<lable for="register-username">Nume produs:</lable>
-					<InputText class="register-input" @bind-Value="product.Name" placeholder="Cartea Junglei"></InputText>
+					<lable for="register-username">Product name:</lable>
+					<InputText class="register-input" @bind-Value="_product.Name" placeholder="Cartea Junglei"></InputText>
 				</div>
+
 				<div class="small">
+
 					<div class="input">
-						<lable for="register-username">Pret:</lable>
-						<InputNumber class="register-input" @bind-Value="product.Price" placeholder="12.99"></InputNumber>
+						<lable for="register-username">Price:</lable>
+						<InputNumber class="register-input" @bind-Value="_product.Price" placeholder="12.99"></InputNumber>
 					</div>
+
 					<div class="input">
-						<lable for="register-username">Cantitae:</lable>
-						<InputNumber id="register-username" class="register-input" @bind-Value="product.Quantity" placeholder="23"></InputNumber>
+						<lable for="register-username">Quantity:</lable>
+						<InputNumber id="register-username" class="register-input" @bind-Value="_product.Quantity" placeholder="23"></InputNumber>
 					</div>
+
 				</div>
+
 				<div class="input">
-					<lable for="register-username">Descriere produs:</lable>
-					<InputTextArea class="register-input" @bind-Value="product.Description" placeholder="Mowgli este un pui de om crescut de lupi în inima junglei..."></InputTextArea>
+					<lable for="register-username">Product description:</lable>
+					<InputTextArea class="register-input" @bind-Value="_product.Description" placeholder="Mowgli este un pui de om crescut de lupi în inima junglei..."></InputTextArea>
 				</div>
+
 				<div class="input">
-					<lable for="register-username">Categorie produs:</lable>
-					<InputText class="register-input" @bind-Value="product.Category" placeholder="Carti pentru copii"></InputText>
+					<lable for="register-username">Product category:</lable>
+					<InputText class="register-input" @bind-Value="_product.Category" placeholder="Carti pentru copii"></InputText>
 				</div>
+
 				<div class="input">
-					<lable for="register-username">Poza produs:</lable>
-					@* <InputFile class="custom-file-input" @bind-Value="product.Photo"></InputFile> *@
-					<InputText class="register-input" @bind-Value="product.Photo" placeholder="https://img.com/caine"></InputText>
+					<lable for="register-username">Cdn link:</lable>
+					<InputText class="register-input" @bind-Value="_product.Photo" placeholder="https://img.com/caine"></InputText>
 				</div>
 
 			</div>
+			
 			<div class="register-action-area">
-				<button type="submit" class="register-btn">Adauga produs</button>
+				<button type="submit" class="register-btn">Add product</button>
 			</div>
+			
 		</EditForm>
 
 	</div>

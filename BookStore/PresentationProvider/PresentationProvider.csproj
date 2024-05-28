@@ -26,7 +26,6 @@
   <ItemGroup>
     <Content Include="Pages\ProductUpdate.razor.css" />
     <Content Include="Pages\AddProduct.razor.css" />
-    <Content Include="Shared\ProductCart.razor.css" />
   </ItemGroup>
 
   <ItemGroup>
@@ -60,13 +59,7 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Update="Shared\ProductCart.razor">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-    </Content>
     <Content Update="Shared\ProductView.razor">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-    </Content>
-    <Content Update="Shared\ProductViewOrder.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
     <Content Update="wwwroot\css\app.css">
