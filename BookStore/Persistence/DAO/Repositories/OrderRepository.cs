@@ -114,7 +114,11 @@ internal class OrderRepository(DatabaseContext dbContext) : IOrderRepository
             .Where(o => o.User != null && o.User.Username == username)
             .ToList();
 
-        var orderSessionDtos = orderSessions.Select(MapperDto.MapToOrderSessionDto).ToList();
+        var orderSessionDtos = orderSessions.Select(orderSession =>
+        {
+            dbContext.Entry(orderSession).Reload();
+            return MapperDto.MapToOrderSessionDto(orderSession);
+        }).ToList();
         
         orderSessionDtos.Reverse();
         
