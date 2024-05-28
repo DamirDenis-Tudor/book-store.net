@@ -1,7 +1,9 @@
 ## Overview
 
 1. [Purpose of this app](#1-purpose-of-this-app)
-2. [Architecture](#2-architecture)
+2. [Teamwork](#2-teamwork)
+3. [Videos](#3-video-demo)
+4. [Architecture](#4-architecture)
     1. [Use Cases](#i-use-cases)
     2. [Activities](#ii-activities)
     3. [Entities](#iii-entities)
@@ -9,8 +11,8 @@
     5. [Layers Interaction](#v-layers-interaction)
     6. [Components & Packages](#vi-components--packages)
     7. [Classes](#vii-classes)
-3. [Videos](#3-videos)
-4. [Team Tasks](#4-team-tasks)
+
+
 
 ## 1. Purpose of this app
 
@@ -18,7 +20,22 @@
 - To design an architecture based on the analysis of the app specification without unnecessary overheads.
 - To achieve complexity based on holistic simplicity: loose coupling, strong cohesion, and modularity.
 
-## 2. Architecture
+
+## 2. Teamwork
+
+- To see a detailed report about the work distribution consult the followig README's: 
+  - [Asmarandei Catalin](README_CATALIN.md)
+  - [Damir Denis-Tudor](README_DENIS.md)
+  - [Baroncea Andrei-Florin](README_ANDREI.md)
+
+## 3. Video Demo
+
+---
+
+
+---
+
+## 4. Architecture
 
 ### I. Use Cases
 
@@ -75,6 +92,4 @@
 
 ![class_diagram.png](images/class_diagram.png)
 
-## 3. Videos
 
-## 4. Team Tasks
