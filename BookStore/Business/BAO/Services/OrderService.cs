@@ -36,7 +36,7 @@ internal class OrderService : IOrder
         var orderSessionDto = new OrderSessionDto
         {
             Username = orderBto.Username,
-            SessionCode = Generator.GetToken(),
+            SessionCode = new Random().Next(100000).ToString(),
             Status = "Pending",
             TotalPrice = 0m,
             OrderProducts = []

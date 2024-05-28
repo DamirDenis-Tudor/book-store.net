@@ -24,9 +24,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+
+builder.Services.AddSingleton<BusinessFacade>();
 builder.Services.AddScoped<PersonalDetailsDataScoped>();
 builder.Services.AddScoped<ProtectedLocalStorage>();
-builder.Services.AddSingleton<BusinessFacade>();
 builder.Services.AddScoped<ICartService, CartServiceLocal>();
 builder.Services.AddScoped<IUserLoginService, UserLoginService>();
 

@@ -115,7 +115,9 @@ internal class OrderRepository(DatabaseContext dbContext) : IOrderRepository
             .ToList();
 
         var orderSessionDtos = orderSessions.Select(MapperDto.MapToOrderSessionDto).ToList();
-
+        
+        orderSessionDtos.Reverse();
+        
         return orderSessions.Count != 0 && orderSessionDtos.Count != 0
             ? Result<IList<OrderSessionDto>, DaoErrorType>.Success(orderSessionDtos!, "OrderSessions list returned.")
             : Result<IList<OrderSessionDto>, DaoErrorType>.Fail(DaoErrorType.ListIsEmpty, "No order session found.");

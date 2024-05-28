@@ -86,6 +86,8 @@ public partial class ViewCart
         if (!(firstRender && !_isDataLoaded)) return;
 
         var cart = await CartService.GetCart();
+        if (cart.Count == 0) return;
+        
         cart.ForEach(p => Products.Add(p));
 
         UpdateTotalPrices();
