@@ -2,19 +2,14 @@
     <div class="logo-search">
         <a href="/" class="logo">BookShop.net</a>
         <div class="search-section">
-            <InputText class="search-bar" placeholder="Incepe o cautare..." @bind-Value="@Serach"> </InputText>
-            @* TODO: Reaizat search-ul ca un from cu inputul si buton de search langa, bara de search fiind compusa din input si button de search alaturate *@
-            @* <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="#407E52" class="bi bi-search" viewBox="0 0 16 16">
-                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-            </svg> *@
+            <InputText class="search-bar" placeholder="Incepe o cautare..." @bind-Value="@Search"> </InputText>
         </div>
     </div>
     <div class="auth-area">
         @if (_loggedIn)
         {
-           
             <a href="/"><button class="logout-btn" onclick="@Logout"> <img src="Images/logout_icon.png" alt="Logout" /></button></a>
-           <a href="/add"><button class="add-product-btn"> <img src="Images/plus_icon.png" alt="Add Product" /> </button></a>
+            <a href="/add"><button class="add-product-btn"> <img src="Images/plus_icon.png" alt="Add Product" /> </button></a>
         }
         else{
             <a href="/" class="button button-login">Login</a>

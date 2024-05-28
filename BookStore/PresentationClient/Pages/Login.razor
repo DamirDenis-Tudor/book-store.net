@@ -1,5 +1,4 @@
 ﻿@page "/login"
-@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 
 <div class="content">
     <h1 class="logo">BookShop.net</h1>
@@ -8,8 +7,8 @@
         <EditForm Model="User" OnValidSubmit="LoginSubmit">
             <DataAnnotationsValidator />
             <div class="validation">
-                <p>@_logginError</p>
-                <p class="success">@_logginSuccess</p>
+                <p>@_loggingError</p>
+                <p class="success">@_loggingSuccess</p>
                 <ValidationSummary />
             </div>
             <div class="login-form">

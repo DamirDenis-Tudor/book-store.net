@@ -29,7 +29,7 @@ internal class AuthService : IAuth
 
     private readonly PersistenceFacade _persistenceFacade = PersistenceFacade.Instance;
     private readonly Dictionary<string, Tuple<string, DateTime>> _sessions = new();
-    private const int SessionThresholdMinutes = 5;
+    private const int SessionThresholdMinutes = 1;
 
     public Result<string, BaoErrorType> Login(UserLoginBto userLoginBto, LoginMode loginMode)
     {
@@ -59,7 +59,7 @@ internal class AuthService : IAuth
         
     }
 
-    public Result<VoidResult, BaoErrorType> CheckSession(string token)
+    public Result<VoidResult, BaoErrorType> CheckSession(string? token)
     {
         var sessionToRemove = _sessions.FirstOrDefault(s => s.Value.Item1 == token);
 
@@ -80,7 +80,7 @@ internal class AuthService : IAuth
     }
 
 
-    public Result<VoidResult, BaoErrorType> Logout(string token)
+    public Result<VoidResult, BaoErrorType> Logout(string? token)
     {
         var sessionToRemove = _sessions.FirstOrDefault(s => s.Value.Item1 == token);
 
@@ -95,7 +95,7 @@ internal class AuthService : IAuth
     }
 
 
-    public Result<string, BaoErrorType> GetUsername(string token)
+    public Result<string, BaoErrorType> GetUsername(string? token)
     {
         var session = _sessions.FirstOrDefault(s => s.Value.Item1 == token);
 

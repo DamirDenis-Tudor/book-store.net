@@ -37,7 +37,7 @@ internal class ProductRepository(DatabaseContext dbContext) : IProductRepository
         catch (DbUpdateException e)
         {
             return Result<VoidResult, DaoErrorType>.Fail(DaoErrorType.DatabaseError,
-                $"Failed to register product {productDto.Name}: {e.Message}");
+                $"Failed to register product {productDto.Name}: {e}");
         }
 
         return Result<VoidResult, DaoErrorType>.Success(VoidResult.Get(), $"Product {productDto.Name} registered successfully.");

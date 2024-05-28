@@ -1,40 +1,87 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿/**************************************************************************
+ *                                                                        *
+ *  File:        ProductCart.cs                                           *
+ *  Copyright:   (c) 2024, Asmarandei Catalin                             *
+ *  Website:     https://github.com/DamirDenis-Tudor/BookStore.NET        *
+ *  Description: Component that will be displayed for items in cart       *
+ *                                                                        *
+ *  This program is free software; you can redistribute it and/or modify  *
+ *  it under the terms of the GNU General Public License as published by  *
+ *  the Free Software Foundation. This program is distributed in the      *
+ *  hope that it will be useful, but WITHOUT ANY WARRANTY; without even   *
+ *  the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR   *
+ *  PURPOSE. See the GNU General Public License for more details.         *
+ *                                                                        *
+ **************************************************************************/
+
+
+using Microsoft.AspNetCore.Components;
 using Persistence.DTO.Order;
 using PresentationClient.Services;
 
 namespace PresentationClient.Shared
 {
-	public partial class ProductCart
-	{
-		[Inject]
-		private ICartService Cart { get; set; }
-
+    /// <summary>
+    /// The product that is displayed in view cart
+	/// Used for increasing and decreasing the quantity of the product
+    /// </summary>
+    public partial class ProductCart
+    {
+	    /// <summary>
+	    /// The cart service for operating with the user cart
+	    /// </summary>
+	    [Inject]
+	    private ICartService Cart { get; set; } = null!;
+		/// <summary>
+		/// The product got parameter from the view cart page
+		/// </summary>
 		[Parameter]
 		public OrderProductData? Product { get; set; }
 
-		[Parameter]
+        /// <summary>
+        /// Function received from the view cart page that wil handle the refresh when the user changes the quantity
+        /// </summary>
+        [Parameter]
 		public Action? RefreshView { get; set; }
 
+		/// <summary>
+		/// If the product is enabled and valid, if not, it will not be displayed on the page
+		/// </summary>
 		private bool _enabled = true;
 
-		private void IncreaseQuantity()
+        /// <summary>
+        /// Called when the user increases the product quantity
+        /// Increase, then updates the product in cart and notifys the parent page
+        /// </summary>
+        private void IncreaseQuantity()
 		{
-			Product.OrderQuantity++;
-			Cart.UpdateProduct(Product);
+			if (Product != null)
+			{
+				Product.OrderQuantity++;
+				Cart.UpdateProduct(Product);
+			}
+
 			RefreshView?.Invoke();
 		}
 
-		private void DecreaseQuantity()
+        /// <summary>
+        /// Called when the user decreases, the product quantity
+        /// Decrease, validates the new quantity of the product, then updates it in cart and notifys the parent page
+        /// </summary>
+        private void DecreaseQuantity()
 		{
-			Product.OrderQuantity--;
-			if (Product.OrderQuantity == 0)
+			if (Product != null)
 			{
-				Cart.DeleteProduct(Product);
-				_enabled = false;
-				//StateHasChanged();
+				Product.OrderQuantity--;
+				if (Product.OrderQuantity == 0)
+				{
+					Cart.DeleteProduct(Product);
+					_enabled = false;
+				}
+				else
+					Cart.UpdateProduct(Product);
 			}
-			else
-				Cart.UpdateProduct(Product);
+
 			RefreshView?.Invoke();
 		}
 	}

@@ -1,50 +1,82 @@
-﻿using Business.BAL;
+﻿/**************************************************************************
+ *                                                                        *
+ *  File:        MainLayout.cs                                            *
+ *  Copyright:   (c) 2024, Asmarandei Catalin                             *
+ *  Website:     https://github.com/DamirDenis-Tudor/BookStore.NET        *
+ *  Description: Loggin authorization in the main layout of the one page application*
+ *                                                                        *
+ *  This program is free software; you can redistribute it and/or modify  *
+ *  it under the terms of the GNU General Public License as published by  *
+ *  the Free Software Foundation. This program is distributed in the      *
+ *  hope that it will be useful, but WITHOUT ANY WARRANTY; without even   *
+ *  the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR   *
+ *  PURPOSE. See the GNU General Public License for more details.         *
+ *                                                                        *
+ **************************************************************************/
+
+
+using Business.BAL;
 using Common;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
-using Microsoft.Extensions.Logging;
 using PresentationAdmin.Service;
 
-namespace PresentationAdmin.Layout
+namespace PresentationAdmin.Layout;
+
+/// <summary>
+/// Main Layout, check if the user has a valid loggin session token for accesing the website
+/// </summary>
+public partial class MainLayout
 {
-    public partial class MainLayout
+    /// <summary>
+    /// Injection of the business facade singleton
+    /// </summary>
+    [Inject]
+    public BusinessFacade Business { get; set; } = null!;
+
+    [Inject] public IUserLoginService UserData { get; set; } = null!;
+
+    /// <summary>
+    /// Check if the user is authenticated
+    /// </summary>
+    private bool? _isAuthenticated;
+
+    /// <summary>
+    /// Check if the page is rendered for the first time
+    /// </summary>
+    private bool _isFirstRender = true;
+
+    /// <summary>
+    /// Checks if the user has a session token saved and checkes in the business layer if the token is valid
+    /// </summary>
+    /// <param name="firstRender">If the page is rendered for the first time</param>
+    /// <returns></returns>
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-		[Inject]
-		public BusinessFacade Business { get; set; }
-		[Inject]
-		public IUserLoginService UserData { get; set; }
+        await base.OnAfterRenderAsync(firstRender);
+            
+        if (!_isFirstRender) return;
+            
+        _isFirstRender = false;
 
-		private bool? _isAuthenticated = null;
-        private bool _isFirstRender = true;
+        var sessionToken = await UserData.GetToken();
 
-        protected override async Task OnAfterRenderAsync(bool firstRender)
+        if (sessionToken != null)
         {
-            await base.OnAfterRenderAsync(firstRender);
-            if (_isFirstRender)
+            var checkResult = Business.AuthService.CheckSession(sessionToken);
+            if (!checkResult.IsSuccess)
             {
-                _isFirstRender = false;
-
-                var sessionToken = await UserData.GetToken();
-
-				if (sessionToken != null)
-                {
-					var checkResult = Business.AuthService.CheckSession(sessionToken);
-                    if (!checkResult.IsSuccess)
-                    {
-                        Logger.Instance.GetLogger<MainLayout>().LogError(checkResult.Message);
-						_isAuthenticated = false;
-					}
-                    else
-                    {
-                        _isAuthenticated = true;
-                    }
-					
-                }
-                else
-                    _isAuthenticated = false;
-
-                StateHasChanged();
+                Logger.Instance.GetLogger<MainLayout>().LogError(checkResult.Message);
+                _isAuthenticated = false;
+            }
+            else
+            {
+                _isAuthenticated = true;
             }
         }
+        else
+            _isAuthenticated = false;
+
+        StateHasChanged();
+            
     }
 }
