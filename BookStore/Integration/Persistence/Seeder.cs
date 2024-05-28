@@ -79,7 +79,7 @@ public class Seeder
                             Description = product.SuccessValue.Description,
                             SessionCode = orderSession.SessionCode,
                             OrderQuantity = item.OrderQuantity,
-                            Price = product.SuccessValue.Price,
+                            Price = product.SuccessValue.Price * item.OrderQuantity,
                             Link = product.SuccessValue.Link
                         });
                         orderSession.TotalPrice += product.SuccessValue.Price * item.OrderQuantity;
