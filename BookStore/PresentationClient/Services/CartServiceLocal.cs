@@ -17,80 +17,85 @@
 
 
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
-using Microsoft.AspNetCore.Components;
 using Persistence.DTO.Order;
 using Persistence.DTO.Product;
 
-namespace PresentationClient.Services
+namespace PresentationClient.Services;
+
+/// <summary>
+/// The cart is stored in the local session store
+/// </summary>
+public class CartServiceLocal(ProtectedLocalStorage localStorage) : ICartService
 {
-    /// <summary>
-    /// The cart is stored in the local session store
-    /// </summary>
-    public class CartServiceLocal : ICartService
+    public async Task<List<OrderProductData>> GetCart()
     {
-		private readonly ProtectedLocalStorage _localStorage;
+        var result = await localStorage.GetAsync<List<OrderProductData>>("cart");
+        return (!result.Success || result.Value == null) ? new List<OrderProductData>() : result.Value;
+    }
 
-		public CartServiceLocal(ProtectedLocalStorage localStorage)
-		{
-			_localStorage = localStorage;
-		}
+    public async Task AddToCart(ProductDto? product)
+    {
+        if (product == null) return;
 
-		public async Task<List<OrderProductData>> GetCart()
-		{
-			var result = await _localStorage.GetAsync<List<OrderProductData>>("cart");
-			return (!result.Success || result.Value == null) ? new List<OrderProductData>() : result.Value;
-		}
+        var result = await localStorage.GetAsync<List<OrderProductData>>("cart");
 
-		public async Task AddToCart(ProductDto product)
-		{
-			if (product != null)
-			{
-				var result = await _localStorage.GetAsync<List<OrderProductData>>("cart");
-				List<OrderProductData> products;
-				if (!result.Success || result.Value == null)
-					products = new List<OrderProductData>();
-				else
-				{
-					products = result.Value;
+        List<OrderProductData> products;
 
-				}
-				bool found = false;
-				products.ForEach(prod => { if (prod.ProductName == product.Name) { prod.OrderQuantity = prod.OrderQuantity + 1; found = true; } });
+        if (!result.Success || result.Value == null)
+            products = [];
+        else
+            products = result.Value;
 
-				if (!found)
-				{
-					OrderProductData orderProductDto = new OrderProductData() { ProductName = product.Name, Description = product.Description, Link = product.Link, Price = product.Price, OrderQuantity = 1 };
-					products.Add(orderProductDto);
-				}
-				products.ForEach(Console.WriteLine);
-				await _localStorage.SetAsync("cart", products);
-			}
-		}
-        /// <summary>
-        /// The product that will be changed with the new one are matched by product name
-        /// </summary>
-        /// <param name="newProduct">The newer version of the product</param>
-        public async void UpdateProduct(OrderProductData newProduct)
-		{
-			List<OrderProductData> products = await GetCart();
-			int index = products.FindIndex(prod => prod.ProductName == newProduct.ProductName);
-			products[index] = newProduct;
+        var found = false;
+        products.ForEach(prod =>
+        {
+            if (prod.ProductName != product.Name) return;
+            prod.OrderQuantity += 1;
+            found = true;
+        });
 
-			await _localStorage.SetAsync("cart", products);
-		}
-		public async void DeleteProduct(OrderProductData newProduct)
-		{
-			List<OrderProductData> products = await GetCart();
-			int index = products.FindIndex(prod => prod.ProductName == newProduct.ProductName);
-			products.RemoveAt(index);
+        if (!found)
+        {
+            var orderProductDto = new OrderProductData
+            {
+                ProductName = product.Name, Description = product.Description,
+                Link = product.Link, Price = product.Price, OrderQuantity = 1
+            };
+            products.Add(orderProductDto);
+        }
 
-			await _localStorage.SetAsync("cart", products);
-		}
+        products.ForEach(Console.WriteLine);
+        await localStorage.SetAsync("cart", products);
+    }
 
-		public async void ClearCart()
-		{
-			await _localStorage.DeleteAsync("cart");
-		}
+    /// <summary>
+    /// The product that will be changed with the new one is matched by product name
+    /// </summary>
+    /// <param name="newProduct">The newer version of the product</param>
+    public async void UpdateProduct(OrderProductData newProduct)
+    {
+        var products = await GetCart();
 
-	}
+        var index = products.FindIndex(prod => prod.ProductName == newProduct.ProductName);
+
+        products[index] = newProduct;
+
+        await localStorage.SetAsync("cart", products);
+    }
+
+    public async void DeleteProduct(OrderProductData newProduct)
+    {
+        var products = await GetCart();
+
+        var index = products.FindIndex(prod => prod.ProductName == newProduct.ProductName);
+
+        products.RemoveAt(index);
+
+        await localStorage.SetAsync("cart", products);
+    }
+
+    public async void ClearCart()
+    {
+        await localStorage.DeleteAsync("cart");
+    }
 }

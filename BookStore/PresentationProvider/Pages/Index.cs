@@ -17,12 +17,10 @@
 
 
 using Business.BAL;
-using Business.BAO;
 using Common;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Presentation.Entities;
-using PresentationProvider.Service;
 using PresentationProvider.Services;
 
 namespace PresentationProvider.Pages

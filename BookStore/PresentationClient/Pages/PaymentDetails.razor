@@ -1,40 +1,49 @@
 ﻿@page "/pay"
-@using System.ComponentModel.DataAnnotations
 
 <div class="content">
 	<h1 class="logo">BookShop.net</h1>
 	<div class="pay-area">
-		<h2>Detalii de plata:</h2>
-		<EditForm Model="@card" OnSubmit="Pay">
-			<DataAnnotationsValidator />
-			<ValidationSummary />
+		
+		<h2>Payment details:</h2>
+
+		<EditForm Model="@_card" OnSubmit="Pay">
+			<DataAnnotationsValidator/>
+			<ValidationSummary/>
+			
 			<div class="pay-form">
+
+				<div class="input">
+					<lable for="pay-username">Card number: </lable>
+					<InputText id="pay-username" class="pay-input" @bind-Value="_card.CardNumber" placeholder="6456..."></InputText>
+				</div>
 				
 				<div class="input">
-					<lable for="pay-username">Numar card: </lable>
-					<InputText id="pay-username" class="pay-input" @bind-Value="card.CardNumber" placeholder="6456..."></InputText>
+					<lable for="pay-username">Card name: </lable>
+					<InputText class="pay-input" @bind-Value="_card.Name" placeholder="Popescu Vlad"></InputText>
 				</div>
-				<div class="input">
-					<lable for="pay-username">Nume posesor card: </lable>
-					<InputText class="pay-input" @bind-Value="card.Name" placeholder="Popescu Vlad"></InputText>
-				</div>
+				
 				<div class="small">
+					
 					<div class="input">
-						<lable for="pay-username">Data expirare: </lable>
-						<InputDate class="pay-input" @bind-Value="card.ExpirationDate"></InputDate>
+						<lable for="pay-username">Expire date: </lable>
+						<InputDate class="pay-input" @bind-Value="_card.ExpirationDate"></InputDate>
 					</div>
+
 					<div class="input">
-						<lable for="pay-username">Cvv: </lable>
-						<InputNumber class="pay-input" @bind-Value="card.Cvv" placeholder="100"></InputNumber>
+						<lable for="pay-username">CVV: </lable>
+						<InputNumber class="pay-input" @bind-Value="_card.Cvv" placeholder="100"></InputNumber>
 					</div>
+					
 				</div>
+				
 			</div>
+			
 			<div class="pay-action-area">
-				<button type="submit" class="pay-btn">Plateste acum!</button>
+				<button type="submit" class="pay-btn">Pay!</button>
 			</div>
+			
 		</EditForm>
 
 	</div>
-	@* <h1 class="logo" style="opacity: 0;">BookShop.net</h1> *@
 </div>
 

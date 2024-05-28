@@ -29,9 +29,9 @@ internal class AuthService : IAuth
 
     private readonly PersistenceFacade _persistenceFacade = PersistenceFacade.Instance;
     private readonly Dictionary<string, Tuple<string, DateTime>> _sessions = new();
-    private const int SessionThresholdMinutes = 5;
+    private const int SessionThresholdMinutes = 1;
 
-    public Result<string?, BaoErrorType> Login(UserLoginBto userLoginBto, LoginMode loginMode)
+    public Result<string, BaoErrorType> Login(UserLoginBto userLoginBto, LoginMode loginMode)
     {
         if (loginMode != UserTypeChecker.GetLoginMode(userLoginBto.Username))
             return Result<string, BaoErrorType>.Fail(BaoErrorType.UserPasswordNotFound,

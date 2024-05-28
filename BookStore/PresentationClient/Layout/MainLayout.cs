@@ -17,7 +17,7 @@
 using Business.BAL;
 using Common;
 using Microsoft.AspNetCore.Components;
-using PresentationClient.Service;
+using PresentationClient.Services;
 
 namespace PresentationClient.Layout
 {

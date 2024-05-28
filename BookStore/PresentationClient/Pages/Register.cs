@@ -19,33 +19,34 @@ using Business.BAL;
 using Common;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-using Persistence.DAL;
 using Persistence.DTO.User;
-using PresentationClient.Service;
 using System.ComponentModel.DataAnnotations;
+using PresentationClient.Services;
 
 namespace PresentationClient.Pages
 {
     /// <summary>
     /// Takes the user details, validates them and registers the user
     /// </summary>
-	public partial class Register
-	{
+    public partial class Register
+    {
         /// <summary>
         /// The navigation manager for redirecting the user
         /// </summary>
         [Inject]
-        private NavigationManager NavigationManager { get; set; }
+        private NavigationManager NavigationManager { get; set; } = null!;
+
         /// <summary>
         /// The business facade singleton
         /// </summary>
         [Inject]
-        public BusinessFacade Business { get; set; }
+        public BusinessFacade Business { get; set; } = null!;
+
         /// <summary>
         /// The user login service for storing the token of the user
         /// </summary>
         [Inject]
-        public IUserLoginService UserData { get; set; }
+        public IUserLoginService UserData { get; set; } = null!;
 
         /// <summary>
         /// The user details that the user has to fill in the form
@@ -56,56 +57,61 @@ namespace PresentationClient.Pages
             /// The first name of the user
             /// </summary>
             [Required]
-            public string FirstName { get; set; }
+            public string FirstName { get; set; } = "";
+
             /// <summary>
             /// The last name of the user
             /// </summary>
             [Required]
-            public string LastName { get; set; }
+            public string LastName { get; set; } = "";
+
             /// <summary>
             /// The username of the user
             /// </summary>
             [Required]
-            public string Username { get; set; }
+            public string Username { get; set; } = "";
+
             /// <summary>
             /// The password of the user
             /// </summary>
             [Required]
-            public string Password { get; set; }
+            public string Password { get; set; } = "";
+
             /// <summary>
             /// The email of the user
             /// </summary>
             [Required]
-            public string Email { get; set; }
+            public string Email { get; set; } = "";
         }
+
         /// <summary>
         /// The user details that are mapped to the form
         /// </summary>
-        UserInfoData user = new UserInfoData();
+        private readonly UserInfoData _user = new();
 
         /// <summary>
-        /// Event called when the user submit the register form
+        /// Event called when the user submits the register form
         /// If the information entered are vaild the user is registered, saves the session token received and redirected to the home page
         /// </summary>
-        /// <param name="editContext">Edit contex of the form</param>
+        /// <param name="editContext">Edit context of the form</param>
         private async void RegisterSubmit(EditContext editContext)
         {
-            if (editContext.Validate())
+            if (!editContext.Validate()) return;
+
+            var result = Business.UsersService.RegisterClient(new UserRegisterDto
             {
-                var result = Business.UsersService.RegisterClient(new UserRegisterDto()
-                {
-                    Email = user.Email,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    Password = user.Password,
-                    Username = user.Username,
-                    UserType = "CLIENT"
-                });
-                if (!result.IsSuccess)
-                    Logger.Instance.GetLogger<Register>().LogError(result.Message);
-                else
-                    NavigationManager.NavigateTo("/home");
-            }
+                Email = _user.Email,
+                FirstName = _user.FirstName,
+                LastName = _user.LastName,
+                Password = _user.Password,
+                Username = _user.Username,
+                UserType = "CLIENT"
+            });
+
+            if (!result.IsSuccess)
+                Logger.Instance.GetLogger<Register>().LogError(result.Message);
+            else
+                NavigationManager.NavigateTo("/home");
         }
     }
 }

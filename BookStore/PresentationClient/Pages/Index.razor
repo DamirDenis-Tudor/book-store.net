@@ -1,20 +1,19 @@
 ﻿@page "/"
-@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
-@using Persistence.DAL
-@using Persistence.DTO.Product
 @using PresentationClient.Entities
-@inject ProtectedLocalStorage ProtectedLocalStore
-@inject NavigationManager NavigationManager
 
 <PageTitle>Home</PageTitle>
 
-<NavMenu />
+<NavMenu/>
 
 <div class="main">
+
     <div class="categories">
-        <a class="categories-title" href="/"><p>Categorii</p></a>
+        <a class="categories-title" href="/">
+            <p>Categories</p>
+        </a>
+
         <ul class="categories-list">
-            @foreach (string category in ProductsScope.Instance.Categories())
+            @foreach (var category in ProductsScope.Instance.Categories())
             {
                 <li>
                     @if (category == Category)
@@ -28,24 +27,35 @@
                 </li>
             }
         </ul>
+
     </div>
+
     <div class="products-view">
+
         <div class="filter">
+
             <label class="order-by" for="order-by-select"> Order by:</label>
+
             <select class="order-by" name="order-by-select" @onchange="OnSortOrderChange">
                 <option class="order-by" value="name">Name</option>
                 <option class="order-by" value="price">Price</option>
             </select>
+
             <label class="price-range" for="low-price-range">Price range:</label>
             <InputNumber class="price-range" type="number" name="low-price-range" @bind-Value="@PriceRangeMin"></InputNumber>
+
             <label class="price-range" for="low-price-range"> - </label>
             <InputNumber class="price-range" type="number" name="height-price-range" @bind-Value="@PriceRangeMax"></InputNumber>
+
         </div>
+
         <div class="products">
             @foreach (var product in @DisplayProducts)
             {
-                <ProductView Product=@product />
+                <ProductView Product=@product/>
             }
         </div>
+
     </div>
+
 </div>

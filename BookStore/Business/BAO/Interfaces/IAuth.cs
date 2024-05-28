@@ -29,7 +29,7 @@ public interface IAuth
     /// <param name="userLoginBto">The user login details.</param>
     /// <param name="loginMode">The login mode, specific to the presentation layer..</param>
     /// <returns>A result containing a token if successful, or an error type.</returns>
-    Result<string?, BaoErrorType> Login(UserLoginBto userLoginBto, LoginMode loginMode);
+    Result<string, BaoErrorType> Login(UserLoginBto userLoginBto, LoginMode loginMode);
 
     /// <summary>
     /// Checks if a user session is valid.

@@ -1,19 +1,18 @@
 ﻿@using Persistence.DTO.Product
 
 <div class="product-bg">
-	@if(Product != null)
-	{
-		<div class="product-image-section">
-			<img class="product-image" src="@Product.Link" alt=""/>
-		</div>
+	@if(Product == null) return;
+	
+	<div class="product-image-section">
+		<img class="product-image" src="@Product.Link" alt=""/>
+	</div>
 
-		<div class="product-details">
-			<p class="product-name">@Product.Name</p>
-			<p class="product-description">@Product.Description</p> 
-		</div>
-		<div class="product-buy">
-			<p class="product-price">@Product.Price Lei</p>
-			<button class="product-add-cart" @onclick="@AddToCart">Add to cart</button>
-		</div>
-	}
+	<div class="product-details">
+		<p class="product-name">@Product.Name</p>
+		<p class="product-description">@Product.Description</p> 
+	</div>
+	<div class="product-buy">
+		<p class="product-price">@Product.Price Lei</p>
+		<button class="product-add-cart" @onclick="@AddToCart">Add to cart</button>
+	</div>
 </div>

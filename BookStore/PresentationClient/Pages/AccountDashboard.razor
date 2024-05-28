@@ -1,6 +1,4 @@
 ﻿@page "/account"
-@using Persistence.DAL
-@using Persistence.DTO.Order
 
 <PageTitle>Account Dashboard</PageTitle>
 
@@ -9,7 +7,7 @@
 <div class="content">
 	<main>
 		<div class="title">
-			<h2>Salut, @_name!</h2>
+			<h2>Welcome, @_name!</h2>
 			<a href="/update-info"><button class="update-btn">Modifica detalii cont</button></a>
 		</div>
 		@if(_orders.Any())
@@ -18,7 +16,7 @@
 			{
 				<div class="order">
 					<div class="order-header">
-						<p>Comanda #@order.SessionCode</p>
+						<p>Order #@order.SessionCode</p>
 						<p>Status: @order.Status</p>
 					</div>
 				
@@ -35,7 +33,7 @@
 			<div class="order">
 				<div class="order-header"> <p></p> </div>
 				<div class="products-area">
-					@for(int i = 0; i< 5; ++i)
+					@for(var i = 0; i< 5; ++i)
 					{
 						<ProductDummy/>
 					}
