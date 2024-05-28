@@ -18,15 +18,15 @@ namespace PresentationProvider.Pages
 
         public record ProductData
         {
-            [Required(ErrorMessage = "Completeaza campul \"Nume produs\""), MinLength(30, ErrorMessage = "Descrierea trebuie sa aiba minim 30 caractere")]
+            [Required(ErrorMessage = "Completeaza campul \"Nume produs\""), MinLength(10, ErrorMessage = "Descrierea trebuie sa aiba minim 30 caractere")]
             public string Name { get; set; }
             [Required(ErrorMessage = "Completeaza campul \"Pret\"")]
             public decimal Price { get; set; } = 1;
             [Required(ErrorMessage = "Completeaza campul \"Cantitate\"")]
             public int Quantity { get; set; } = 1;
-            [Required(ErrorMessage = "Completeaza campul \"Categorie produs\""), MinLength(30, ErrorMessage = "Descrierea trebuie sa aiba minim 30 caractere")]
+            [Required(ErrorMessage = "Completeaza campul \"Categorie produs\""), MinLength(5, ErrorMessage = "Descrierea trebuie sa aiba minim 30 caractere")]
             public string Category { get; set; }
-            [Required(ErrorMessage = "Completeaza campul \"Descriere produs\""), MinLength(50, ErrorMessage = "Descrierea trebuie sa aiba minim 50 caractere")]
+            [Required(ErrorMessage = "Completeaza campul \"Descriere produs\""), MinLength(30, ErrorMessage = "Descrierea trebuie sa aiba minim 50 caractere")]
             public string Description { get; set; }
             public string? Photo { get; set; }
 
