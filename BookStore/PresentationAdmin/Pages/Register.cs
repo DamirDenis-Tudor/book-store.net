@@ -34,17 +34,19 @@ namespace PresentationAdmin.Pages
         /// The navigation manager for redirecting the user
         /// </summary>
         [Inject]
-        private NavigationManager NavigationManager { get; set; }
+        private NavigationManager NavigationManager { get; set; } = null!;
+
         /// <summary>
         /// The business facade singleton
         /// </summary>
         [Inject]
-        public BusinessFacade Business { get; set; }
+        public BusinessFacade Business { get; set; } = null!;
+
         /// <summary>
         /// The user login service for storing the token of the user
         /// </summary>
         [Inject]
-        public IUserLoginService UserData { get; set; }
+        public IUserLoginService UserData { get; set; } = null!;
 
         /// <summary>
         /// The details used for creating a provider
@@ -55,33 +57,37 @@ namespace PresentationAdmin.Pages
             /// The first name of the new user
             /// </summary>
             [Required]
-            public string FirstName { get; set; }
+            public string FirstName { get; set; } = null!;
+
             /// <summary>
             /// The last name of the new user
             /// </summary>
             [Required]
-            public string LastName { get; set; }
+            public string LastName { get; set; } = null!;
+
             /// <summary>
             /// The username of the new user
             /// </summary>
             [Required]
-            public string Username { get; set; }
+            public string Username { get; set; } = null!;
+
             /// <summary>
             /// The password of the new user
             /// </summary>
             [Required]
-            public string Password { get; set; }
+            public string Password { get; set; } = null!;
+
             /// <summary>
             /// The email of the new user
             /// </summary>
             [Required]
-            public string Email { get; set; }
+            public string Email { get; set; } = null!;
         }
 
         /// <summary>
         /// The details of the new user that are mapped to the form
         /// </summary>
-        UserInfoData user = new UserInfoData();
+        private UserInfoData _user = new();
 
         /// <summary>
         /// Event called when the admin submit the register form
@@ -90,23 +96,23 @@ namespace PresentationAdmin.Pages
         /// <param name="editContext">Edit contex of the form</param>
         private async void RegisterSubmit(EditContext editContext)
         {
-            if (editContext.Validate())
+            if (!editContext.Validate()) return;
+            
+            var username = Business.AuthService.GetUsername(await UserData.GetToken());
+            var result = Business.UsersService.RegisterProvider(username.SuccessValue, new UserRegisterDto()
             {
-                var username = Business.AuthService.GetUsername(await UserData.GetToken());
-                var result = Business.UsersService.RegisterProvider(username.SuccessValue, new UserRegisterDto()
-                {
-                    Email = user.Email,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    Password = user.Password,
-                    Username = user.Username,
-                    UserType = "PROVIDER"
-                });
-                if (!result.IsSuccess)
-                    Logger.Instance.GetLogger<Register>().LogError(result.Message);
-                else
-                    NavigationManager.NavigateTo("/home");
-            }
+                Email = _user.Email,
+                FirstName = _user.FirstName,
+                LastName = _user.LastName,
+                Password = _user.Password,
+                Username = _user.Username,
+                UserType = "PROVIDER"
+            });
+            
+            if (!result.IsSuccess)
+                Logger.Instance.GetLogger<Register>().LogError(result.Message);
+            else
+                NavigationManager.NavigateTo("/home");
         }
     }
 }

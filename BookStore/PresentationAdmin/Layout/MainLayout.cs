@@ -20,66 +20,63 @@ using Common;
 using Microsoft.AspNetCore.Components;
 using PresentationAdmin.Service;
 
-namespace PresentationAdmin.Layout
+namespace PresentationAdmin.Layout;
+
+/// <summary>
+/// Main Layout, check if the user has a valid loggin session token for accesing the website
+/// </summary>
+public partial class MainLayout
 {
     /// <summary>
-    /// Main Layout, check if the user has a valid loggin session token for accesing the website
+    /// Injection of the business facade singleton
     /// </summary>
-    public partial class MainLayout
+    [Inject]
+    public BusinessFacade Business { get; set; } = null!;
+
+    [Inject] public IUserLoginService UserData { get; set; } = null!;
+
+    /// <summary>
+    /// Check if the user is authenticated
+    /// </summary>
+    private bool? _isAuthenticated;
+
+    /// <summary>
+    /// Check if the page is rendered for the first time
+    /// </summary>
+    private bool _isFirstRender = true;
+
+    /// <summary>
+    /// Checks if the user has a session token saved and checkes in the business layer if the token is valid
+    /// </summary>
+    /// <param name="firstRender">If the page is rendered for the first time</param>
+    /// <returns></returns>
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        /// <summary>
-        /// Injection of the business facade singleton
-        /// </summary>
-        [Inject]
-        public BusinessFacade Business { get; set; }
-        [Inject]
-        /// <summary>
-        /// Injection of the user login service where the token is available for the user
-        /// </summary>
-        public IUserLoginService UserData { get; set; }
+        await base.OnAfterRenderAsync(firstRender);
+            
+        if (!_isFirstRender) return;
+            
+        _isFirstRender = false;
 
-        // <summary>
-        /// Check if the user is authenticated
-        /// </summary>
-        private bool? _isAuthenticated = null;
-        /// <summary>
-        /// Check if the page is rendered for the first time
-        /// </summary>
-        private bool _isFirstRender = true;
+        var sessionToken = await UserData.GetToken();
 
-        /// <summary>
-        /// Checks if the user has a session token saved and checkes in the business layer if the token is valid
-        /// </summary>
-        /// <param name="firstRender">If the page is randered for the first time</param>
-        /// <returns></returns>
-        protected override async Task OnAfterRenderAsync(bool firstRender)
+        if (sessionToken != null)
         {
-            await base.OnAfterRenderAsync(firstRender);
-            if (_isFirstRender)
+            var checkResult = Business.AuthService.CheckSession(sessionToken);
+            if (!checkResult.IsSuccess)
             {
-                _isFirstRender = false;
-
-                var sessionToken = await UserData.GetToken();
-
-                if (sessionToken != null)
-                {
-                    var checkResult = Business.AuthService.CheckSession(sessionToken);
-                    if (!checkResult.IsSuccess)
-                    {
-                        Logger.Instance.GetLogger<MainLayout>().LogError(checkResult.Message);
-                        _isAuthenticated = false;
-                    }
-                    else
-                    {
-                        _isAuthenticated = true;
-                    }
-
-                }
-                else
-                    _isAuthenticated = false;
-
-                StateHasChanged();
+                Logger.Instance.GetLogger<MainLayout>().LogError(checkResult.Message);
+                _isAuthenticated = false;
+            }
+            else
+            {
+                _isAuthenticated = true;
             }
         }
+        else
+            _isAuthenticated = false;
+
+        StateHasChanged();
+            
     }
 }

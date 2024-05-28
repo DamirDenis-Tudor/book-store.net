@@ -1,35 +1,34 @@
 ﻿@page "/register"
-@using System.ComponentModel.DataAnnotations
 
 <div class="content">
 	<h1 class="logo">BookShop.net</h1>
 	<div class="register-area">
 		<h2>Adauga un distribuitor:</h2>
-		<EditForm Model="@user" OnSubmit="RegisterSubmit">
+		<EditForm Model="@_user" OnSubmit="RegisterSubmit">
 			<DataAnnotationsValidator/>
 			<ValidationSummary />
 			<div class="register-form">
 				<div class="small">
 					<div class="input">
 						<lable for="register-username">Nume: </lable>
-						<InputText class="register-input" @bind-Value="user.FirstName" placeholder="Popescu..."></InputText>
+						<InputText class="register-input" @bind-Value="_user.FirstName" placeholder="Popescu..."></InputText>
 					</div>
 					<div class="input">
 						<lable for="register-username">Prenume: </lable>
-						<InputText class="register-input" @bind-Value="user.LastName" placeholder="Vlad..."></InputText>
+						<InputText class="register-input" @bind-Value="_user.LastName" placeholder="Vlad..."></InputText>
 					</div>
 				</div>
 				<div class="input">
 					<lable for="register-username">Username: </lable>
-					<InputText id="register-username" class="register-input" @bind-Value="user.Username" placeholder="popescvld98..."></InputText>
+					<InputText id="register-username" class="register-input" @bind-Value="_user.Username" placeholder="popescvld98..."></InputText>
 				</div>
 				<div class="input">
 					<lable for="register-username">Adresa de email: </lable>
-					<InputText class="register-input" @bind-Value="user.Email" type="email" placeholder="popescu.vlad@gmail.com..."></InputText>
+					<InputText class="register-input" @bind-Value="_user.Email" type="email" placeholder="popescu.vlad@gmail.com..."></InputText>
 				</div>
 				<div class="input">
 					<lable for="register-username">Parola: </lable>
-					<InputText class="register-input" @bind-Value="user.Password" type="password" placeholder="Parola..."></InputText>
+					<InputText class="register-input" @bind-Value="_user.Password" type="password" placeholder="Parola..."></InputText>
 				</div>
 			</div>
 			<div class="register-action-area">

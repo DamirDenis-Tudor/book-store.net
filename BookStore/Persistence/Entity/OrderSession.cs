@@ -27,10 +27,10 @@ internal class OrderSession
     public int Id { get; init; }
     
     [Column]
-    public int UserId { get; init; }
+    public int? UserId { get; init; }
 
     [ForeignKey(nameof(UserId))] 
-    [Required] 
+    [DeleteBehavior(DeleteBehavior.Restrict)]
     public User? User { get; set; }
 
     [Column(TypeName = "DECIMAL(18, 2)")]
