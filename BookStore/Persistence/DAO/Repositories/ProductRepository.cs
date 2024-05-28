@@ -12,12 +12,10 @@
  *                                                                        *
  **************************************************************************/
 
-using System.Collections;
 using Common;
 using Microsoft.EntityFrameworkCore;
 using Persistence.DAL;
 using Persistence.DAO.Interfaces;
-using Persistence.DTO;
 using Persistence.DTO.Product;
 using Persistence.Mappers;
 
@@ -70,9 +68,15 @@ internal class ProductRepository(DatabaseContext dbContext) : IProductRepository
     public Result<IList<ProductDto>, DaoErrorType> GetAllProducts()
     {
         var products = new List<ProductDto>();
-        dbContext.Products.ToList().ForEach(p => products.Add(MapperDto.MapToProductDto(p)!));
+        
+		dbContext.Products.ToList().ForEach(p =>
+        {
+            dbContext.Entry(p).Reload();
+            products.Add(MapperDto.MapToProductDto(p)!);
+        });
+        
         return products.Count != 0
-            ? Result<IList<ProductDto>, DaoErrorType>.Success(products, "Products registered.")
+            ? Result<IList<ProductDto>, DaoErrorType>.Success(products, "Products fetched succesfully.")
             : Result<IList<ProductDto>, DaoErrorType>.Fail(DaoErrorType.ListIsEmpty, "No products registered.");
     }
 

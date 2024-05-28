@@ -26,7 +26,7 @@ namespace Persistence.DAL
         /// Lazy initialization of the singleton instance of PersistenceFacade.
         /// </summary>
         private static readonly Lazy<PersistenceFacade> LazyInstance = new(() => new PersistenceFacade());
-
+        
         /// <summary>
         /// Public accessor for the singleton instance of PersistenceFacade.
         /// </summary>
@@ -76,6 +76,7 @@ namespace Persistence.DAL
             ProductRepository = new ProductRepository(_databaseContext);
             OrderRepository = new OrderRepository(_databaseContext);
             BillRepository = new BillRepository(_databaseContext);
+
         }
     }
 }

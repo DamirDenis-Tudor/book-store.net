@@ -8,7 +8,7 @@
 }
 
 .logo {
-	color: #1F0519;
+	color: #061006;
 	font-family: Inter;
 	font-size: 40px;
 	font-style: normal;
@@ -24,13 +24,13 @@
 	width: 465px;
 	/*height: 100%;*/
 	border-radius: 30px;
-	background: #FAF6FE;
+	background: #FBFCFB;
 	margin: 35px 0 100px 0;
 	padding-top: 15px;
 }
 
 	.pay-area h2 {
-		color: #1F0519;
+		color: #061006;
 		font-family: Inter;
 		font-size: 25px;
 		font-weight: 500;
@@ -38,7 +38,7 @@
 	}
 
 	.pay-area span {
-		color: #4F464C;
+		color: #7F8D80;
 		text-align: center;
 		font-family: Inter;
 		font-size: 20px;
@@ -46,7 +46,7 @@
 	}
 
 	.pay-area a {
-		color: #7018C9;
+		color: #407E52;
 		font-family: Inter;
 		font-size: 20px;
 		font-weight: 600;
@@ -73,8 +73,8 @@
 	width: 348px;
 	height: 45px;
 	border-radius: 20px;
-	background: #7018C9;
-	color: #FAF6FE;
+	background: #407E52;
+	color: #FBFCFB;
 	font-family: Inter;
 	font-size: 20px;
 	font-weight: 700;
@@ -86,8 +86,8 @@
 	height: 45px;
 	padding-left: 15px;
 	border-radius: 10px;
-	border: 3px solid #BAB3F2;
-	color: #4F464C;
+	border: 3px solid #93C6A3;
+	color: #7F8D80;
 	font-family: Inter;
 	font-size: 15px;
 	font-weight: 600;
@@ -98,7 +98,7 @@
 	}
 
 	::deep .pay-input:invalid {
-		outline-color: #FF5963;
+		outline-color: #FF4550;
 	}
 
 ::deep .small {
@@ -127,7 +127,7 @@
 .input {
 	display: flex;
 	flex-direction: column;
-	color: #1F0519;
+	color: #061006;
 	font-family: Inter;
 	font-size: 18px;
 	font-weight: 600;

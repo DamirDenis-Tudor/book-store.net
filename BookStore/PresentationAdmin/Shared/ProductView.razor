@@ -4,26 +4,18 @@
 	@if(Product != null)
 	{
 		<div class="product-image-section">
-			<img class="product-image" src="/Images/search_icon.png" alt="" />
+			<img class="product-image" src="@Product.ProductDto.Link" alt="" />
 		</div>
 
 		<div class="product-details">
-			<p class="product-name">@Product.Name</p>
-			<p class="product-description">
-				Natures Protection Dog Adult Lamb, 4 kg este o hrana uscata Super Premium cu carne de miel pentru caini, completa si echilibrata, cu surse de proteine si ingrediente de cea mai buna calitate.
-				Compozitia acestei hrane uscate pentru caini este imbogatita cu ingrediente care sunt perfecte pentru a furniza
-			</p> 
+			<p class="product-name">@Product.ProductDto.Name</p>
+			<p class="product-description">@Product.ProductDto.Description</p>
 		</div>
 		<div class="product-buy">
-			<p class="product-price">Venituri: @Product.Price Lei</p>
+			<p class="product-price">Venituri: @Product.TotalRevenue Lei</p>
 			
-			<p class="product-quantity">Buc vandute: @Product.Quantity</p>
+			<p class="product-quantity">Buc vandute: @Product.TotalItemsSold</p>
 			
 		</div>
 	}
 </div>
-
-@code {
-	[Parameter]
-	public ProductDto Product{ get; set; }
-}

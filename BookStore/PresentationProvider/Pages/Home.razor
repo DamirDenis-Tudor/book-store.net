@@ -11,7 +11,7 @@
     <div class="categories">
         <a class="categories-title" href="/home"><p>Categorii</p></a>
         <ul class="categories-list">
-            @foreach (string category in ProductsScope.Categories)
+            @foreach (string category in ProductsScope.Categories())
             {
                 <li>
                     @if (category == Category)

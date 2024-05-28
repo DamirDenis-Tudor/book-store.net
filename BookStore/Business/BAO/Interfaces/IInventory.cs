@@ -31,9 +31,8 @@ public interface IInventory
     /// <summary>
     /// Retrieves inventory statistics.
     /// </summary>
-    /// <param name="requester">The requester of the inventory stats.</param>
     /// <returns>A result containing the inventory statistics or an error type.</returns>
-    Result<IList<ProductStatsDto>, BaoErrorType> GetInventoryStats(string requester);
+    Result<IList<ProductStatsDto>, BaoErrorType> GetInventoryStats();
 
     /// <summary>
     /// Registers a new product.

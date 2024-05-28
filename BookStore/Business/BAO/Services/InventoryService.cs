@@ -38,12 +38,13 @@ internal class InventoryService : IInventory
             : Result<IList<ProductDto>, BaoErrorType>.Success(inventory.SuccessValue);
     }
 
-    public Result<IList<ProductStatsDto>, BaoErrorType> GetInventoryStats(string requester)
+    // Removed admin access level check
+    public Result<IList<ProductStatsDto>, BaoErrorType> GetInventoryStats()
     {
-        if (!UserTypeChecker.CheckIfAdmin(username: requester))
+        /*if (!SUserTypeChecker.CheckIfAdmin(username: requester))
             return Result<IList<ProductStatsDto>, BaoErrorType>.Fail(BaoErrorType.UserNotAllowed,
                 $"Username {requester} is not ADMIN.");
-
+*/
         var productStats = _persistenceFacade.ProductRepository.GetAllProductsStats();
         
         _logger.LogInformation(productStats.Message);
@@ -51,7 +52,7 @@ internal class InventoryService : IInventory
         return !productStats.IsSuccess
             ? Result<IList<ProductStatsDto>, BaoErrorType>.Fail(BaoErrorType.NoProductRegistered)
             : Result<IList<ProductStatsDto>, BaoErrorType>.Success(productStats.SuccessValue,
-                $"Username {requester} is not ADMIN.");
+                $"Username is not ADMIN.");
     }
 
     public Result<VoidResult, BaoErrorType> RegisterProduct(string requester, ProductDto productDto)

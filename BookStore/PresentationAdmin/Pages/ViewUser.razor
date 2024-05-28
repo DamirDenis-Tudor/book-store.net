@@ -12,24 +12,21 @@
 		</div>
 
 		<div class="view-users">
-			@foreach (var user in users)
+			@if (@Users.Any())
 			{
-				<UserView User="@user" />
+				@foreach (var user in @Users)
+				{
+					<UserView User="@user" />
+				}
+			}
+			else
+			{
+				@for(var i = 0; i < 5; ++i)
+				{
+					<UserViewDummy/>
+				}
 			}
 		</div>
 
 	</main>
 </div>
-
-@code {
-	private List<UserRegisterDto> users = new List<UserRegisterDto>
-	{
-		new UserRegisterDto{ Username = "valdpop", FirstName= "Vlad", LastName="Popescu", Email = "valdpopy@gmail.com", Password="da", UserType=null },
-		new UserRegisterDto{ Username = "valdpop", FirstName= "Vlad", LastName="Popescu", Email = "valdpopy@gmail.com", Password="da", UserType=null },
-		new UserRegisterDto{ Username = "valdpop", FirstName= "Vlad", LastName="Popescu", Email = "valdpopy@gmail.com", Password="da", UserType=null },
-		new UserRegisterDto{ Username = "valdpop", FirstName= "Vlad", LastName="Popescu", Email = "valdpopy@gmail.com", Password="da", UserType=null },
-		new UserRegisterDto{ Username = "valdpop", FirstName= "Vlad", LastName="Popescu", Email = "valdpopy@gmail.com", Password="da", UserType=null },
-		new UserRegisterDto{ Username = "valdpop", FirstName= "Vlad", LastName="Popescu", Email = "valdpopy@gmail.com", Password="da", UserType=null }
-	};
-
-}
