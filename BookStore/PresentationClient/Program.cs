@@ -12,7 +12,8 @@ using PresentationClient.Services;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddScoped<ProductsScope>();
+
+//builder.Services.AddScoped<ProductsScope>();
 builder.Services.AddScoped<PersonalDetailsDataScoped>();
 
 //builder.Services.AddSingleton<ProtectedLocalStorage>();
