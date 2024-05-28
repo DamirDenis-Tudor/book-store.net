@@ -42,6 +42,7 @@ internal class OrderService : IOrder
             OrderProducts = []
         };
 
+        var updateList = new Dictionary<string, int>();
         foreach (var orderItem in orderBto.OrderItemBtos)
         {
             var product = _persistenceFacade.ProductRepository.GetProduct(orderItem.ProductName);
@@ -56,10 +57,12 @@ internal class OrderService : IOrder
                 return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.InsufficienciesStock,
                     $"Product {orderItem.ProductName} has insufficient quantity.");
 
-            var update = _persistenceFacade.ProductRepository.UpdateQuantity(orderItem.ProductName,
+            updateList[orderItem.ProductName] = product.SuccessValue.Quantity - orderItem.OrderQuantity;
+            
+            /*var update = _persistenceFacade.ProductRepository.UpdateQuantity(orderItem.ProductName,
                 product.SuccessValue.Quantity - orderItem.OrderQuantity);
             
-            _logger.LogInformation(update.Message);
+            _logger.LogInformation(update.Message);*/
             
             var price = product.SuccessValue.Price * orderItem.OrderQuantity;
             orderSessionDto.OrderProducts.Add(new OrderProductDto
@@ -79,10 +82,18 @@ internal class OrderService : IOrder
         
         _logger.LogInformation(registerOrder.Message);
         
-        return registerOrder.IsSuccess
-            ? Result<VoidResult, BaoErrorType>.Success(VoidResult.Get(),
-                $"Order {orderSessionDto.SessionCode} placed successfully.")
-            : Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.FailedToRegisterOrder, registerOrder.Message);
+        if (!registerOrder.IsSuccess)
+            return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.FailedToRegisterOrder, registerOrder.Message);
+        
+        updateList.ToList().ForEach(pair =>
+        {
+            var update = _persistenceFacade.ProductRepository.UpdateQuantity(pair.Key,pair.Value);
+
+           _logger.LogInformation(update.Message);
+        });
+
+        return Result<VoidResult, BaoErrorType>.Success(VoidResult.Get(),
+            $"Order {orderSessionDto.SessionCode} placed successfully.");
     }
 
     public Result<IList<OrderSessionDto>, BaoErrorType> GetUserOrders(string username)

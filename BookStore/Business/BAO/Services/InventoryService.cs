@@ -41,7 +41,7 @@ internal class InventoryService : IInventory
     // Removed admin access level check
     public Result<IList<ProductStatsDto>, BaoErrorType> GetInventoryStats()
     {
-        /*if (!UserTypeChecker.CheckIfAdmin(username: requester))
+        /*if (!SUserTypeChecker.CheckIfAdmin(username: requester))
             return Result<IList<ProductStatsDto>, BaoErrorType>.Fail(BaoErrorType.UserNotAllowed,
                 $"Username {requester} is not ADMIN.");
 */
