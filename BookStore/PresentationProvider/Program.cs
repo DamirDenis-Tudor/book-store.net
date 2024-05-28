@@ -19,7 +19,6 @@ using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 
 using Persistence.DAL;
 using PresentationProvider.Entities;
-using PresentationProvider.Service;
 using PresentationProvider.Services;
 
 var builder = WebApplication.CreateBuilder(args);

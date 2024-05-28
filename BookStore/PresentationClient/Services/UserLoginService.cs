@@ -16,48 +16,50 @@
  **************************************************************************/
 
 
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 
-namespace PresentationClient.Service
+namespace PresentationClient.Services;
+
+/// <summary>
+/// The login token is stored in the local session storage
+/// </summary>
+public class UserLoginService : IUserLoginService
 {
-    /// <summary>
-    /// The login token is stored in the local session storage
-    /// </summary>
-    public class UserLoginService : IUserLoginService
+	private readonly ProtectedLocalStorage _localStorage;
+
+	public UserLoginService(ProtectedLocalStorage localStorage)
 	{
-		private readonly ProtectedLocalStorage _localStorage;
+		_localStorage = localStorage;
+	}
 
-		public UserLoginService(ProtectedLocalStorage localStorage)
+	private string? Token { get; set; }
+
+	public async Task<string?> GetToken()
+	{
+		try
 		{
-			_localStorage = localStorage;
-		}
-
-		private string? Token { get; set; } = null;
-		/*private string _username;*/
-
-		public async Task<string?> GetToken()
-		{
-			var result = await _localStorage.GetAsync<string>("sessiontoken");
+			var result = await _localStorage.GetAsync<string?>("sessiontoken");
+		
 			Token = result.Success ? result.Value : null;
-			/*_username = _business.AuthService.GetUsername(Token).SuccessValue;*/
-			return Token;
 		}
-
-		/*public string GetUsername()
+		catch (Exception e)
 		{
-			return _username;
-		}*/
-
-		public async void SetToken(string? token)
-		{
-			await _localStorage.SetAsync("sessiontoken", token);
-			Token = token;
-			/*_username = _business.AuthService.GetUsername(token).SuccessValue;*/
+			Console.WriteLine(e);
 		}
+		
+		return Token;
+	}
 
-		public void ClearSession()
-		{
-			_localStorage.DeleteAsync("sessiontoken");
-		}
+	public async void SetToken(string? token)
+	{
+		if (token == null) return;
+		await _localStorage.SetAsync("sessiontoken", token);
+		Token = token;
+	}
+
+	public void ClearSession()
+	{
+		_localStorage.DeleteAsync("sessiontoken");
 	}
 }

@@ -1,43 +1,54 @@
 ﻿@page "/register"
-@using System.ComponentModel.DataAnnotations
 
 <div class="content">
 	<h1 class="logo">BookShop.net</h1>
+	
 	<div class="register-area">
-		<h2>Salut!</h2>
-		<EditForm Model="@user" OnSubmit="RegisterSubmit">
+		<h2>Welcome!</h2>
+
+		<EditForm Model="@_user" OnSubmit="RegisterSubmit">
 			<DataAnnotationsValidator/>
-			<ValidationSummary />
+			<ValidationSummary/>
+
 			<div class="register-form">
+
 				<div class="small">
+
 					<div class="input">
-						<lable for="register-username">Nume: </lable>
-						<InputText class="register-input" @bind-Value="user.FirstName" placeholder="Popescu..."></InputText>
+						<lable for="register-username">FirstName: </lable>
+						<InputText class="register-input" @bind-Value="_user.FirstName" placeholder="Popescu..."></InputText>
 					</div>
+
 					<div class="input">
-						<lable for="register-username">Prenume: </lable>
-						<InputText class="register-input" @bind-Value="user.LastName" placeholder="Vlad..."></InputText>
+						<lable for="register-username">LastName: </lable>
+						<InputText class="register-input" @bind-Value="_user.LastName" placeholder="Vlad..."></InputText>
 					</div>
+
 				</div>
+
 				<div class="input">
 					<lable for="register-username">Username: </lable>
-					<InputText id="register-username" class="register-input" @bind-Value="user.Username" placeholder="popescvld98..."></InputText>
+					<InputText id="register-username" class="register-input" @bind-Value="_user.Username" placeholder="popescvld98..."></InputText>
 				</div>
+
 				<div class="input">
-					<lable for="register-username">Adresa de email: </lable>
-					<InputText class="register-input" @bind-Value="user.Email" type="email" placeholder="popescu.vlad@gmail.com..."></InputText>
+					<lable for="register-username">Email: </lable>
+					<InputText class="register-input" @bind-Value="_user.Email" type="email" placeholder="popescu.vlad@gmail.com..."></InputText>
 				</div>
+
 				<div class="input">
-					<lable for="register-username">Parola: </lable>
-					<InputText class="register-input" @bind-Value="user.Password" type="password" placeholder="Parola..."></InputText>
+					<lable for="register-username">Password: </lable>
+					<InputText class="register-input" @bind-Value="_user.Password" type="password" placeholder="Parola..."></InputText>
 				</div>
+
 			</div>
+
 			<div class="register-action-area">
-				<button type="submit" class="register-btn">Inregistreaza-te</button>
-				<span>Ai deja cont? Coneteaza-te <a href="/login">aici</a>!</span>
+				<button type="submit" class="register-btn">Register</button>
+				<span>Already registered? Login <a href="/login"> here</a>!</span>
 			</div>
-		</EditForm> 
-		
+
+		</EditForm>
+
 	</div>
-	@* <h1 class="logo" style="opacity: 0;">BookShop.net</h1> *@
 </div>

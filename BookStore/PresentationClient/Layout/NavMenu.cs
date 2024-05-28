@@ -19,7 +19,7 @@
 using Business.BAL;
 using Common;
 using Microsoft.AspNetCore.Components;
-using PresentationClient.Service;
+using PresentationClient.Services;
 
 namespace PresentationClient.Layout
 {
@@ -32,17 +32,19 @@ namespace PresentationClient.Layout
         /// Inject the navigation manager for redirecting the user to the login page
         /// </summary>
         [Inject]
-        private NavigationManager NavigationManager { get; set; }
+        private NavigationManager NavigationManager { get; set; } = null!;
+
         /// <summary>
         /// Inject the user login service for getting the token of the user
         /// </summary>
         [Inject]
-        private IUserLoginService UserData { get; set; }
+        private IUserLoginService UserData { get; set; } = null!;
+
         /// <summary>
         /// Inject the business layer singleton
         /// </summary>
         [Inject]
-        public BusinessFacade Business { get; set; }
+        public BusinessFacade Business { get; set; } = null!;
 
         /// <summary>
         /// The name of the product that the user is searching for
@@ -51,7 +53,7 @@ namespace PresentationClient.Layout
         /// <summary>
         /// When there is a value setted the user is redirected to the home page with a html query with the search value
         /// </summary>
-		protected string? Serach
+        private string? Serach
         {
             get => _search;
             set
@@ -62,28 +64,30 @@ namespace PresentationClient.Layout
         }
 
         /// <summary>
-        /// If the user is valid logged in for displaying the acourding action buttons
+        /// If the user is validly logged in for displaying the acourding action buttons
         /// </summary>
         private bool _loggedIn = true;
 
         /// <summary>
         /// Performing the logout action for the user
-        /// Logging out the user form the business layer, if it was successful then clear the session token and redirect to login page
+        /// Logging out the user forms the business layer if it was successful then clear the session token and redirect to login page
         /// </summary>
         public async void Logout()
         {
             var result = Business.AuthService.Logout(await UserData.GetToken());
-            if (!result.IsSuccess)
-                Logger.Instance.GetLogger<NavMenu>().LogError(result.Message);
-            else if (result.IsSuccess)
+            switch (result.IsSuccess)
             {
-                UserData.ClearSession();
-                _loggedIn = false;
-                Logger.Instance.GetLogger<NavMenu>().LogError(result.Message);
+                case false:
+                    Logger.Instance.GetLogger<NavMenu>().LogError(result.Message);
+                    break;
+                case true:
+                    UserData.ClearSession();
+                    _loggedIn = false;
+                    Logger.Instance.GetLogger<NavMenu>().LogError(result.Message);
 
-                NavigationManager.NavigateTo("/login", true);
+                    NavigationManager.NavigateTo("/login", true);
+                    break;
             }
-
         }
     }
 }

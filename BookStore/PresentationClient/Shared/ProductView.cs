@@ -30,7 +30,8 @@ namespace PresentationClient.Shared
         /// The cart service for operating with the user cart
         /// </summary>
         [Inject]
-        private ICartService CartService { get; set; }
+        private ICartService CartService { get; set; } = null!;
+
         /// <summary>
         /// The product received form the parent page to be displayed
         /// </summary>
@@ -41,6 +42,6 @@ namespace PresentationClient.Shared
         /// Adds the product to the cart using the service
         /// </summary>
         /// <returns></returns>
-        protected async Task AddToCart() => await CartService.AddToCart(Product);
+        private async Task AddToCart() => await CartService.AddToCart(Product);
     }
 }

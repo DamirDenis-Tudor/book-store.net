@@ -18,7 +18,6 @@ using Business.BAL;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Persistence.DTO.Product;
-using PresentationProvider.Service;
 using System.ComponentModel.DataAnnotations;
 using PresentationProvider.Services;
 

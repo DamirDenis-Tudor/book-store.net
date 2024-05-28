@@ -1,5 +1,4 @@
 ﻿@page "/viewcart"
-@using Persistence.DTO.Product
 
 <PageTitle>View Cart</PageTitle>
 
@@ -8,7 +7,7 @@
 <div class="content">
 	<main>
 		<div class="title">
-			<h2>Cosul meu</h2>
+			<h2>My cart:</h2>
 		</div>
 		@if (!_isDataLoaded)
 		{
@@ -29,9 +28,9 @@
 	</main>
 	<aside>
 		<div>
-			<h2>Sumar comanda</h2>
-			<p>Cost produse: @ProductsTotalPrice Lei</p>
-			<p>Cost transport: @_deliveryFee Lei</p>
+			<h2>Order checkout:</h2>
+			<p>Total price: @ProductsTotalPrice Lei</p>
+			<p>Transport price: @_deliveryFee Lei</p>
 		</div>
 		<div>
 			<h2>

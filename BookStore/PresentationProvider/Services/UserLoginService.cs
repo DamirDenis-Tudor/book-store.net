@@ -17,9 +17,8 @@
 
 
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
-using PresentationProvider.Services;
 
-namespace PresentationProvider.Service
+namespace PresentationProvider.Services
 {
     /// <summary>
     /// The login token is stored in the local session storage
@@ -33,27 +32,19 @@ namespace PresentationProvider.Service
             _localStorage = localStorage;
         }
 
-        private string? Token { get; set; } = null;
-        /*private string _username;*/
+        private string? Token { get; set; }
 
         public async Task<string?> GetToken()
         {
             var result = await _localStorage.GetAsync<string>("sessiontoken");
             Token = result.Success ? result.Value : null;
-            /*_username = _business.AuthService.GetUsername(Token).SuccessValue;*/
             return Token;
         }
-
-        /*public string GetUsername()
-		{
-			return _username;
-		}*/
-
+        
         public async void SetToken(string? token)
         {
             await _localStorage.SetAsync("sessiontoken", token);
             Token = token;
-            /*_username = _business.AuthService.GetUsername(token).SuccessValue;*/
         }
 
         public void ClearSession()
