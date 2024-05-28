@@ -2,12 +2,13 @@
 
 1. [Purpose of this app](#1-purpose-of-this-app)
 2. [Architecture](#2-architecture)
-   1. [Use Cases](#i-use-cases)
-   2. [Activities](#ii-activities)
-   3. [Entities](#iii-entities)
-   4. [Architecture Type](#iv-architecture-type)
-   5. [Layers Interaction](#v-layers-interaction)
-   6. [Classes](#vi-classes)
+    1. [Use Cases](#i-use-cases)
+    2. [Activities](#ii-activities)
+    3. [Entities](#iii-entities)
+    4. [Architecture Type](#iv-architecture-type)
+    5. [Layers Interaction](#v-layers-interaction)
+    6. [Components & Packages](#vi-components--packages)
+    7. [Classes](#vii-classes)
 3. [Videos](#3-videos)
 4. [Team Tasks](#4-team-tasks)
 
@@ -63,10 +64,17 @@
 |------------------------------------------------------------------|--------------------------------------------------------------------|------------------------------------------------------------------------|
 | ![admin_sequence_diagram.png](images/admin_sequence_diagram.png) | ![client_sequence_diagram.png](images/client_sequence_diagram.png) | ![provider_sequence_diagram.png](images/provider_sequence_diagram.png) |
 
-### VI. Classes
+### VI. Components & Packages
+- As we advanced in our design we can now define rigorously the boundaries of the modules by providing a series of interfaces/transfer objects to the higher modules:
+
+![component_diagram.png](images/component_diagram.png)
+
+### VII. Classes
 
 - One of the primary design aspects was to ensure well-defined boundaries. The following class diagram supports that:
 
 ![class_diagram.png](images/class_diagram.png)
 
-# 3. Videos
+## 3. Videos
+
+## 4. Team Tasks
