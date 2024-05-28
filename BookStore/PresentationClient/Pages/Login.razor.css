@@ -8,7 +8,7 @@
 }
 
 .logo {
-	color: #1F0519;
+	color: #061006;
 	font-family: Inter;
 	font-size: 40px;
 	font-style: normal;
@@ -24,14 +24,14 @@
 
 	width: 465px;
 	border-radius: 30px;
-	background: #FAF6FE;
+	background: #FBFCFB;
 	padding: 20px 0 5px 0;
 	margin: 35px 0 120px 0;
 }
 
 .login-area h2 {
 
-	color: #1F0519;
+	color: #061006;
 	font-family: Inter;
 	font-size: 30px;
 	font-weight: 500;
@@ -39,7 +39,7 @@
 }
 
 .login-area span{
-	color: #4F464C;
+	color: #7F8D80;
 	text-align: center;
 	font-family: Inter;
 	font-size: 20px;
@@ -47,7 +47,7 @@
 }
 
 .login-area a{
-	color: #7018C9;
+	color: #407E52;
 	font-family: Inter;
 	font-size: 20px;
 	font-weight: 600;
@@ -75,8 +75,8 @@
 	width: 348px;
 	height: 45px;
 	border-radius: 20px;
-	background: #2BDE91;
-	color: #FAF6FE;
+	background: #6ED976;
+	color: #FBFCFB;
 	font-family: Inter;
 	font-size: 20px;
 	font-weight: 700;
@@ -88,7 +88,7 @@
 }
 
 ::deep .validation li, p {
-	color: #FF5963;
+	color: #FF4550;
 }
 
 ::deep .success {
@@ -100,8 +100,8 @@
 	height: 45px;
 	padding-left: 40px;
 	border-radius: 10px;
-	border: 3px solid #BAB3F2;
-	color: #4F464C;
+	border: 3px solid #93C6A3;
+	color: #7F8D80;
 	font-family: Inter;
 	font-size: 15px;
 	font-weight: 600;
@@ -112,7 +112,7 @@
 		background-repeat: no-repeat;
 	}
 	::deep input:focus {
-		outline-color: #7018C9;
+		outline-color: #407E52;
 	}
 
 	.login-action-area {

@@ -13,11 +13,11 @@
     padding: 25px 0 0 37px;
     margin: 0 0 0 30px;
     border-radius: 20px;
-    background: #FAF6FE;
+    background: #FBFCFB;
 }
 
 .categories-title{
-    color: #7018C9;
+    color: #407E52;
     font-family: Inter;
     font-size: 25px;
     font-weight: 600;
@@ -27,12 +27,12 @@
 
 
 .categories-list a, li {
-    color: #BAB3F2;
+    color: #93C6A3;
     text-decoration: none;
     font-family: Inter;
     font-size: 20px;
     font-weight: 500;
-    .selected{ color: #7018C9; }
+    .selected{ color: #407E52; }
 }
 
 .products-view{
@@ -49,7 +49,7 @@
     height: 60px;
     width: 100%;
     border-radius: 30px;
-    background-color: #FAF6FE;
+    background-color: #FBFCFB;
 }
 
 .filter p{
@@ -60,15 +60,15 @@ select.order-by {
     width: 180px;
     height: 40px;
     border-radius: 10px;
-    outline-color: #BAB3F2;
+    outline-color: #93C6A3;
     outline-width: 2px;
-    border: 2px solid #7018C9;
+    border: 2px solid #407E52;
     margin-right: 47px;
 }
 
 label.order-by {
     margin-right:13px;
-    color: #1F0519;
+    color: #061006;
     font-family: Inter;
     font-size: 18px;
     font-weight: 500;
@@ -78,14 +78,14 @@ label.order-by {
     width: 100px;
     height: 40px;
     border-radius: 10px;
-    border: 2px solid #BAB3F2;
-    outline-color: #7018C9;
+    border: 2px solid #93C6A3;
+    outline-color: #407E52;
     outline-width: 2px;
 }
 
 label.price-range {
     margin: 0 13px 0 13px;
-    color: #1F0519;
+    color: #061006;
     font-family: Inter;
     font-size: 18px;
     font-weight: 500;

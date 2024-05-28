@@ -14,7 +14,7 @@
 .circle {
     width: 20px;
     height: 20px;
-    background-color: #BAB3F2;
+    background-color: #93C6A3;
     border-radius: 50%;
     animation: flash 1.5s infinite;
 }

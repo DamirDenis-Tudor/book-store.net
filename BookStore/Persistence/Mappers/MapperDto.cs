@@ -150,7 +150,7 @@ internal static class MapperDto
         {
             ProductName = orderProduct.Product!.Name,
             Description = orderProduct.Product.Description,
-            Price = orderProduct.Product.Price * orderProduct.Quantity,
+            Price = orderProduct.OrderTimePrice,
             SessionCode = orderProduct.OrderSession!.SessionCode,
             OrderQuantity = orderProduct.Quantity,
             Link = orderProduct.Product.Link
@@ -194,6 +194,7 @@ internal static class MapperDto
         {
             OrderProductName = orderProductDto.ProductName,
             Quantity = orderProductDto.OrderQuantity,
+            OrderTimePrice = orderProductDto.Price
         };
     }
 
