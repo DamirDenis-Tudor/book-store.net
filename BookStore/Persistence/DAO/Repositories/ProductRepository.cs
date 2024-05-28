@@ -71,7 +71,7 @@ internal class ProductRepository(DatabaseContext dbContext) : IProductRepository
         
 		dbContext.Products.ToList().ForEach(p =>
         {
-            //dbContext.Entry(p).Reload();
+            dbContext.Entry(p).Reload();
             products.Add(MapperDto.MapToProductDto(p)!);
         });
         

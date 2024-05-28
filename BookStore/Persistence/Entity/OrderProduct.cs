@@ -37,6 +37,10 @@ internal class OrderProduct
     
     [Column]
     [Required] 
+    public required decimal OrderTimePrice { get; init; }
+    
+    [Column]
+    [Required] 
     public required int Quantity { get; init; }
     
     [Column(TypeName = "VARCHAR")]
