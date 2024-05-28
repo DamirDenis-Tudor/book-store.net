@@ -26,30 +26,32 @@ namespace PresentationAdmin.Shared
 {
     /// <summary>
     /// Used for displaying the user information and deleting them by admin
+    /// </summary
     public partial class UserView
     {
         /// <summary>
         /// The user received from the parent page
         /// </summary>
         [Parameter]
-        public UserInfoDto User { get; set; }
+        public UserInfoDto User { get; set; } = null!;
 
         /// <summary>
         /// The user service for operating with the user data
         /// </summary>
         [Inject]
-        public IUserLoginService UserData { get; set; }
+        public IUserLoginService UserData { get; set; } = null!;
 
         /// <summary>
         /// The business facade singleton for operating with the business logic
         /// </summary>
         [Inject]
-        public BusinessFacade Business { get; set; }
+        public BusinessFacade Business { get; set; } = null!;
+
         /// <summary>
         /// The navigation manager for redirecting the user
         /// </summary>
         [Inject]
-        public NavigationManager NavigationManager { get; set; }
+        public NavigationManager NavigationManager { get; set; } = null!;
 
         /// <summary>
         /// Called when the admin wants to delete the user

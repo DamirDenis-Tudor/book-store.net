@@ -15,34 +15,31 @@
  **************************************************************************/
 
 
-using Business.BTO;
 using System.ComponentModel.DataAnnotations;
+using Business.BTO;
 
-namespace Presentation.Entities
+namespace PresentationAdmin.Entities;
+
+/// <summary>
+/// Used for user login informations
+/// </summary>
+public class UserLogin
 {
     /// <summary>
-    /// Used for user login informations
+    /// User username
     /// </summary>
-    public class UserLogin
-	{
-        /// <summary>
-        /// User username
-        /// </summary>
-        [Required(ErrorMessage = "Introduceti username-ul contului")]
-        public string Username { get; set; }
-        /// <summary>
-        /// User password
-        /// </summary>
-        [Required(ErrorMessage = "Introduceti parola contului")]
-        public string Password { get; set; }
+    [Required(ErrorMessage = "Introduceti username-ul contului")]
+    public string Username { get; set; } = null!;
 
-        /// <summary>
-        /// Mapps the object properties to a <see cref="UserLoginBto"/> object
-        /// </summary>
-        /// <returns>The generated BTO object</returns>
-        public UserLoginBto ConverToBto()
-        {
-            return new UserLoginBto() { Username = Username, Password = Password };
-        }
-    }
+    /// <summary>
+    /// User password
+    /// </summary>
+    [Required(ErrorMessage = "Introduceti parola contului")]
+    public string Password { get; set; } = null!;
+
+    /// <summary>
+    /// Mapps the object properties to a <see cref="UserLoginBto"/> object
+    /// </summary>
+    /// <returns>The generated BTO object</returns>
+    public UserLoginBto ConvertToBto() => new() { Username = Username, Password = Password };
 }

@@ -27,22 +27,24 @@ namespace PresentationAdmin.Entities
     /// </summary>
     public class ProductsScope
     {
-
-
         /// <summary>
-        /// The list of products statistics fatched from the server
+        /// The list of product statistics fatched from the server
         /// </summary>
-        public IList<ProductStatsDto> Products { get { return BusinessFacade.Instance.InventoryService.GetInventoryStats().SuccessValue; } set { Products = value; } }
+        public IList<ProductStatsDto> Products
+        {
+            get { return BusinessFacade.Instance.InventoryService.GetInventoryStats().SuccessValue; }
+            set { Products = value; }
+        }
+
         //public IList<ProductStatsDto> Products { get { return BusinessFacade.Instance.InventoryService.GetInventoryStats(await _userData.GetUsername()).SuccessValue; } set; }
+        
         /// <summary>
         /// Returns the list of all the categories for the products
         /// </summary>
         /// <returns>All the categories of the products</returns>
-        public IList<string> Categories()
+        public IEnumerable<string> Categories()
         {
-            List<string> cat = new List<string>();
-            foreach (var item in Products)
-                cat.Add(item.ProductDto.Category);
+            var cat = Products.Select(item => item.ProductDto.Category).ToList();
             return cat.Distinct().ToList();
         }
     }

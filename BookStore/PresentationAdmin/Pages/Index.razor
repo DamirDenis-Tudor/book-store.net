@@ -1,15 +1,14 @@
 ﻿@page "/"
-@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 
 <div class="content">
 	<h1 class="logo">BookShop.net</h1>
 	<div class="login-area">
-		<h2>Salut!</h2>
+		<h2>Welcome!</h2>
 		<EditForm Model="User" OnValidSubmit="LoginSubmit">
 			<DataAnnotationsValidator />
 			<div class="validation">
-				<p>@_logginError</p>
-				<p class="success">@_logginSuccess</p>
+				<p>@_loginError</p>
+				<p class="success">@_loginSuccess</p>
 				<ValidationSummary />
 			</div>
 			<div class="login-form">

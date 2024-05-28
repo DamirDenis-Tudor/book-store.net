@@ -17,46 +17,32 @@
 
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 
-namespace PresentationAdmin.Service
+namespace PresentationAdmin.Service;
+
+/// <summary>
+/// The login token is stored in the local session storage
+/// </summary>
+public class UserLoginService(ProtectedLocalStorage localStorage) : IUserLoginService
 {
-    /// <summary>
-    /// The login token is stored in the local session storage
-    /// </summary>
-    public class UserLoginService : IUserLoginService
+    private string? Token { get; set; }
+
+    public async Task<string?> GetToken()
     {
-        private readonly ProtectedLocalStorage _localStorage;
+        var result = await localStorage.GetAsync<string>("sessiontoken");
+            
+        Token = result.Success ? result.Value : null;
 
-        public UserLoginService(ProtectedLocalStorage localStorage)
-        {
-            _localStorage = localStorage;
-        }
+        return Token;
+    }
 
-        private string? Token { get; set; } = null;
-        /*private string _username;*/
+    public async void SetToken(string? token)
+    {
+        await localStorage.SetAsync("sessiontoken", token);
+        Token = token;
+    }
 
-        public async Task<string?> GetToken()
-        {
-            var result = await _localStorage.GetAsync<string>("sessiontoken");
-            Token = result.Success ? result.Value : null;
-            /*_username = _business.AuthService.GetUsername(Token).SuccessValue;*/
-            return Token;
-        }
-
-        /*public string GetUsername()
-		{
-			return _username;
-		}*/
-
-        public async void SetToken(string? token)
-        {
-            await _localStorage.SetAsync("sessiontoken", token);
-            Token = token;
-            /*_username = _business.AuthService.GetUsername(token).SuccessValue;*/
-        }
-
-        public void ClearSession()
-        {
-            _localStorage.DeleteAsync("sessiontoken");
-        }
+    public void ClearSession()
+    {
+        localStorage.DeleteAsync("sessiontoken");
     }
 }

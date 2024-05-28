@@ -33,27 +33,24 @@ namespace PresentationAdmin.Pages
         /// Business singleton instance
         /// </summary>
 		[Inject]
-		public BusinessFacade Business { get; set; }
+		public BusinessFacade Business { get; set; } = null!;
+
         /// <summary>
         /// The user login datas
         /// </summary>
 		[Inject]
-		public IUserLoginService UserData { get; set; }
+		public IUserLoginService UserData { get; set; } = null!;
 
         /// <summary>
         /// A list with all the users that are registred to the platform
         /// In case of empty list the page will display some dummy user cards
         /// </summary>
-		private IList<UserInfoDto> Users {
+		private IEnumerable<UserInfoDto> Users {
             get {
                 var result = Business.UsersService.GetAllUsers("admin_12345");
-                if (!result.IsSuccess)
-                {
-                    Logger.Instance.GetLogger<ViewUser>().LogError(result.Message);
-                    return new List<UserInfoDto>();
-				}
-                else
-                    return result.SuccessValue;
+                if (result.IsSuccess) return result.SuccessValue;
+                Logger.Instance.GetLogger<ViewUser>().LogError(result.Message);
+                return new List<UserInfoDto>();
             } 
         }
     }

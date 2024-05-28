@@ -21,7 +21,7 @@ using Persistence.DTO.Product;
 namespace PresentationAdmin.Shared
 {
     /// <summary>
-    /// Used for dispalying the products
+    /// Used for displaying the products
     /// </summary>
     public partial class ProductView
     {
