@@ -15,26 +15,27 @@
  **************************************************************************/
 
 
-using Business.BTO;
 using System.ComponentModel.DataAnnotations;
+using Business.BTO;
 
-namespace Presentation.Entities
+namespace PresentationClient.Entities
 {
     /// <summary>
     /// Used for user login informations
     /// </summary>
     public class UserLogin
-	{
+    {
+	    /// <summary>
+	    /// User username
+	    /// </summary>
+	    [Required(ErrorMessage = "Introduceti username-ul contului")]
+	    public string Username { get; set; } = null!;
+
 		/// <summary>
-		/// User username
+		/// User password
 		/// </summary>
-		[Required(ErrorMessage = "Introduceti username-ul contului")]
-		public string Username { get; set; }
-        /// <summary>
-        /// User password
-        /// </summary>
-        [Required(ErrorMessage = "Introduceti parola contului")]
-		public string Password { get; set; }
+		[Required(ErrorMessage = "Introduceti parola contului")]
+		public string Password { get; set; } = null!;
 
         /// <summary>
         /// Mapps the object properties to a <see cref="UserLoginBto"/> object

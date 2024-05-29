@@ -8,7 +8,7 @@ using Persistence.DTO.Order;
 using Persistence.DTO.Product;
 using Persistence.DTO.User;
 
-namespace UnitTesting.Persistence;
+namespace Integration.Persistence;
 
 public class Seeder
 {

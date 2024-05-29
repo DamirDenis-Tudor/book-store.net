@@ -29,7 +29,7 @@ internal class AuthService : IAuth
 
     private readonly PersistenceFacade _persistenceFacade = PersistenceFacade.Instance;
     private readonly Dictionary<string, Tuple<string, DateTime>> _sessions = new();
-    private const int SessionThresholdMinutes = 1;
+    private const int SessionThresholdMinutes = 10;
 
     public Result<string, BaoErrorType> Login(UserLoginBto userLoginBto, LoginMode loginMode)
     {

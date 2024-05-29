@@ -1,4 +1,4 @@
-namespace UnitTesting.Business.UnitTesting;
+namespace Integration.Business.UnitTesting;
 
 public class GdprUtility
 {
