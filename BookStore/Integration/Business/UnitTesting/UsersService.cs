@@ -5,7 +5,7 @@ using Business.Mappers;
 using Persistence.DAL;
 using Persistence.DTO.User;
 
-namespace UnitTesting.Business.UnitTesting;
+namespace Integration.Business.UnitTesting;
 
 public class UsersService
 {

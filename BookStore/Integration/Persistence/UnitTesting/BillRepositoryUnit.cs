@@ -2,7 +2,7 @@ using Persistence.DAL;
 using Persistence.DTO.Bill;
 using Persistence.DTO.User;
 
-namespace UnitTesting.Persistence.UnitTesting;
+namespace Integration.Persistence.UnitTesting;
 
 public class BillRepositoryUnit
 {

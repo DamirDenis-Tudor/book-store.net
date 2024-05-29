@@ -21,6 +21,7 @@ using Common;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Presentation.Entities;
+using PresentationClient.Entities;
 using PresentationClient.Services;
 
 namespace PresentationClient.Pages;

@@ -4,7 +4,7 @@ using Persistence.DTO.Order;
 using Persistence.DTO.Product;
 using Persistence.DTO.User;
 
-namespace UnitTesting.Persistence.UnitTesting;
+namespace Integration.Persistence.UnitTesting;
 
 public class OverallPersistenceUnitTest
 {
