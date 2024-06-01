@@ -1,32 +1,38 @@
 [
   {
-    "Username": "john_doe123",
-    "OrderItemBtos": [
-      {
-        "ProductName": "Oppenheimer\nPortretul unei enigme",
-        "OrderQuantity": 5
-      },
-      {
-        "ProductName": "Luxurious Velvet Throw Pillow",
-        "OrderQuantity": 2
-      },
-      {
-        "ProductName": "Nea Fier-Vechi",
-        "OrderQuantity": 5
-      }
-    ]
+    "OrderBto": {
+      "Username": "john_doe123",
+      "OrderItemBtos": [
+        {
+          "ProductName": "Oppenheimer\nPortretul unei enigme",
+          "OrderQuantity": 5
+        },
+        {
+          "ProductName": "Luxurious Velvet Throw Pillow",
+          "OrderQuantity": 2
+        },
+        {
+          "ProductName": "Nea Fier-Vechi",
+          "OrderQuantity": 5
+        }
+      ]
+    },
+    "Password": "john@2024"
   },
   {
-    "Username": "john_doe123",
-    "OrderItemBtos": [
-      {
-        "ProductName": "You Will Get Through This Night",
-        "OrderQuantity": 10
-      },
-      {
-        "ProductName": "Neurodiversity",
-        "OrderQuantity": 2
-      }
-    ]
+    "OrderBto": {
+      "Username": "john_doe123",
+      "OrderItemBtos": [
+        {
+          "ProductName": "You Will Get Through This Night",
+          "OrderQuantity": 10
+        },
+        {
+          "ProductName": "Neurodiversity",
+          "OrderQuantity": 2
+        }
+      ]
+    },
+    "Password": "john@2024"
   }
 ]

@@ -1,7 +1,7 @@
 using Persistence.DAL;
 using Persistence.DTO.Product;
 
-namespace Integration.Persistence.UnitTesting;
+namespace UnitTesting.Persistence.UnitTesting;
 
 public class ProductRepositoryUnit
 {

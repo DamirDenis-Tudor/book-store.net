@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Business.BTO;
 using Business.Mappers;
+using Business.Utilities;
 using Common;
 using Persistence.DAL;
 using Persistence.DTO.Bill;
@@ -8,7 +9,7 @@ using Persistence.DTO.Order;
 using Persistence.DTO.Product;
 using Persistence.DTO.User;
 
-namespace Integration.Persistence;
+namespace UnitTesting.Persistence;
 
 public class Seeder
 {
@@ -16,6 +17,12 @@ public class Seeder
     {
         public required UserRegisterDto UserRegisterDto { get; set; }
         public required BillDto BillDto { get; set; }
+    }
+    
+    private sealed record UserOrder
+    {
+        public required OrderBto OrderBto { get; set; }
+        public required string Password { get; set; }
     }
 
     [OneTimeSetUp]
@@ -30,7 +37,7 @@ public class Seeder
         JsonSerializer.Deserialize<List<UserBill>>(file)?.ForEach(userBill =>
             {
                 userBill.UserRegisterDto = GdprMapper.DoUserInfoDtoGdpr(userBill.UserRegisterDto);
-                userBill.BillDto = GdprMapper.DoBillGdpr(userBill.BillDto);
+                userBill.BillDto = GdprMapper.DoBillGdpr(userBill.BillDto, userBill.UserRegisterDto.Password);
                 Assert.That(PersistenceFacade.Instance.UserRepository
                     .RegisterUser(userBill.UserRegisterDto).IsSuccess, Is.EqualTo(true));
                 Assert.That(PersistenceFacade.Instance.BillRepository
@@ -58,9 +65,10 @@ public class Seeder
 
         var file = File.ReadAllText($"{SlnDirectory.GetPath()}/Integration/Persistence/Resources/OrdersSeed.json".Replace('/', Path.DirectorySeparatorChar));
 
-        JsonSerializer.Deserialize<List<OrderBto>>(file)?.ForEach(orderBto =>
+        JsonSerializer.Deserialize<List<UserOrder>>(file)?.ForEach(order =>
             {
-                orderBto = GdprMapper.DoOrderBto(orderBto);
+                var orderBto = order.OrderBto;
+                orderBto = GdprMapper.DoOrderBto(orderBto, GdprUtility.Hash(order.Password));
                 var orderSession = new OrderSessionDto
                 {
                     Username = orderBto.Username,

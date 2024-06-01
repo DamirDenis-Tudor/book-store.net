@@ -32,14 +32,15 @@ internal static class GdprMapper
     /// <returns>The user registration data mapped to GDPR compliant format.</returns>
     public static UserRegisterDto DoUserInfoDtoGdpr(UserRegisterDto userRegisterDto)
     {
+        var hash = GdprUtility.Hash(userRegisterDto.Password);
         return new UserRegisterDto
         {
-            FirstName = GdprUtility.Encrypt(userRegisterDto.FirstName),
-            LastName = GdprUtility.Encrypt(userRegisterDto.LastName),
-            Username = GdprUtility.Encrypt(userRegisterDto.Username),
-            Password = GdprUtility.Hash(userRegisterDto.Password),
-            Email = GdprUtility.Encrypt(userRegisterDto.Email),
-            UserType = GdprUtility.Encrypt(userRegisterDto.UserType)
+            FirstName = GdprUtility.Encrypt(userRegisterDto.FirstName,hash),
+            LastName = GdprUtility.Encrypt(userRegisterDto.LastName,hash),
+            Username = GdprUtility.Encrypt(userRegisterDto.Username, hash),
+            Password = hash,
+            Email = GdprUtility.Encrypt(userRegisterDto.Email, hash),
+            UserType = GdprUtility.Encrypt(userRegisterDto.UserType, hash)
         };
     }
 
@@ -48,14 +49,14 @@ internal static class GdprMapper
     /// </summary>
     /// <param name="encryptedUserInfoDto">The GDPR compliant user information data to be reverted.</param>
     /// <returns>The reverted user information data for billing purposes.</returns>
-    public static UserInfoDto UndoUserInfoDtoGdpr(UserInfoDto encryptedUserInfoDto)
+    public static UserInfoDto UndoUserInfoDtoGdpr(UserInfoDto encryptedUserInfoDto, string key)
     {
         return new UserInfoDto
         {
-            FirstName = GdprUtility.Decrypt(encryptedUserInfoDto.FirstName),
-            LastName = GdprUtility.Decrypt(encryptedUserInfoDto.LastName),
-            Username = GdprUtility.Decrypt(encryptedUserInfoDto.Username),
-            Email = GdprUtility.Decrypt(encryptedUserInfoDto.Email),
+            FirstName = GdprUtility.Decrypt(encryptedUserInfoDto.FirstName, key),
+            LastName = GdprUtility.Decrypt(encryptedUserInfoDto.LastName, key),
+            Username = GdprUtility.Decrypt(encryptedUserInfoDto.Username, key),
+            Email = GdprUtility.Decrypt(encryptedUserInfoDto.Email, key),
         };
     }
 
@@ -64,15 +65,15 @@ internal static class GdprMapper
     /// </summary>
     /// <param name="billDto">The billing data to be mapped.</param>
     /// <returns>The billing data mapped to GDPR compliant format.</returns>
-    public static BillDto DoBillGdpr(BillDto billDto)
+    public static BillDto DoBillGdpr(BillDto billDto, string key)
     {
         return new BillDto
         {
-            Address = GdprUtility.Encrypt(billDto.Address),
-            Telephone = GdprUtility.Encrypt(billDto.Telephone),
-            Country = GdprUtility.Encrypt(billDto.Country),
-            City = GdprUtility.Encrypt(billDto.City),
-            PostalCode = GdprUtility.Encrypt(billDto.PostalCode)
+            Address = GdprUtility.Encrypt(billDto.Address, key),
+            Telephone = GdprUtility.Encrypt(billDto.Telephone, key),
+            Country = GdprUtility.Encrypt(billDto.Country, key),
+            City = GdprUtility.Encrypt(billDto.City, key),
+            PostalCode = GdprUtility.Encrypt(billDto.PostalCode, key)
         };
     }
 
@@ -81,15 +82,15 @@ internal static class GdprMapper
     /// </summary>
     /// <param name="encryptedBillDto">The GDPR compliant billing data to be reverted.</param>
     /// <returns>The reverted billing data.</returns>
-    public static BillDto UndoBillGdpr(BillDto encryptedBillDto)
+    public static BillDto UndoBillGdpr(BillDto encryptedBillDto, string key)
     {
         return new BillDto
         {
-            Address = GdprUtility.Decrypt(encryptedBillDto.Address),
-            Telephone = GdprUtility.Decrypt(encryptedBillDto.Telephone),
-            Country = GdprUtility.Decrypt(encryptedBillDto.Country),
-            City = GdprUtility.Decrypt(encryptedBillDto.City),
-            PostalCode = GdprUtility.Decrypt(encryptedBillDto.PostalCode)
+            Address = GdprUtility.Decrypt(encryptedBillDto.Address, key),
+            Telephone = GdprUtility.Decrypt(encryptedBillDto.Telephone, key),
+            Country = GdprUtility.Decrypt(encryptedBillDto.Country, key),
+            City = GdprUtility.Decrypt(encryptedBillDto.City, key),
+            PostalCode = GdprUtility.Decrypt(encryptedBillDto.PostalCode, key)
         };
     }
 
@@ -98,9 +99,9 @@ internal static class GdprMapper
     /// </summary>
     /// <param name="encryptedOrderSessionDto">The GDPR compliant order session data to be reverted.</param>
     /// <returns>The reverted order session data.</returns>
-    public static OrderSessionDto UndoOrderSessionDtoGdpr(OrderSessionDto encryptedOrderSessionDto)
+    public static OrderSessionDto UndoOrderSessionDtoGdpr(OrderSessionDto encryptedOrderSessionDto, string key)
     {
-        encryptedOrderSessionDto.Username = GdprUtility.Decrypt(encryptedOrderSessionDto.Username);
+        encryptedOrderSessionDto.Username = GdprUtility.Decrypt(encryptedOrderSessionDto.Username, key);
         return encryptedOrderSessionDto;
     }
 
@@ -109,9 +110,9 @@ internal static class GdprMapper
     /// </summary>
     /// <param name="orderBto">The order data to be mapped.</param>
     /// <returns>The order data mapped to GDPR compliant format.</returns>
-    public static OrderBto DoOrderBto(OrderBto orderBto)
+    public static OrderBto DoOrderBto(OrderBto orderBto, string key)
     {
-        orderBto.Username = GdprUtility.Encrypt(orderBto.Username);
+        orderBto.Username = GdprUtility.Encrypt(orderBto.Username, key);
         return orderBto;
     }
         
@@ -124,7 +125,7 @@ internal static class GdprMapper
     {
         return new UserLoginBto
         {
-            Username = GdprUtility.Encrypt(userLoginBto.Username),
+            Username = GdprUtility.Encrypt(userLoginBto.Username, GdprUtility.Hash(userLoginBto.Password)),
             Password = GdprUtility.Hash(userLoginBto.Password),
         };
     }
