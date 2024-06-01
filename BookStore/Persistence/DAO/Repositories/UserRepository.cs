@@ -16,7 +16,6 @@ using Common;
 using Microsoft.EntityFrameworkCore;
 using Persistence.DAL;
 using Persistence.DAO.Interfaces;
-using Persistence.DTO;
 using Persistence.DTO.User;
 using Persistence.Mappers;
 
@@ -29,7 +28,10 @@ internal class UserRepository(DatabaseContext dbContext) : IUserRepository
         try
         {
             if (GetUser(userDtoRegisterDto.Username).IsSuccess)
-                throw new DbUpdateException();
+                return Result<VoidResult, DaoErrorType>.Fail(
+                    DaoErrorType.Duplicate,
+                    $"User {userDtoRegisterDto.Username} already used."
+                );
 
             var user = MapperDto.MapToUser(userDtoRegisterDto);
             dbContext.Users.Add(user);
@@ -39,12 +41,12 @@ internal class UserRepository(DatabaseContext dbContext) : IUserRepository
         {
             return Result<VoidResult, DaoErrorType>.Fail(
                 DaoErrorType.DatabaseError,
-                $"User {userDtoRegisterDto.Username} not registered: {e.Message} "
+                $"User {userDtoRegisterDto.Username} could not be registered: {e.Message} "
             );
         }
 
         return Result<VoidResult, DaoErrorType>.Success(VoidResult.Get(),
-            $"User {userDtoRegisterDto.Username} registered.");
+            $"User {userDtoRegisterDto.Username} successfully registered.");
     }
 
     public Result<VoidResult, DaoErrorType> UpdateUser(string username, UserRegisterDto userDtoRegisterDto)
@@ -58,7 +60,7 @@ internal class UserRepository(DatabaseContext dbContext) : IUserRepository
             {
                 return Result<VoidResult, DaoErrorType>.Fail(
                     DaoErrorType.NotFound,
-                    $"User {userDtoRegisterDto.Username} not found. Caused by existingUser={existingUser}."
+                    $"User {userDtoRegisterDto.Username} not found."
                 );
             }
 
@@ -96,7 +98,7 @@ internal class UserRepository(DatabaseContext dbContext) : IUserRepository
             {
                 return Result<VoidResult, DaoErrorType>.Fail(
                     DaoErrorType.NotFound,
-                    $"User {username} could not be deleted. Caused by existingUser={existingUser}."
+                    $"User {username} could not be deleted because is not registered. "
                 );
             }
 

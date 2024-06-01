@@ -57,7 +57,11 @@ internal class InventoryService : IInventory
 
     public Result<VoidResult, BaoErrorType> RegisterProduct(string requester, ProductDto productDto)
     {
-        if (!UserTypeChecker.CheckIfProvider(username: requester))
+        var encryptionKey = AuthService.GetEncryptionKey(requester);
+        if (!encryptionKey.IsSuccess)
+            return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.KeyNotFound, encryptionKey.Message);
+        
+        if (!UserTypeChecker.CheckIfProvider(username: requester, encryptionKey.SuccessValue))
             return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.UserNotAllowed,
                 $"Username {requester} is not PROVIDER.");
 
@@ -72,7 +76,11 @@ internal class InventoryService : IInventory
 
     public Result<VoidResult, BaoErrorType> UpdateProductPrice(string requester, string productName, decimal price)
     {
-        if (!UserTypeChecker.CheckIfProvider(username: requester))
+        var encryptionKey = AuthService.GetEncryptionKey(requester);
+        if (!encryptionKey.IsSuccess)
+            return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.KeyNotFound, encryptionKey.Message);
+        
+        if (!UserTypeChecker.CheckIfProvider(username: requester, encryptionKey.SuccessValue))
             return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.UserNotAllowed,
                 $"Username {requester} is not PROVIDER.");
 
@@ -87,7 +95,11 @@ internal class InventoryService : IInventory
 
     public Result<VoidResult, BaoErrorType> UpdateProductStocks(string requester, string productName, int quantity)
     {
-        if (!UserTypeChecker.CheckIfProvider(username: requester))
+        var encryptionKey = AuthService.GetEncryptionKey(requester);
+        if (!encryptionKey.IsSuccess)
+            return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.KeyNotFound, encryptionKey.Message);
+        
+        if (!UserTypeChecker.CheckIfProvider(username: requester, encryptionKey.SuccessValue))
             return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.UserNotAllowed,
                 $"Username {requester} is not PROVIDER.");
 
@@ -102,7 +114,11 @@ internal class InventoryService : IInventory
 
     public Result<VoidResult, BaoErrorType> DeleteProduct(string requester, string productName)
     {
-        if (!UserTypeChecker.CheckIfProvider(username: requester))
+        var encryptionKey = AuthService.GetEncryptionKey(requester);
+        if (!encryptionKey.IsSuccess)
+            return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.KeyNotFound, encryptionKey.Message);
+        
+        if (!UserTypeChecker.CheckIfProvider(username: requester, encryptionKey.SuccessValue))
             return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.UserNotAllowed,
                 $"Username {requester} is not PROVIDER.");
 

@@ -112,5 +112,7 @@ public enum BaoErrorType
     /// <summary>
     /// Indicates a failure to register an order.
     /// </summary>
-    FailedToRegisterOrder
+    FailedToRegisterOrder,
+    
+    KeyNotFound
 }

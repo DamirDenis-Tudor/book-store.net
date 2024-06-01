@@ -31,7 +31,11 @@ internal class OrderService : IOrder
 
     public Result<VoidResult, BaoErrorType> PlaceOrder(OrderBto orderBto)
     {
-        orderBto = GdprMapper.DoOrderBto(orderBto);
+        var encryptionKey = AuthService.GetEncryptionKey(orderBto.Username);
+        if (!encryptionKey.IsSuccess)
+            return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.KeyNotFound, encryptionKey.Message);
+        
+        orderBto = GdprMapper.DoOrderBto(orderBto, encryptionKey.SuccessValue);
 
         var orderSessionDto = new OrderSessionDto
         {
@@ -58,11 +62,6 @@ internal class OrderService : IOrder
                     $"Product {orderItem.ProductName} has insufficient quantity.");
 
             updateList[orderItem.ProductName] = product.SuccessValue.Quantity - orderItem.OrderQuantity;
-            
-            /*var update = _persistenceFacade.ProductRepository.UpdateQuantity(orderItem.ProductName,
-                product.SuccessValue.Quantity - orderItem.OrderQuantity);
-            
-            _logger.LogInformation(update.Message);*/
             
             var price = product.SuccessValue.Price * orderItem.OrderQuantity;
             orderSessionDto.OrderProducts.Add(new OrderProductDto
@@ -98,7 +97,11 @@ internal class OrderService : IOrder
 
     public Result<IList<OrderSessionDto>, BaoErrorType> GetUserOrders(string username)
     {
-        var gdprUsername = GdprUtility.Encrypt(username);
+        var encryptionKey = AuthService.GetEncryptionKey(username);
+        if (!encryptionKey.IsSuccess)
+            return Result<IList<OrderSessionDto>, BaoErrorType>.Fail(BaoErrorType.KeyNotFound, encryptionKey.Message);
+        
+        var gdprUsername = GdprUtility.Encrypt(username, encryptionKey.SuccessValue);
         
         var orders = _persistenceFacade.OrderRepository.GetAllOrdersByUsername(gdprUsername);
         
@@ -109,7 +112,7 @@ internal class OrderService : IOrder
         
         for (var i = 0; i < orders.SuccessValue.Count; i++)
         {
-            orders.SuccessValue[i] = GdprMapper.UndoOrderSessionDtoGdpr(orders.SuccessValue[i]);
+            orders.SuccessValue[i] = GdprMapper.UndoOrderSessionDtoGdpr(orders.SuccessValue[i], encryptionKey.SuccessValue);
         }
         
         return Result<IList<OrderSessionDto>, BaoErrorType>.Success(orders.SuccessValue);

@@ -18,7 +18,7 @@ using Business.BAO.Services;
 using Persistence.DAL;
 
 [assembly: InternalsVisibleTo("Integration")]
-
+// TODO: username as hash
 namespace Business.BAL
 {
     /// <summary>

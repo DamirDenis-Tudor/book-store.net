@@ -1,11 +1,10 @@
 using System.Runtime.CompilerServices;
 using Business.BAL;
-using Business.BAO;
 using Business.Mappers;
 using Persistence.DAL;
 using Persistence.DTO.User;
 
-namespace Integration.Business.UnitTesting;
+namespace UnitTesting.Business.UnitTesting;
 
 public class UsersService
 {
