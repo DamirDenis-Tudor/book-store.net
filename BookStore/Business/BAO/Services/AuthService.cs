@@ -46,7 +46,7 @@ internal class AuthService : IAuth
     {
         if (loginMode != UserTypeChecker.GetLoginMode(userLoginBto.Username, GdprUtility.Hash(userLoginBto.Password)))
             return Result<string, BaoErrorType>.Fail(BaoErrorType.UserPasswordNotFound,
-                $"No user is registered with {userLoginBto.Username}");
+                $"Invalid login data.");
 
         var gdprUserLoginBto = GdprMapper.DoUserLoginBto(userLoginBto);
         var password = _persistenceFacade.UserRepository.GetUserPassword(gdprUserLoginBto.Username);

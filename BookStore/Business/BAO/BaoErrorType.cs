@@ -114,5 +114,7 @@ public enum BaoErrorType
     /// </summary>
     FailedToRegisterOrder,
     
-    KeyNotFound
+    KeyNotFound,
+    FailedToEncryptBillDetails,
+    FailedToUpdate
 }
