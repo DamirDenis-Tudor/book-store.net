@@ -29,6 +29,6 @@ namespace PresentationAdmin.Shared
         /// The product stats received form the parent page to be displayed
         /// </summary>s
         [Parameter]
-        public ProductStatsDto? Product { get; set; }
+        public ProductDto? Product { get; set; }
     }
 }

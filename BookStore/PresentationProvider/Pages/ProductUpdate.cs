@@ -17,12 +17,13 @@
 
 
 using Business.BAL;
+using Common;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Persistence.DTO.Product;
-using PresentationProvider.Entities;
+using Presentation.Entities;
+using Presentation.Services;
 using System.ComponentModel.DataAnnotations;
-using PresentationProvider.Services;
 
 namespace PresentationProvider.Pages;
 
@@ -53,7 +54,7 @@ public partial class ProductUpdate
     /// Utility class for getting the stored the products
     /// </summary>
     [Inject]
-    public ProductsScope ProductsScope { get; set; } = null!;
+    public IProductsScope ProductsScope { get; set; } = null!;
 
     /// <summary>
     /// Product name that will be modified
@@ -100,7 +101,7 @@ public partial class ProductUpdate
     /// </summary>
     protected override void OnInitialized()
     {
-        var result = ProductsScope.Products
+        var result = ProductsScope.GetProducts()
             .FirstOrDefault(prod => prod.Name == ProductName.Replace("%0A", "\n"));
         if (result != null && result.Equals(default))
             NavigationManager.NavigateTo("/home");
@@ -115,6 +116,7 @@ public partial class ProductUpdate
     /// <param name="editContext"></param>
     private async void Submit(EditContext editContext)
     {
+        Console.WriteLine("1");
         if (!editContext.Validate()) return;
 
         var sessionToken = await UserData.GetToken();
@@ -123,16 +125,22 @@ public partial class ProductUpdate
 
         var username = Business.AuthService.GetUsername(sessionToken);
 
-        var remoteInfo = ProductsScope.Products
+        var remoteInfo = ProductsScope.GetProducts()
             .FirstOrDefault(prod => prod.Name == ProductName.Replace("%0A", "\n"));
-
+        Console.WriteLine("2");
         if (remoteInfo != null && remoteInfo.Price != _modifyProduct.Price)
-            Business.InventoryService.UpdateProductPrice(username.SuccessValue,
+        {
+            var result = Business.InventoryService.UpdateProductPrice(username.SuccessValue,
                 ProductName.Replace("%0A", "\n"), _modifyProduct.Price);
-
+            Console.WriteLine("Price " + result.Message);
+        }
+        Console.WriteLine("3");
         if (remoteInfo != null && remoteInfo.Quantity != _modifyProduct.Quantity)
-            Business.InventoryService.UpdateProductStocks(username.SuccessValue,
+        {
+            var  result = Business.InventoryService.UpdateProductStocks(username.SuccessValue,
                 ProductName.Replace("%0A", "\n"), _modifyProduct.Quantity);
+            Console.WriteLine(result.Message);
+        }
 
         NavigationManager.NavigateTo("/home", true);
     }

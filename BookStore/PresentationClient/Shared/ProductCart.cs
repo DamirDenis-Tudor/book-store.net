@@ -21,63 +21,58 @@ using PresentationClient.Services;
 
 namespace PresentationClient.Shared
 {
-    /// <summary>
-    /// The product that is displayed in view cart
+	/// <summary>
+	/// The product that is displayed in view cart
 	/// Used for increasing and decreasing the quantity of the product
-    /// </summary>
-    public partial class ProductCart
-    {
-	    /// <summary>
-	    /// The cart service for operating with the user cart
-	    /// </summary>
-	    [Inject]
-	    private ICartService Cart { get; set; } = null!;
+	/// </summary>
+	public partial class ProductCart
+	{
+		/// <summary>
+		/// The cart service for operating with the user cart
+		/// </summary>
+		[Inject]
+		private ICartService Cart { get; set; } = null!;
 		/// <summary>
 		/// The product got parameter from the view cart page
 		/// </summary>
 		[Parameter]
 		public OrderProductData? Product { get; set; }
 
-        /// <summary>
-        /// Function received from the view cart page that wil handle the refresh when the user changes the quantity
-        /// </summary>
-        [Parameter]
+		/// <summary>
+		/// Function received from the view cart page that wil handle the refresh when the user changes the quantity
+		/// </summary>
+		[Parameter]
 		public Action? RefreshView { get; set; }
 
 		/// <summary>
-		/// If the product is enabled and valid, if not, it will not be displayed on the page
+		/// Called when the user increases the product quantity
+		/// Increase, then updates the product in cart and notifys the parent page
 		/// </summary>
-		private bool _enabled = true;
-
-        /// <summary>
-        /// Called when the user increases the product quantity
-        /// Increase, then updates the product in cart and notifys the parent page
-        /// </summary>
-        private void IncreaseQuantity()
+		private void IncreaseQuantity()
 		{
 			if (Product != null)
 			{
-				Product.OrderQuantity++;
-				Cart.UpdateProduct(Product);
+				if (Product.Product.Quantity > Product.OrderQuantity)
+				{
+					Product.OrderQuantity++;
+					Cart.UpdateProduct(Product);
+				}
 			}
 
 			RefreshView?.Invoke();
 		}
 
-        /// <summary>
-        /// Called when the user decreases, the product quantity
-        /// Decrease, validates the new quantity of the product, then updates it in cart and notifys the parent page
-        /// </summary>
-        private void DecreaseQuantity()
+		/// <summary>
+		/// Called when the user decreases, the product quantity
+		/// Decrease, validates the new quantity of the product, then updates it in cart and notifys the parent page
+		/// </summary>
+		private void DecreaseQuantity()
 		{
 			if (Product != null)
 			{
 				Product.OrderQuantity--;
 				if (Product.OrderQuantity == 0)
-				{
 					Cart.DeleteProduct(Product);
-					_enabled = false;
-				}
 				else
 					Cart.UpdateProduct(Product);
 			}

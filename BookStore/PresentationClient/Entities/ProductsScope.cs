@@ -18,30 +18,17 @@
 
 using Business.BAL;
 using Persistence.DTO.Product;
+using Presentation.Entities;
 
 namespace PresentationClient.Entities
 {
     /// <summary>
     /// Utitly singleton class used for getting the products from the server and their categories
     /// </summary>
-    public class ProductsScope
+    public class ProductsScope : IProductsScope
 	{
-        /// <summary>
-        /// The instance of the class
-        /// </summary>
-		public static ProductsScope Instance => new();
-        /// <summary>
-        /// Private constructor for the singleton class
-        /// </summary>
-        private ProductsScope() {  }
-        /// <summary>
-        /// The list of products fatched from the server
-        /// </summary>
-        public IList<ProductDto> Products { get; set; } = BusinessFacade.Instance.InventoryService.GetInventory().SuccessValue;
-        /// <summary>
-        /// Returns the list of all the categories for the products
-        /// </summary>
-        /// <returns>All the categories of the products</returns>
-		public IList<string> Categories() => Products.Select(prod => prod.Category).Distinct().ToList();
+		public IList<ProductDto> GetProducts() => BusinessFacade.Instance.InventoryService.GetInventory().SuccessValue;
+
+		public IList<string> GetCategories() => GetProducts().Select(prod => prod.Category).Distinct().ToList();
 	}
 }

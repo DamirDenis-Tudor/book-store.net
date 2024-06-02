@@ -16,6 +16,8 @@
 
 using Business.BAL;
 using Persistence.DAL;
+using Presentation.Entities;
+using Presentation.Services;
 using PresentationAdmin.Entities;
 using PresentationAdmin.Service;
 
@@ -26,6 +28,7 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<ProductsScope>();
 builder.Services.AddSingleton<BusinessFacade>();
 builder.Services.AddScoped<IUserLoginService, UserLoginService>();
+builder.Services.AddScoped<IProductsScope, ProductsScope>();
 
 var app = builder.Build();
 if (!app.Environment.IsDevelopment())

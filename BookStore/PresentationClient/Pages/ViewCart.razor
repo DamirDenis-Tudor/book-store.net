@@ -2,7 +2,7 @@
 
 <PageTitle>View Cart</PageTitle>
 
-<NavMenu />
+<NavMenu ShowDashboard=true ShowCart=true />
 
 <div class="content">
 	<main>
@@ -21,7 +21,9 @@
 		{
 			@foreach (var prod in Products)
 			{
-				<ProductCart Product="@prod" RefreshView="@RefreshView"/>
+				<ProductComponent Product="@prod.Product">
+					<ProductCart Product="@prod" RefreshView="@RefreshView"/>
+				</ProductComponent>
 			}
 		}
 

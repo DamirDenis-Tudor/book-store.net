@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using Persistence.DTO.Product;
 using System.ComponentModel.DataAnnotations;
 using PresentationProvider.Services;
+using Presentation.Services;
 
 namespace PresentationProvider.Pages
 {

@@ -14,6 +14,8 @@
  *                                                                        *
  **************************************************************************/
 
+using Persistence.DTO.Product;
+
 namespace Persistence.DTO.Order;
 
 /// <summary>
@@ -22,23 +24,11 @@ namespace Persistence.DTO.Order;
 public record OrderProductData
 {
     /// <summary>
-    /// The product name
+    /// Product ordered
     /// </summary>
-    public required string ProductName { get; init; }
-    /// <summary>
-    /// The product description
-    /// </summary>
-    public required string Description { get; init; }
-    /// <summary>
-    /// The product price
-    /// </summary>
-    public decimal Price { get; init; }
+    public required ProductDto Product { get; init; }
     /// <summary>
     /// The product quantity
     /// </summary>
     public required int OrderQuantity { get; set; }
-    /// <summary>
-    /// Link to the product photo
-    /// </summary>
-    public string? Link { get; init; }
 }

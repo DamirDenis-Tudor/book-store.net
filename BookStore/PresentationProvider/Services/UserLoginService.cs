@@ -17,39 +17,49 @@
 
 
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
+using Presentation.Services;
 
-namespace PresentationProvider.Services
+namespace PresentationProvider.Services;
+
+/// <summary>
+/// The login token is stored in the local session storage
+/// </summary>
+public class UserLoginService : IUserLoginService
 {
-    /// <summary>
-    /// The login token is stored in the local session storage
-    /// </summary>
-    public class UserLoginService : IUserLoginService
+    private readonly ProtectedLocalStorage _localStorage;
+
+    public UserLoginService(ProtectedLocalStorage localStorage)
     {
-        private readonly ProtectedLocalStorage _localStorage;
+        _localStorage = localStorage;
+    }
 
-        public UserLoginService(ProtectedLocalStorage localStorage)
+    private string? Token { get; set; }
+
+    public async Task<string?> GetToken()
+    {
+        try
         {
-            _localStorage = localStorage;
-        }
+            var result = await _localStorage.GetAsync<string?>("sessiontoken");
 
-        private string? Token { get; set; }
-
-        public async Task<string?> GetToken()
-        {
-            var result = await _localStorage.GetAsync<string>("sessiontoken");
             Token = result.Success ? result.Value : null;
-            return Token;
         }
-        
-        public async void SetToken(string? token)
+        catch (Exception e)
         {
-            await _localStorage.SetAsync("sessiontoken", token);
-            Token = token;
+            Console.WriteLine(e);
         }
 
-        public void ClearSession()
-        {
-            _localStorage.DeleteAsync("sessiontoken");
-        }
+        return Token;
+    }
+
+    public async void SetToken(string? token)
+    {
+        if (token == null) return;
+        await _localStorage.SetAsync("sessiontoken", token);
+        Token = token;
+    }
+
+    public void ClearSession()
+    {
+        _localStorage.DeleteAsync("sessiontoken");
     }
 }

@@ -175,7 +175,6 @@ internal class ProductRepository(DatabaseContext dbContext) : IProductRepository
             var existingProduct = dbContext.Products.FirstOrDefault(p => p.Name == name);
             if (existingProduct == null)
                 return Result<VoidResult, DaoErrorType>.Fail(DaoErrorType.NotFound, $"Product '{name}' not found.");
-
             dbContext.Products.Remove(existingProduct);
             dbContext.SaveChanges();
         }

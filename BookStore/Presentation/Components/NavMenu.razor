@@ -1,0 +1,34 @@
+﻿@using Microsoft.AspNetCore.Components.Forms
+<div class="navbar-bg">
+    <div class="logo-search">
+        <a href="/" class="logo">BookShop.net</a>
+        <div class="search-section">
+            <InputText class="search-bar" placeholder="Incepe o cautare..." @bind-Value="@Serach"> </InputText>
+        </div>
+    </div>
+    <div class="auth-area">
+        @if(_loggedIn)
+        {
+            @if(ShowDashboard)
+            {
+                <a href="/account" class="account"><img src="Images/account_icon.png" alt="Account" />Contul meu</a>
+            }
+            @if (ShowCart)
+            {
+                <a href="/viewcart"><button class="cart-btn"> <img src="Images/cart_icon.png" alt="View Cart" /></button></a>
+            }
+            
+            <button class="logout-btn" onclick="@Logout"> <img src="Images/logout_icon.png" alt="Logout" /></button>
+
+            @if (ShowAddProduct)
+            {
+                <a href="/add"><button class="add-product-btn"> <img src="Images/plus_icon.png" alt="Add Product" /> </button></a>
+            }
+        }
+        else{
+            <a href="/login" class="button button-login">Login</a>
+            <a href="/register" class="button button-register">Register</a>
+        }
+    </div>
+
+</div>

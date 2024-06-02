@@ -1,0 +1,16 @@
+﻿@using Persistence.DTO.Product
+
+<div class="product-bg">
+	@if(@Product == null) return;
+	
+	<div class="product-image-section">
+		<img class="product-image" src="@Product.Link" alt=""/>
+	</div>
+
+	<div class="product-details">
+		<p class="product-name">@Product.Name</p>
+		<p class="product-description">@Product.Description</p> 
+	</div>
+	@if (@ChildContent == null) return;
+	@ChildContent
+</div>

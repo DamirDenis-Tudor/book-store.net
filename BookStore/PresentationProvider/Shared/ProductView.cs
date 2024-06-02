@@ -16,8 +16,12 @@
  **************************************************************************/
 
 
+using Business.BAL;
+using Common;
 using Microsoft.AspNetCore.Components;
 using Persistence.DTO.Product;
+using Presentation.Components;
+using Presentation.Services;
 
 namespace PresentationProvider.Shared
 {
@@ -31,6 +35,16 @@ namespace PresentationProvider.Shared
         /// </summary>
         [Inject]
         public NavigationManager NavigationManager { get; set; } = null!;
+        /// <summary>
+        /// Business facade for interacting with the business layer
+        /// </summary>
+        [Inject]
+        public BusinessFacade Business { get; set; } = null!;
+        /// <summary>
+        /// User login service for getting the login session token
+        /// </summary>
+        [Inject]
+        public IUserLoginService UserLogin { get; set; } = null!;
 
         /// <summary>
         /// The product received form the parent page to be displayed
@@ -44,6 +58,39 @@ namespace PresentationProvider.Shared
         /// </summary>
         private void ProductEdit() => NavigationManager
             .NavigateTo($"/update-product?product={Product.Name.Replace("\n", "%0A")}");
-        
+
+        /// <summary>
+        /// Confirm dialog for removing the product
+        /// </summary>
+        private ConfirmPopUp confirmationDialog;
+
+        /// <summary>
+        /// Called when the provider hits the delete product button
+        /// </summary>
+        private void ProductRemove()
+        {
+            confirmationDialog.ShowDialog();
+        }
+
+        /// <summary>
+        /// Callback for the confirmation dialog
+        /// </summary>
+        /// <param name="confirmed">If the user choose confim or cancel</param>
+        private async Task OnConfirmClose(bool confirmed)
+        {
+            if (confirmed)
+            {
+                var token = await UserLogin.GetToken();
+                var result = Business.AuthService.GetUsername(token);
+                if(!result.IsSuccess)
+                {
+                    Logger.Instance.GetLogger<ProductView>().LogError(result.Message);
+                    return;
+                }
+                Business.InventoryService.DeleteProduct(result.SuccessValue, Product.Name);
+                NavigationManager.NavigateTo("/home", true);
+            }
+        }
+
     }
 }
