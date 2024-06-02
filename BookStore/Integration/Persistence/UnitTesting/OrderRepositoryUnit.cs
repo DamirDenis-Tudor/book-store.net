@@ -3,7 +3,7 @@ using Persistence.DTO.Order;
 using Persistence.DTO.Product;
 using Persistence.DTO.User;
 
-namespace Integration.Persistence.UnitTesting;
+namespace UnitTesting.Persistence.UnitTesting;
 
 public class OrderRepositoryUnit
 {
@@ -17,9 +17,21 @@ public class OrderRepositoryUnit
 
     private readonly List<ProductDto> _products =
     [
-        new ProductDto { Name = "Lecture1",Description = "",Price = 10.0m, Quantity = 100, Category = "Books", Link = ".png"},
-        new ProductDto { Name = "Lecture2",Description = "",Price = 15.0m, Quantity = 100, Category = "Books", Link = ".png" },
-        new ProductDto { Name = "Laptop1",Description = "",Price = 20.0m, Quantity = 100, Category = "Laptops", Link = ".png" }
+        new ProductDto
+        {
+            ProductInfoDto = new ProductInfoDto { Name = "Lecture1", Description = "TEST", Category = "Books" },
+            Price = 10.0m, Quantity = 100,
+        },
+        new ProductDto
+        {
+            ProductInfoDto = new ProductInfoDto { Name = "Lecture2", Description = "TEST", Category = "Books" },
+            Price = 15.0m, Quantity = 100,
+        },
+        new ProductDto
+        {
+            ProductInfoDto = new ProductInfoDto { Name = "Lecture3", Description = "TEST", Category = "Laptops" },
+            Price = 20.0m, Quantity = 100,
+        }
     ];
 
     [SetUp]
@@ -34,7 +46,7 @@ public class OrderRepositoryUnit
     [TearDown]
     public void DeleteOrderUnitTest()
     {
-        _products.ForEach(p => PersistenceFacade.Instance.ProductRepository.DeleteProduct(p.Name));
+        _products.ForEach(p => PersistenceFacade.Instance.ProductRepository.DeleteProduct(p.ProductInfoDto.Name));
         PersistenceFacade.Instance.UserRepository.DeleteUser(_user.Username);
     }
 
@@ -43,7 +55,7 @@ public class OrderRepositoryUnit
     {
         List<OrderProductDto> orderProductDtos = [];
         _products.ForEach(p => orderProductDtos.Add(new OrderProductDto
-            { ProductName = p.Name,Description = "",SessionCode = SessionCode, OrderQuantity = 5 })
+            { ProductInfoDto = p.ProductInfoDto, SessionCode = SessionCode, OrderQuantity = 5 })
         );
 
         var orderSessionDto = new OrderSessionDto
@@ -56,7 +68,8 @@ public class OrderRepositoryUnit
 
         Assert.That(PersistenceFacade.Instance.OrderRepository.RegisterOrderSession(orderSessionDto).IsSuccess,
             Is.EqualTo(true));
-        Assert.That(PersistenceFacade.Instance.OrderRepository.DeleteOrderSession(orderSessionDto.SessionCode).IsSuccess,
+        Assert.That(
+            PersistenceFacade.Instance.OrderRepository.DeleteOrderSession(orderSessionDto.SessionCode).IsSuccess,
             Is.EqualTo(true));
     }
 
@@ -65,7 +78,7 @@ public class OrderRepositoryUnit
     {
         List<OrderProductDto> orderProductDtos = [];
         _products.ForEach(p => orderProductDtos.Add(new OrderProductDto
-            { ProductName = p.Name, Description = "", SessionCode = SessionCode, OrderQuantity = 5 })
+            { ProductInfoDto = p.ProductInfoDto, SessionCode = SessionCode, OrderQuantity = 5 })
         );
 
         var orderSessionDto = new OrderSessionDto
@@ -83,7 +96,8 @@ public class OrderRepositoryUnit
 
         Assert.That(PersistenceFacade.Instance.OrderRepository.GetSessionOrder(orderSessionDto.SessionCode).IsSuccess,
             Is.EqualTo(true));
-        Assert.That(PersistenceFacade.Instance.OrderRepository.DeleteOrderSession(orderSessionDto.SessionCode).IsSuccess,
+        Assert.That(
+            PersistenceFacade.Instance.OrderRepository.DeleteOrderSession(orderSessionDto.SessionCode).IsSuccess,
             Is.EqualTo(true));
     }
 }

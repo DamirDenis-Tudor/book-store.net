@@ -26,15 +26,15 @@ internal static class UserTypeChecker
     /// Checks if the user is a client.
     /// </summary>
     /// <param name="username">The username of the user to be checked.</param>
+    /// <param name="key">Encryption key</param>
     /// <returns>True if the user is a client, otherwise false.</returns>
     public static bool CheckIfClient(string username)
     {
-        var gdprUsername = GdprUtility.Encrypt(username);
-        var userType = PersistenceFacade.Instance.UserRepository.GetUserType(gdprUsername);
+        var userType = PersistenceFacade.Instance.UserRepository.GetUserType(username);
         if (!userType.IsSuccess)
             return false;
 
-        return userType.SuccessValue == GdprUtility.Encrypt("CLIENT");
+        return userType.SuccessValue == GdprUtility.Hash("CLIENT");
     }
 
     /// <summary>
@@ -44,12 +44,11 @@ internal static class UserTypeChecker
     /// <returns>True if the user is a provider, otherwise false.</returns>
     public static bool CheckIfProvider(string username)
     {
-        var gdprUsername = GdprUtility.Encrypt(username);
-        var userType = PersistenceFacade.Instance.UserRepository.GetUserType(gdprUsername);
+        var userType = PersistenceFacade.Instance.UserRepository.GetUserType(username);
         if (!userType.IsSuccess)
             return false;
 
-        return userType.SuccessValue == GdprUtility.Encrypt("PROVIDER");
+        return userType.SuccessValue == GdprUtility.Hash("PROVIDER");
     }
 
     /// <summary>
@@ -59,24 +58,22 @@ internal static class UserTypeChecker
     /// <returns>True if the user is an admin, otherwise false.</returns>
     public static bool CheckIfAdmin(string username)
     {
-        var gdprUsername = GdprUtility.Encrypt(username);
-        var userType = PersistenceFacade.Instance.UserRepository.GetUserType(gdprUsername);
+        var userType = PersistenceFacade.Instance.UserRepository.GetUserType(username);
         if (!userType.IsSuccess)
             return false;
-
-        return userType.SuccessValue == GdprUtility.Encrypt("ADMIN");
+        
+        return userType.SuccessValue== GdprUtility.Hash("ADMIN");
     }
 
     public static LoginMode GetLoginMode(string username)
     {
-        var gdprUsername = GdprUtility.Encrypt(username);
-        var userType = PersistenceFacade.Instance.UserRepository.GetUserType(gdprUsername);
+        var userType = PersistenceFacade.Instance.UserRepository.GetUserType(username);
         if (!userType.IsSuccess)
             return LoginMode.None;
 
 
-        if (userType.SuccessValue == GdprUtility.Encrypt("ADMIN"))
+        if (userType.SuccessValue == GdprUtility.Hash("ADMIN"))
             return LoginMode.Admin;
-        return userType.SuccessValue == GdprUtility.Encrypt("PROVIDER") ? LoginMode.Provider : LoginMode.Client;
+        return userType.SuccessValue == GdprUtility.Hash("PROVIDER") ? LoginMode.Provider : LoginMode.Client;
     }
 }

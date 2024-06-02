@@ -40,7 +40,7 @@ internal static class MapperDto
             Password = userRegisterDto.Password,
             Email = userRegisterDto.Email,
             UserType = userRegisterDto.UserType,
-            BillDetails = new BillDetails { }
+            BillDetails = new BillDetails()
         };
 
     /// <summary>
@@ -108,13 +108,16 @@ internal static class MapperDto
     {
         return new Entity.Product
         {
-            Name = productDto.Name,
-            Description = productDto.Description,
             Price = productDto.Price,
             Quantity = productDto.Quantity,
             OrderProducts = new List<OrderProduct>(),
-            Category = productDto.Category,
-            Link = productDto.Link
+            ProductInfo = new ProductInfo
+            {
+                Name = productDto.ProductInfoDto.Name,
+                Category = productDto.ProductInfoDto.Category,
+                Description = productDto.ProductInfoDto.Description,
+                Link = productDto.ProductInfoDto.Link
+            }
         };
     }
 
@@ -123,17 +126,37 @@ internal static class MapperDto
     /// </summary>
     /// <param name="product">The Product entity to map from.</param>
     /// <returns>A ProductDto or null if the product is null.</returns>
-    internal static ProductDto? MapToProductDto(Entity.Product? product)
+    internal static ProductDto? MapToProductDto(Product? product)
     {
         if (product == null) return null;
         return new ProductDto
         {
-            Name = product.Name,
-            Description = product.Description,
             Price = product.Price,
             Quantity = product.Quantity,
+            ProductInfoDto = new ProductInfoDto
+            {
+                Name = product.ProductInfo.Name,
+                Category = product.ProductInfo.Category,
+                Description = product.ProductInfo.Description,
+                Link = product.ProductInfo.Link,
+            }
+        };
+    }
+
+    /// <summary>
+    /// Maps a Product entity to a ProductDto.
+    /// </summary>
+    /// <param name="product">The Product entity to map from.</param>
+    /// <returns>A ProductDto or null if the product is null.</returns>
+    internal static ProductInfoDto? MapToProductStatDto(ProductInfo? product)
+    {
+        if (product == null) return null;
+        return new ProductInfoDto
+        {
+            Name = product.Name,
+            Category = product.Category,
+            Description = product.Description,
             Link = product.Link,
-            Category = product.Category
         };
     }
 
@@ -148,12 +171,17 @@ internal static class MapperDto
 
         return new OrderProductDto
         {
-            ProductName = orderProduct.Product!.Name,
-            Description = orderProduct.Product.Description,
             Price = orderProduct.OrderTimePrice,
             SessionCode = orderProduct.OrderSession!.SessionCode,
             OrderQuantity = orderProduct.Quantity,
-            Link = orderProduct.Product.Link
+           
+            ProductInfoDto = new ProductInfoDto
+            {
+                Name = orderProduct.ProductInfo.Name ?? "",
+                Description = orderProduct.ProductInfo.Description,
+                Category = orderProduct.ProductInfo.Category,
+                Link = orderProduct.ProductInfo.Link,
+            }
         };
     }
 
@@ -167,10 +195,7 @@ internal static class MapperDto
         if (orderSession == null) return null;
 
         var orderProductsDto = new List<OrderProductDto>();
-        orderSession.OrderProducts.ToList().ForEach(op =>
-            {
-                orderProductsDto.Add(MapperDto.MapToOrderProductDto(op)!);
-            }
+        orderSession.OrderProducts.ToList().ForEach(op => { orderProductsDto.Add(MapToOrderProductDto(op)!); }
         );
 
         return new OrderSessionDto
@@ -192,9 +217,9 @@ internal static class MapperDto
     {
         return new OrderProduct
         {
-            OrderProductName = orderProductDto.ProductName,
             Quantity = orderProductDto.OrderQuantity,
-            OrderTimePrice = orderProductDto.Price
+            OrderTimePrice = orderProductDto.Price,
+            ProductInfo = null!
         };
     }
 

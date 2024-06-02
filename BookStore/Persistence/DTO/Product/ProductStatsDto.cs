@@ -19,5 +19,5 @@ public record ProductStatsDto
     public required decimal TotalRevenue { get; init; }
     public required int TotalItemsSold { get; init; }
     
-    public required ProductDto ProductDto { get; init; }
+    public required ProductInfoDto ProductInfoDto { get; init; }
 }

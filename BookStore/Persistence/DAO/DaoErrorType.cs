@@ -38,4 +38,6 @@ public enum DaoErrorType
     /// Indicates a general database error.
     /// </summary>
     DatabaseError,
+    
+    Duplicate
 }

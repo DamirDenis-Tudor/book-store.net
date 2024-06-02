@@ -55,5 +55,4 @@ public interface IOrderRepository
     /// </summary>
     /// <returns>A Result containing either a list of OrderSessionDto or a DaoErrorType indicating the type of error.</returns>
     Result<IList<OrderSessionDto>, DaoErrorType> GetAllOrders();
-    
 }

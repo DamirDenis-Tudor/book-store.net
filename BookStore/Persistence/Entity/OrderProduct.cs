@@ -24,7 +24,7 @@ internal class OrderProduct
     public int Id { get; init; }
     
     [Column]
-    public int ProductId;
+    public int? ProductId;
     
     [ForeignKey(nameof(ProductId))] 
     public Product? Product { get; set; }
@@ -36,16 +36,18 @@ internal class OrderProduct
     public OrderSession? OrderSession { get; init; }
     
     [Column]
+    public int? ProductInfoId { get; init; }
+
+    [ForeignKey(nameof(ProductInfoId))] 
+    [Required]
+    public required ProductInfo ProductInfo { get; set; }
+    
+    [Column]
     [Required] 
     public required decimal OrderTimePrice { get; init; }
     
     [Column]
     [Required] 
     public required int Quantity { get; init; }
-    
-    [Column(TypeName = "VARCHAR")]
-    [StringLength(20)]
-    [Required]
-    public required string OrderProductName { get; init; }
     
 }

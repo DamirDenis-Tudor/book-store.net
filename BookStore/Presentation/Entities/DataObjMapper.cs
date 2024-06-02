@@ -20,12 +20,15 @@ namespace Presentation.Entities
 		{
 			return new ProductDto
 			{
-				Name = prod.ProductName,
-				Description = prod.Description,
 				Price = prod.Price,
-				Link = prod.Link,
 				Quantity = prod.OrderQuantity,
-				Category = ""
+				ProductInfoDto = new ProductInfoDto
+				{
+					Name = prod.ProductInfoDto.Name,
+					Description = prod.ProductInfoDto.Description,
+					Link = prod.ProductInfoDto.Link,
+					Category = prod.ProductInfoDto.Category,
+				}
 			};
 		}
 		
@@ -38,12 +41,15 @@ namespace Presentation.Entities
 		{
 			return new ProductDto
 			{
-				Name = prod.ProductDto.Name,
-				Description = prod.ProductDto.Description,
 				Price = prod.TotalRevenue,
-				Link = prod.ProductDto.Link,
 				Quantity = prod.TotalItemsSold,
-				Category = prod.ProductDto.Category
+				ProductInfoDto = new ProductInfoDto
+				{
+					Name = prod.ProductInfoDto.Name,
+					Description = prod.ProductInfoDto.Description,
+					Link = prod.ProductInfoDto.Link,
+					Category = prod.ProductInfoDto.Category,
+				}
 			};
 		}
 	}
