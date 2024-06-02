@@ -12,14 +12,15 @@
  *                                                                        *
  **************************************************************************/
 
+using Persistence.DTO.Product;
+
 namespace Persistence.DTO.Order;
 
 public record OrderProductDto
 {
-    public required string ProductName { get; init; }
-    public required string Description { get; init; }
     public decimal Price { get; init; }
     public required string SessionCode { get; init; }
     public required int OrderQuantity { get; init; }
-    public string? Link { get; init; }
+    
+    public required ProductInfoDto ProductInfoDto { get; init; }
 }

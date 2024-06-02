@@ -8,7 +8,7 @@ using Persistence.DTO.Order;
 using Persistence.DTO.Product;
 using Persistence.DTO.User;
 
-namespace Integration.Persistence;
+namespace UnitTesting.Persistence;
 
 public class Seeder
 {
@@ -30,7 +30,7 @@ public class Seeder
         JsonSerializer.Deserialize<List<UserBill>>(file)?.ForEach(userBill =>
             {
                 userBill.UserRegisterDto = GdprMapper.DoUserInfoDtoGdpr(userBill.UserRegisterDto);
-                userBill.BillDto = GdprMapper.DoBillGdpr(userBill.BillDto);
+                userBill.BillDto = GdprMapper.DoBillGdpr(userBill.BillDto, userBill.UserRegisterDto.Password);
                 Assert.That(PersistenceFacade.Instance.UserRepository
                     .RegisterUser(userBill.UserRegisterDto).IsSuccess, Is.EqualTo(true));
                 Assert.That(PersistenceFacade.Instance.BillRepository
@@ -60,7 +60,6 @@ public class Seeder
 
         JsonSerializer.Deserialize<List<OrderBto>>(file)?.ForEach(orderBto =>
             {
-                orderBto = GdprMapper.DoOrderBto(orderBto);
                 var orderSession = new OrderSessionDto
                 {
                     Username = orderBto.Username,
@@ -75,12 +74,10 @@ public class Seeder
                         if (!product.IsSuccess) return;
                         orderSession.OrderProducts.Add(new OrderProductDto
                         {
-                            ProductName = product.SuccessValue.Name,
-                            Description = product.SuccessValue.Description,
                             SessionCode = orderSession.SessionCode,
                             OrderQuantity = item.OrderQuantity,
                             Price = product.SuccessValue.Price * item.OrderQuantity,
-                            Link = product.SuccessValue.Link
+                            ProductInfoDto = product.SuccessValue.ProductInfoDto
                         });
                         orderSession.TotalPrice += product.SuccessValue.Price * item.OrderQuantity;
                     }

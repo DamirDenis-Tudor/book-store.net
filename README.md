@@ -11,6 +11,7 @@
     5. [Layers Interaction](#v-layers-interaction)
     6. [Components & Packages](#vi-components--packages)
     7. [Classes](#vii-classes)
+5. [Strengths&Weaknesses](#viii-strengthsweaknesses)
 
 
 
@@ -23,15 +24,24 @@
 
 ## 2. Teamwork
 
-- To see a detailed report about the work distribution consult the followig README's: 
-  - [Asmarandei Catalin](README_CATALIN.md)
-  - [Damir Denis-Tudor](README_DENIS.md)
-  - [Baroncea Andrei-Florin](README_ANDREI.md)
+[Damir Denis-Tudor](https://github.com/DamirDenis-Tudor)
+- **Tasks:**
+    - Designed the architecture.
+    - Implemented the Business, Persistence, Integration, and Commons layers.
+
+- **Gains:**
+    - Learned C# and became familiar with .NET's Entity Framework.
+    - Enhanced architectural system design and development skills.
+    - Improved teamwork collaboration by effectively separating tasks and working towards integration.
+
+[Asmarandei Catalin](https://github.com/PurpleFishh)
+- **Tasks**:
+  - TODO
+- **Gains**:
+  - TODO
+
 
 ## 3. Video Demo
-
----
-
 
 ---
 
@@ -61,7 +71,7 @@
 
 - Based on previous analysis, we identified that a layered pattern will fit our application specifics.
 - About the layers:
-    - Presentation is split into three separate parts (see the use cases).
+    - Presentation is split into three separate parts (see the use cases) + common layer.
     - Business includes a series of services for authentication, privacy, etc. Additionally, it defines a series of BTOs
       meant for presentation-related logic.
     - Persistence contains a series of repositories that encapsulate CRUD operations for each entity. Furthermore, it
@@ -92,4 +102,22 @@
 
 ![class_diagram.png](images/class_diagram.png)
 
+### VIII. Strengths&Weaknesses
 
+### Strengths
+- **Minimalistic and Effective Frontend:** The user interface is simple yet efficient, providing a good user experience.
+- **Cross Site Scripting:** Html sanitization of inputs implemented.
+- **GDPR Compliance:** User data protection regulations are respected, ensuring privacy and security.
+- **User Access Rights:** Different types of user access rights are implemented to maintain security and appropriate access control.
+- **Monolithic Design Approach:** The application follows a well-defined monolithic design approach with clear layer boundaries.
+- **Entity Relationships:** Entities and their relationships are well-defined, ensuring a robust and scalable architecture.
+
+### Weaknesses
+- **Session-Based Authentication:**
+    - The authentication system is session-based, with tokens stored in local storage.
+    - If someone gains access to the local storage within the session time (e.g., 5 minutes), they can potentially change the user's password.
+    - **Solution:** Personal details updates should require password confirmation.
+- **Encryption:** Encryption is based on the password hash, which may need enhancement for better security.
+- **Password Update:** Updating the password requires encryption of user-related information.
+- **Order Cart Storage:** The order cart is stored in local storage, which might need to be reconsidered for security reasons.
+- **Use Case Analysis:** The Shipper use case should be further analyzed for improvements.

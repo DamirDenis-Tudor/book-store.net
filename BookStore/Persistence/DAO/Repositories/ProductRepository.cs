@@ -17,6 +17,7 @@ using Microsoft.EntityFrameworkCore;
 using Persistence.DAL;
 using Persistence.DAO.Interfaces;
 using Persistence.DTO.Product;
+using Persistence.Entity;
 using Persistence.Mappers;
 
 
@@ -28,25 +29,29 @@ internal class ProductRepository(DatabaseContext dbContext) : IProductRepository
     {
         try
         {
-            if (GetProduct(productDto.Name).IsSuccess)
+            if (GetProduct(productDto.ProductInfoDto.Name).IsSuccess)
                 return Result<VoidResult, DaoErrorType>.Fail(DaoErrorType.AlreadyRegistered,
-                    $"Product {productDto.Name} already registered.");
+                    $"Product {productDto.ProductInfoDto.Name} already registered.");
             dbContext.Products.Add(MapperDto.MapToProduct(productDto));
             dbContext.SaveChanges();
         }
         catch (DbUpdateException e)
         {
             return Result<VoidResult, DaoErrorType>.Fail(DaoErrorType.DatabaseError,
-                $"Failed to register product {productDto.Name}: {e}");
+                $"Failed to register product {productDto.ProductInfoDto.Name}: {e}");
         }
 
-        return Result<VoidResult, DaoErrorType>.Success(VoidResult.Get(), $"Product {productDto.Name} registered successfully.");
+        return Result<VoidResult, DaoErrorType>.Success(VoidResult.Get(),
+            $"Product {productDto.ProductInfoDto.Name} registered successfully.");
     }
 
     public Result<IList<string>, DaoErrorType> GetCategories()
     {
         var categories = new List<string>();
-        dbContext.Products.ToList().ForEach(product => { categories.Add(product.Category); });
+        dbContext.Products.Include(product => product.ProductInfo).ToList().ForEach(product =>
+        {
+            categories.Add(product.ProductInfo.Category);
+        });
 
         return categories.Count != 0
             ? Result<IList<string>, DaoErrorType>.Success(categories.Distinct().ToList(),
@@ -56,7 +61,12 @@ internal class ProductRepository(DatabaseContext dbContext) : IProductRepository
 
     public Result<ProductDto, DaoErrorType> GetProduct(string name)
     {
-        var productDto = MapperDto.MapToProductDto(dbContext.Products.FirstOrDefault(p => p.Name == name));
+        var productDto = MapperDto.MapToProductDto(
+            dbContext.Products
+                .Include(p => p.ProductInfo)
+                .FirstOrDefault(p => p.ProductInfo.Name == name)
+        );
+
         if (productDto == null)
             return Result<ProductDto, DaoErrorType>
                 .Fail(DaoErrorType.NotFound, $"Product {name} not found.");
@@ -68,13 +78,16 @@ internal class ProductRepository(DatabaseContext dbContext) : IProductRepository
     public Result<IList<ProductDto>, DaoErrorType> GetAllProducts()
     {
         var products = new List<ProductDto>();
-        
-		dbContext.Products.ToList().ForEach(p =>
-        {
-            dbContext.Entry(p).Reload();
-            products.Add(MapperDto.MapToProductDto(p)!);
-        });
-        
+
+        dbContext.Products
+            .Include(p => p.ProductInfo)
+            .ToList()
+            .ForEach(p =>
+            {
+                dbContext.Entry(p).Reload();
+                products.Add(MapperDto.MapToProductDto(p)!);
+            });
+
         return products.Count != 0
             ? Result<IList<ProductDto>, DaoErrorType>.Success(products, "Products fetched succesfully.")
             : Result<IList<ProductDto>, DaoErrorType>.Fail(DaoErrorType.ListIsEmpty, "No products registered.");
@@ -83,10 +96,13 @@ internal class ProductRepository(DatabaseContext dbContext) : IProductRepository
     public Result<IList<ProductDto>, DaoErrorType> GetAllProductsByCategory(string category)
     {
         var orderSessions = dbContext.Products
-            .Where(p => p.Category == category)
+            .Include(p => p.ProductInfo)
+            .Where(p => p.ProductInfo.Category == category)
             .ToList();
 
-        var orderSessionDtos = orderSessions.Select(MapperDto.MapToProductDto).ToList();
+        var orderSessionDtos = orderSessions
+            .Select(MapperDto.MapToProductDto)
+            .ToList();
 
         return orderSessions.Count != 0 && orderSessionDtos.Count != 0
             ? Result<IList<ProductDto>, DaoErrorType>.Success(orderSessionDtos!, "Products list returned.")
@@ -96,25 +112,28 @@ internal class ProductRepository(DatabaseContext dbContext) : IProductRepository
     public Result<IList<ProductStatsDto>, DaoErrorType> GetAllProductsStats()
     {
         var products = new List<ProductStatsDto>();
-        dbContext.Products.Include(p => p.OrderProducts).ToList()
+        dbContext.ProductInfos
+            .Include(p => p.OrderProducts)
+            .ToList()
             .ForEach(
                 p =>
                 {
                     var totalRevenue = 0.0m;
                     var totalItemsSold = 0;
-                    p.OrderProducts?.ToList()
+                    p.OrderProducts.ToList()
                         .ForEach(
                             o =>
                             {
-                                totalRevenue += p.Price * o.Quantity;
+                                totalRevenue += o.OrderTimePrice;
                                 totalItemsSold += o.Quantity;
                             }
                         );
+
                     products.Add(new ProductStatsDto
                     {
                         TotalRevenue = totalRevenue,
                         TotalItemsSold = totalItemsSold,
-                        ProductDto = MapperDto.MapToProductDto(p)!
+                        ProductInfoDto = MapperDto.MapToProductStatDto(p)!
                     });
                 });
 
@@ -124,7 +143,10 @@ internal class ProductRepository(DatabaseContext dbContext) : IProductRepository
 
     public Result<VoidResult, DaoErrorType> UpdatePrice(string name, decimal newPrice)
     {
-        var existingProduct = dbContext.Products.FirstOrDefault(p => p.Name == name);
+        var existingProduct = dbContext.Products
+            .Include(p => p.ProductInfo)
+            .FirstOrDefault(p => p.ProductInfo.Name == name);
+
         if (existingProduct == null)
         {
             return Result<VoidResult, DaoErrorType>.Fail(DaoErrorType.NotFound, $"Product '{name}' not found.");
@@ -148,7 +170,10 @@ internal class ProductRepository(DatabaseContext dbContext) : IProductRepository
 
     public Result<VoidResult, DaoErrorType> UpdateQuantity(string name, int quantity)
     {
-        var existingProduct = dbContext.Products.FirstOrDefault(p => p.Name == name);
+        var existingProduct = dbContext.Products
+            .Include(p => p.ProductInfo)
+            .FirstOrDefault(p => p.ProductInfo.Name == name);
+
         if (existingProduct == null)
             return Result<VoidResult, DaoErrorType>.Fail(DaoErrorType.NotFound, $"Product '{name}' not found.");
 
@@ -172,7 +197,10 @@ internal class ProductRepository(DatabaseContext dbContext) : IProductRepository
     {
         try
         {
-            var existingProduct = dbContext.Products.FirstOrDefault(p => p.Name == name);
+            var existingProduct = dbContext.Products
+                .Include(p => p.ProductInfo)
+                .Include(p => p.OrderProducts)
+                .FirstOrDefault(p => p.ProductInfo.Name == name);
             if (existingProduct == null)
                 return Result<VoidResult, DaoErrorType>.Fail(DaoErrorType.NotFound, $"Product '{name}' not found.");
             dbContext.Products.Remove(existingProduct);
@@ -181,7 +209,7 @@ internal class ProductRepository(DatabaseContext dbContext) : IProductRepository
         catch (DbUpdateException e)
         {
             return Result<VoidResult, DaoErrorType>.Fail(DaoErrorType.DatabaseError,
-                $"Failed to delete product '{name}'.");
+                $"Failed to delete product {name}: {e}");
         }
 
         return Result<VoidResult, DaoErrorType>.Success(VoidResult.Get(), $"Product '{name}' deleted successfully.");

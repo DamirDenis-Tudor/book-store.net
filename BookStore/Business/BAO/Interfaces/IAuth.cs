@@ -36,14 +36,14 @@ public interface IAuth
     /// </summary>
     /// <param name="token">The session token to check.</param>
     /// <returns>A result indicating whether the session is valid, or an error type.</returns>
-    Result<VoidResult, BaoErrorType> CheckSession(string? token);
+    Result<VoidResult, BaoErrorType> CheckSession(string token);
 
     /// <summary>
     /// Logs out a user.
     /// </summary>
     /// <param name="token">The session token to log out.</param>
     /// <returns>A result indicating whether the logout was successful, or an error type.</returns>
-    Result<VoidResult, BaoErrorType> Logout(string? token);
+    Result<VoidResult, BaoErrorType> Logout(string token);
 
     /// <summary>
     /// Retrieves the username associated with a given token.

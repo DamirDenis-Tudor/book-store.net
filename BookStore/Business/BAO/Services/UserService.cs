@@ -27,7 +27,7 @@ namespace Business.BAO.Services;
 internal class UserService : IUsers
 {
     private readonly ILogger _logger = Logger.Instance.GetLogger<UserService>();
-    
+
     private readonly PersistenceFacade _persistenceFacade = PersistenceFacade.Instance;
 
     public Result<VoidResult, BaoErrorType> RegisterClient(UserRegisterDto userRegisterDto)
@@ -41,7 +41,7 @@ internal class UserService : IUsers
         var result = _persistenceFacade.UserRepository.RegisterUser(gdprUserInfoDto);
 
         _logger.LogInformation(result.Message);
-        
+
         if (result.IsSuccess)
             return Result<VoidResult, BaoErrorType>.Success(VoidResult.Get(),
                 $"User {userRegisterDto.Username} succesfully registered.");
@@ -55,24 +55,25 @@ internal class UserService : IUsers
 
     public Result<VoidResult, BaoErrorType> RegisterProvider(string requester, UserRegisterDto userRegisterDto)
     {
+
         if (!UserTypeChecker.CheckIfAdmin(username: requester))
             return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.UserNotAllowed,
                 $"Username {requester} is not ADMIN.");
 
         if (userRegisterDto.UserType != "PROVIDER")
             return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.InvalidUserType,
-                $"Could not register the user {userRegisterDto.Username}. Usertype not PROVIDER.");
+                $"Could not register the user {userRegisterDto.Username}.");
 
         var gdprUserInfoDto = GdprMapper.DoUserInfoDtoGdpr(userRegisterDto);
         var register = _persistenceFacade.UserRepository.RegisterUser(gdprUserInfoDto);
-        
+
         _logger.LogInformation(register.Message);
-        
+
         return !register.IsSuccess
             ? Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.DatabaseError,
                 $"Database error while register {userRegisterDto.Username}")
             : Result<VoidResult, BaoErrorType>.Success(VoidResult.Get(),
-                $"User {userRegisterDto.Username} succesfully registered.");
+                $"User {userRegisterDto.Username} successfully registered.");
     }
 
     public Result<IList<UserInfoDto>, BaoErrorType> GetAllUsers(string requester)
@@ -82,15 +83,16 @@ internal class UserService : IUsers
                 $"Username {requester} is not ADMIN.");
 
         var result = _persistenceFacade.UserRepository.GetAllUsers();
-        
+
         _logger.LogInformation(result.Message);
-        
+
         if (!result.IsSuccess)
             return Result<IList<UserInfoDto>, BaoErrorType>.Fail(BaoErrorType.DatabaseError, result.Message);
 
         for (var i = 0; i < result.SuccessValue.Count; i++)
         {
-            result.SuccessValue[i] = GdprMapper.UndoUserInfoDtoGdpr(result.SuccessValue[i]);
+            var userKey = PersistenceFacade.Instance.UserRepository.GetUserPassword(result.SuccessValue[i].Username);
+            result.SuccessValue[i] = GdprMapper.UndoUserInfoDtoGdpr(result.SuccessValue[i], userKey.SuccessValue);
         }
 
         return result.SuccessValue.Count > 1
@@ -101,49 +103,78 @@ internal class UserService : IUsers
 
     public Result<UserInfoDto, BaoErrorType> GetUserInfo(string username)
     {
-        var result = _persistenceFacade.UserRepository.GetUser(GdprUtility.Encrypt(username));
+        var encryptionKey = AuthService.GetEncryptionKey(username);
+        if (!encryptionKey.IsSuccess)
+            return Result<UserInfoDto, BaoErrorType>.Fail(BaoErrorType.KeyNotFound, encryptionKey.Message);
+
+        var result = _persistenceFacade.UserRepository.GetUser(username);
 
         _logger.LogInformation(result.Message);
-        
+
         return result.IsSuccess
-            ? Result<UserInfoDto, BaoErrorType>.Success(GdprMapper.UndoUserInfoDtoGdpr(result.SuccessValue))
+            ? Result<UserInfoDto, BaoErrorType>.Success(GdprMapper.UndoUserInfoDtoGdpr(result.SuccessValue, encryptionKey.SuccessValue))
             : Result<UserInfoDto, BaoErrorType>.Fail(BaoErrorType.DatabaseError,
                 $"Database error while retrieving info for user {username}");
     }
 
     public Result<BillDto, BaoErrorType> GetUserBillInfo(string username)
     {
-        var result = _persistenceFacade.BillRepository.GetBillingDetails(GdprUtility.Encrypt(username));
+        var encryptionKey = AuthService.GetEncryptionKey(username);
+        if (!encryptionKey.IsSuccess)
+            return Result<BillDto, BaoErrorType>.Fail(BaoErrorType.KeyNotFound, encryptionKey.Message);
+
+        var result = _persistenceFacade.BillRepository.GetBillingDetails(username);
 
         _logger.LogInformation(result.Message);
-        
+
         return result.IsSuccess
-            ? Result<BillDto, BaoErrorType>.Success(GdprMapper.UndoBillGdpr(result.SuccessValue))
-            : Result<BillDto, BaoErrorType>.Fail(BaoErrorType.DatabaseError,
-                $"Database error while retrieving bill info for user {username}");
+            ? Result<BillDto, BaoErrorType>.Success(GdprMapper.UndoBillGdpr(result.SuccessValue, encryptionKey.SuccessValue))
+            : Result<BillDto, BaoErrorType>.Fail(BaoErrorType.BillDetailsNotFounded,
+                $"Error while retrieving bill info for user {username}");
     }
 
     public Result<VoidResult, BaoErrorType> UpdateUser(string username, UserRegisterDto userRegisterDto)
     {
+        var encryptionKey = AuthService.GetEncryptionKey(username);
+        if (!encryptionKey.IsSuccess)
+            return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.KeyNotFound, encryptionKey.Message);
+    
         var gdprUserInfoDto = GdprMapper.DoUserInfoDtoGdpr(userRegisterDto);
 
-        var result = _persistenceFacade.UserRepository.UpdateUser(GdprUtility.Encrypt(username), gdprUserInfoDto);
-        
+        var result = _persistenceFacade.UserRepository.UpdateUser(username, gdprUserInfoDto);
         _logger.LogInformation(result.Message);
-        
-        return result.IsSuccess
-            ? Result<VoidResult, BaoErrorType>.Success(VoidResult.Get(),
-                $"User {username} successfully updated.")
-            : Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.DatabaseError,
+
+        if (!result.IsSuccess)
+            return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.FailedToUpdate,
                 $"Database error while updating user {username}");
+
+        if (userRegisterDto.Password == "")
+            return Result<VoidResult, BaoErrorType>.Success(VoidResult.Get(),
+                $"User {username} successfully updated.");
+
+        var billDetails = _persistenceFacade.BillRepository.GetBillingDetails(gdprUserInfoDto.Username);
+        if (!billDetails.IsSuccess)
+            return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.FailedToEncryptBillDetails,
+                $"Bill details of {username}, not found.");
+
+        var decryptedDetails = GdprMapper.UndoBillGdpr(billDetails.SuccessValue, encryptionKey.SuccessValue);
+        _persistenceFacade.BillRepository.UpdateBillByUsername(gdprUserInfoDto.Username,
+            GdprMapper.DoBillGdpr(decryptedDetails, gdprUserInfoDto.Password));
+
+        return Result<VoidResult, BaoErrorType>.Success(VoidResult.Get(),
+            $"User {username} successfully updated and encrypted.");
     }
 
     public Result<VoidResult, BaoErrorType> UpdateBill(string username, BillDto billDto)
     {
-        var result = _persistenceFacade.BillRepository.UpdateBillByUsername(GdprUtility.Encrypt(username), GdprMapper.DoBillGdpr(billDto));
+        var encryptionKey = AuthService.GetEncryptionKey(username);
+        if (!encryptionKey.IsSuccess)
+            return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.KeyNotFound, encryptionKey.Message);
+        
+        var result = _persistenceFacade.BillRepository.UpdateBillByUsername(username, GdprMapper.DoBillGdpr(billDto, encryptionKey.SuccessValue));
 
         _logger.LogInformation(result.Message);
-        
+
         return result.IsSuccess
             ? Result<VoidResult, BaoErrorType>.Success(VoidResult.Get(),
                 $"Bill for user {username} successfully updated.")
@@ -157,10 +188,10 @@ internal class UserService : IUsers
             return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.UserNotAllowed,
                 $"Username {requester} is not ADMIN.");
 
-        var result = _persistenceFacade.UserRepository.DeleteUser(GdprUtility.Encrypt(username));
-        
+        var result = _persistenceFacade.UserRepository.DeleteUser(username);
+
         _logger.LogInformation(result.Message);
-        
+
         return result.IsSuccess
             ? Result<VoidResult, BaoErrorType>.Success(VoidResult.Get(),
                 $"User {username} successfully deleted.")

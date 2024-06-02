@@ -29,6 +29,6 @@ namespace PresentationClient.Entities
 	{
 		public IList<ProductDto> GetProducts() => BusinessFacade.Instance.InventoryService.GetInventory().SuccessValue;
 
-		public IList<string> GetCategories() => GetProducts().Select(prod => prod.Category).Distinct().ToList();
+		public IList<string> GetCategories() => GetProducts().Select(prod => prod.ProductInfoDto.Category).Distinct().ToList();
 	}
 }

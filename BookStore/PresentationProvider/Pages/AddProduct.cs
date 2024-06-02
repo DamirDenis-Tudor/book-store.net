@@ -97,12 +97,15 @@ namespace PresentationProvider.Pages
             {
                 return new ProductDto()
                 {
-                    Name = Sanitizer.SanitizeString(Name),
                     Price = Price,
                     Quantity = Quantity,
-                    Category = Sanitizer.SanitizeString(Category),
-                    Description = Sanitizer.SanitizeString(Description),
-                    Link = Sanitizer.SanitizeString(Photo ?? "")
+                    ProductInfoDto = new ProductInfoDto
+                    {
+                        Name = Sanitizer.SanitizeString(Name),
+                        Category = Sanitizer.SanitizeString(Category),
+                        Description = Sanitizer.SanitizeString(Description),
+                        Link = Sanitizer.SanitizeString(Photo ?? "")
+                    }
                 };
             }
         }

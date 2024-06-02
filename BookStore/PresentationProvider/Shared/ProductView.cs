@@ -57,7 +57,7 @@ namespace PresentationProvider.Shared
         /// He will be redirected to the update page with the product name in a query
         /// </summary>
         private void ProductEdit() => NavigationManager
-            .NavigateTo($"/update-product?product={Product.Name.Replace("\n", "%0A")}");
+            .NavigateTo($"/update-product?product={Product.ProductInfoDto.Name.Replace("\n", "%0A")}");
 
         /// <summary>
         /// Confirm dialog for removing the product
@@ -87,7 +87,7 @@ namespace PresentationProvider.Shared
                     Logger.Instance.GetLogger<ProductView>().LogError(result.Message);
                     return;
                 }
-                Business.InventoryService.DeleteProduct(result.SuccessValue, Product.Name);
+                Business.InventoryService.DeleteProduct(result.SuccessValue, Product.ProductInfoDto.Name);
                 NavigationManager.NavigateTo("/home", true);
             }
         }

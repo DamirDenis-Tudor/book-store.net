@@ -22,7 +22,6 @@ namespace Business.Utilities;
 /// </summary>
 internal static class GdprUtility
 {
-    private static readonly byte[] Key = Convert.FromBase64String("y+4VFip9Kiav9xWAic9PPA==");
     private static readonly byte[] Iv = Convert.FromBase64String("AQIDBAUGBwgJCgsMDQ4PEA==");
         
     /// <summary>
@@ -47,11 +46,16 @@ internal static class GdprUtility
     /// Encrypts the input string using AES encryption.
     /// </summary>
     /// <param name="input">The input string to be encrypted.</param>
+    /// <param name="key">Encryption key.</param>
     /// <returns>The Base64 encoded encrypted string.</returns>
-    public static string Encrypt(string input)
+    public static string Encrypt(string input, string key)
     {
         using var aes = Aes.Create();
-        aes.Key = Key;
+        
+        var sizedKey = new byte[16];
+        Array.Copy(Convert.FromBase64String(key),sizedKey , 16);
+        
+        aes.Key = sizedKey;
         aes.IV = Iv;
             
         var encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
@@ -70,16 +74,22 @@ internal static class GdprUtility
     /// Decrypts the input string using AES decryption.
     /// </summary>
     /// <param name="input">The Base64 encoded encrypted string.</param>
+    /// <param name="key">Decryption key.</param>
     /// <returns>The decrypted string.</returns>
-    public static string Decrypt(string input)
+    public static string Decrypt(string input,string key)
     {
         using var aes = Aes.Create();
-        aes.Key = Key;
+        
+        var sizedKey = new byte[16];
+        Array.Copy(Convert.FromBase64String(key),sizedKey , 16);
+        
+        aes.Key = sizedKey;
         aes.IV = Iv;
-        var decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
+        
+        var decrypt = aes.CreateDecryptor(aes.Key, aes.IV);
 
         using var memoryStream = new MemoryStream(Convert.FromBase64String(input));
-        using var cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read);
+        using var cryptoStream = new CryptoStream(memoryStream, decrypt, CryptoStreamMode.Read);
         using var streamReader = new StreamReader(cryptoStream);
             
         return streamReader.ReadToEnd();

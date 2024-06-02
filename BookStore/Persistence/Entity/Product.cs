@@ -18,39 +18,27 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.Entity;
 
-[Index(nameof(Name), IsUnique = true)]
+
 internal class Product
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; init; }
 
-    [Column(TypeName = "VARCHAR")]
-    [StringLength(50)]
-    [Required]
-    public required string Name { get; init; }
-
     [Column(TypeName = "DECIMAL(18, 2)")]
     [Required]
     public required decimal Price { get; set; }
 
-    [Column(TypeName = "INT")] [Required] public required int Quantity { get; set; }
+    [Column(TypeName = "INT")] 
+    [Required] public required int Quantity { get; set; }
     
-    [Column(TypeName = "VARCHAR")]
-    [StringLength(50)]
-    [Required]
-    public required string Category { get; init; }
-    
-    [Column(TypeName = "VARCHAR")]
-    [StringLength(1000)]
-    [Required]
-    public required string Description { get; init; }
+    [Column]
+    public int? ProductInfoId { get; init; }
 
-    [Column(TypeName = "VARCHAR")]
-    [StringLength(150)]
+    [ForeignKey(nameof(ProductInfoId))] 
     [Required]
-    public string? Link { get; init; }
+    public required ProductInfo ProductInfo { get; init; }
 
     [DeleteBehavior(DeleteBehavior.Restrict)]
-    public required IList<OrderProduct> OrderProducts { get; init; }
+    public required IList<OrderProduct> OrderProducts { get; init; } = new List<OrderProduct>();
 }

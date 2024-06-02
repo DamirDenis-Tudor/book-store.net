@@ -4,7 +4,7 @@ using Persistence.DTO.Order;
 using Persistence.DTO.Product;
 using Persistence.DTO.User;
 
-namespace Integration.Persistence.UnitTesting;
+namespace UnitTesting.Persistence.UnitTesting;
 
 public class OverallPersistenceUnitTest
 {
@@ -24,16 +24,28 @@ public class OverallPersistenceUnitTest
 
     private readonly List<ProductDto> _products =
     [
-        new ProductDto { Name = "Lecture1",Description = "", Price = 10.0m, Quantity = 100, Category = "Books", Link = ".png" },
-        new ProductDto { Name = "Lecture2",Description = "", Price = 15.0m, Quantity = 100, Category = "Books", Link = ".png" },
-        new ProductDto { Name = "Laptop1",Description = "", Price = 20.0m, Quantity = 100, Category = "Laptops", Link = ".png" }
+        new ProductDto
+        {
+            ProductInfoDto = new ProductInfoDto { Name = "Lecture1", Description = "TEST", Category = "Books" },
+            Price = 10.0m, Quantity = 100,
+        },
+        new ProductDto
+        {
+            ProductInfoDto = new ProductInfoDto { Name = "Lecture2", Description = "TEST", Category = "Books" },
+            Price = 15.0m, Quantity = 100,
+        },
+        new ProductDto
+        {
+            ProductInfoDto = new ProductInfoDto { Name = "Lecture3", Description = "TEST", Category = "Laptops" },
+            Price = 20.0m, Quantity = 100,
+        }
     ];
 
     [SetUp]
     public void RegisterUnitTest()
     {
         PersistenceFacade.Instance.SetIntegrationMode(IntegrationMode.Testing);
-        
+
         Assert.That(PersistenceFacade.Instance.UserRepository.RegisterUser(_user).IsSuccess, Is.EqualTo(true));
         Assert.That(
             PersistenceFacade.Instance.BillRepository.UpdateBillByUsername(_user.Username, _billDto).IsSuccess,
@@ -44,7 +56,7 @@ public class OverallPersistenceUnitTest
 
         List<OrderProductDto> orderProductDtos = [];
         _products.ForEach(p => orderProductDtos.Add(new OrderProductDto
-            { ProductName = p.Name,Description = "", SessionCode = _sessionCode, OrderQuantity = new Random().Next(100) })
+            { ProductInfoDto = p.ProductInfoDto, SessionCode = _sessionCode, OrderQuantity = new Random().Next(100) })
         );
 
         var orderSessionDto = new OrderSessionDto
@@ -63,7 +75,7 @@ public class OverallPersistenceUnitTest
     public void DeleteUnitTest()
     {
         Assert.That(PersistenceFacade.Instance.UserRepository.DeleteUser(_user.Username).IsSuccess, Is.EqualTo(true));
-        _products.ForEach(p => PersistenceFacade.Instance.ProductRepository.DeleteProduct(p.Name));
+        _products.ForEach(p => PersistenceFacade.Instance.ProductRepository.DeleteProduct(p.ProductInfoDto.Name));
     }
 
     [Test]
@@ -76,5 +88,7 @@ public class OverallPersistenceUnitTest
         var userOrders = PersistenceFacade.Instance.OrderRepository.GetAllOrdersByUsername(_user.Username);
         Assert.That(userOrders.IsSuccess, Is.EqualTo(true));
         userOrders.SuccessValue.ToList().ForEach(Console.WriteLine);
+
+        PersistenceFacade.Instance.ProductRepository.DeleteProduct("Lecture1");
     }
 }

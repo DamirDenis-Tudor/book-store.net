@@ -102,7 +102,7 @@ public partial class ProductUpdate
     protected override void OnInitialized()
     {
         var result = ProductsScope.GetProducts()
-            .FirstOrDefault(prod => prod.Name == ProductName.Replace("%0A", "\n"));
+            .FirstOrDefault(prod => prod.ProductInfoDto.Name == ProductName.Replace("%0A", "\n"));
         if (result != null && result.Equals(default))
             NavigationManager.NavigateTo("/home");
         else if (result != null) _modifyProduct.Deserialize(result);
@@ -126,7 +126,7 @@ public partial class ProductUpdate
         var username = Business.AuthService.GetUsername(sessionToken);
 
         var remoteInfo = ProductsScope.GetProducts()
-            .FirstOrDefault(prod => prod.Name == ProductName.Replace("%0A", "\n"));
+            .FirstOrDefault(prod => prod.ProductInfoDto.Name == ProductName.Replace("%0A", "\n"));
         Console.WriteLine("2");
         if (remoteInfo != null && remoteInfo.Price != _modifyProduct.Price)
         {
