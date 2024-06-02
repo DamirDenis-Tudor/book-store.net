@@ -55,11 +55,8 @@ internal class UserService : IUsers
 
     public Result<VoidResult, BaoErrorType> RegisterProvider(string requester, UserRegisterDto userRegisterDto)
     {
-        var encryptionKey = AuthService.GetEncryptionKey(requester);
-        if (!encryptionKey.IsSuccess)
-            return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.KeyNotFound, encryptionKey.Message);
 
-        if (!UserTypeChecker.CheckIfAdmin(username: requester, encryptionKey.SuccessValue))
+        if (!UserTypeChecker.CheckIfAdmin(username: requester))
             return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.UserNotAllowed,
                 $"Username {requester} is not ADMIN.");
 
@@ -81,13 +78,7 @@ internal class UserService : IUsers
 
     public Result<IList<UserInfoDto>, BaoErrorType> GetAllUsers(string requester)
     {
-        var encryptionKey = AuthService.GetEncryptionKey(requester);
-        if (!encryptionKey.IsSuccess)
-            return Result<IList<UserInfoDto>, BaoErrorType>.Fail(BaoErrorType.KeyNotFound, encryptionKey.Message);
-
-        var key = encryptionKey.SuccessValue;
-
-        if (!UserTypeChecker.CheckIfAdmin(username: requester, key))
+        if (!UserTypeChecker.CheckIfAdmin(username: requester))
             return Result<IList<UserInfoDto>, BaoErrorType>.Fail(BaoErrorType.UserNotAllowed,
                 $"Username {requester} is not ADMIN.");
 
@@ -116,14 +107,12 @@ internal class UserService : IUsers
         if (!encryptionKey.IsSuccess)
             return Result<UserInfoDto, BaoErrorType>.Fail(BaoErrorType.KeyNotFound, encryptionKey.Message);
 
-        var key = encryptionKey.SuccessValue;
-
-        var result = _persistenceFacade.UserRepository.GetUser(GdprUtility.Encrypt(username, key));
+        var result = _persistenceFacade.UserRepository.GetUser(username);
 
         _logger.LogInformation(result.Message);
 
         return result.IsSuccess
-            ? Result<UserInfoDto, BaoErrorType>.Success(GdprMapper.UndoUserInfoDtoGdpr(result.SuccessValue, key))
+            ? Result<UserInfoDto, BaoErrorType>.Success(GdprMapper.UndoUserInfoDtoGdpr(result.SuccessValue, encryptionKey.SuccessValue))
             : Result<UserInfoDto, BaoErrorType>.Fail(BaoErrorType.DatabaseError,
                 $"Database error while retrieving info for user {username}");
     }
@@ -134,14 +123,12 @@ internal class UserService : IUsers
         if (!encryptionKey.IsSuccess)
             return Result<BillDto, BaoErrorType>.Fail(BaoErrorType.KeyNotFound, encryptionKey.Message);
 
-        var key = encryptionKey.SuccessValue;
-
-        var result = _persistenceFacade.BillRepository.GetBillingDetails(GdprUtility.Encrypt(username, key));
+        var result = _persistenceFacade.BillRepository.GetBillingDetails(username);
 
         _logger.LogInformation(result.Message);
 
         return result.IsSuccess
-            ? Result<BillDto, BaoErrorType>.Success(GdprMapper.UndoBillGdpr(result.SuccessValue, key))
+            ? Result<BillDto, BaoErrorType>.Success(GdprMapper.UndoBillGdpr(result.SuccessValue, encryptionKey.SuccessValue))
             : Result<BillDto, BaoErrorType>.Fail(BaoErrorType.DatabaseError,
                 $"Database error while retrieving bill info for user {username}");
     }
@@ -152,11 +139,9 @@ internal class UserService : IUsers
         if (!encryptionKey.IsSuccess)
             return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.KeyNotFound, encryptionKey.Message);
 
-        var key = encryptionKey.SuccessValue;
-
         var gdprUserInfoDto = GdprMapper.DoUserInfoDtoGdpr(userRegisterDto);
 
-        var result = _persistenceFacade.UserRepository.UpdateUser(GdprUtility.Encrypt(username, key), gdprUserInfoDto);
+        var result = _persistenceFacade.UserRepository.UpdateUser(username, gdprUserInfoDto);
         _logger.LogInformation(result.Message);
 
         if (!result.IsSuccess)
@@ -172,7 +157,7 @@ internal class UserService : IUsers
             return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.FailedToEncryptBillDetails,
                 $"Bill details of {username}, not found.");
 
-        var decryptedDetails = GdprMapper.UndoBillGdpr(billDetails.SuccessValue, key);
+        var decryptedDetails = GdprMapper.UndoBillGdpr(billDetails.SuccessValue, encryptionKey.SuccessValue);
         _persistenceFacade.BillRepository.UpdateBillByUsername(gdprUserInfoDto.Username,
             GdprMapper.DoBillGdpr(decryptedDetails, gdprUserInfoDto.Password));
 
@@ -185,13 +170,8 @@ internal class UserService : IUsers
         var encryptionKey = AuthService.GetEncryptionKey(username);
         if (!encryptionKey.IsSuccess)
             return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.KeyNotFound, encryptionKey.Message);
-
-        var key = encryptionKey.SuccessValue;
-
-        var result = _persistenceFacade.BillRepository.UpdateBillByUsername(
-            GdprUtility.Encrypt(username, key),
-            GdprMapper.DoBillGdpr(billDto, key)
-        );
+        
+        var result = _persistenceFacade.BillRepository.UpdateBillByUsername(username, GdprMapper.DoBillGdpr(billDto, encryptionKey.SuccessValue));
 
         _logger.LogInformation(result.Message);
 
@@ -204,17 +184,11 @@ internal class UserService : IUsers
 
     public Result<VoidResult, BaoErrorType> DeleteUser(string requester, string username)
     {
-        var encryptionKey = AuthService.GetEncryptionKey(username);
-        if (!encryptionKey.IsSuccess)
-            return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.KeyNotFound, encryptionKey.Message);
-
-        var key = encryptionKey.SuccessValue;
-
-        if (!UserTypeChecker.CheckIfAdmin(username: requester, key))
+        if (!UserTypeChecker.CheckIfAdmin(username: requester))
             return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.UserNotAllowed,
                 $"Username {requester} is not ADMIN.");
 
-        var result = _persistenceFacade.UserRepository.DeleteUser(GdprUtility.Encrypt(username, key));
+        var result = _persistenceFacade.UserRepository.DeleteUser(username);
 
         _logger.LogInformation(result.Message);
 
