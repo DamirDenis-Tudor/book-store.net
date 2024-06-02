@@ -18,7 +18,6 @@ using Business.BTO;
 using Business.Mappers;
 using Business.Utilities;
 using Common;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Logging;
 using Persistence.DAL;
 
@@ -46,8 +45,7 @@ internal class AuthService : IAuth
     public Result<string, BaoErrorType> Login(UserLoginBto userLoginBto, LoginMode loginMode)
     {
         if (loginMode != UserTypeChecker.GetLoginMode(userLoginBto.Username))
-            return Result<string, BaoErrorType>.Fail(BaoErrorType.UserPasswordNotFound,
-                $"Invalid login data.");
+            return Result<string, BaoErrorType>.Fail(BaoErrorType.InvalidUserType, "Invalid login data.");
 
         var gdprUserLoginBto = GdprMapper.DoUserLoginBto(userLoginBto);
         var password = _persistenceFacade.UserRepository.GetUserPassword(gdprUserLoginBto.Username);
@@ -79,7 +77,7 @@ internal class AuthService : IAuth
         
         var keyValuePair =  Keys.FirstOrDefault(s => s.Key == sessionToRemove.Key);
         if (LoginMode.None == UserTypeChecker.GetLoginMode(keyValuePair.Key))
-            return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.InvalidSession, "Invalid session.");
+            return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.InvalidSession, "User was deleted.");
 
         if (sessionToRemove.Value.Item1 != token)
             return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.InvalidSession, "Invalid session.");
@@ -94,13 +92,13 @@ internal class AuthService : IAuth
     }
 
 
-    public Result<VoidResult, BaoErrorType> Logout(string? token)
+    public Result<VoidResult, BaoErrorType> Logout(string token)
     {
         var sessionToRemove = _sessions.FirstOrDefault(s => s.Value.Item1 == token);
 
         if (sessionToRemove.Equals(default(KeyValuePair<string, Tuple<string, DateTime>>)))
             return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.UserSessionNotFound,
-                $"No session found for token {token}.");
+                $"User {sessionToRemove.Key} is already logged-out.");
         
         _sessions.Remove(sessionToRemove.Key);
         Keys.Remove(sessionToRemove.Key);

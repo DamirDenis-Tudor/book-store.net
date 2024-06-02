@@ -111,10 +111,9 @@ internal class InventoryService : IInventory
         _logger.LogInformation(delete.Message);
         
         if (!delete.IsSuccess)
-            return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.FailedToRegisterProduct,
-                $"Username {requester} is not PROVIDER.");
+            return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.FailedToDeleteAProduct,
+                $"Product {productName} could not be deleted.");
         
         return Result<VoidResult, BaoErrorType>.Success(VoidResult.Get());
-
     }
 }
