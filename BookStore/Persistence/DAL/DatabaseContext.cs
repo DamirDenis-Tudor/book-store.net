@@ -45,6 +45,11 @@ internal sealed class DatabaseContext : DbContext
     /// DbSet for order products.
     /// </summary>
     public DbSet<OrderProduct> OrdersProducts { get; init; }
+    
+    /// <summary>
+    /// DbSet for order products.
+    /// </summary>
+    public DbSet<ProductInfo> ProductInfos { get; init; }
 
     /// <summary>
     /// DbSet for products.
@@ -91,5 +96,6 @@ internal sealed class DatabaseContext : DbContext
         modelBuilder.Entity<OrderSession>().ToTable("OrderSessions");
         modelBuilder.Entity<Product>().ToTable("Product");
         modelBuilder.Entity<BillDetails>().ToTable("BillDetails");
+        modelBuilder.Entity<ProductInfo>().ToTable("ProductInfo");
     }
 }

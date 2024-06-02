@@ -17,12 +17,6 @@ public class Seeder
         public required UserRegisterDto UserRegisterDto { get; set; }
         public required BillDto BillDto { get; set; }
     }
-    
-    private sealed record UserOrder
-    {
-        public required OrderBto OrderBto { get; set; }
-        public required string Password { get; set; }
-    }
 
     [OneTimeSetUp]
     public void PrepareDatabase() => PersistenceFacade.Instance.SetIntegrationMode(IntegrationMode.Integration);
@@ -64,9 +58,8 @@ public class Seeder
 
         var file = File.ReadAllText($"{SlnDirectory.GetPath()}/Integration/Persistence/Resources/OrdersSeed.json".Replace('/', Path.DirectorySeparatorChar));
 
-        JsonSerializer.Deserialize<List<UserOrder>>(file)?.ForEach(order =>
+        JsonSerializer.Deserialize<List<OrderBto>>(file)?.ForEach(orderBto =>
             {
-                var orderBto = order.OrderBto;
                 var orderSession = new OrderSessionDto
                 {
                     Username = orderBto.Username,
@@ -81,12 +74,10 @@ public class Seeder
                         if (!product.IsSuccess) return;
                         orderSession.OrderProducts.Add(new OrderProductDto
                         {
-                            ProductName = product.SuccessValue.Name,
-                            Description = product.SuccessValue.Description,
                             SessionCode = orderSession.SessionCode,
                             OrderQuantity = item.OrderQuantity,
                             Price = product.SuccessValue.Price * item.OrderQuantity,
-                            Link = product.SuccessValue.Link
+                            ProductInfoDto = product.SuccessValue.ProductInfoDto
                         });
                         orderSession.TotalPrice += product.SuccessValue.Price * item.OrderQuantity;
                     }
