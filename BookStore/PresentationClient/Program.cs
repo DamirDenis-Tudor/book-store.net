@@ -16,7 +16,8 @@
 
 using Business.BAL;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
-
+using Presentation.Entities;
+using Presentation.Services;
 using PresentationClient.Entities;
 using PresentationClient.Services;
 
@@ -30,6 +31,7 @@ builder.Services.AddScoped<PersonalDetailsDataScoped>();
 builder.Services.AddScoped<ProtectedLocalStorage>();
 builder.Services.AddScoped<ICartService, CartServiceLocal>();
 builder.Services.AddScoped<IUserLoginService, UserLoginService>();
+builder.Services.AddScoped<IProductsScope, ProductsScope>();
 
 var app = builder.Build();
 

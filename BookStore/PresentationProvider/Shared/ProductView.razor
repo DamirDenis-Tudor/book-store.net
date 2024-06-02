@@ -1,20 +1,12 @@
-﻿<div class="product-bg">
-
-	<div class="product-image-section">
-		<img class="product-image" src="@Product.Link" alt=""/>
+﻿<div class="action-section">
+	<div class="product-buy">
+		<p class="product-price">@Product.Price Lei</p>
+		<p class="product-quantity">Stock: @Product.Quantity</p>
 	</div>
-
-	<div class="product-details">
-		<p class="product-name">@Product.Name</p>
-		<p class="product-description">@Product.Description</p>
+	<div class="action-btns">
+		<button class="action-btn" @onclick="@ProductEdit"><img src="Images/edit_icon.png" alt="Edit" /></button>
+		<button class="action-btn remove" @onclick="@ProductRemove"><img src="Images/delete_icon.png" alt="Edit" /></button>
 	</div>
-
-	<div class="action-section">
-		<div class="product-buy">
-			<p class="product-price">@Product.Price Lei</p>
-			<p class="product-quantity">Stock: @Product.Quantity</p>
-		</div>
-		<button class="edit-btn" @onclick="@ProductEdit"><img src="Images/edit_icon.png" alt="Edit"/></button>
-	</div>
-
 </div>
+
+<ConfirmPopUp @ref="confirmationDialog" Title="Delete Confirmation" Message="Do you really want to delete this product?" OnClose="OnConfirmClose" />

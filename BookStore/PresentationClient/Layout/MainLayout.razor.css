@@ -9,3 +9,10 @@
 main {
     flex: 1;
 }
+
+::deep button:hover {
+    filter: brightness(108%);
+}
+::deep button:active {
+    filter: brightness(85%);
+}

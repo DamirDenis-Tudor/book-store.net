@@ -21,6 +21,8 @@ using Business.BTO;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Persistence.DTO.Bill;
+using Presentation.Components;
+using Presentation.Services;
 using PresentationClient.Entities;
 using PresentationClient.Services;
 using System.ComponentModel.DataAnnotations;
@@ -106,11 +108,11 @@ public partial class PaymentDetails
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (!firstRender) return;
-        
+
         var cart = await CartService.GetCart();
         if (cart.Count == 0 || !PersonalDetailsScoped.IsValid())
             NavigationManager.NavigateTo("/");
-        
+
     }
 
     /// <summary>
@@ -134,18 +136,36 @@ public partial class PaymentDetails
         var orderProducts = new List<OrderItemBto>();
         cart.ForEach(prod =>
             orderProducts.Add(new OrderItemBto
-                { ProductName = prod.ProductName, OrderQuantity = prod.OrderQuantity, })
+            { ProductName = prod.Product.Name, OrderQuantity = prod.OrderQuantity, })
         );
 
         var order = new OrderBto { Username = username.SuccessValue, OrderItemBtos = orderProducts };
 
-        Business.OrderService.PlaceOrder(order);
+        var result = Business.OrderService.PlaceOrder(order);
         CartService.ClearCart();
-            
+
         if (DifferenceBillDetails(PersonalDetailsScoped.ConvertToDto(), Business.UsersService.GetUserBillInfo(username.SuccessValue).SuccessValue))
             Business.UsersService.UpdateBill(username.SuccessValue, PersonalDetailsScoped.ConvertToDto());
-            
+        if (!result.IsSuccess)
+        {
+            errorPopup.Message = "An error occurred while placeing the order: \n" + result.Message;
+            errorPopup.ShowDialog();
+            return;
+        }
         NavigationManager.NavigateTo("/account");
+    }
+    /// <summary>
+    /// Pop-up if there was any error while placing the order
+    /// </summary>
+    private ConfirmPopUp errorPopup = null!;
+
+    /// <summary>
+    /// Callback after the user exits the error pop-up
+    /// </summary>
+    /// <param name="confirmed">No use in the case of error pop-up</param>
+    private void OnConfirmClose(bool confirmed)
+    {
+        NavigationManager.NavigateTo("/");
     }
 
     /// <summary>

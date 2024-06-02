@@ -1,0 +1,17 @@
+﻿<div class="modal" style="display:@(Show ? "flex" : "none")">
+    <div class="modal-background" @onclick="Close"></div>
+    <div class="modal-content">
+        <h2 class="title">@Title</h2>
+        <pre>@Message</pre>
+        <div class="buttons">
+            @if (ConfirmBtnEnabled)
+            {
+                <button class="button is-primary" @onclick="Confirm">@ConfrimBtnText</button>
+            }
+            @if (CancelBtnEnabled)
+            {
+                <button class="button" @onclick="Close">@CancelBtnText</button>
+            }
+        </div>
+    </div>
+</div>

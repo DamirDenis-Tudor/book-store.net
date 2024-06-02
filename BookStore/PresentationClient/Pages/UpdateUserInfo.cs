@@ -22,6 +22,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using Persistence.DTO.User;
 using System.ComponentModel.DataAnnotations;
 using PresentationClient.Services;
+using Presentation.Services;
 
 namespace PresentationClient.Pages
 {
@@ -57,11 +58,10 @@ namespace PresentationClient.Pages
 
             [Required] public string LastName { get; set; } = null!;
 
-            [Required, MinLength(5, ErrorMessage = "Username-ul trebuie sa fie mai lung de 5 caractere")]
+            [Required, MinLength(4, ErrorMessage = "Username-ul trebuie sa fie mai lung de 4 caractere")]
             public string Username { get; set; } = null!;
 
-            [Required, MinLength(3, ErrorMessage = "Parola trebuie sa fie mai lunga de 3 caractere")]
-            public string Password { get; set; } = null!;
+            public string Password { get; set; } = "";
 
             [Required] public string Email { get; set; } = null!;
 
@@ -86,7 +86,11 @@ namespace PresentationClient.Pages
             {
                 return new UserRegisterDto()
                 {
-                    Email = Email, FirstName = FirstName, LastName = LastName, Password = Password, Username = Username,
+                    Email = Sanitizer.SanitizeString(Email),
+                    FirstName = Sanitizer.SanitizeString(FirstName),
+                    LastName = Sanitizer.SanitizeString(LastName),
+                    Password = Sanitizer.SanitizeString(Password),
+                    Username = Sanitizer.SanitizeString(Username),
                     UserType = "CLIENT"
                 };
             }
@@ -107,15 +111,15 @@ namespace PresentationClient.Pages
             if (!firstRender) return;
 
             var sessionToken = await UserData.GetToken();
-            
+
             if (sessionToken == null) return;
-            
+
             var username = Business.AuthService.GetUsername(sessionToken);
             if (!username.IsSuccess) return;
-            
+
             var result = Business.UsersService.GetUserInfo(username.SuccessValue);
             if (!result.IsSuccess) return;
-            
+
             _user.Deserialize(result.SuccessValue);
             StateHasChanged();
         }
@@ -130,16 +134,16 @@ namespace PresentationClient.Pages
         private async void RegisterSubmit(EditContext editContext)
         {
             if (!editContext.Validate()) return;
-            
+
             var sessionToken = await UserData.GetToken();
-            
+
             if (sessionToken == null) return;
-            
+
             var username = Business.AuthService.GetUsername(sessionToken);
             var remoteInfo = Business.UsersService.GetUserInfo(username.SuccessValue);
-            
+
             if (!DifferenceBillDetails(remoteInfo.SuccessValue, _user)) return;
-            
+
             Business.UsersService.UpdateUser(username.SuccessValue, _user.ConverToDto());
             Business.AuthService.Logout(sessionToken);
             NavigationManager.NavigateTo("/", true);
