@@ -1,0 +1,193 @@
+.navbar-bg {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 100%;
+    height: 80px;
+    background-color: #FBFCFB;
+    border-radius: 0px 0px 40px 40px;
+}
+
+.logo {
+    color: #061006;
+    font-family: Inter;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+    padding-left: 30px;
+    text-decoration:none;
+    margin-right: 70px;
+}
+
+.logo-search {
+    display: flex;
+    width: 100%;
+    min-width: fit-content;
+}
+
+.search-section {
+    width: 100%;
+    min-width: fit-content;
+}
+
+::deep .search-bar {
+    /* width: 1080px;*/
+    width: 80%;
+    min-width: fit-content;
+    height: 50px;
+    border-radius: 30px;
+    border: 3px solid #93C6A3;
+    padding-left: 27px;
+    background-image: url('../wwwroot/Images/search_icon.png');
+    background-repeat: no-repeat;
+    background-size: 30px 30px;
+}
+    .search-bar:focus {
+        outline: none !important;
+        border: 3px solid #407E52;
+    }
+
+.button {
+    border-radius: 20px;
+    color: #FBFCFB;
+    text-align: center;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 23px;
+    font-style: normal;
+    font-weight: 700;
+}
+
+.auth-area{
+    display: flex;
+    align-items: center;
+    margin-right: 40px;
+    gap: 25px;
+}
+
+.button-login {
+    width: 162px;
+    height: 50px;
+    background-color: #6ED976;
+}
+.button-register {
+    margin: 0 39px 0 19px;
+    width: 222px;
+    height: 50px;
+    background-color: #407E52;
+}
+
+.add-product-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 20px;
+    background: #407E52;
+    border: none;
+}
+
+.logout-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 20px;
+    background: #6ED976;
+    border: none;
+}
+.cart-btn {
+    width: 55px;
+    height: 50px;
+    border-radius: 20px;
+    background: #407E52;
+    border: none;
+}
+
+.auth-area img{
+    width: 38px;
+    height: 38px;
+}
+
+.account {
+    color: #7F8D80;
+    font-family: Inter;
+    font-size: 22px;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+@media (max-width: 950px) {
+    .navbar-bg {
+        flex-direction: column;
+        align-items: center;
+        height: auto;
+        padding: 10px;
+        border-radius: 0px 0px 20px 20px;
+    }
+
+    .logo-search {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .search-section {
+        width: 100%;
+        padding: 10px 0;
+    }
+    ::deep .search-bar {
+        width: 100%;
+        height: 33px;
+        border: 2px solid #93C6A3;
+        font-size: 12px;
+    }
+    .logo{
+        margin-right: 20px;
+        padding-left: 10px;
+        font-size: 30px;
+    }
+
+    .auth-area {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .button {
+        width: 100%;
+        max-width: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        font-size: 24px;
+    }
+
+    .button-login,
+    .button-register {
+        font-size: 14px;
+        padding: 0 10px;
+    }
+
+
+    .add-product-btn,
+    .logout-btn,
+    .cart-btn {
+        width: 30px;
+        height: 30px;
+    }
+
+    .auth-area img {
+        width: 20px;
+        height: 20px;
+    }
+    .account{
+        font-size: 16px;
+    }
+}

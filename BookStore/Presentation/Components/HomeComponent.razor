@@ -1,0 +1,58 @@
+﻿@using Microsoft.AspNetCore.Components.Forms
+
+<div class="main">
+    <aside>
+        @if(DashboardActionBar != null)
+            @DashboardActionBar
+
+        <div class="categories">
+            <a class="categories-title" href="/"> <p>Categories</p> </a>
+            <ul class="categories-list">
+                @foreach (var category in ProductsScope.GetCategories())
+                {
+                    <li>
+                        @if (category == Category)
+                        {
+                            <a class="selected" href="@(PathBase +$"?category={@category}")">@category</a>
+                        }
+                        else
+                        {
+                            <a href="@(PathBase + $"/?category={@category}")">@category</a>
+                        }
+                    </li>
+                }
+            </ul>
+
+        </div>
+    </aside>
+    <div class="products-view">
+
+        <div class="filter">
+
+            <label class="order-by" for="order-by-select"> Order by:</label>
+
+            <select class="order-by" name="order-by-select" @onchange="OnSortOrderChange">
+                <option class="order-by" value="name">Name</option>
+                <option class="order-by" value="price">Price</option>
+            </select>
+
+            <div>
+                <label class="price-range" for="low-price-range">Price range:</label>
+                <InputNumber class="price-range" type="number" name="low-price-range" @bind-Value="@PriceRangeMin"></InputNumber>
+
+                <label class="price-range" for="low-price-range"> - </label>
+                <InputNumber class="price-range" type="number" name="height-price-range" @bind-Value="@PriceRangeMax"></InputNumber>
+            </div>
+
+        </div>
+
+        <div class="products">
+            @foreach (var product in @DisplayProducts)
+            {
+                <ProductComponent Product="@product">
+                    @ChildContent(product)
+                </ProductComponent>
+            } 
+        </div>
+    </div>
+</div>

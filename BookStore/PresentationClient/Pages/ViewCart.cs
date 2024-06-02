@@ -58,7 +58,7 @@ public partial class ViewCart
     /// <summary>
     /// The total price of the products
     /// </summary>
-    private decimal ProductsTotalPrice { get; set; } 
+    private decimal ProductsTotalPrice { get; set; }
 
     /// <summary>
     /// The total price of the order, with taxes and delivery fee
@@ -87,8 +87,8 @@ public partial class ViewCart
 
         var cart = await CartService.GetCart();
         if (cart.Count == 0) return;
-        
-        cart.ForEach(p => Products.Add(p));
+
+        cart.ForEach(Products.Add);
 
         UpdateTotalPrices();
         _isDataLoaded = cart.Count != 0;
@@ -102,7 +102,7 @@ public partial class ViewCart
     /// </summary>
     private void UpdateTotalPrices()
     {
-        ProductsTotalPrice = Products.Sum(prod => prod.Price * prod.OrderQuantity);
+        ProductsTotalPrice = Products.Sum(prod => prod.Product.Price * prod.OrderQuantity);
         if (ProductsTotalPrice != 0 && ProductsTotalPrice < 300)
             _deliveryFee = DeliveryFeeForOrder;
         else
@@ -116,7 +116,8 @@ public partial class ViewCart
     private void RefreshView()
     {
         UpdateTotalPrices();
-        _cartEmpty = !Products.Any() || !Products.Any(prod => prod.OrderQuantity > 0);
+        Products = new ObservableCollection<OrderProductData>(Products.Where(prod => prod.OrderQuantity > 0));
+        _cartEmpty = !Products.Any();
         StateHasChanged();
     }
 }

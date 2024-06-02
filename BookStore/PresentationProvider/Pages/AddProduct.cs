@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using Persistence.DTO.Product;
 using System.ComponentModel.DataAnnotations;
 using PresentationProvider.Services;
+using Presentation.Services;
 
 namespace PresentationProvider.Pages
 {
@@ -96,12 +97,12 @@ namespace PresentationProvider.Pages
             {
                 return new ProductDto()
                 {
-                    Name = Name,
+                    Name = Sanitizer.SanitizeString(Name),
                     Price = Price,
                     Quantity = Quantity,
-                    Category = Category,
-                    Description = Description,
-                    Link = Photo
+                    Category = Sanitizer.SanitizeString(Category),
+                    Description = Sanitizer.SanitizeString(Description),
+                    Link = Sanitizer.SanitizeString(Photo ?? "")
                 };
             }
         }

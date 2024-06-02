@@ -16,8 +16,8 @@
 
 using Business.BAL;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
-
-using Persistence.DAL;
+using Presentation.Entities;
+using Presentation.Services;
 using PresentationProvider.Entities;
 using PresentationProvider.Services;
 
@@ -28,7 +28,7 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<BusinessFacade>();
 builder.Services.AddScoped<ProtectedLocalStorage>();
 builder.Services.AddScoped<IUserLoginService, UserLoginService>();
-builder.Services.AddScoped<ProductsScope>();
+builder.Services.AddScoped<IProductsScope, ProductsScope>();
 
 var app = builder.Build();
 

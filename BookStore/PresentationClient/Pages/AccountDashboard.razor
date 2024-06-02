@@ -2,7 +2,7 @@
 
 <PageTitle>Account Dashboard</PageTitle>
 
-<NavMenu />
+<NavMenu ShowDashboard=true ShowCart=true />
 
 <div class="content">
 	<main>
@@ -23,7 +23,9 @@
 					<div class="products-area">
 						@foreach (var prod in order.OrderProducts)
 						{
-							<ProductViewOrder Product="@prod" />
+							<ProductComponent Product="@DataObjMapper.ConvertToProductDto(@prod)">
+								<ProductViewOrder Product="@prod" />
+							</ProductComponent>
 						}
 					</div>
 				</div>

@@ -1,9 +1,11 @@
 ﻿@page "/update-info"
+@using Business.BAL
 
 <div class="content">
 	<h1 class="logo">BookShop.net</h1>
 	<div class="register-area">
 		<h2>Update account details:</h2>
+
 		<EditForm Model="@_user" OnSubmit="RegisterSubmit">
 			<DataAnnotationsValidator/>
 			<ValidationSummary />

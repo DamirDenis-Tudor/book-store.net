@@ -16,6 +16,7 @@
  **************************************************************************/
 
 using Persistence.DTO.Bill;
+using Presentation.Services;
 using System.ComponentModel.DataAnnotations;
 
 namespace PresentationClient.Entities
@@ -66,11 +67,11 @@ namespace PresentationClient.Entities
 		public BillDto ConvertToDto()
 		{
 			return new BillDto() {
-				Address = Address ?? "",
-				Country = Country ?? "",
-				City = City ?? "",
-				PostalCode = PostalCode ?? "",
-				Telephone = Telephone ?? ""
+				Address = Sanitizer.SanitizeString(Address ?? ""),
+				Country = Sanitizer.SanitizeString(Country ?? ""),
+				City = Sanitizer.SanitizeString(City ?? ""),
+				PostalCode = Sanitizer.SanitizeString(PostalCode ?? ""),
+				Telephone = Sanitizer.SanitizeString(Telephone ?? "")
 			};
 		}
 	}

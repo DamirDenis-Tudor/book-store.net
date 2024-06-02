@@ -19,33 +19,26 @@
 
 using Business.BAL;
 using Persistence.DTO.Product;
+using Presentation.Entities;
+using System.Reflection.Metadata.Ecma335;
 
 namespace PresentationAdmin.Entities
 {
-    /// <summary>
-    /// Utitly singleton class used for getting the products from the server and their categories
-    /// </summary>
-    public class ProductsScope
+	/// <summary>
+	/// Utitly singleton class used for getting the products from the server and their categories
+	/// </summary>
+	public class ProductsScope : IProductsScope
     {
         /// <summary>
         /// The list of product statistics fatched from the server
         /// </summary>
-        public IList<ProductStatsDto> Products
-        {
-            get { return BusinessFacade.Instance.InventoryService.GetInventoryStats().SuccessValue; }
-            set { Products = value; }
-        }
+        public IList<ProductDto> GetProducts() => BusinessFacade.Instance.InventoryService.GetInventoryStats().SuccessValue
+            .Select(DataObjMapper.ConvertToProductDto).ToList();
 
-        //public IList<ProductStatsDto> Products { get { return BusinessFacade.Instance.InventoryService.GetInventoryStats(await _userData.GetUsername()).SuccessValue; } set; }
-        
         /// <summary>
         /// Returns the list of all the categories for the products
         /// </summary>
         /// <returns>All the categories of the products</returns>
-        public IEnumerable<string> Categories()
-        {
-            var cat = Products.Select(item => item.ProductDto.Category).ToList();
-            return cat.Distinct().ToList();
-        }
-    }
+        public IList<string> GetCategories() =>  GetProducts().Select(item => item.Category).Distinct().ToList();
+	}
 }
