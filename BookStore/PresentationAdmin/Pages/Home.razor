@@ -5,48 +5,17 @@
 <NavMenu />
 
 <div class="main">
-    <aside>
-        <div class="action-bar">
-            <a href="/register"><button type="submit" class="button">Distribuitor nou</button></a>
-            <a href="/users"><button type="submit" class="button">Utilizatori</button></a>
-        </div>
 
-        <div class="categories">
-            <a class="categories-title" href="/home"><p>Categorii</p></a>
-            <ul class="categories-list">
-                @foreach (string category in ProductsScope.Categories())
-                {
-                    <li>
-                         @if (category == Category)
-                        {
-                            <a class="selected" href="@($"/home?category={@category}")">@category</a>
-                        }
-                        else
-                        { 
-                            <a href="@($"/home?category={@category}")">@category</a>
-                        }
-                    </li>
-                } 
-            </ul>
-        </div>
-    </aside>
-    <div class="products-view">
-        <div class="filter">
-            <label class="order-by" for="order-by-select"> Order by:</label>
-            <select class="order-by" name="order-by-select" autofocus="false" @onchange="OnSortOrderChange">
-                <option class="order-by" value="name">Name</option>
-                <option class="order-by" value="price">Price</option>
-            </select>
-            <label class="price-range" for="low-price-range">Price range:</label>
-            <InputNumber class="price-range" type="number" name="low-price-range" @bind-Value="@PriceRangeMin"></InputNumber>
-            <label class="price-range" for="low-price-range"> - </label>
-            <InputNumber class="price-range" type="number" name="height-price-range" @bind-Value="@PriceRangeMax"></InputNumber>
-        </div>
-        <div class="products">
-            @foreach (var product in @DisplayProducts)
-            {
-                <ProductView Product=@product/>
-            }
-        </div>
-    </div>
+    <HomeComponent PathBase="/home">
+        <DashboardActionBar>
+            <div class="action-bar">
+                <a href="/register"><button type="submit" class="button">Distribuitor nou</button></a>
+                <a href="/users"><button type="submit" class="button">Utilizatori</button></a>
+            </div>
+        </DashboardActionBar>
+
+        <ChildContent Context="product">
+            <ProductView Product=@product />
+        </ChildContent>
+    </HomeComponent>
 </div>

@@ -69,8 +69,9 @@ public class CartServiceLocal(ProtectedLocalStorage localStorage, BusinessFacade
         var found = false;
         products.ForEach(prod =>
         {
-            if (prod.ProductName != product.Name) return;
-            prod.OrderQuantity += 1;
+            if (prod.Product != product) return;
+            if(prod.OrderQuantity + 1 <= prod.Product.Quantity)
+                prod.OrderQuantity += 1;
             found = true;
         });
 
@@ -78,13 +79,10 @@ public class CartServiceLocal(ProtectedLocalStorage localStorage, BusinessFacade
         {
             var orderProductDto = new OrderProductData
             {
-                ProductName = product.Name, Description = product.Description,
-                Link = product.Link, Price = product.Price, OrderQuantity = 1
+                Product= product, OrderQuantity = 1
             };
             products.Add(orderProductDto);
         }
-
-        products.ForEach(Console.WriteLine);
         await localStorage.SetAsync($"cart{username}", products);
     }
 
@@ -96,7 +94,7 @@ public class CartServiceLocal(ProtectedLocalStorage localStorage, BusinessFacade
     {
         var products = await GetCart();
 
-        var index = products.FindIndex(prod => prod.ProductName == newProduct.ProductName);
+        var index = products.FindIndex(prod => prod.Product == newProduct.Product);
 
         products[index] = newProduct;
         
@@ -110,7 +108,7 @@ public class CartServiceLocal(ProtectedLocalStorage localStorage, BusinessFacade
     {
         var products = await GetCart();
 
-        var index = products.FindIndex(prod => prod.ProductName == newProduct.ProductName);
+        var index = products.FindIndex(prod => prod.Product == newProduct.Product);
 
         products.RemoveAt(index);
         

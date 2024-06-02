@@ -2,24 +2,6 @@
 
 <div class="content">
 	<h1 class="logo">BookShop.net</h1>
-	<div class="login-area">
-		<h2>Welcome!</h2>
-		<EditForm Model="User" OnValidSubmit="LoginSubmit">
-			<DataAnnotationsValidator />
-			<div class="validation">
-				<p>@_loginError</p>
-				<p class="success">@_loginSuccess</p>
-				<ValidationSummary />
-			</div>
-			<div class="login-form">
-				<InputText class="login-input email" @bind-Value="User.Username" placeholder="Username..."></InputText>
-				<InputText class="login-input parola" @bind-Value="User.Password" type="password" placeholder="Parola..."></InputText>
-			</div>
-			<div class="login-action-area">
-				<button type="submit" class="login-btn">Login</button>
-			</div>
-		</EditForm>
-
-	</div>
+	<LoginComponent LoginMode=Business.BAL.LoginMode.Admin AuthentificationEnabled=true/>
 	<h1 class="logo" style="opacity: 0;">BookShop.net</h1>
 </div>

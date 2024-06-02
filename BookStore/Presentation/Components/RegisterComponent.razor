@@ -1,0 +1,34 @@
+﻿@using Microsoft.AspNetCore.Components.Forms
+
+
+<EditForm Model="@_user" OnSubmit="RegisterSubmit">
+	<DataAnnotationsValidator/>
+	<ValidationSummary />
+	<div class="register-form">
+		<div class="small">
+			<div class="input">
+				<lable for="register-username">First Name: </lable>
+				<InputText class="register-input" @bind-Value="_user.FirstName" placeholder="Popescu..."></InputText>
+			</div>
+			<div class="input">
+				<lable for="register-username">Last Name: </lable>
+				<InputText class="register-input" @bind-Value="_user.LastName" placeholder="Vlad..."></InputText>
+			</div>
+		</div>
+		<div class="input">
+			<lable for="register-username">Username: </lable>
+			<InputText id="register-username" class="register-input" @bind-Value="_user.Username" placeholder="popescvld98..."></InputText>
+		</div>
+		<div class="input">
+			<lable for="register-username">Email address: </lable>
+			<InputText class="register-input" @bind-Value="_user.Email" type="email" placeholder="popescu.vlad@gmail.com..."></InputText>
+		</div>
+		<div class="input">
+			<lable for="register-username">Password: </lable>
+			<InputText class="register-input" @bind-Value="_user.Password" type="password" placeholder="Parola..."></InputText>
+		</div>
+	</div>
+	<div class="register-action-area">
+		<button type="submit" class="register-btn">Register</button>
+	</div>
+</EditForm> 

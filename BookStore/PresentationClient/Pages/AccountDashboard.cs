@@ -21,6 +21,8 @@ using Common;
 using Microsoft.AspNetCore.Components;
 using Persistence.DAL;
 using Persistence.DTO.Order;
+using Persistence.DTO.Product;
+using Presentation.Services;
 using PresentationClient.Services;
 
 namespace PresentationClient.Pages
@@ -82,5 +84,5 @@ namespace PresentationClient.Pages
                 StateHasChanged();
             }
         }
-    }
+	}
 }
