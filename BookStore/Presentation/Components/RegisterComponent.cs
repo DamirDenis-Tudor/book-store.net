@@ -89,6 +89,22 @@ namespace Presentation.Components
             /// </summary>
             [Required]
             public string Email { get; set; } = null!;
+
+            public UserRegisterDto ConvertToDto(LoginMode userType)
+            {
+                string type = "CLIENT";
+                if(userType == LoginMode.Provider)
+                    type = "PROVIDER";
+                return new UserRegisterDto()
+                {
+                    Email = Sanitizer.SanitizeString(Email),
+                    FirstName = Sanitizer.SanitizeString(FirstName),
+                    LastName = Sanitizer.SanitizeString(LastName),
+                    Password = Sanitizer.SanitizeString(Password),
+                    Username = Sanitizer.SanitizeString(Username),
+                    UserType = type
+                };
+            }
         }
 
         /// <summary>
@@ -111,27 +127,11 @@ namespace Presentation.Components
 
             if (LoginMode == LoginMode.Provider)
             {
-                result = Business.UsersService.RegisterProvider(username.SuccessValue, new UserRegisterDto()
-                {
-                    Email = _user.Email,
-                    FirstName = _user.FirstName,
-                    LastName = _user.LastName,
-                    Password = _user.Password,
-                    Username = _user.Username,
-                    UserType = "PROVIDER"
-                });
+                result = Business.UsersService.RegisterProvider(username.SuccessValue, _user.ConvertToDto(LoginMode));
             }
             if (LoginMode == LoginMode.Client)
             {
-                result = Business.UsersService.RegisterClient(new UserRegisterDto()
-                {
-                    Email = _user.Email,
-                    FirstName = _user.FirstName,
-                    LastName = _user.LastName,
-                    Password = _user.Password,
-                    Username = _user.Username,
-                    UserType = "CLIENT"
-                });
+                result = Business.UsersService.RegisterClient(_user.ConvertToDto(LoginMode));
             }
 
             if (!result.IsSuccess)

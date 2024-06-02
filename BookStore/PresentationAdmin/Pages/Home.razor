@@ -4,18 +4,16 @@
 
 <NavMenu />
 
-<div class="main">
+<HomeComponent PathBase="/home">
+    <DashboardActionBar>
+        <div class="action-bar">
+            <a href="/register"><button type="submit" class="button">Distribuitor nou</button></a>
+            <a href="/users"><button type="submit" class="button">Utilizatori</button></a>
+        </div>
+    </DashboardActionBar>
 
-    <HomeComponent PathBase="/home">
-        <DashboardActionBar>
-            <div class="action-bar">
-                <a href="/register"><button type="submit" class="button">Distribuitor nou</button></a>
-                <a href="/users"><button type="submit" class="button">Utilizatori</button></a>
-            </div>
-        </DashboardActionBar>
+    <ChildContent Context="product">
+        <ProductView Product=@product />
+    </ChildContent>
+</HomeComponent>
 
-        <ChildContent Context="product">
-            <ProductView Product=@product />
-        </ChildContent>
-    </HomeComponent>
-</div>

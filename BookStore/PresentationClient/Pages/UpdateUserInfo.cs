@@ -86,11 +86,11 @@ namespace PresentationClient.Pages
             {
                 return new UserRegisterDto()
                 {
-                    Email = Email,
-                    FirstName = FirstName,
-                    LastName = LastName,
-                    Password = Password,
-                    Username = Username,
+                    Email = Sanitizer.SanitizeString(Email),
+                    FirstName = Sanitizer.SanitizeString(FirstName),
+                    LastName = Sanitizer.SanitizeString(LastName),
+                    Password = Sanitizer.SanitizeString(Password),
+                    Username = Sanitizer.SanitizeString(Username),
                     UserType = "CLIENT"
                 };
             }

@@ -17,6 +17,7 @@
 
 using System.ComponentModel.DataAnnotations;
 using Business.BTO;
+using Presentation.Services;
 
 namespace PresentationClient.Entities
 {
@@ -43,7 +44,7 @@ namespace PresentationClient.Entities
         /// <returns>The generated BTO object</returns>
         public UserLoginBto ConverToBto()
 		{
-			return new UserLoginBto() { Username = Username, Password = Password };
+			return new UserLoginBto() { Username = Sanitizer.SanitizeString(Username), Password = Sanitizer.SanitizeString(Password) };
 		}
 	}
 }

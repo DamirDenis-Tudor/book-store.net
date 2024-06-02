@@ -5,12 +5,8 @@
 
 <NavMenu ShowDashboard=true ShowCart=true/>
 
-<div class="main">
-
-    <HomeComponent>
-        <ChildContent Context="product">
-            <ProductView Product="@product" />
-        </ChildContent>
-    </HomeComponent>
-
-</div>
+<HomeComponent>
+    <ChildContent Context="product">
+        <ProductView Product="@product" />
+    </ChildContent>
+</HomeComponent>

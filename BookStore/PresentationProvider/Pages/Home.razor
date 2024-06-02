@@ -4,10 +4,8 @@
 
 <NavMenu ShowAddProduct=true/>
 
-<div class="main">
-    <HomeComponent PathBase="/home">
-        <ChildContent Context="product">
-            <ProductView Product="@product" />
-        </ChildContent>
-    </HomeComponent>
-</div>
+<HomeComponent PathBase="/home">
+    <ChildContent Context="product">
+        <ProductView Product="@product" />
+    </ChildContent>
+</HomeComponent>
