@@ -62,7 +62,7 @@ internal class UserService : IUsers
 
         if (userRegisterDto.UserType != "PROVIDER")
             return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.InvalidUserType,
-                $"Could not register the user {userRegisterDto.Username}. Usertype not PROVIDER.");
+                $"Could not register the user {userRegisterDto.Username}.");
 
         var gdprUserInfoDto = GdprMapper.DoUserInfoDtoGdpr(userRegisterDto);
         var register = _persistenceFacade.UserRepository.RegisterUser(gdprUserInfoDto);
@@ -73,7 +73,7 @@ internal class UserService : IUsers
             ? Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.DatabaseError,
                 $"Database error while register {userRegisterDto.Username}")
             : Result<VoidResult, BaoErrorType>.Success(VoidResult.Get(),
-                $"User {userRegisterDto.Username} succesfully registered.");
+                $"User {userRegisterDto.Username} successfully registered.");
     }
 
     public Result<IList<UserInfoDto>, BaoErrorType> GetAllUsers(string requester)
@@ -129,8 +129,8 @@ internal class UserService : IUsers
 
         return result.IsSuccess
             ? Result<BillDto, BaoErrorType>.Success(GdprMapper.UndoBillGdpr(result.SuccessValue, encryptionKey.SuccessValue))
-            : Result<BillDto, BaoErrorType>.Fail(BaoErrorType.DatabaseError,
-                $"Database error while retrieving bill info for user {username}");
+            : Result<BillDto, BaoErrorType>.Fail(BaoErrorType.BillDetailsNotFounded,
+                $"Error while retrieving bill info for user {username}");
     }
 
     public Result<VoidResult, BaoErrorType> UpdateUser(string username, UserRegisterDto userRegisterDto)

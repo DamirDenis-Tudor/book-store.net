@@ -43,7 +43,7 @@ public interface IAuth
     /// </summary>
     /// <param name="token">The session token to log out.</param>
     /// <returns>A result indicating whether the logout was successful, or an error type.</returns>
-    Result<VoidResult, BaoErrorType> Logout(string? token);
+    Result<VoidResult, BaoErrorType> Logout(string token);
 
     /// <summary>
     /// Retrieves the username associated with a given token.

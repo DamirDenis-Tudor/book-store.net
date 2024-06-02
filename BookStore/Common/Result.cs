@@ -60,7 +60,7 @@ public class Result<TSuccess, TErrorType> where TErrorType : Enum
     private Result(TErrorType errorType, string message)
     {
         ErrorType = errorType;
-        Message = message;
+        Message = $"[{errorType}]: {message}";
         IsSuccess = false;
     }
 
