@@ -45,12 +45,24 @@ public class OrderService
             Is.EqualTo(true));
 
         _businessFacade.InventoryService.RegisterProduct(_providerUser.Username,
-            new ProductDto { Name = "TEST", Description = "TEST", Price = 1, Quantity = 1, Category = "TEST" });
+            new ProductDto
+            {
+                ProductInfoDto = new ProductInfoDto { Name = "TEST", Description = "TEST", Category = "TEST" },
+                Price = 1, Quantity = 1,
+            });
         _businessFacade.InventoryService.RegisterProduct(_providerUser.Username,
-            new ProductDto { Name = "TEST1", Description = "TEST1", Price = 1, Quantity = 1, Category = "TEST1" });
+            new ProductDto
+            {
+                ProductInfoDto = new ProductInfoDto { Name = "TEST1", Description = "TEST1", Category = "TEST1" },
+                Price = 1, Quantity = 1,
+            });
         _businessFacade.InventoryService.RegisterProduct(_providerUser.Username,
-            new ProductDto { Name = "TEST2", Description = "TEST2", Price = 1, Quantity = 1, Category = "TEST2" });
-        
+            new ProductDto
+            {
+                ProductInfoDto = new ProductInfoDto { Name = "TEST2", Description = "TEST2", Category = "TEST2" },
+                Price = 1, Quantity = 1,
+            });
+
         _validOrderBto = new OrderBto
         {
             Username = _clientUser.Username,
@@ -68,10 +80,11 @@ public class OrderService
     {
         var placeOrder = _businessFacade.OrderService.PlaceOrder(_validOrderBto);
         Assert.That(placeOrder.IsSuccess, Is.EqualTo(true));
-        
-        _businessFacade.OrderService.GetUserOrders(_clientUser.Username).SuccessValue.ToList().ForEach(Console.WriteLine);
+
+        _businessFacade.OrderService.GetUserOrders(_clientUser.Username).SuccessValue.ToList()
+            .ForEach(Console.WriteLine);
     }
-    
+
     [Test, Order(2)]
     public void GetOrders()
     {

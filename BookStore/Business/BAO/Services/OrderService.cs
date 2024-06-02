@@ -18,6 +18,7 @@ using Common;
 using Microsoft.Extensions.Logging;
 using Persistence.DAL;
 using Persistence.DTO.Order;
+using Persistence.DTO.Product;
 
 namespace Business.BAO.Services;
 
@@ -58,12 +59,16 @@ internal class OrderService : IOrder
             var price = product.SuccessValue.Price * orderItem.OrderQuantity;
             orderSessionDto.OrderProducts.Add(new OrderProductDto
             {
-                ProductName = orderItem.ProductName,
-                Description = product.SuccessValue.Description,
                 SessionCode = orderSessionDto.SessionCode,
                 OrderQuantity = orderItem.OrderQuantity,
-                Link = product.SuccessValue.Link,
-                Price = price
+                Price = price,
+                ProductInfoDto = new ProductInfoDto
+                {
+                    Name = orderItem.ProductName,
+                    Description = product.SuccessValue.ProductInfoDto.Description,
+                    Link = product.SuccessValue.ProductInfoDto.Link,
+                    Category = product.SuccessValue.ProductInfoDto.Category,
+                }
             });
 
             orderSessionDto.TotalPrice += price;

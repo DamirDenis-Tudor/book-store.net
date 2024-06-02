@@ -41,10 +41,15 @@ internal class OrderRepository(DatabaseContext dbContext) : IOrderRepository
             orderSessionDto.OrderProducts.ToList().ForEach(op =>
                 {
                     var orderProduct = MapperDto.MapToOrderProduct(op);
-
-                    orderProduct.Product = dbContext.Products.Include(p => p.OrderProducts)
+                    
+                    orderProduct.Product = dbContext.Products
+                        .Include(p => p.OrderProducts)
+                        .Include(p => p.ProductInfo)
                         .FirstOrDefault(p =>
-                            p.Name == op.ProductName);
+                            p.ProductInfo.Name == op.ProductInfoDto.Name);
+
+                    orderProduct.ProductInfo = dbContext.ProductInfos
+                        .FirstOrDefault(p => p.Name == op.ProductInfoDto.Name)!;
                     
                     orderSession.OrderProducts.Add(orderProduct);
                 }
