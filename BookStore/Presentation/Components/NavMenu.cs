@@ -68,6 +68,8 @@ namespace Presentation.Components
             set
             {
                 _search = value;
+                if (_search != null)
+                    _search = Sanitizer.SanitizeString(_search);
                 NavigationManager.NavigateTo($"/?search={_search}");
             }
         }
