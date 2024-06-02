@@ -40,7 +40,7 @@ internal static class GdprMapper
             Username = GdprUtility.Encrypt(userRegisterDto.Username, hash),
             Password = hash,
             Email = GdprUtility.Encrypt(userRegisterDto.Email, hash),
-            UserType = GdprUtility.Encrypt(userRegisterDto.UserType, hash)
+            UserType = GdprUtility.Hash(userRegisterDto.UserType)
         };
     }
 
@@ -109,7 +109,7 @@ internal static class GdprMapper
     /// Maps the order data to GDPR compliant format.
     /// </summary>
     /// <param name="orderBto">The order data to be mapped.</param>
-    /// <returns>The order data mapped to GDPR compliant format.</returns>
+    /// <returns>The order data mapped to GDPR-compliant format.</returns>
     public static OrderBto DoOrderBto(OrderBto orderBto, string key)
     {
         orderBto.Username = GdprUtility.Encrypt(orderBto.Username, key);
@@ -120,7 +120,7 @@ internal static class GdprMapper
     /// Maps the user login data to GDPR compliant format.
     /// </summary>
     /// <param name="userLoginBto">The user login data to be mapped.</param>
-    /// <returns>The user login data mapped to GDPR compliant format.</returns>
+    /// <returns>The user login data mapped to GDPR-compliant format.</returns>
     public static UserLoginBto DoUserLoginBto(UserLoginBto userLoginBto)
     {
         return new UserLoginBto

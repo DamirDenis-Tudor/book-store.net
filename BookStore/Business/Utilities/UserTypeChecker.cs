@@ -35,7 +35,7 @@ internal static class UserTypeChecker
         if (!userType.IsSuccess)
             return false;
 
-        return GdprUtility.Decrypt(userType.SuccessValue, key) == "CLIENT";
+        return userType.SuccessValue == GdprUtility.Hash("CLIENT");
     }
 
     /// <summary>
@@ -51,7 +51,7 @@ internal static class UserTypeChecker
         if (!userType.IsSuccess)
             return false;
 
-        return GdprUtility.Decrypt(userType.SuccessValue, key) == "PROVIDER";
+        return userType.SuccessValue == GdprUtility.Hash("PROVIDER");
     }
 
     /// <summary>
@@ -67,7 +67,7 @@ internal static class UserTypeChecker
         if (!userType.IsSuccess)
             return false;
 
-        return GdprUtility.Decrypt(userType.SuccessValue, key) == "ADMIN";
+        return userType.SuccessValue== GdprUtility.Hash("ADMIN");
     }
 
     public static LoginMode GetLoginMode(string username, string key)
@@ -78,8 +78,8 @@ internal static class UserTypeChecker
             return LoginMode.None;
 
 
-        if (GdprUtility.Decrypt(userType.SuccessValue, key) == "ADMIN")
+        if (userType.SuccessValue == GdprUtility.Hash("ADMIN"))
             return LoginMode.Admin;
-        return GdprUtility.Decrypt(userType.SuccessValue, key) == "PROVIDER" ? LoginMode.Provider : LoginMode.Client;
+        return userType.SuccessValue == GdprUtility.Hash("PROVIDER") ? LoginMode.Provider : LoginMode.Client;
     }
 }

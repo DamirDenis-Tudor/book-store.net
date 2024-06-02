@@ -157,14 +157,27 @@ internal class UserService : IUsers
         var gdprUserInfoDto = GdprMapper.DoUserInfoDtoGdpr(userRegisterDto);
 
         var result = _persistenceFacade.UserRepository.UpdateUser(GdprUtility.Encrypt(username, key), gdprUserInfoDto);
-
         _logger.LogInformation(result.Message);
 
-        return result.IsSuccess
-            ? Result<VoidResult, BaoErrorType>.Success(VoidResult.Get(),
-                $"User {username} successfully updated.")
-            : Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.DatabaseError,
+        if (!result.IsSuccess)
+            return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.FailedToUpdate,
                 $"Database error while updating user {username}");
+
+        if (userRegisterDto.Password == "")
+            return Result<VoidResult, BaoErrorType>.Success(VoidResult.Get(),
+                $"User {username} successfully updated.");
+
+        var billDetails = _persistenceFacade.BillRepository.GetBillingDetails(gdprUserInfoDto.Username);
+        if (!billDetails.IsSuccess)
+            return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.FailedToEncryptBillDetails,
+                $"Bill details of {username}, not found.");
+
+        var decryptedDetails = GdprMapper.UndoBillGdpr(billDetails.SuccessValue, key);
+        _persistenceFacade.BillRepository.UpdateBillByUsername(gdprUserInfoDto.Username,
+            GdprMapper.DoBillGdpr(decryptedDetails, gdprUserInfoDto.Password));
+
+        return Result<VoidResult, BaoErrorType>.Success(VoidResult.Get(),
+            $"User {username} successfully updated and encrypted.");
     }
 
     public Result<VoidResult, BaoErrorType> UpdateBill(string username, BillDto billDto)
