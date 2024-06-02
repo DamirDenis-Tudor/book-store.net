@@ -4,12 +4,12 @@
 	@if(@Product == null) return;
 	
 	<div class="product-image-section">
-		<img class="product-image" src="@Product.Link" alt=""/>
+		<img class="product-image" src="@Product.ProductInfoDto.Link" alt=""/>
 	</div>
 
 	<div class="product-details">
-		<p class="product-name">@Product.Name</p>
-		<p class="product-description">@Product.Description</p> 
+		<p class="product-name">@Product.ProductInfoDto.Name</p>
+		<p class="product-description">@Product.ProductInfoDto.Description</p> 
 	</div>
 	@if (@ChildContent == null) return;
 	@ChildContent

@@ -46,12 +46,6 @@ internal class AuthService : IAuth
     {
         if (loginMode != UserTypeChecker.GetLoginMode(userLoginBto.Username))
             return Result<string, BaoErrorType>.Fail(BaoErrorType.InvalidUserType, "Invalid login data.");
-
-        if (loginMode == LoginMode.Provider)
-        {
-            BusinessFacade.Instance.InventoryService.DeleteProduct(userLoginBto.Username,
-                "Oppenheimer\nPortretul unei enigme");
-        }
         
         var gdprUserLoginBto = GdprMapper.DoUserLoginBto(userLoginBto);
         var password = _persistenceFacade.UserRepository.GetUserPassword(gdprUserLoginBto.Username);

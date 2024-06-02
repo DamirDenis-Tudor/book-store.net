@@ -136,7 +136,7 @@ public partial class PaymentDetails
         var orderProducts = new List<OrderItemBto>();
         cart.ForEach(prod =>
             orderProducts.Add(new OrderItemBto
-            { ProductName = prod.Product.Name, OrderQuantity = prod.OrderQuantity, })
+            { ProductName = prod.Product.ProductInfoDto.Name, OrderQuantity = prod.OrderQuantity, })
         );
 
         var order = new OrderBto { Username = username.SuccessValue, OrderItemBtos = orderProducts };

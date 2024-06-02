@@ -162,7 +162,7 @@ public partial class HomeComponent
             _search = value;
             if (_search != null)
                 DisplayProducts = new ObservableCollection<ProductDto>
-                    (ProductsScope.GetProducts().Where(p => p.Name.Contains(_search)));
+                    (ProductsScope.GetProducts().Where(p => p.ProductInfoDto.Name.Contains(_search)));
         }
     }
 
@@ -176,7 +176,7 @@ public partial class HomeComponent
             DisplayProducts = new ObservableCollection<ProductDto>(ProductsScope.GetProducts());
         else
             DisplayProducts = new ObservableCollection<ProductDto>
-                (ProductsScope.GetProducts().Where(p => p.Name.Contains(_search)));
+                (ProductsScope.GetProducts().Where(p => p.ProductInfoDto.Name.Contains(_search)));
         PriceRangeMax = DisplayProducts.Max(prod => prod.Price);
         PriceRangeMin = DisplayProducts.Min(prod => prod.Price);
 
@@ -195,7 +195,7 @@ public partial class HomeComponent
         switch (selectedMode)
         {
             case "name":
-                DisplayProducts = new ObservableCollection<ProductDto>(DisplayProducts.OrderBy(prod => prod.Name));
+                DisplayProducts = new ObservableCollection<ProductDto>(DisplayProducts.OrderBy(prod => prod.ProductInfoDto.Name));
                 break;
             case "price":
                 DisplayProducts = new ObservableCollection<ProductDto>(DisplayProducts.OrderBy(prod => prod.Price));
@@ -210,7 +210,7 @@ public partial class HomeComponent
     {
         if (Category != null)
             DisplayProducts = new ObservableCollection<ProductDto>
-                (ProductsScope.GetProducts().Where(p => p.Category == Category));
+                (ProductsScope.GetProducts().Where(p => p.ProductInfoDto.Category == Category));
         else
             DisplayProducts = new ObservableCollection<ProductDto>(ProductsScope.GetProducts());
     }
