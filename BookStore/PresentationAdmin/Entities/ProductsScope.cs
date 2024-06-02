@@ -39,6 +39,6 @@ namespace PresentationAdmin.Entities
         /// Returns the list of all the categories for the products
         /// </summary>
         /// <returns>All the categories of the products</returns>
-        public IList<string> GetCategories() =>  GetProducts().Select(item => item.Category).Distinct().ToList();
+        public IList<string> GetCategories() =>  GetProducts().Select(item => item.ProductInfoDto.Category).Distinct().ToList();
 	}
 }

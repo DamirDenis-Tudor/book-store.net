@@ -124,7 +124,7 @@ internal class ProductRepository(DatabaseContext dbContext) : IProductRepository
                         .ForEach(
                             o =>
                             {
-                                totalRevenue += o.OrderTimePrice * o.Quantity;
+                                totalRevenue += o.OrderTimePrice;
                                 totalItemsSold += o.Quantity;
                             }
                         );

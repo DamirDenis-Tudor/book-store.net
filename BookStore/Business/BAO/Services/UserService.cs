@@ -138,7 +138,7 @@ internal class UserService : IUsers
         var encryptionKey = AuthService.GetEncryptionKey(username);
         if (!encryptionKey.IsSuccess)
             return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.KeyNotFound, encryptionKey.Message);
-
+    
         var gdprUserInfoDto = GdprMapper.DoUserInfoDtoGdpr(userRegisterDto);
 
         var result = _persistenceFacade.UserRepository.UpdateUser(username, gdprUserInfoDto);
