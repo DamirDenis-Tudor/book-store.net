@@ -26,17 +26,11 @@ namespace Business.BAO.Services;
 internal class OrderService : IOrder
 {
     private readonly ILogger _logger = Logger.Instance.GetLogger<OrderService>();
-    
+
     private readonly PersistenceFacade _persistenceFacade = PersistenceFacade.Instance;
 
     public Result<VoidResult, BaoErrorType> PlaceOrder(OrderBto orderBto)
     {
-        var encryptionKey = AuthService.GetEncryptionKey(orderBto.Username);
-        if (!encryptionKey.IsSuccess)
-            return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.KeyNotFound, encryptionKey.Message);
-        
-        orderBto = GdprMapper.DoOrderBto(orderBto, encryptionKey.SuccessValue);
-
         var orderSessionDto = new OrderSessionDto
         {
             Username = orderBto.Username,
@@ -52,7 +46,7 @@ internal class OrderService : IOrder
             var product = _persistenceFacade.ProductRepository.GetProduct(orderItem.ProductName);
 
             _logger.LogInformation(product.Message);
-            
+
             if (!product.IsSuccess)
                 return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.ProductNotFound,
                     $"No product with name {orderItem.ProductName} found");
@@ -62,7 +56,7 @@ internal class OrderService : IOrder
                     $"Product {orderItem.ProductName} has insufficient quantity.");
 
             updateList[orderItem.ProductName] = product.SuccessValue.Quantity - orderItem.OrderQuantity;
-            
+
             var price = product.SuccessValue.Price * orderItem.OrderQuantity;
             orderSessionDto.OrderProducts.Add(new OrderProductDto
             {
@@ -78,17 +72,17 @@ internal class OrderService : IOrder
         }
 
         var registerOrder = _persistenceFacade.OrderRepository.RegisterOrderSession(orderSessionDto);
-        
+
         _logger.LogInformation(registerOrder.Message);
-        
+
         if (!registerOrder.IsSuccess)
             return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.FailedToRegisterOrder, registerOrder.Message);
-        
+
         updateList.ToList().ForEach(pair =>
         {
-            var update = _persistenceFacade.ProductRepository.UpdateQuantity(pair.Key,pair.Value);
+            var update = _persistenceFacade.ProductRepository.UpdateQuantity(pair.Key, pair.Value);
 
-           _logger.LogInformation(update.Message);
+            _logger.LogInformation(update.Message);
         });
 
         return Result<VoidResult, BaoErrorType>.Success(VoidResult.Get(),
@@ -97,24 +91,12 @@ internal class OrderService : IOrder
 
     public Result<IList<OrderSessionDto>, BaoErrorType> GetUserOrders(string username)
     {
-        var encryptionKey = AuthService.GetEncryptionKey(username);
-        if (!encryptionKey.IsSuccess)
-            return Result<IList<OrderSessionDto>, BaoErrorType>.Fail(BaoErrorType.KeyNotFound, encryptionKey.Message);
-        
-        var gdprUsername = GdprUtility.Encrypt(username, encryptionKey.SuccessValue);
-        
-        var orders = _persistenceFacade.OrderRepository.GetAllOrdersByUsername(gdprUsername);
-        
+        var orders = _persistenceFacade.OrderRepository.GetAllOrdersByUsername(username);
+
         _logger.LogInformation(orders.Message);
-        
-        if (!orders.IsSuccess)
-            return Result<IList<OrderSessionDto>, BaoErrorType>.Fail(BaoErrorType.UserHasNoOrders);
-        
-        for (var i = 0; i < orders.SuccessValue.Count; i++)
-        {
-            orders.SuccessValue[i] = GdprMapper.UndoOrderSessionDtoGdpr(orders.SuccessValue[i], encryptionKey.SuccessValue);
-        }
-        
-        return Result<IList<OrderSessionDto>, BaoErrorType>.Success(orders.SuccessValue);
+
+        return !orders.IsSuccess
+            ? Result<IList<OrderSessionDto>, BaoErrorType>.Fail(BaoErrorType.UserHasNoOrders)
+            : Result<IList<OrderSessionDto>, BaoErrorType>.Success(orders.SuccessValue);
     }
 }

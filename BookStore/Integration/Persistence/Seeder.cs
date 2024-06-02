@@ -1,7 +1,6 @@
 using System.Text.Json;
 using Business.BTO;
 using Business.Mappers;
-using Business.Utilities;
 using Common;
 using Persistence.DAL;
 using Persistence.DTO.Bill;
@@ -68,7 +67,6 @@ public class Seeder
         JsonSerializer.Deserialize<List<UserOrder>>(file)?.ForEach(order =>
             {
                 var orderBto = order.OrderBto;
-                orderBto = GdprMapper.DoOrderBto(orderBto, GdprUtility.Hash(order.Password));
                 var orderSession = new OrderSessionDto
                 {
                     Username = orderBto.Username,

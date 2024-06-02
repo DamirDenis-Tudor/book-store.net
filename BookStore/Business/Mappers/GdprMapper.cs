@@ -15,7 +15,6 @@
 using Business.BTO;
 using Business.Utilities;
 using Persistence.DTO.Bill;
-using Persistence.DTO.Order;
 using Persistence.DTO.User;
 
 namespace Business.Mappers;
@@ -29,7 +28,7 @@ internal static class GdprMapper
     /// Maps the user registration data to GDPR compliant format.
     /// </summary>
     /// <param name="userRegisterDto">The user registration data to be mapped.</param>
-    /// <returns>The user registration data mapped to GDPR compliant format.</returns>
+    /// <returns>The user registration data mapped to GDPR-compliant format.</returns>
     public static UserRegisterDto DoUserInfoDtoGdpr(UserRegisterDto userRegisterDto)
     {
         var hash = GdprUtility.Hash(userRegisterDto.Password);
@@ -37,7 +36,7 @@ internal static class GdprMapper
         {
             FirstName = GdprUtility.Encrypt(userRegisterDto.FirstName,hash),
             LastName = GdprUtility.Encrypt(userRegisterDto.LastName,hash),
-            Username = GdprUtility.Encrypt(userRegisterDto.Username, hash),
+            Username = userRegisterDto.Username,
             Password = hash,
             Email = GdprUtility.Encrypt(userRegisterDto.Email, hash),
             UserType = GdprUtility.Hash(userRegisterDto.UserType)
@@ -55,7 +54,7 @@ internal static class GdprMapper
         {
             FirstName = GdprUtility.Decrypt(encryptedUserInfoDto.FirstName, key),
             LastName = GdprUtility.Decrypt(encryptedUserInfoDto.LastName, key),
-            Username = GdprUtility.Decrypt(encryptedUserInfoDto.Username, key),
+            Username = encryptedUserInfoDto.Username,
             Email = GdprUtility.Decrypt(encryptedUserInfoDto.Email, key),
         };
     }
@@ -93,28 +92,6 @@ internal static class GdprMapper
             PostalCode = GdprUtility.Decrypt(encryptedBillDto.PostalCode, key)
         };
     }
-
-    /// <summary>
-    /// Reverts the GDPR compliant mapping of order session data.
-    /// </summary>
-    /// <param name="encryptedOrderSessionDto">The GDPR compliant order session data to be reverted.</param>
-    /// <returns>The reverted order session data.</returns>
-    public static OrderSessionDto UndoOrderSessionDtoGdpr(OrderSessionDto encryptedOrderSessionDto, string key)
-    {
-        encryptedOrderSessionDto.Username = GdprUtility.Decrypt(encryptedOrderSessionDto.Username, key);
-        return encryptedOrderSessionDto;
-    }
-
-    /// <summary>
-    /// Maps the order data to GDPR compliant format.
-    /// </summary>
-    /// <param name="orderBto">The order data to be mapped.</param>
-    /// <returns>The order data mapped to GDPR-compliant format.</returns>
-    public static OrderBto DoOrderBto(OrderBto orderBto, string key)
-    {
-        orderBto.Username = GdprUtility.Encrypt(orderBto.Username, key);
-        return orderBto;
-    }
         
     /// <summary>
     /// Maps the user login data to GDPR compliant format.
@@ -123,10 +100,6 @@ internal static class GdprMapper
     /// <returns>The user login data mapped to GDPR-compliant format.</returns>
     public static UserLoginBto DoUserLoginBto(UserLoginBto userLoginBto)
     {
-        return new UserLoginBto
-        {
-            Username = GdprUtility.Encrypt(userLoginBto.Username, GdprUtility.Hash(userLoginBto.Password)),
-            Password = GdprUtility.Hash(userLoginBto.Password),
-        };
+        return userLoginBto with { Password = GdprUtility.Hash(userLoginBto.Password) };
     }
 }
