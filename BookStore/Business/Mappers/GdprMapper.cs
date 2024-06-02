@@ -25,7 +25,7 @@ namespace Business.Mappers;
 internal static class GdprMapper
 {
     /// <summary>
-    /// Maps the user registration data to GDPR compliant format.
+    /// Maps the user registration data to GDPR-compliant format.
     /// </summary>
     /// <param name="userRegisterDto">The user registration data to be mapped.</param>
     /// <returns>The user registration data mapped to GDPR-compliant format.</returns>
