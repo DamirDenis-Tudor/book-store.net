@@ -16,7 +16,9 @@ using System.Data.Common;
 using Common;
 using Microsoft.EntityFrameworkCore;
 using Persistence.DAL;
-using Persistence.DAO.Interfaces;using Persistence.DTO.Order;
+using Persistence.DAO.Interfaces;
+using Persistence.DTO.Order;
+using Persistence.Entity;
 using Persistence.Mappers;
 
 namespace Persistence.DAO.Repositories;
@@ -25,46 +27,48 @@ internal class OrderRepository(DatabaseContext dbContext) : IOrderRepository
 {
     public Result<VoidResult, DaoErrorType> RegisterOrderSession(OrderSessionDto orderSessionDto)
     {
+        var existingOrderSession = dbContext.OrdersSessions.FirstOrDefault(o =>
+            o.SessionCode == orderSessionDto.SessionCode
+        );
+        if (existingOrderSession != null)
+            return Result<VoidResult, DaoErrorType>.Fail(
+                DaoErrorType.AlreadyRegistered,
+                $"Order with sessionCode {orderSessionDto.SessionCode} is already present."
+            );
+        var orderSession = MapperDto.MapToOrderSession(orderSessionDto);
+        orderSession.User = dbContext.Users.FirstOrDefault(u => u.Username == orderSessionDto.Username);
+
+        orderSessionDto.OrderProducts.ToList().ForEach(op =>
+            {
+                var orderProduct = MapperDto.MapToOrderProduct(op);
+
+                orderProduct.ProductInfo = dbContext.ProductInfos
+                    .FirstOrDefault(p => p.Name == op.ProductInfoDto.Name)!;
+
+                orderSession.OrderProducts.Add(orderProduct);
+            }
+        );
+        
         try
         {
-            var existingOrderSession = dbContext.OrdersSessions.FirstOrDefault(o =>
-                o.SessionCode == orderSessionDto.SessionCode
-            );
-            if (existingOrderSession != null)
-                return Result<VoidResult, DaoErrorType>.Fail(
-                    DaoErrorType.AlreadyRegistered,
-                    $"Order with sessionCode {orderSessionDto.SessionCode} is already present."
-                );
-            var orderSession = MapperDto.MapToOrderSession(orderSessionDto);
-            orderSession.User = dbContext.Users.FirstOrDefault(u => u.Username == orderSessionDto.Username);
-            
-            orderSessionDto.OrderProducts.ToList().ForEach(op =>
-                {
-                    var orderProduct = MapperDto.MapToOrderProduct(op);
-                    
-                    orderProduct.Product = dbContext.Products
-                        .Include(p => p.OrderProducts)
-                        .Include(p => p.ProductInfo)
-                        .FirstOrDefault(p =>
-                            p.ProductInfo.Name == op.ProductInfoDto.Name);
-
-                    orderProduct.ProductInfo = dbContext.ProductInfos
-                        .FirstOrDefault(p => p.Name == op.ProductInfoDto.Name)!;
-                    
-                    orderSession.OrderProducts.Add(orderProduct);
-                }
-            );
-
-            dbContext.Add(orderSession);
+            dbContext.OrdersSessions.Add(orderSession);
             dbContext.SaveChanges();
         }
         catch (DbException e)
         {
             return Result<VoidResult, DaoErrorType>.Fail(
                 DaoErrorType.DatabaseError,
-                $"Order with sessionCode {orderSessionDto.SessionCode} failed to add: {e.Message}"
+                $"Order with sessionCode {orderSessionDto.SessionCode} failed to add: {e}"
             );
         }
+        catch (DbUpdateConcurrencyException e)
+        {
+            return Result<VoidResult, DaoErrorType>.Fail(
+                DaoErrorType.DatabaseError,
+                $"Order with sessionCode {orderSessionDto.SessionCode} failed to add: {e}"
+            );
+        }
+
 
         return Result<VoidResult, DaoErrorType>.Success(
             VoidResult.Get(), $"Order with sessionCode {orderSessionDto.SessionCode} wad added."
@@ -124,9 +128,9 @@ internal class OrderRepository(DatabaseContext dbContext) : IOrderRepository
             dbContext.Entry(orderSession).Reload();
             return MapperDto.MapToOrderSessionDto(orderSession);
         }).ToList();
-        
+
         orderSessionDtos.Reverse();
-        
+
         return orderSessions.Count != 0 && orderSessionDtos.Count != 0
             ? Result<IList<OrderSessionDto>, DaoErrorType>.Success(orderSessionDtos!, "OrderSessions list returned.")
             : Result<IList<OrderSessionDto>, DaoErrorType>.Fail(DaoErrorType.ListIsEmpty, "No order session found.");
@@ -141,7 +145,7 @@ internal class OrderRepository(DatabaseContext dbContext) : IOrderRepository
             .Include(o => o.OrderProducts)
             .ToList()
             .ForEach(o => orderSessions.Add(MapperDto.MapToOrderSessionDto(o)!));
-        
+
         return orderSessions.Count != 0
             ? Result<IList<OrderSessionDto>, DaoErrorType>
                 .Success(orderSessions, "OrderSessions list returned.")

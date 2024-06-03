@@ -16,8 +16,8 @@ namespace Persistence.DTO.Product;
 
 public record ProductStatsDto
 {
-    public required decimal TotalRevenue { get; init; }
-    public required int TotalItemsSold { get; init; }
+    public required decimal TotalRevenue { get; set; }
+    public required int TotalItemsSold { get; set; }
     
     public required ProductInfoDto ProductInfoDto { get; init; }
 }

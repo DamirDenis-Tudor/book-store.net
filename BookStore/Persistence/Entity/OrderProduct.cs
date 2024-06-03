@@ -24,12 +24,6 @@ internal class OrderProduct
     public int Id { get; init; }
     
     [Column]
-    public int? ProductId;
-    
-    [ForeignKey(nameof(ProductId))] 
-    public Product? Product { get; set; }
-    
-    [Column]
     public int? OrderSessionId { get; init; }
 
     [ForeignKey(nameof(OrderSessionId))] 

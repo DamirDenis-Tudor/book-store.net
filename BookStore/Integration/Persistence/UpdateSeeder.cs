@@ -10,23 +10,27 @@ using Persistence.DTO.User;
 
 namespace UnitTesting.Persistence;
 
-public class Seeder
+public class UpdateSeeder
 {
     private sealed record UserBill
     {
         public required UserRegisterDto UserRegisterDto { get; set; }
         public required BillDto BillDto { get; set; }
     }
-
+    
+    public void PrepareDatabase(IntegrationMode integrationMode) =>
+        PersistenceFacade.Instance.SetIntegrationMode(integrationMode);
+    
     [OneTimeSetUp]
-    public void PrepareDatabase() => PersistenceFacade.Instance.SetIntegrationMode(IntegrationMode.Integration);
-
-    [Test, Order(1)]
+    public void SetUp()=>
+        PersistenceFacade.Instance.SetIntegrationMode(IntegrationMode.Production);
+    
     public void AddUsers()
     {
         Console.WriteLine(DateTime.Now);
         var file = File.ReadAllText(
-            $"{SlnDirectory.GetPath()}/Integration/Persistence/Resources/UsersSeed.json".Replace('/', Path.DirectorySeparatorChar));
+            $"{SlnDirectory.GetPath()}/Integration/Persistence/Resources/UsersSeed.json".Replace('/',
+                Path.DirectorySeparatorChar));
         JsonSerializer.Deserialize<List<UserBill>>(file)?.ForEach(userBill =>
             {
                 userBill.UserRegisterDto = GdprMapper.DoUserInfoDtoGdpr(userBill.UserRegisterDto);
@@ -39,24 +43,25 @@ public class Seeder
             }
         );
     }
-
-    [Test, Order(2)]
+    
+    [Test, Order(1)]
     public void AddProducts()
     {
         var file = File.ReadAllText(
-            $"{SlnDirectory.GetPath()}/Integration/Persistence/Resources/ProductsSeed.json".Replace('/', Path.DirectorySeparatorChar));
+            $"{SlnDirectory.GetPath()}/Integration/Persistence/Resources/ProductsSeed.json".Replace('/',
+                Path.DirectorySeparatorChar));
         JsonSerializer.Deserialize<List<ProductDto>>(file)?.ForEach(productDto =>
-            Assert.That(PersistenceFacade.Instance.ProductRepository.RegisterProduct(productDto).IsSuccess,
-                Is.EqualTo(true))
+            PersistenceFacade.Instance.ProductRepository.RegisterProduct(productDto)
         );
     }
-
-    [Test, Order(3)]
+    
     public void AddOrders()
     {
         var persistence = PersistenceFacade.Instance;
 
-        var file = File.ReadAllText($"{SlnDirectory.GetPath()}/Integration/Persistence/Resources/OrdersSeed.json".Replace('/', Path.DirectorySeparatorChar));
+        var file = File.ReadAllText(
+            $"{SlnDirectory.GetPath()}/Integration/Persistence/Resources/OrdersSeed.json".Replace('/',
+                Path.DirectorySeparatorChar));
 
         JsonSerializer.Deserialize<List<OrderBto>>(file)?.ForEach(orderBto =>
             {

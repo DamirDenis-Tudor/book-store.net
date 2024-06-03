@@ -110,7 +110,6 @@ internal static class MapperDto
         {
             Price = productDto.Price,
             Quantity = productDto.Quantity,
-            OrderProducts = new List<OrderProduct>(),
             ProductInfo = new ProductInfo
             {
                 Name = productDto.ProductInfoDto.Name,
