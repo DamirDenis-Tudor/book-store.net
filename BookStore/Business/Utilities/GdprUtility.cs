@@ -31,6 +31,8 @@ internal static class GdprUtility
     /// <returns>The SHA-256 hash of the input string.</returns>
     public static string Hash(string input)
     {
+        if (input == "") return "";
+        
         var bytes = SHA256.HashData(Encoding.UTF8.GetBytes(input));
         var builder = new StringBuilder();
 
@@ -50,6 +52,8 @@ internal static class GdprUtility
     /// <returns>The Base64 encoded encrypted string.</returns>
     public static string Encrypt(string input, string key)
     {
+        if (input == "") return "";
+        
         using var aes = Aes.Create();
         
         var sizedKey = new byte[16];
@@ -78,6 +82,8 @@ internal static class GdprUtility
     /// <returns>The decrypted string.</returns>
     public static string Decrypt(string input,string key)
     {
+        if (input == "") return "";
+        
         using var aes = Aes.Create();
         
         var sizedKey = new byte[16];

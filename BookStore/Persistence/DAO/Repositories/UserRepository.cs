@@ -64,7 +64,6 @@ internal class UserRepository(DatabaseContext dbContext) : IUserRepository
                 );
             }
             
-            // here data is being encrypted TODO solve the issue.
             if (userDtoRegisterDto.Username != "") existingUser.Username = userDtoRegisterDto.Username;
             if (userDtoRegisterDto.Password != "") existingUser.Password = userDtoRegisterDto.Password;
             if (userDtoRegisterDto.Email != "") existingUser.Email = userDtoRegisterDto.Email;
