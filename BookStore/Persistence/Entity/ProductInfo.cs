@@ -33,6 +33,6 @@ internal class ProductInfo
     [DeleteBehavior(DeleteBehavior.Restrict)]
     public IList<OrderProduct> OrderProducts { get; init; } = new List<OrderProduct>();
     
-    [DeleteBehavior(DeleteBehavior.Cascade)]
+    [DeleteBehavior(DeleteBehavior.Restrict)]
     public Product? Product { get; set; }
 }
