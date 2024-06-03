@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.Entity;
 
-[Index(nameof(Name), IsUnique = true)]
 internal class ProductInfo
 {
     [Key]
@@ -33,4 +32,7 @@ internal class ProductInfo
     
     [DeleteBehavior(DeleteBehavior.Restrict)]
     public IList<OrderProduct> OrderProducts { get; init; } = new List<OrderProduct>();
+    
+    [DeleteBehavior(DeleteBehavior.Cascade)]
+    public Product? Product { get; set; }
 }

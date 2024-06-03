@@ -29,11 +29,20 @@ internal class ProductRepository(DatabaseContext dbContext) : IProductRepository
     {
         try
         {
-            if (GetProduct(productDto.ProductInfoDto.Name).IsSuccess)
+            var productInfo = dbContext.ProductInfos
+                .Include(p => p.Product)
+                .FirstOrDefault(p => p.Name == productDto.ProductInfoDto.Name);
+
+            if (productInfo is { Product: not null })
                 return Result<VoidResult, DaoErrorType>.Fail(DaoErrorType.AlreadyRegistered,
                     $"Product {productDto.ProductInfoDto.Name} already registered.");
-            dbContext.Products.Add(MapperDto.MapToProduct(productDto));
+
+            var mappedProduct = MapperDto.MapToProduct(productDto);
+
+            dbContext.Database.AutoTransactionBehavior = AutoTransactionBehavior.Always;
+            dbContext.Products.Add(mappedProduct);
             dbContext.SaveChanges();
+            dbContext.Entry(mappedProduct).Reload();
         }
         catch (DbUpdateException e)
         {
@@ -61,11 +70,17 @@ internal class ProductRepository(DatabaseContext dbContext) : IProductRepository
 
     public Result<ProductDto, DaoErrorType> GetProduct(string name)
     {
-        var productDto = MapperDto.MapToProductDto(
-            dbContext.Products
-                .Include(p => p.ProductInfo)
-                .FirstOrDefault(p => p.ProductInfo.Name == name)
-        );
+        var product = dbContext.Products
+            .Include(p => p.ProductInfo)
+            .FirstOrDefault(p => p.ProductInfo.Name == name && p.ProductInfo.Product != null!);
+
+        if (product == null)
+            return Result<ProductDto, DaoErrorType>
+                .Fail(DaoErrorType.NotFound, $"Product {name} not found.");
+
+        dbContext.Entry(product).Reload();
+
+        var productDto = MapperDto.MapToProductDto(product);
 
         if (productDto == null)
             return Result<ProductDto, DaoErrorType>
@@ -129,12 +144,23 @@ internal class ProductRepository(DatabaseContext dbContext) : IProductRepository
                             }
                         );
 
-                    products.Add(new ProductStatsDto
+                    var productStatsDto = new ProductStatsDto
                     {
-                        TotalRevenue = totalRevenue,
-                        TotalItemsSold = totalItemsSold,
+                        TotalRevenue = totalRevenue, TotalItemsSold = totalItemsSold,
                         ProductInfoDto = MapperDto.MapToProductStatDto(p)!
-                    });
+                    };
+
+                    var existingProduct = products.FirstOrDefault(stats =>
+                        stats.ProductInfoDto.Name.Equals(productStatsDto.ProductInfoDto.Name));
+                    
+                    if (existingProduct != null)
+                    {
+                        existingProduct.TotalRevenue += totalRevenue;
+                        existingProduct.TotalItemsSold += totalItemsSold;
+                    }else
+                    {
+                        products.Add(productStatsDto);
+                    }
                 });
 
         return Result<IList<ProductStatsDto>, DaoErrorType>
@@ -153,6 +179,7 @@ internal class ProductRepository(DatabaseContext dbContext) : IProductRepository
         }
 
         existingProduct.Price = newPrice;
+
         try
         {
             dbContext.Update(existingProduct);
@@ -199,12 +226,14 @@ internal class ProductRepository(DatabaseContext dbContext) : IProductRepository
         {
             var existingProduct = dbContext.Products
                 .Include(p => p.ProductInfo)
-                .Include(p => p.OrderProducts)
                 .FirstOrDefault(p => p.ProductInfo.Name == name);
             if (existingProduct == null)
                 return Result<VoidResult, DaoErrorType>.Fail(DaoErrorType.NotFound, $"Product '{name}' not found.");
+
+            dbContext.Database.AutoTransactionBehavior = AutoTransactionBehavior.Always;
             dbContext.Products.Remove(existingProduct);
             dbContext.SaveChanges();
+            dbContext.Products.Entry(existingProduct).Reload();
         }
         catch (DbUpdateException e)
         {
@@ -212,6 +241,7 @@ internal class ProductRepository(DatabaseContext dbContext) : IProductRepository
                 $"Failed to delete product {name}: {e}");
         }
 
-        return Result<VoidResult, DaoErrorType>.Success(VoidResult.Get(), $"Product '{name}' deleted successfully.");
+        return Result<VoidResult, DaoErrorType>.Success(VoidResult.Get(),
+            $"Product '{name}' deleted successfully.");
     }
 }
