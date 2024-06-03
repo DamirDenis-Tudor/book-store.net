@@ -14,7 +14,6 @@
 
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.Entity;
 
@@ -37,8 +36,5 @@ internal class Product
 
     [ForeignKey(nameof(ProductInfoId))] 
     [Required]
-    public required ProductInfo ProductInfo { get; init; }
-
-    [DeleteBehavior(DeleteBehavior.Restrict)]
-    public required IList<OrderProduct> OrderProducts { get; init; } = new List<OrderProduct>();
+    public required ProductInfo ProductInfo { get; set; }
 }
