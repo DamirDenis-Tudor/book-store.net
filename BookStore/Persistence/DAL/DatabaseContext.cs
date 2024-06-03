@@ -40,11 +40,11 @@ internal sealed class DatabaseContext : DbContext
     /// DbSet for order sessions.
     /// </summary>
     public DbSet<OrderSession> OrdersSessions { get; init; }
-
+    
     /// <summary>
     /// DbSet for order products.
     /// </summary>
-    public DbSet<OrderProduct> OrdersProducts { get; init; }
+    public DbSet<OrderProduct> OrderProducts { get; init; }
     
     /// <summary>
     /// DbSet for order products.
