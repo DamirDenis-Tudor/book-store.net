@@ -6,7 +6,10 @@
             @DashboardActionBar
 
         <div class="categories">
-            <a class="categories-title" href="/"> <p>Categories</p> </a>
+            <div class="categories-title">
+                <a  href="/"> <p>Categories</p> </a>
+                <button class="toggle-btn" onclick="toggleCategories()">☰</button>
+            </div>
             <ul class="categories-list">
                 @foreach (var category in ProductsScope.GetCategories())
                 {
@@ -47,12 +50,29 @@
         </div>
 
         <div class="products">
-            @foreach (var product in @DisplayProducts)
+            @if (@DisplayProducts == null || @DisplayProducts.Count == 0)
+			{
+                @for(int i = 0; i < 8; ++i)
+                {
+                    <ProductDummy/>
+                }
+			}
+            else
             {
-                <ProductComponent Product="@product">
-                    @ChildContent(product)
-                </ProductComponent>
-            } 
+                @foreach (var product in @DisplayProducts)
+                {
+                    <ProductComponent Product="@product">
+                        @ChildContent(product)
+                    </ProductComponent>
+                } 
+            }
         </div>
     </div>
 </div>
+
+<script>
+    function toggleCategories() {
+        const categories = document.querySelector('.categories');
+        categories.classList.toggle('show');
+    }
+</script>

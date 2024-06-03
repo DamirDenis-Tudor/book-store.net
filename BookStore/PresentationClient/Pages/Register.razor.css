@@ -31,7 +31,34 @@
     .register-area h2 {
         color: #061006;
         font-family: Inter;
-        font-size: 30px;
+        font-size: 28px;
         font-weight: 500;
-        margin: 25px 0 50px 0;
+        margin: 25px 0 0 0;
     }
+
+@media (max-width: 768px) {
+    .logo {
+        font-size: 35px;
+    }
+
+    .register-area h2 {
+        font-size: 25px;
+        margin: 15px 0 25px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        font-size: 32px;
+    }
+
+    .register-area {
+        width: 80%;
+        padding: 10px 10px;
+        margin: 20px 0 60px 0;
+    }
+        .register-area h2 {
+            font-size: 20px;
+        }
+
+}

@@ -1,23 +1,16 @@
 ﻿.content {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-
+    flex-direction: column;
+    align-items: center;
     height: 100%;
     width: 100%;
     padding: 25px 80px 0 30px;
 }
 
-/*main{
-    display: flex;
-    flex-direction: column;
-}*/
-
 .title {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
     width: 100%;
     border-radius: 20px;
     background: #FBFCFB;
@@ -32,6 +25,7 @@
         font-size: 25px;
         font-weight: 600;
     }
+
     .title a {
         text-decoration: none;
         margin: 8px 0 8px 0;
@@ -49,7 +43,6 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
-
     color: #061006;
     font-family: Inter;
     font-size: 22px;
@@ -60,14 +53,12 @@
     display: flex;
     flex-direction: column;
     padding: 25px 50px 0 20px;
-
     width: 100%;
     border-radius: 20px;
     background: #EEF6EE;
 }
 
 .update-btn {
-    height: 48px;
     border-radius: 20px;
     background: #407E52;
     color: #FBFCFB;
@@ -75,5 +66,80 @@
     font-size: 20px;
     font-weight: 700;
     border: none;
-    padding: 0 30px 0 30px;
+    padding: 8px 30px 8px 30px;
+}
+
+/* Responsive styles */
+@media (max-width: 1024px) {
+    .content {
+        padding: 20px 40px 0 20px;
+    }
+
+    .title h2 {
+        font-size: 22px;
+    }
+
+    .order-header {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .content {
+        padding: 20px 20px 0 20px;
+    }
+
+    .update-btn {
+        padding: 6px 18px 6px 18px;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .title {
+        padding: 2px 15px 2px 20px;
+        margin-bottom: 10px;
+    }
+
+        .title h2 {
+            overflow: hidden;
+            max-width: 60%;
+            font-size: 20px;
+        }
+
+    .order-header {
+        align-items: flex-start;
+        font-size: 18px;
+    }
+
+    .products-area {
+        padding: 20px;
+    }
+
+    .update-btn {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .content {
+        padding: 10px 10px 0 10px;
+    }
+    .order {
+        padding: 20px 20px 20px 20px;
+        margin-bottom: 15px;
+    }
+
+
+        .title h2 {
+            display: none;
+            font-size: 18px;
+        }
+
+    .order-header {
+        font-size: 16px;
+    }
+
+    .products-area {
+        padding: 15px;
+    }
 }
