@@ -28,10 +28,11 @@ internal static class GdprMapper
     /// Maps the user registration data to GDPR-compliant format.
     /// </summary>
     /// <param name="userRegisterDto">The user registration data to be mapped.</param>
+    /// <param name="oldEncryptionKey">When the password is invalid an old ecryptionKey(password hash must be provided.).</param>
     /// <returns>The user registration data mapped to GDPR-compliant format.</returns>
-    public static UserRegisterDto DoUserInfoDtoGdpr(UserRegisterDto userRegisterDto)
+    public static UserRegisterDto DoUserInfoDtoGdpr(UserRegisterDto userRegisterDto, string oldEncryptionKey="")
     {
-        var hash = GdprUtility.Hash(userRegisterDto.Password);
+        var hash = userRegisterDto.Password == "" ? oldEncryptionKey : GdprUtility.Hash(userRegisterDto.Password);
         return new UserRegisterDto
         {
             FirstName = GdprUtility.Encrypt(userRegisterDto.FirstName,hash),

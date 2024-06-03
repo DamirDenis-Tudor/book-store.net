@@ -148,8 +148,8 @@ public partial class PaymentDetails
             Business.UsersService.UpdateBill(username.SuccessValue, PersonalDetailsScoped.ConvertToDto());
         if (!result.IsSuccess)
         {
-            errorPopup.Message = "An error occurred while placeing the order: \n" + result.Message;
-            errorPopup.ShowDialog();
+            _errorPopup.Message = $"An error occurred while placing the order: \n{result.Message}";
+            _errorPopup.ShowDialog();
             return;
         }
         NavigationManager.NavigateTo("/account");
@@ -157,7 +157,7 @@ public partial class PaymentDetails
     /// <summary>
     /// Pop-up if there was any error while placing the order
     /// </summary>
-    private ConfirmPopUp errorPopup = null!;
+    private ConfirmPopUp _errorPopup = null!;
 
     /// <summary>
     /// Callback after the user exits the error pop-up
