@@ -17,6 +17,7 @@
 
 
 using Business.BAL;
+using Common;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Persistence.DTO.Order;
@@ -69,7 +70,7 @@ public class CartServiceLocal(ProtectedLocalStorage localStorage, BusinessFacade
         var found = false;
         products.ForEach(prod =>
         {
-            if (prod.Product != product) return;
+            if (prod.Product.ProductInfoDto.Name != product.ProductInfoDto.Name) return;
             if(prod.OrderQuantity + 1 <= prod.Product.Quantity)
                 prod.OrderQuantity += 1;
             found = true;
@@ -79,7 +80,7 @@ public class CartServiceLocal(ProtectedLocalStorage localStorage, BusinessFacade
         {
             var orderProductDto = new OrderProductData
             {
-                Product= product, OrderQuantity = 1
+                Product = product, OrderQuantity = 1
             };
             products.Add(orderProductDto);
         }
@@ -94,8 +95,13 @@ public class CartServiceLocal(ProtectedLocalStorage localStorage, BusinessFacade
     {
         var products = await GetCart();
 
-        var index = products.FindIndex(prod => prod.Product == newProduct.Product);
+        var index = products.FindIndex(prod => prod.Product.ProductInfoDto.Name == newProduct.Product.ProductInfoDto.Name);
 
+        if (index == -1)
+        {
+            Logger.Instance.GetLogger<CartServiceLocal>().LogInformation("[UpdateProduct] Product not found in cart");
+            return;
+        }
         products[index] = newProduct;
         
         var username = await GetUsername();
@@ -108,8 +114,13 @@ public class CartServiceLocal(ProtectedLocalStorage localStorage, BusinessFacade
     {
         var products = await GetCart();
 
-        var index = products.FindIndex(prod => prod.Product == newProduct.Product);
+        var index = products.FindIndex(prod => prod.Product.ProductInfoDto.Name == newProduct.Product.ProductInfoDto.Name);
 
+        if (index == -1)
+        {
+            Logger.Instance.GetLogger<CartServiceLocal>().LogInformation("[DeleteProduct] Product not found in cart");
+            return;
+        }
         products.RemoveAt(index);
         
         var username = await GetUsername();

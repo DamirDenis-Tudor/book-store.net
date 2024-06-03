@@ -20,12 +20,13 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: end;
-	/*width: 100%;*/
+	align-items: center;
+	width: 465px;
 	/*height: 100%;*/
 	border-radius: 30px;
 	background: #FBFCFB;
-	padding: 25px 35px 0 35px;
 	margin: 35px 0 100px 0;
+	padding-top: 15px;
 }
 
 	.register-area h2 {
@@ -33,22 +34,30 @@
 		font-family: Inter;
 		font-size: 25px;
 		font-weight: 500;
-		margin: 0 0 15px 0;
+		margin: 5px 0 30px 0;
 	}
 
-	.register-area p {
-		color: #061006;
+	.register-area span {
+		color: #7F8D80;
+		text-align: center;
 		font-family: Inter;
-		font-size: 25px;
-		font-weight: 700;
-		margin: 0;
+		font-size: 20px;
+		font-weight: 600;
+	}
+
+	.register-area a {
+		color: #407E52;
+		font-family: Inter;
+		font-size: 20px;
+		font-weight: 600;
+		text-decoration: none;
 	}
 
 ::deep .register-area form {
 	display: flex;
 	flex-direction: column;
+	align-items: center;
 	justify-content: space-between;
-	width: 100%;
 	padding-left: 15px;
 }
 
@@ -61,7 +70,7 @@
 
 .register-btn {
 	width: 348px;
-	height: 50px;
+	height: 45px;
 	border-radius: 20px;
 	background: #407E52;
 	color: #FBFCFB;
@@ -72,49 +81,46 @@
 }
 
 ::deep .register-input {
-	width: 600px;
+	width: 419px;
 	height: 45px;
-	padding-left: 20px;
+	padding-left: 15px;
 	border-radius: 10px;
 	border: 3px solid #93C6A3;
-	color: #407E52;
+	color: #7F8D80;
 	font-family: Inter;
 	font-size: 15px;
 	font-weight: 600;
 }
 
-::deep .custom-file-input {
-	color: #7F8D80;
-	font-weight: 600;
-	padding-left: 20px;
-}
+	::deep .register-input:valid {
+		outline-color: #249689;
+	}
 
-::deep .register-input:valid {
-	outline-color: #249689;
-}
-
-::deep .register-input:invalid {
-	outline-color: #FF4550;
-}
+	::deep .register-input:invalid {
+		outline-color: #FF4550;
+	}
 
 ::deep .small {
 	display: flex;
-	justify-content: space-between;
-	width: 100%;
 	gap: 20px;
 }
 
 	::deep .small input {
-		width: 100%;
+		width: 200px;
 	}
 
+/*    ::deep .register-input.parola {
+        background-image: url('Images/password_icon.png');
+        background-size: 20px 20px;
+        background-repeat: no-repeat;
+    }*/
+
 .register-action-area {
-	margin-top: 40px;
-	margin-bottom: 20px;
+	margin-top: 30px;
+	margin-bottom: 15px;
 	display: flex;
 	flex-direction: column;
-	width: 100%;
-	align-items: center;
+	gap: 10px;
 }
 
 .input {
@@ -130,9 +136,99 @@
 		margin-bottom: 3px;
 	}
 
-::deep .validation-message {
-	color: #FF4550;
-	font-family: Inter;
-	font-size: 17px;
-	font-weight: 600;
+
+@media (max-width: 768px) {
+
+	.register-area h2 {
+		font-size: 24px;
+	}
+
+	::deep .register-area form {
+		width: 90%;
+	}
+
+	.register-btn {
+		font-size: 18px;
+	}
+
+	.register-area span,
+	.register-area a {
+		font-size: 18px;
+	}
+}
+
+@media (max-width: 480px) {
+	.logo {
+		font-size: 35px;
+	}
+
+	.register-area h2 {
+		font-size: 22px;
+	}
+
+	.register-area {
+		width: 80%;
+		margin: 25px 0 80px 0;
+	}
+
+	.register-form {
+		width: 100%;
+	}
+
+	.register-form {
+		width: 100%;
+		padding: 0;
+	}
+
+	::deep form {
+		width: 90%;
+	}
+
+	.validation {
+		padding-left: 10px;
+	}
+
+	.input {
+		width: 100%;
+	}
+
+	::deep .small {
+		width: 100%;
+		flex-direction: column;
+		gap: 10px;
+	}
+
+		::deep .small input {
+			width: 100%;
+		}
+
+	.register-btn {
+		font-size: 16px;
+		height: 40px;
+	}
+
+	.register-area span,
+	.register-area a {
+		font-size: 16px;
+	}
+
+	.input lable {
+		font-size: 16px;
+	}
+
+	::deep .register-input {
+		width: 100%;
+		font-size: 14px;
+		height: 40px;
+		padding-left: 30px;
+	}
+
+	::deep .register-btn {
+		width: fit-content;
+		padding: 5px 80px 5px 80px;
+	}
+
+	.register-action-area {
+		margin-top: 20px;
+	}
 }

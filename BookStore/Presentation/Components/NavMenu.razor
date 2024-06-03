@@ -1,17 +1,17 @@
 ﻿@using Microsoft.AspNetCore.Components.Forms
 <div class="navbar-bg">
-    <div class="logo-search">
-        <a href="/" class="logo">BookShop.net</a>
-        <div class="search-section">
-            <InputText class="search-bar" placeholder="Incepe o cautare..." @bind-Value="@Serach"> </InputText>
-        </div>
+    
+    <a href="/" class="logo">BookShop.net</a>
+    <div class="search-section">
+        <InputText class="search-bar" placeholder="Incepe o cautare..." @bind-Value="@Serach"> </InputText>
     </div>
+    
     <div class="auth-area">
         @if(_loggedIn)
         {
             @if(ShowDashboard)
             {
-                <a href="/account" class="account"><img src="Images/account_icon.png" alt="Account" />Contul meu</a>
+                <a href="/account" class="account"><img src="Images/account_icon.png" alt="Account" /><span>Contul meu</span></a>
             }
             @if (ShowCart)
             {

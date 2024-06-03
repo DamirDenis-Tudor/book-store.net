@@ -2,8 +2,10 @@
 
 
 <EditForm Model="@_user" OnSubmit="RegisterSubmit">
-	<DataAnnotationsValidator/>
-	<ValidationSummary />
+	<DataAnnotationsValidator />
+	<div class="validation">
+		<ValidationSummary />
+	</div>
 	<div class="register-form">
 		<div class="small">
 			<div class="input">
