@@ -8,7 +8,7 @@
 	<main>
 		<div class="title">
 			<h2>Welcome, @_name!</h2>
-			<a href="/update-info"><button class="update-btn">Modifica detalii cont</button></a>
+			<a href="/update-info"><button class="update-btn">Modify account details:</button></a>
 		</div>
 		@if(_orders.Any())
 		{
@@ -35,7 +35,7 @@
 			<div class="order">
 				<div class="order-header"> <p></p> </div>
 				<div class="products-area">
-					@for(var i = 0; i< 5; ++i)
+					@for(var i = 0; i< 3; ++i)
 					{
 						<ProductDummy/>
 					}
@@ -45,3 +45,5 @@
 
 	</main>
 </div>
+
+<Footer />
