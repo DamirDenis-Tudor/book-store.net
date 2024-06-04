@@ -129,13 +129,12 @@ namespace Presentation.Components
         private async void RegisterSubmit(EditContext editContext)
         {
             if (!editContext.Validate()) return;
-
-            var username = Business.AuthService.GetUsername(await UserData.GetToken());
-
+            
             Result<VoidResult, BaoErrorType> result = null!;
 
             if (LoginMode == LoginMode.Provider)
             {
+	            var username = Business.AuthService.GetUsername(await UserData.GetToken());
                 result = Business.UsersService.RegisterProvider(username.SuccessValue, _user.ConvertToDto(LoginMode));
             }
             if (LoginMode == LoginMode.Client)
