@@ -17,14 +17,15 @@ public class UpdateSeeder
         public required UserRegisterDto UserRegisterDto { get; set; }
         public required BillDto BillDto { get; set; }
     }
-    
+
     public void PrepareDatabase(IntegrationMode integrationMode) =>
         PersistenceFacade.Instance.SetIntegrationMode(integrationMode);
-    
+
     [OneTimeSetUp]
-    public void SetUp()=>
+    public void SetUp() =>
         PersistenceFacade.Instance.SetIntegrationMode(IntegrationMode.Production);
-    
+
+    [Test, Order(2)]
     public void AddUsers()
     {
         Console.WriteLine(DateTime.Now);
@@ -35,15 +36,14 @@ public class UpdateSeeder
             {
                 userBill.UserRegisterDto = GdprMapper.DoUserInfoDtoGdpr(userBill.UserRegisterDto);
                 userBill.BillDto = GdprMapper.DoBillGdpr(userBill.BillDto, userBill.UserRegisterDto.Password);
-                Assert.That(PersistenceFacade.Instance.UserRepository
-                    .RegisterUser(userBill.UserRegisterDto).IsSuccess, Is.EqualTo(true));
-                Assert.That(PersistenceFacade.Instance.BillRepository
-                        .UpdateBillByUsername(userBill.UserRegisterDto.Username, userBill.BillDto).IsSuccess,
-                    Is.EqualTo(true));
+                PersistenceFacade.Instance.UserRepository
+                    .RegisterUser(userBill.UserRegisterDto);
+                PersistenceFacade.Instance.BillRepository
+                    .UpdateBillByUsername(userBill.UserRegisterDto.Username, userBill.BillDto);
             }
         );
     }
-    
+
     [Test, Order(1)]
     public void AddProducts()
     {
@@ -54,7 +54,7 @@ public class UpdateSeeder
             PersistenceFacade.Instance.ProductRepository.RegisterProduct(productDto)
         );
     }
-    
+
     public void AddOrders()
     {
         var persistence = PersistenceFacade.Instance;

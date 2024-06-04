@@ -1,6 +1,23 @@
 [
   {
     "UserRegisterDto": {
+      "FirstName": "Test",
+      "LastName": "Test",
+      "Username": "test",
+      "Password": "test",
+      "Email": "john.doe@example.com",
+      "UserType": "CLIENT"
+    },
+    "BillDto": {
+      "Address": "123 Main St",
+      "Telephone": "123-456-7890",
+      "Country": "United States",
+      "City": "Anytown",
+      "PostalCode": "12345"
+    }
+  },
+  {
+    "UserRegisterDto": {
       "FirstName": "John",
       "LastName": "Doe",
       "Username": "john_doe123",
@@ -105,8 +122,8 @@
     "UserRegisterDto": {
       "FirstName": "Admin",
       "LastName": "Admin",
-      "Username": "admin_12345",
-      "Password": "admin@2024",
+      "Username": "admin",
+      "Password": "admin",
       "Email": "admin@example.com",
       "UserType": "ADMIN"
     },
@@ -122,8 +139,8 @@
     "UserRegisterDto": {
       "FirstName": "Provider",
       "LastName": "Provider",
-      "Username": "provider_12345",
-      "Password": "provider@2024",
+      "Username": "provider",
+      "Password": "provider",
       "Email": "provider@example.com",
       "UserType": "PROVIDER"
     },
