@@ -5,13 +5,16 @@
 <NavMenu ShowDashboard=true ShowCart=true />
 
 <div class="content">
+	<div class="title small">
+		<h2>My cart:</h2>
+	</div>
 	<main>
 		<div class="title">
 			<h2>My cart:</h2>
 		</div>
 		@if (!_isDataLoaded)
 		{
-			@for (var i = 0; i < 5; ++i)
+			@for (var i = 0; i < 3; ++i)
 			{
 				<ProductDummy />
 			}
@@ -34,7 +37,7 @@
 			<p>Total price: @ProductsTotalPrice Lei</p>
 			<p>Transport price: @_deliveryFee Lei</p>
 		</div>
-		<div>
+		<div class="total">
 			<h2>
 				Total:<br />@TotalPrice Lei
 			</h2>
@@ -48,3 +51,5 @@
 		</div>
 	</aside>
 </div>
+
+<Footer />

@@ -28,16 +28,20 @@ namespace PresentationAdmin.Entities
 	/// </summary>
 	public class ProductsScope : IProductsScope
     {
-        /// <summary>
-        /// The list of product statistics fatched from the server
-        /// </summary>
-        public IList<ProductDto> GetProducts() => BusinessFacade.Instance.InventoryService.GetInventoryStats().SuccessValue
-            .Select(DataObjMapper.ConvertToProductDto).ToList();
+		/// <summary>
+		/// The list of product statistics fatched from the server
+		/// </summary>
+		public IList<ProductDto> GetProducts()
+		{
+			var result = BusinessFacade.Instance.InventoryService.GetInventoryStats();
+			if (!result.IsSuccess) return new List<ProductDto>();
+			return result.SuccessValue.Select(DataObjMapper.ConvertToProductDto).ToList();
+		}
+		/// <summary>
+		/// Returns the list of all the categories for the products
+		/// </summary>
+		/// <returns>All the categories of the products</returns>
+		public IList<string> GetCategories() { if (!GetProducts().Any()) return new List<string>(); return GetProducts().Select(prod => prod.ProductInfoDto.Category).Distinct().ToList(); }
 
-        /// <summary>
-        /// Returns the list of all the categories for the products
-        /// </summary>
-        /// <returns>All the categories of the products</returns>
-        public IList<string> GetCategories() =>  GetProducts().Select(item => item.ProductInfoDto.Category).Distinct().ToList();
 	}
 }

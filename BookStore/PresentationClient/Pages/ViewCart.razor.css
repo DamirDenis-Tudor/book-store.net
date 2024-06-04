@@ -2,13 +2,12 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-
-    height: 100vh;
+    max-height: 100vh;
     width: 100%;
     padding: 25px 80px 0 30px;
 }
 
-main{
+main {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -18,12 +17,11 @@ aside {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-
     width: 350px;
     height: 360px;
     border-radius: 20px;
     background: #FBFCFB;
-    padding: 20px 0 12px 23px;
+    padding: 20px 23px 12px 23px;
     margin: 85px 0 0 40px;
 }
 
@@ -46,10 +44,9 @@ aside {
 
     aside button {
         width: 95%;
-        height: 45px;
+        padding: 8px 0 8px 0;
         border: none;
         margin-top: 5px;
-
         border-radius: 30px;
         background: #407E52;
         text-decoration: none;
@@ -58,6 +55,7 @@ aside {
         font-size: 22px;
         font-weight: 600;
     }
+
     aside .btn-diabled {
         background: #93C6A3;
     }
@@ -65,12 +63,11 @@ aside {
 .title {
     display: flex;
     align-items: center;
-
     width: 100%;
-    height: 60px;
+    height: fit-content;
+    padding: 15px 0 15px 30px;
     border-radius: 20px;
     background: #FBFCFB;
-    padding-left: 30px;
     margin-bottom: 30px;
 }
 
@@ -81,3 +78,125 @@ aside {
         font-size: 25px;
         font-weight: 600;
     }
+
+.title.small{
+    display: none;
+}
+
+@media (max-width: 1024px) {
+    .content {
+        padding: 20px 40px 0 20px;
+    }
+
+    aside {
+        width: 300px;
+        margin-top: 60px;
+    }
+}
+
+@media (max-width: 768px) {
+    .title{
+        display:none;
+    }
+
+    .title.small {
+        display: block;
+        order: 1;
+        margin-bottom: 10px;
+    }
+
+    .content {
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 20px 0 20px;
+    }
+
+    aside {
+        width: 80%;
+        margin: 0;
+        order: 2;
+        margin-bottom: 20px;
+    }
+        aside h2 {
+            font-size: 20px;
+        }
+
+        aside p {
+            font-size: 16px;
+        }
+
+        aside button {
+            font-size: 16px;
+            width: 80%;
+            padding: 5px 0 5px 0;
+            margin: 5px 10% 0 10%;
+        }
+
+    .total {
+        margin-top: 30px;
+    }
+
+    main {
+        order: 3;
+        width: 100%;
+    }
+
+    .title {
+        padding: 10px 0 10px 20px;
+    }
+
+        .title h2 {
+            font-size: 18px;
+        }
+
+}
+
+@media (max-width: 480px) {
+    .content {
+        flex-direction: column;
+        align-items: center;
+        padding: 10px 10px 0 10px;
+    }
+
+    aside {
+        width: 90%;
+        margin: 10px 0;
+        padding-top : 15px;
+        height: fit-content;
+        order: 1;
+    }
+
+    main {
+        width: 100%;
+        order: 2;
+    }
+
+    .title.small {
+        display: none;
+        height: 45px;
+        padding-left: 15px;
+    }
+
+        .title h2 {
+            font-size: 20px;
+        }
+
+    .total{
+        margin-top: 10px;
+    }
+
+    aside h2 {
+        font-size: 18px;
+    }
+
+    aside p {
+        font-size: 14px;
+    }
+
+    aside button {
+        font-size: 16px;
+        width: 70%;
+        padding: 5px 0 5px 0;
+        margin: 5px 15% 0 15%;
+    }
+}

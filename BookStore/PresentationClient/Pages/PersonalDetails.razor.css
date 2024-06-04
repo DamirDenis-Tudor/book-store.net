@@ -54,9 +54,12 @@
 }
 
 .register-form {
+    width: 600px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    justify-items: center;
+    padding: 0 40px 0 0;
     gap: 10px;
 }
 
@@ -73,7 +76,7 @@
 }
 
 ::deep .register-input {
-    width: 600px;
+    width: 100%;
     height: 45px;
     padding-left: 40px;
     border-radius: 10px;
@@ -82,7 +85,6 @@
     font-family: Inter;
     font-size: 15px;
     font-weight: 600;
-     
 }
     ::deep .register-input:valid {
         outline-color: #249689;
@@ -91,15 +93,15 @@
         outline-color: #FF4550;
     }
 
-::deep .small{
+::deep .small {
+    width: 100%;
     display: flex;
     gap: 20px;
 }
 
-::deep .small input {
-    width: 200px;
-}
-
+    ::deep .small input {
+        width: 100%;
+    }
 .register-action-area {
     margin-top: 50px;
     margin-bottom: 15px;
@@ -108,6 +110,8 @@
 }
 
 .input {
+    width: 100%;
+
     display: flex;
     flex-direction: column;
 
@@ -120,3 +124,97 @@
     .input lable {
         margin-bottom: 3px;
     }
+
+/* Responsive styles */
+@media (max-width: 1024px) {
+    .register-area {
+        width: 80%;
+        margin: 25px 0 80px 0;
+    }
+    .register-form {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .register-area {
+        padding: 20px 10px;
+    }
+
+        .register-area h2 {
+            font-size: 24px;
+            margin-left: 10px;
+        }
+
+
+    .register-btn {
+        font-size: 18px;
+    }
+
+    .register-area span,
+    .register-area a {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo{
+        font-size: 35px;
+    }
+
+    .register-form {
+        width: 100%;
+        padding: 0;
+        padding-right: 15px;
+    }
+
+    .register-action-area{
+        margin-top: 20px;
+        margin-bottom: 0;
+    }
+    .register-action-area p{
+        font-size: 20px;
+    }
+    .register-action-area button{
+        padding: 3px 80px 3px 80px;
+    }
+
+    ::deep form {
+        width: 90%;
+    }
+
+    .validation {
+        padding-left: 10px;
+    }
+
+    ::deep .small {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .register-btn {
+        font-size: 16px;
+        height: 40px;
+    }
+
+    .register-area span,
+    .register-area a {
+        font-size: 16px;
+    }
+
+    .input lable {
+        font-size: 16px;
+    }
+
+    ::deep .register-input {
+        width: 100%;
+        font-size: 14px;
+        height: 40px;
+        padding-left: 30px;
+    }
+
+    ::deep .register-btn {
+        width: fit-content;
+        padding: 5px 80px 5px 80px;
+    }
+}

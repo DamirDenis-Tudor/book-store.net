@@ -35,3 +35,22 @@
     .disabled p {
         margin: 0;
     }
+
+@media (max-width: 480px) {
+    .product-buy {
+        margin: 0;
+        /*flex-direction: row;
+        gap: 15px;*/
+    }
+
+    .product-price {
+        font-size: 18px;
+    }
+    .product-add-cart {
+        width: 150px;
+        height: 30px;
+        border-radius: 20px;
+        font-size: 16px;
+        font-weight: 600;
+    }
+}

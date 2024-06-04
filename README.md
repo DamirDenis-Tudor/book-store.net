@@ -36,9 +36,12 @@
 
 [Asmarandei Catalin](https://github.com/PurpleFishh)
 - **Tasks**:
-  - TODO
+  - Implemented the front-end
+  - Designed the application([Figma design](https://www.figma.com/design/ThCjKdA5YnxzdEOn9uVDaC/PetShopIP-Test-Colors-3?node-id=0-1&t=PwkajT92CHuHtitr-1))
 - **Gains**:
-  - TODO
+  - Learned C# and .NET Blazor
+  - Enhanced my front-end and design skills by developing a fully functional application
+  - Improved my ability to work in a team setting by effectively separating tasks and working towards integration
 
 
 ## 3. Video Demo

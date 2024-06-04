@@ -55,10 +55,19 @@ namespace Presentation.Components
         [Inject]
         public IUserLoginService UserData { get; set; } = null!;
 
-        /// <summary>
-        /// The details used for creating a provider
-        /// </summary>
-        public class UserInfoData
+		/// <summary>
+		/// The error message that will be displayed if the loggin fails
+		/// </summary>
+		private string _loggingError = "";
+		/// <summary>
+		/// The success message that will be displayed if the loggin is successful
+		/// </summary>
+		private string _loggingSuccess = "";
+
+		/// <summary>
+		/// The details used for creating a provider
+		/// </summary>
+		public class UserInfoData
         {
             /// <summary>
             /// The first name of the new user
@@ -135,9 +144,26 @@ namespace Presentation.Components
             }
 
             if (!result.IsSuccess)
+            {
                 Logger.Instance.GetLogger<RegisterComponent>().LogError(result.Message);
+                _loggingError = result.Message;
+            }
             else
+            {
+                _loggingSuccess = result.Message;
                 NavigationManager.NavigateTo("/home");
+            }
         }
-    }
+
+		/// <summary>
+		/// If the user has a invalidation message of the loggin and he changes the value of the field the message will be cleared
+		/// </summary>
+		/// <param name="sender">The form</param>
+		/// <param name="e">The event raised for field changed</param>
+		private void OnFieldChange(object? sender, FieldChangedEventArgs e)
+		{
+			_loggingError = "";
+			_loggingSuccess = "";
+		}
+	}
 }

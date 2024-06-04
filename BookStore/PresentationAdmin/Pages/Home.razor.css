@@ -1,19 +1,4 @@
-﻿.main {
-    display: flex;
-
-    width: 100%;
-    height: 100%;
-    padding-top: 37px;
-}
-
-aside {
-    width: 420px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.action-bar {
+﻿.action-bar {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -26,102 +11,6 @@ aside {
     background: #FBFCFB;
 }
 
-.categories {
-    width: 340px;
-    height: 530px;
-    margin-top: 36px;
-    padding: 25px 0 0 37px;
-    margin: 0 0 0 30px;
-    border-radius: 20px;
-    background: #FBFCFB;
-}
-
-.categories-title {
-    color: #407E52;
-    font-family: Inter;
-    font-size: 25px;
-    font-weight: 600;
-    margin: 0;
-    text-decoration: none;
-}
-
-
-.categories-list a, li {
-    color: #93C6A3;
-    text-decoration: none;
-    font-family: Inter;
-    font-size: 20px;
-    font-weight: 500;
-    .selected
-
-{
-    color: #407E52;
-}
-
-}
-
-.products-view{
-    margin-left: 40px;
-    width: 100%;
-    padding-right: 50px;
-}
-
-.filter {
-    display: flex;
-    align-items: center;
-
-    padding-left: 33px;
-    height: 60px;
-    width: 100%;
-    border-radius: 30px;
-    background-color: #FBFCFB;
-}
-
-.filter p{
-    margin: 0;
-}
-
-select.order-by {
-    width: 180px;
-    height: 40px;
-    border-radius: 10px;
-    outline-color: #93C6A3;
-    outline-width: 2px;
-    border: 2px solid #407E52;
-    margin-right: 47px;
-}
-
-label.order-by {
-    margin-right:13px;
-    color: #061006;
-    font-family: Inter;
-    font-size: 18px;
-    font-weight: 500;
-}
-
-::deep input.price-range {
-    width: 100px;
-    height: 40px;
-    border-radius: 10px;
-    border: 2px solid #93C6A3;
-    outline-color: #407E52;
-    outline-width: 2px;
-}
-
-label.price-range {
-    margin: 0 13px 0 13px;
-    color: #061006;
-    font-family: Inter;
-    font-size: 18px;
-    font-weight: 500;
-}
-
-.products{
-    display: flex;
-    flex-direction: column;
-    margin-top: 28px;
-}
-
 .button {
     padding: 0 30px 0 30px;
     height: 45px;
@@ -132,4 +21,40 @@ label.price-range {
     font-size: 20px;
     font-weight: 600;
     border: none;
+}
+
+@media (max-width: 768px) {
+    .action-bar {
+        flex-direction: row;
+        margin-top: 10px;
+        width: 80%;
+        padding: 10px 10px 10px 20px;
+    }
+
+
+        .action-bar a {
+            font-size: 20px;
+        }
+    .button {
+        padding: 0 30px 0 30px;
+        height: 40px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .action-bar {
+        margin: 0;
+        width: 100%;
+        padding: 5px 10px 5px 20px;
+    }
+
+        .action-bar a {
+            font-size: 18px;
+        }
+    .button {
+        padding: 0 30px 0 30px;
+        height: 30px;
+        font-size: 14px;
+    }
 }

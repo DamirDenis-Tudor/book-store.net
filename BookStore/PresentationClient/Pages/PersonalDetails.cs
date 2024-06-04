@@ -67,12 +67,17 @@ public partial class PersonalDetails
     private readonly PersonalDetailsDto _bill = new();
 
     /// <summary>
-    /// Checks if the user have items in cart, if he does not, the operation is invalid, so he is redirected to the home page
-    /// Check if the user have personal details stored in the database, if he does, the details are filled in the form
+    /// The total price of the order
     /// </summary>
-    /// <param name="firstRender">If the page is rendered for the first time</param>
-    /// <returns>Async task</returns>
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    private decimal _totalPrice = 0;
+
+	/// <summary>
+	/// Checks if the user have items in cart, if he does not, the operation is invalid, so he is redirected to the home page
+	/// Check if the user have personal details stored in the database, if he does, the details are filled in the form
+	/// </summary>
+	/// <param name="firstRender">If the page is rendered for the first time</param>
+	/// <returns>Async task</returns>
+	protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (!firstRender) return;
 
@@ -90,7 +95,10 @@ public partial class PersonalDetails
             var result = Business.UsersService.GetUserBillInfo(username.SuccessValue);
             if (!result.IsSuccess) return;
 
-            _bill.Deserialize(result.SuccessValue);
+			_totalPrice = cart.Sum(prod => prod.Product.Price * prod.OrderQuantity);
+
+
+			_bill.Deserialize(result.SuccessValue);
             StateHasChanged();
         }
     }

@@ -49,10 +49,20 @@ namespace PresentationClient.Pages
         [Inject]
         public IUserLoginService UserData { get; set; } = null!;
 
-        /// <summary>
-        /// The account information that the user will get in the form
-        /// </summary>
-        public class UserInfoData
+		/// <summary>
+		/// The error message that will be displayed if the loggin fails
+		/// </summary>
+		private string _loggingError = "";
+		/// <summary>
+		/// The success message that will be displayed if the loggin is successful
+		/// </summary>
+		private string _loggingSuccess = "";
+
+
+		/// <summary>
+		/// The account information that the user will get in the form
+		/// </summary>
+		public class UserInfoData
         {
             [Required] public string FirstName { get; set; } = null!;
 
@@ -144,8 +154,15 @@ namespace PresentationClient.Pages
 
             if (!DifferenceBillDetails(remoteInfo.SuccessValue, _user)) return;
 
-            Business.UsersService.UpdateUser(username.SuccessValue, _user.ConverToDto());
-            Business.AuthService.Logout(sessionToken);
+            var result = Business.UsersService.UpdateUser(username.SuccessValue, _user.ConverToDto());
+
+            if(!result.IsSuccess)
+            {
+				_loggingError = result.Message;
+                return;
+			}
+			_loggingSuccess = result.Message;
+			Business.AuthService.Logout(sessionToken);
             NavigationManager.NavigateTo("/", true);
         }
 
@@ -162,5 +179,16 @@ namespace PresentationClient.Pages
                    remote.LastName != local.LastName ||
                    remote.Username != local.Username;
         }
-    }
+
+		/// <summary>
+		/// If the user has a invalidation message of the loggin and he changes the value of the field the message will be cleared
+		/// </summary>
+		/// <param name="sender">The form</param>
+		/// <param name="e">The event raised for field changed</param>
+		private void OnFieldChange(object? sender, FieldChangedEventArgs e)
+		{
+			_loggingError = "";
+			_loggingSuccess = "";
+		}
+	}
 }
