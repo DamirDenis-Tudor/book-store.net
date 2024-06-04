@@ -50,6 +50,6 @@ public interface IAuth
     /// </summary>
     /// <param name="token">The session token to get the username for.</param>
     /// <returns>A result containing the username if successful, or an error type.</returns>
-    Result<string, BaoErrorType> GetUsername(string? token);
+    Result<string, BaoErrorType> GetUsername(string token);
 }
 
