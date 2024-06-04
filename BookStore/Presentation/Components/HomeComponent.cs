@@ -177,8 +177,11 @@ public partial class HomeComponent
         else
             DisplayProducts = new ObservableCollection<ProductDto>
                 (ProductsScope.GetProducts().Where(p => p.ProductInfoDto.Name.Contains(_search)));
-        PriceRangeMax = DisplayProducts.Max(prod => prod.Price);
-        PriceRangeMin = DisplayProducts.Min(prod => prod.Price);
+        if (ProductsScope.GetProducts().Count > 0)
+        {
+            PriceRangeMax = DisplayProducts.Max(prod => prod.Price);
+            PriceRangeMin = DisplayProducts.Min(prod => prod.Price);
+        }
 
     }
 

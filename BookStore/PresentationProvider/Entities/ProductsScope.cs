@@ -27,8 +27,14 @@ namespace PresentationProvider.Entities
     /// </summary>
     public class ProductsScope : IProductsScope
 	{
-		public IList<ProductDto> GetProducts() => BusinessFacade.Instance.InventoryService.GetInventory().SuccessValue;
+		public IList<ProductDto> GetProducts()
+		{
+			var result = BusinessFacade.Instance.InventoryService.GetInventory();
+			if (!result.IsSuccess) return new List<ProductDto>();
+			return result.SuccessValue;
+		}
 
-		public IList<string> GetCategories() => GetProducts().Select(prod => prod.ProductInfoDto.Category).Distinct().ToList();
+		public IList<string> GetCategories() { if (!GetProducts().Any()) return new List<string>(); return GetProducts().Select(prod => prod.ProductInfoDto.Category).Distinct().ToList(); }
+
 	}
 }
