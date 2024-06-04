@@ -43,19 +43,15 @@ internal class UserService : IUsers
         _logger.LogInformation(result.Message);
 
         if (result.IsSuccess)
-            return Result<VoidResult, BaoErrorType>.Success(VoidResult.Get(),
-                $"User {userRegisterDto.Username} succesfully registered.");
+            return Result<VoidResult, BaoErrorType>.Success(VoidResult.Get(), result.Message);
 
         return result.ErrorType == DaoErrorType.AlreadyRegistered
-            ? Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.InvalidRegisterData,
-                $"Invalid register data {userRegisterDto.Username}")
-            : Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.DatabaseError,
-                $"Database error while register {userRegisterDto.Username}");
+            ? Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.InvalidRegisterData, result.Message)
+            : Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.DatabaseError, result.Message);
     }
 
     public Result<VoidResult, BaoErrorType> RegisterProvider(string requester, UserRegisterDto userRegisterDto)
     {
-
         if (!UserTypeChecker.CheckIfAdmin(username: requester))
             return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.UserNotAllowed,
                 $"Username {requester} is not ADMIN.");
@@ -70,10 +66,8 @@ internal class UserService : IUsers
         _logger.LogInformation(register.Message);
 
         return !register.IsSuccess
-            ? Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.DatabaseError,
-                $"Database error while register {userRegisterDto.Username}")
-            : Result<VoidResult, BaoErrorType>.Success(VoidResult.Get(),
-                $"User {userRegisterDto.Username} successfully registered.");
+            ? Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.DatabaseError, register.Message)
+            : Result<VoidResult, BaoErrorType>.Success(VoidResult.Get(), register.Message);
     }
 
     public Result<IList<UserInfoDto>, BaoErrorType> GetAllUsers(string requester)
@@ -112,7 +106,8 @@ internal class UserService : IUsers
         _logger.LogInformation(result.Message);
 
         return result.IsSuccess
-            ? Result<UserInfoDto, BaoErrorType>.Success(GdprMapper.UndoUserInfoDtoGdpr(result.SuccessValue, encryptionKey.SuccessValue))
+            ? Result<UserInfoDto, BaoErrorType>.Success(GdprMapper.UndoUserInfoDtoGdpr(result.SuccessValue,
+                encryptionKey.SuccessValue))
             : Result<UserInfoDto, BaoErrorType>.Fail(BaoErrorType.DatabaseError,
                 $"Database error while retrieving info for user {username}");
     }
@@ -128,7 +123,8 @@ internal class UserService : IUsers
         _logger.LogInformation(result.Message);
 
         return result.IsSuccess
-            ? Result<BillDto, BaoErrorType>.Success(GdprMapper.UndoBillGdpr(result.SuccessValue, encryptionKey.SuccessValue))
+            ? Result<BillDto, BaoErrorType>.Success(GdprMapper.UndoBillGdpr(result.SuccessValue,
+                encryptionKey.SuccessValue))
             : Result<BillDto, BaoErrorType>.Fail(BaoErrorType.BillDetailsNotFounded,
                 $"Error while retrieving bill info for user {username}");
     }
@@ -138,8 +134,8 @@ internal class UserService : IUsers
         var encryptionKey = AuthService.GetEncryptionKey(username);
         if (!encryptionKey.IsSuccess)
             return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.KeyNotFound, encryptionKey.Message);
-    
-        
+
+
         var gdprUserInfoDto = GdprMapper.DoUserInfoDtoGdpr(userRegisterDto, encryptionKey.SuccessValue);
 
         var result = _persistenceFacade.UserRepository.UpdateUser(username, gdprUserInfoDto);
@@ -171,8 +167,9 @@ internal class UserService : IUsers
         var encryptionKey = AuthService.GetEncryptionKey(username);
         if (!encryptionKey.IsSuccess)
             return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.KeyNotFound, encryptionKey.Message);
-        
-        var result = _persistenceFacade.BillRepository.UpdateBillByUsername(username, GdprMapper.DoBillGdpr(billDto, encryptionKey.SuccessValue));
+
+        var result = _persistenceFacade.BillRepository.UpdateBillByUsername(username,
+            GdprMapper.DoBillGdpr(billDto, encryptionKey.SuccessValue));
 
         _logger.LogInformation(result.Message);
 
