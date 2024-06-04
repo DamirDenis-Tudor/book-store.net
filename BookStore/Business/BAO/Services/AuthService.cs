@@ -62,31 +62,32 @@ internal class AuthService : IAuth
 
         var token = Generator.GetToken();
 
-        _sessions[userLoginBto.Username] = Tuple.Create(token, DateTime.Now.AddMinutes(SessionThresholdMinutes));
+        _sessions[token] = Tuple.Create(userLoginBto.Username, DateTime.Now.AddMinutes(SessionThresholdMinutes));
         Keys[userLoginBto.Username] = GdprUtility.Hash(userLoginBto.Password);
     
         return Result<string, BaoErrorType>.Success(token,
             $"User {userLoginBto.Username} successfully logged in.");
     }
 
-    public Result<VoidResult, BaoErrorType> CheckSession(string token)
+    public Result<VoidResult, BaoErrorType> CheckSession(string? token)
     {
-        var sessionToRemove = _sessions.FirstOrDefault(s => s.Value.Item1 == token);
-        if (sessionToRemove.Equals(default(KeyValuePair<string, Tuple<string, DateTime>>)))
-            return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.InvalidSession, "Invalid session empty.");
+        if (token == null)
+            return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.UserSessionNotFound,
+                $"User session {token} is already logged-out.");
         
-        var keyValuePair =  Keys.FirstOrDefault(s => s.Key == sessionToRemove.Key);
+        if (!_sessions.TryGetValue(token, out var sessionToRemove))
+            return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.InvalidSession, "Invalid session empty.");
+
+        var keyValuePair =  Keys.FirstOrDefault(s => s.Key == sessionToRemove.Item1);
         if (LoginMode.None == UserTypeChecker.GetLoginMode(keyValuePair.Key))
             return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.InvalidSession, "User was deleted.");
+        
 
-        if (sessionToRemove.Value.Item1 != token)
-            return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.InvalidSession, "Invalid session.");
-
-        if (DateTime.Now <= sessionToRemove.Value.Item2)
+        if (DateTime.Now <= sessionToRemove.Item2)
             return Result<VoidResult, BaoErrorType>.Success(VoidResult.Get(), "Session is valid.");
 
-        _sessions.Remove(sessionToRemove.Key);
-        Keys.Remove(sessionToRemove.Key);
+        _sessions.Remove(token);
+        Keys.Remove(sessionToRemove.Item1);
 
         return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.SessionExpired, "Session expired.");
     }
@@ -95,28 +96,28 @@ internal class AuthService : IAuth
     public Result<VoidResult, BaoErrorType> Logout(string? token)
     {
         if (token == null)
-            Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.UserSessionNotFound, $"No session found wiht {token}.");
-        
-        var sessionToRemove = _sessions.FirstOrDefault(s => s.Value.Item1 == token);
-
-        if (sessionToRemove.Equals(default(KeyValuePair<string, Tuple<string, DateTime>>)))
             return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.UserSessionNotFound,
-                $"User {sessionToRemove.Key} is already logged-out.");
+                $"User session {token} is already logged-out.");
         
-        _sessions.Remove(sessionToRemove.Key);
-        Keys.Remove(sessionToRemove.Key);
+        if (!_sessions.Remove(token, out var sessionToRemove))
+            return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.UserSessionNotFound,
+                $"User session {token} is already logged-out.");
+
+        Keys.Remove(sessionToRemove.Item1);
 
         return Result<VoidResult, BaoErrorType>.Success(VoidResult.Get(),
-            $"User {sessionToRemove.Key} successfully logged out.");
+            $"User {sessionToRemove.Item1} successfully logged out: {token}");
     }
 
 
     public Result<string, BaoErrorType> GetUsername(string? token)
     {
-        var session = _sessions.FirstOrDefault(s => s.Value.Item1 == token);
-
-        return session.Equals(default(KeyValuePair<string, Tuple<string, DateTime>>))
-            ? Result<string, BaoErrorType>.Fail(BaoErrorType.InvalidSession, "Invalid session.")
-            : Result<string, BaoErrorType>.Success(session.Key, "Username retrieved successfully.");
+        if (token == null)
+            return Result<string, BaoErrorType>.Fail(BaoErrorType.UserSessionNotFound,
+                $"User session {token} is already logged-out.");
+        
+        return _sessions.TryGetValue(token, out var session)
+            ?  Result<string, BaoErrorType>.Success(session.Item1, "Username retrieved successfully.")
+            : Result<string, BaoErrorType>.Fail(BaoErrorType.InvalidSession, "Invalid session.");
     }
 }

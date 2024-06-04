@@ -36,7 +36,7 @@ public interface IAuth
     /// </summary>
     /// <param name="token">The session token to check.</param>
     /// <returns>A result indicating whether the session is valid, or an error type.</returns>
-    Result<VoidResult, BaoErrorType> CheckSession(string token);
+    Result<VoidResult, BaoErrorType> CheckSession(string? token);
 
     /// <summary>
     /// Logs out a user.
