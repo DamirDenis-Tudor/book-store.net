@@ -226,11 +226,20 @@ label.price-range {
         align-items: center;
         margin-top: 8px;
     }
+    
+
     label.order-by,
     label.price-range {
+        display: none;
         font-size: 16px;
         text-align: center;
     }
+    label.line {
+        display: inline-block !important;
+        width: fit-content;
+        margin: 0 5px 0 5px;
+    }
+
     select.order-by,
     ::deep input.price-range {
         width: 90px;
