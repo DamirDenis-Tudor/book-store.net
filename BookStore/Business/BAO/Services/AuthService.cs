@@ -69,8 +69,12 @@ internal class AuthService : IAuth
             $"User {userLoginBto.Username} successfully logged in.");
     }
 
-    public Result<VoidResult, BaoErrorType> CheckSession(string token)
+    public Result<VoidResult, BaoErrorType> CheckSession(string? token)
     {
+        if (token == null)
+            return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.UserSessionNotFound,
+                $"User session {token} is already logged-out.");
+        
         if (!_sessions.TryGetValue(token, out var sessionToRemove))
             return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.InvalidSession, "Invalid session empty.");
 
@@ -89,8 +93,12 @@ internal class AuthService : IAuth
     }
 
 
-    public Result<VoidResult, BaoErrorType> Logout(string token)
+    public Result<VoidResult, BaoErrorType> Logout(string? token)
     {
+        if (token == null)
+            return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.UserSessionNotFound,
+                $"User session {token} is already logged-out.");
+        
         if (!_sessions.Remove(token, out var sessionToRemove))
             return Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.UserSessionNotFound,
                 $"User session {token} is already logged-out.");
@@ -102,8 +110,12 @@ internal class AuthService : IAuth
     }
 
 
-    public Result<string, BaoErrorType> GetUsername(string token)
+    public Result<string, BaoErrorType> GetUsername(string? token)
     {
+        if (token == null)
+            return Result<string, BaoErrorType>.Fail(BaoErrorType.UserSessionNotFound,
+                $"User session {token} is already logged-out.");
+        
         return _sessions.TryGetValue(token, out var session)
             ?  Result<string, BaoErrorType>.Success(session.Item1, "Username retrieved successfully.")
             : Result<string, BaoErrorType>.Fail(BaoErrorType.InvalidSession, "Invalid session.");

@@ -48,7 +48,7 @@ namespace PresentationAdmin.Pages
         /// </summary>
 		private IEnumerable<UserInfoDto> Users {
             get {
-                var result = Business.UsersService.GetAllUsers("admin_12345");
+                var result = Business.UsersService.GetAllUsers("admin");
                 if (result.IsSuccess) return result.SuccessValue;
                 Logger.Instance.GetLogger<ViewUser>().LogError(result.Message);
                 return new List<UserInfoDto>();
