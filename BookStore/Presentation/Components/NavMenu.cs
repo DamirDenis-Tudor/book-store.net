@@ -59,6 +59,7 @@ namespace Presentation.Components
         /// The name of the product that the user is searching for
         /// </summary>
         private string? _search;
+        
         /// <summary>
         /// When there is a value setted the user is redirected to the home page with a html query with the search value
         /// </summary>

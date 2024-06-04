@@ -92,8 +92,11 @@ internal class AuthService : IAuth
     }
 
 
-    public Result<VoidResult, BaoErrorType> Logout(string token)
+    public Result<VoidResult, BaoErrorType> Logout(string? token)
     {
+        if (token == null)
+            Result<VoidResult, BaoErrorType>.Fail(BaoErrorType.UserSessionNotFound, $"No session found wiht {token}.");
+        
         var sessionToRemove = _sessions.FirstOrDefault(s => s.Value.Item1 == token);
 
         if (sessionToRemove.Equals(default(KeyValuePair<string, Tuple<string, DateTime>>)))

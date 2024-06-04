@@ -1,9 +1,8 @@
 ﻿@page "/login"
-@using Presentation.Components
 
 <div class="content">
-    <h1 class="logo">BookShop.net</h1>
-    <LoginComponent LoginMode=Business.BAL.LoginMode.Client AuthentificationEnabled=true/>
+    <h1 class="logo">BookShop.NET</h1>
+    <LoginComponent LoginMode=@(Business.BAL.LoginMode.Client) AuthentificationEnabled=true />
     
     <h1 class="logo" style="opacity: 0;">BookShop.net</h1>
 </div>
