@@ -1,7 +1,18 @@
 ﻿@using Microsoft.AspNetCore.Components.Forms
+
 <div class="navbar-bg">
-    
-    <a href="/" class="logo">BookShop.net</a>
+
+    @if (ShowAddProduct)
+    {
+        <a href="/" class="logo">BookShop.PROVIDER</a>
+    }
+    else if(ShowCart){
+        <a href="/" class="logo">BookShop.NET</a>
+    }
+    else{
+        <a href="/" class="logo">BookShop.ADMIN</a>
+    }
+
     <div class="search-section">
         <InputText class="search-bar" placeholder="Incepe o cautare..." @bind-Value="@Serach"> </InputText>
     </div>
