@@ -6,8 +6,9 @@
     width: 100%;
     background-color: #FBFCFB;
     border-radius: 40px 40px 0px 0px;
-    margin-top: 50px;
+    /*margin-top: 50px;*/
     padding: 15px 50px 25px 50px;
+    margin-top: auto;
 }
 
 ul{
